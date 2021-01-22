@@ -3,7 +3,9 @@
  _**Team G21 Project Frontend Structure**_
  
 **Language:** Typescript [https://www.typescriptlang.org/docs]
+
 **Framework:** NuxtTS [https://typescript.nuxtjs.org/]
+
 **UI Design:** Vuetify.js [https://vuetifyjs.com/en/]
 
 Extra package used:
