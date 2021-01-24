@@ -1,3 +1,5 @@
-/**
- * Contain all the DTO interface
- */
+export interface NavLink {
+    code: string,
+    text: string,
+    active: boolean,
+}

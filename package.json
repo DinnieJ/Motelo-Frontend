@@ -16,7 +16,7 @@
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.5",
     "@types/js-cookie": "^2.2.6",
-    "core-js": "^3.8.2",
+    "core-js": "^3.8.3",
     "nuxt": "^2.14.12",
     "vee-validate": "^3.4.5",
     "vue-class-component": "^7.2.6",
