@@ -18,11 +18,14 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/assets/scss/main.scss'
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    '@/assets/scss/main.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '~/plugins/fontawesome.ts',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
@@ -49,7 +52,7 @@ export default {
         dark: {
           primary: colors.pink.lighten1,
           accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          secondary: colors.blue.lighten2,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

@@ -36,6 +36,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component<Home>({})
+@Component<Home>({
+  name: "Home"
+})
 export default class Home extends Vue {}
 </script>
