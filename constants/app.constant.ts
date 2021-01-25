@@ -1,11 +1,18 @@
-import { NavLink, Amenitie, Gender, RoomType } from './app.interface'
+import { NavLink, TextIcon, RoomType } from './app.interface'
 
 export const TOKEN_KEY = 'token'
 
 export const PRICE_FILTER = {
-  MAX: 12,
+  MAX: 6,
   MIN: 0,
-  STEP: 0.3,
+  STEP: 0.2,
+}
+
+export const ROLE = {
+  GUEST: 'Guest',
+  TENANT: 'Tenant',
+  OWNER: 'Owner',
+  COLLAORATOR: 'Collaborator'
 }
 
 export const NAV_LINKS: NavLink[] = [
@@ -14,93 +21,103 @@ export const NAV_LINKS: NavLink[] = [
     text: 'Trang chủ',
     active: true,
     to: '/',
+    role: [ROLE.GUEST, ROLE.TENANT],
   },
   {
     code: 'list',
     text: 'Danh sách',
     active: false,
     to: '/posts',
+    role: [ROLE.GUEST, ROLE.TENANT],
   },
   {
     code: 'map',
     text: 'Bản đồ',
     active: false,
     to: '/map',
+    role: [ROLE.GUEST, ROLE.TENANT, ROLE.COLLAORATOR],
+  },
+  {
+    code: 'login',
+    text: 'Đăng nhập',
+    active: false,
+    to: '/login',
+    role: [ROLE.GUEST],
+  },
+  {
+    code: 'register',
+    text: 'Đăng kí',
+    active: false,
+    to: '/register',
+    role: [ROLE.GUEST],
   },
 ]
 
-export const AMEENITIES: Amenitie[] = [
+export const AMEENITIES: TextIcon[] = [
   {
     text: 'Wifi',
     icon: 'wifi',
     code: 'wifi',
-    fas: true,
   },
   {
     text: 'WC riêng',
     icon: 'toilet',
-    code: 'wc',
-    fas: true,
+    code: 'toilet',
   },
   {
     text: 'Bình nóng lạnh',
-    icon: 'shower',
+    icon: 'water-boiler',
     code: 'heater',
-    fas: true,
   },
   {
     text: 'Điều hòa',
     icon: 'air-conditioner',
     code: 'air_conditioner',
-    fas: false,
   },
   {
     text: 'Nhà bếp',
     icon: 'pot-steam',
     code: 'kitchen',
-    fas: false,
   },
   {
     text: 'Tủ lạnh',
     icon: 'fridge',
     code: 'fridge',
-    fas: false,
   },
   {
     text: 'Chỗ để xe',
-    icon: 'motorcycle',
+    icon: 'motorbike',
     code: 'parking',
-    fas: true,
   },
   {
     text: 'Giờ giới nghiêm',
     icon: 'clock-alert',
     code: 'curfew',
-    fas: false,
   },
   {
     text: 'Chủ riêng',
     icon: 'home-group',
     code: 'independence',
-    fas: false,
   },
   {
     text: 'Máy giặt',
     icon: 'washing-machine',
     code: 'washing_machine',
-    fas: false,
+  },
+  {
+    text: 'Thú nuôi',
+    icon: 'paw',
+    code: 'pet',
   },
   {
     text: 'Gác lửng',
     icon: 'home-floor-2',
     code: '2_floors',
-    fas: false,
   },
   {
     text: 'Tủ đồ',
     icon: 'treasure-chest',
     code: 'cabinet',
-    fas: false,
   },
 ]
 
@@ -119,7 +136,7 @@ export const ROOM_TYPES: RoomType[] = [
   },
 ]
 
-export const GENDER: Gender[] = [
+export const GENDER: TextIcon[] = [
   {
     text: 'Tất cả',
     icon: 'human-male-female',

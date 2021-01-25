@@ -2,17 +2,11 @@ export interface NavLink {
     code: string,
     text: string,
     active: boolean,
-    to: string
+    to: string,
+    role: string[],
 }
 
-export interface Amenitie {
-    text: string,
-    icon: string,
-    code: string
-    fas: boolean,
-}
-
-export interface Gender {
+export interface TextIcon {
     text: string,
     icon: string,
     code: string

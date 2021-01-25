@@ -1,24 +1,8 @@
 <template>
   <v-app id="inspire">
-    <v-toolbar dense light class="d-md-none">
+    <v-toolbar max-height="60px" dense light class="d-md-none">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <div class="d-none d-sm-block">
-        <v-img
-          src="./imgs/logo.svg"
-          width="137"
-          max-height="40"
-          class="mr-10"
-        />
-      </div>
-      <v-text-field
-        dense
-        outlined
-        hide-details
-        placeholder="Search"
-        rounded
-        append-icon="mdi-magnify"
-        clearable
-      ></v-text-field>
+      <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
     </v-toolbar>
     <v-navigation-drawer
       v-model="drawer"
@@ -28,12 +12,7 @@
       class="pa-4 d-md-none"
     >
       <div>
-        <v-img
-          src="./imgs/logo.svg"
-          width="137"
-          max-height="40"
-          class="mr-10"
-        />
+        <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
       </div>
       <div v-for="link in links" :key="link.code">
         <v-btn text color="primary" :to="link.to" block>
@@ -42,38 +21,16 @@
       </div>
     </v-navigation-drawer>
 
-    <v-app-bar light class="d-none d-md-block">
+    <v-app-bar max-height="60px" light class="d-none d-md-block">
       <v-container class="py-0 fill-height">
-        <div>
-          <v-img
-            src="./imgs/logo.svg"
-            width="137"
-            max-height="40"
-            class="mr-10"
-          />
-        </div>
-
-        <v-text-field
-          dense
-          outlined
-          hide-details
-          placeholder="Search"
-          rounded
-          append-icon="mdi-magnify"
-          clearable
-        ></v-text-field>
+        <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
 
         <v-spacer></v-spacer>
-
-        <v-btn
-          v-for="link in links"
-          :key="link.code"
-          text
-          color="primary"
-          :to="link.to"
-        >
-          {{ link.text }}
-        </v-btn>
+        <div v-for="link in links" :key="link.code">
+          <v-btn text color="primary" :to="link.to">
+            {{ link.text }}
+          </v-btn>
+        </div>
       </v-container>
     </v-app-bar>
 
