@@ -5,9 +5,9 @@ module.exports = {
     node: true,
   },
   extends: [
-    '@nuxtjs/eslint-config-typescript',
-    'prettier',
-    'prettier/vue'
+    // '@nuxtjs/eslint-config-typescript',
+    // 'prettier',
+    // 'prettier/vue'
   ],
   // add your custom rules here
   rules: {},

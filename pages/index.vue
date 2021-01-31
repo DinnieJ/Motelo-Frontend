@@ -1,128 +1,71 @@
 <template>
   <v-container>
-    <v-dialog
-      v-model="suggestFormDialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
-      <v-card light>
-        <v-toolbar dark color="primary">
-          <v-toolbar-title>Gợi ý</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn dark text @click="suggestFormDialog = false"> bỏ qua </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <v-stepper v-model="e6" vertical class="home__step">
-          <v-stepper-step editable :complete="e6 > 1" step="1">
-            Select an app
-            <small>Summarize if needed</small>
-          </v-stepper-step>
-
-          <v-stepper-content step="1">
-            <v-card
-              color="grey lighten-1"
-              class="mb-12"
-              height="200px"
-            ></v-card>
-            <v-btn color="primary" @click="e6 = 2"> Continue </v-btn>
-            <v-btn text> Cancel </v-btn>
-          </v-stepper-content>
-
-          <v-stepper-step editable :complete="e6 > 2" step="2">
-            Configure analytics for this app
-          </v-stepper-step>
-
-          <v-stepper-content step="2">
-            <v-card
-              color="grey lighten-1"
-              class="mb-12"
-              height="200px"
-            ></v-card>
-            <v-btn color="primary" @click="e6 = 3"> Continue </v-btn>
-            <v-btn text> Cancel </v-btn>
-          </v-stepper-content>
-
-          <v-stepper-step editable :complete="e6 > 3" step="3">
-            Select an ad format and name ad unit
-          </v-stepper-step>
-
-          <v-stepper-content step="3">
-            <v-card
-              color="grey lighten-1"
-              class="mb-12"
-              height="200px"
-            ></v-card>
-            <v-btn color="primary" @click="e6 = 4"> Continue </v-btn>
-            <v-btn text> Cancel </v-btn>
-          </v-stepper-content>
-
-          <v-stepper-step editable step="4">
-            View setup instructions
-          </v-stepper-step>
-          <v-stepper-content step="4">
-            <v-card
-              color="grey lighten-1"
-              class="mb-12"
-              height="200px"
-            ></v-card>
-            <v-btn color="primary" @click="e6 = 1"> Continue </v-btn>
-            <v-btn text> Cancel </v-btn>
-          </v-stepper-content>
-        </v-stepper>
-      </v-card>
-    </v-dialog>
     <v-sheet light min-height="100vh" rounded="lg" class="mt-6 pa-3">
-      <v-row class="rounded-lg ma-3 home__welcome">
-        <v-col sm="1" lg="3" class="d-none d-sm-block"></v-col>
-        <v-col cols="12" sm="8" lg="5" class="py-2">
-          <p class="white--text">
-            <v-layout align-content-center>
-              <b class="text-h5 mr-2">Chào mừng tới</b>
-              <v-img src="/imgs/logo.png" max-width="137" aspect-ratio="1.77" />
+      <v-row class="rounded-lg justify-center ma-3 home__welcome">
+        <v-col cols="12" lg="8" class="py-2">
+          <v-card class="pa-3">
+            <v-layout justify-center align-end>
+              <p class="text-h5 mr-3 primary--text"><b>Chào mừng bạn</b></p>
             </v-layout>
+            <table>
+              <tbody>
+                <tr>
+                  <td width="50">Bạn là</td>
+                  <td>
+                    <b class="text-h6"> Tân sinh viên </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="50">đang tìm</td>
+                  <td>
+                    <b>
+                      <v-icon>{{ `mdi-${roomType.icon}` }}</v-icon>
+                      <span class="text-h6">
+                        {{ roomType.text }}
+                      </span>
+                    </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="50">cho</td>
+                  <td>
+                    <b>
+                      <v-icon>{{ `mdi-${gender.icon}` }}</v-icon>
+                      <span class="text-h6">
+                        {{ gender.text }}
+                      </span>
+                    </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="50">sức chứa</td>
+                  <td>
+                    <b class="text-h6">2 - 3 người</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="50">rộng</td>
+                  <td>
+                    <b class="text-h6">Vừa (khoảng 18 - 20 m²)</b>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              với các tiện nghi
+              <br />
 
-            <br />
-            Bạn là
-            <b class="text-h6 text-decoration-underline">Tân sinh viên</b>,
-            <br />
-            đang tìm
-            <b>
-              <v-icon color="white">{{ `mdi-${roomType.icon}` }}</v-icon>
-              <span class="text-h6 text-decoration-underline">
-                {{ roomType.text }}
-              </span> </b
-            >,
-            <br />
-            cho
-            <b>
-              <v-icon color="white">{{ `mdi-${gender.icon}` }}</v-icon>
-              <span class="text-h6 text-decoration-underline">
-                {{ gender.text }}
-              </span> </b
-            >,
-            <br />
-            sức chứa
-            <b class="text-h6 text-decoration-underline">2 - 3 người</b>,
-            <br />
-            rộng
-            <b class="text-h6 text-decoration-underline"
-              >Vừa (khoảng 18 - 20 m²)</b
-            >,
-            <br />
-            với các tiện nghi
-            <br />
+              <b
+                v-for="ameenitie in ameenities"
+                :key="ameenitie.code"
+                class="mr-2"
+              >
+                <v-icon>{{ `mdi-${ameenitie.icon}` }}</v-icon>
+                <span> {{ ameenitie.text }} </span>,
+              </b>
+            </p>
+          </v-card>
 
-            <b
-              v-for="ameenitie in ameenities"
-              :key="ameenitie.code"
-              class="mr-2"
-            >
-              <v-icon color="white">{{ `mdi-${ameenitie.icon}` }}</v-icon>
-              <span> {{ ameenitie.text }} </span>,
-            </b>
-          </p>
           <v-text-field
             dense
             solo
@@ -139,7 +82,7 @@
       <div>
         <v-layout justify-space-between class="my-5">
           <h1>Gợi ý cho bạn</h1>
-          <v-btn rounded outlined color="primary" to="/posts">Xem thêm</v-btn>
+          <v-btn rounded outlined color="primary" to="/rooms">Xem thêm</v-btn>
         </v-layout>
         <v-row>
           <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
@@ -168,7 +111,7 @@
       <div>
         <v-layout justify-space-between class="my-5">
           <h1>Bài đăng mới nhất</h1>
-          <v-btn rounded outlined color="primary" to="/posts">Xem thêm</v-btn>
+          <v-btn rounded outlined color="primary" to="/rooms">Xem thêm</v-btn>
         </v-layout>
         <v-row>
           <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
@@ -234,15 +177,11 @@ export default class Home extends Vue {
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;
-    opacity: 0.7;
-    & * {
-      opacity: 1;
-    }
     min-height: 30vh;
   }
 
-  &__step {
-    min-height: 95vh;
+  &__title {
+    max-width: 20%;
   }
 
   &__area {

@@ -2,7 +2,7 @@
   <v-card
     elevation="0"
     class="mb-4 post__card"
-    :to="`/posts/${room.id}`"
+    :to="`/rooms/${room.id}`"
   >
     <v-row>
       <v-col cols="12" md="4">
