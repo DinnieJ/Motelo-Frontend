@@ -4,7 +4,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - project-frontend-template',
-    title: 'project-frontend-template',
+    title: 'Motelo - kênh hỗ trợ tân sinh viên đại học tìm kiếm nhà trọ',
     htmlAttrs: {
       lang: 'en',
     },
@@ -18,14 +18,11 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@fortawesome/fontawesome-svg-core/styles.css',
     '@/assets/scss/main.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    '~/plugins/fontawesome.ts',
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [

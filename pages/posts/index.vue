@@ -91,16 +91,16 @@
 
       <v-col cols="12" lg="10">
         <v-sheet min-height="80vh" rounded="lg" light class="py-2 px-3">
-                  <v-text-field
-          dense
-          outlined
-          hide-details
-          placeholder="Search"
-          rounded
-          append-icon="mdi-magnify"
-          class="my-3"
-          clearable
-        ></v-text-field>
+          <v-text-field
+            dense
+            outlined
+            hide-details
+            placeholder="Search"
+            rounded
+            append-icon="mdi-magnify"
+            class="my-3"
+            clearable
+          ></v-text-field>
           <v-expansion-panels class="d-flex d-lg-none">
             <v-expansion-panel>
               <v-expansion-panel-header>
@@ -136,11 +136,7 @@
                         ></v-checkbox>
                         <v-flex class="filter__content">
                           <span>
-                            <font-awesome-icon
-                              v-if="amenitie.fas"
-                              :icon="['fas', amenitie.icon]"
-                            />
-                            <v-icon v-else>{{ `mdi-${amenitie.icon}` }}</v-icon>
+                            <v-icon>{{ `mdi-${amenitie.icon}` }}</v-icon>
                           </span>
                           <span>{{ amenitie.text }}</span>
                         </v-flex>
@@ -193,95 +189,19 @@
             </template>
           </v-breadcrumbs>
           <v-row>
-            <v-col lg="6" md="12">
-              <v-card
-                v-for="i in 4"
-                :key="i"
-                elevation="0"
-                class="mb-4 post__card"
-                :to="`/posts/${i}`"
-              >
-                <v-row>
-                  <v-col cols="12" lg="4">
-                    <v-img
-                      src="/imgs/anh_room.jpg"
-                      class="rounded"
-                      max-width="100%"
-                    />
-                  </v-col>
-                  <v-col cols="8" lg="6" class="pa-1">
-                    <h4 class="mb-2">Phòng cho thuê Võng thị, Quận Tây Hồ</h4>
-                    <v-row>
-                      <v-col sm="6" cols="12">
-                        <v-icon>mdi-home</v-icon>
-                        <span>Phòng cho thuê</span>
-                      </v-col>
-                      <v-col sm="6" cols="12">
-                        <v-icon>mdi-check-circle-outline</v-icon>
-                        <span class="success--text">Còn phòng</span>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col sm="4" cols="12">
-                        <v-icon>mdi-human-male-female</v-icon>
-                        <span>Nam & nữ</span>
-                      </v-col>
-                      <v-col sm="4" cols="12">
-                        <v-icon>mdi-ruler</v-icon>
-                        <span>40 m²</span>
-                      </v-col>
-                      <v-col sm="4" cols="12">
-                        <v-icon>mdi-account-multiple-check-outline</v-icon>
-                        <span>2 - 3 ng</span>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        <v-icon>mdi-map-marker</v-icon>
-                        <span
-                          >26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội</span
-                        >
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                  <v-col
-                    md="2"
-                    sm="4"
-                    class="secondary--text text--center pr-5"
-                  >
-                    <v-row class="justify-end">
-                      <v-tooltip top class="mr-5">
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-icon
-                            size="32"
-                            color="primary"
-                            dark
-                            v-bind="attrs"
-                            v-on="on"
-                          >
-                            mdi-shield-home
-                          </v-icon>
-                        </template>
-                        <span>Được kiểm chứng</span>
-                      </v-tooltip>
-                      <v-icon
-                        class="ml-5"
-                        size="32"
-                        color="secondary"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        mdi-heart-plus-outline
-                      </v-icon>
-                    </v-row>
-                    <v-layout class="post__price">
-                      <span class="display-3 font-weight-bold">6.5</span>
-                      <span class="caption">tr/tháng</span>
-                    </v-layout>
-                  </v-col>
-                </v-row>
-              </v-card>
+            <v-col lg="6" cols="12">
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  lg="12"
+                  v-for="room in roomCardObjs"
+                  :key="room.id"
+                >
+                  <room-card :room="room" />
+                </v-col>
+              </v-row>
+
               <v-pagination
                 v-model="page"
                 :length="20"
@@ -306,7 +226,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { TextIcon, RoomType, BreadcrumbLink } from '@/constants/app.interface'
+import {
+  TextIcon,
+  BreadcrumbLink,
+  RoomCardDTO,
+} from '@/constants/app.interface'
+import RoomCard from '@/components/room/RoomCard.vue'
 import {
   PRICE_FILTER,
   AMEENITIES,
@@ -317,6 +242,10 @@ import {
 // eslint-disable-next-line no-use-before-define
 @Component<List>({
   name: 'List',
+  // eslint-disable-next-line no-undef
+  components: {
+    RoomCard,
+  },
 })
 export default class List extends Vue {
   private priceMax: number = PRICE_FILTER.MAX
@@ -330,7 +259,7 @@ export default class List extends Vue {
   private genders: TextIcon[] = GENDER
   private genderFilter: string[] = []
 
-  private roomTypes: RoomType[] = ROOM_TYPES
+  private roomTypes: TextIcon[] = ROOM_TYPES
   private roomTypesFilter: string[] = []
 
   private breadcrumbLinks: BreadcrumbLink[] = [
@@ -345,6 +274,30 @@ export default class List extends Vue {
       href: 'breadcrumbs_link_1',
     },
   ]
+
+  private roomCardObjs: RoomCardDTO[] = []
+
+  created() {
+    for (let i = 0; i < 4; i++) {
+      this.roomCardObjs.push(
+        new RoomCardDTO({
+          id: `${i}`,
+          img: '/imgs/anh_room.jpg',
+          title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
+          type: 'room',
+          available: true,
+          gender: 'both',
+          area: 40,
+          capacity_min: 2,
+          capacity_max: 3,
+          address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
+          verify: true,
+          favorite: false,
+          price: 6500000,
+        })
+      )
+    }
+  }
 }
 </script>
 
@@ -357,23 +310,5 @@ export default class List extends Vue {
       margin-left: 0.5rem;
     }
   }
-}
-
-.post {
-  &__card {
-    cursor: pointer;
-  }
-
-  &__price {
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-  }
-}
-
-.map_demo1 {
-  background: gray;
-  min-height: 100%;
 }
 </style>

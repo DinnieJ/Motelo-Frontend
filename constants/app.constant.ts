@@ -1,4 +1,4 @@
-import { NavLink, TextIcon, RoomType } from './app.interface'
+import { NavLink, TextIcon } from './app.interface'
 
 export const TOKEN_KEY = 'token'
 
@@ -96,7 +96,7 @@ export const AMEENITIES: TextIcon[] = [
   },
   {
     text: 'Chủ riêng',
-    icon: 'home-group',
+    icon: 'account-key',
     code: 'independence',
   },
   {
@@ -121,24 +121,27 @@ export const AMEENITIES: TextIcon[] = [
   },
 ]
 
-export const ROOM_TYPES: RoomType[] = [
+export const ROOM_TYPES: TextIcon[] = [
   {
     text: 'Phòng cho thuê',
     code: 'room',
+    icon: 'home-group'
   },
   {
     text: 'nhà nguyên căn',
     code: 'house',
+    icon: 'home-modern'
   },
   {
     text: 'Chung cư',
     code: 'apartment',
+    icon: 'office-building'
   },
 ]
 
 export const GENDER: TextIcon[] = [
   {
-    text: 'Tất cả',
+    text: 'Nam & Nữ',
     icon: 'human-male-female',
     code: 'both',
   },

@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-toolbar max-height="60px" dense light class="d-md-none">
+    <v-toolbar max-height="60px" dense flat light class="d-md-none">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
     </v-toolbar>
@@ -21,13 +21,13 @@
       </div>
     </v-navigation-drawer>
 
-    <v-app-bar max-height="60px" light class="d-none d-md-block">
+    <v-app-bar max-height="60px" dense flat light class="d-none d-md-block">
       <v-container class="py-0 fill-height">
         <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
 
         <v-spacer></v-spacer>
         <div v-for="link in links" :key="link.code">
-          <v-btn text color="primary" :to="link.to">
+          <v-btn x-small text color="primary" :to="link.to">
             {{ link.text }}
           </v-btn>
         </div>
@@ -52,3 +52,18 @@ export default class Default extends Vue {
   private drawer: boolean = false
 }
 </script>
+
+<style lang="scss">
+.post {
+  &__card {
+    cursor: pointer;
+  }
+
+  &__price {
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
+}
+</style>
