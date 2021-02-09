@@ -33,33 +33,26 @@
             <v-icon>mdi-account-multiple-check-outline</v-icon>
             <span>{{ room.capacityString }}</span>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
+          <v-col sm="6" cols="12" v-if="owner">
+            <v-icon>mdi-lead-pencil</v-icon>
+            <span>Tạo mới</span>
+          </v-col>
+          <v-col sm="6" cols="12" v-if="owner">
+            <v-icon>mdi-marker-check</v-icon>
+            <span>Chờ được duyệt</span>
+          </v-col>
+          <v-col cols="12" v-else>
             <v-icon>mdi-map-marker</v-icon>
             <span>{{ room.address }}</span>
           </v-col>
         </v-row>
       </v-col>
       <v-col md="2" cols="4" class="secondary--text text--center pr-5">
+        
         <v-layout class="justify-end">
-          <v-tooltip top class="mr-5" v-if="room.verify">
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon size="32" color="primary" dark v-bind="attrs" v-on="on">
-                mdi-shield-home
-              </v-icon>
-            </template>
-            <span>Được kiểm chứng</span>
-          </v-tooltip>
-          <v-icon
-            class="ml-5"
-            size="32"
-            color="secondary"
-            dark
-            v-if="!room.favorite"
-          >
-            mdi-heart-plus-outline
-          </v-icon>
+          <room-verify-icon class="mr-5" v-if="room.verify" />
+          <v-btn v-if="owner" class="ml-5" outlined rounded color="info">Sửa</v-btn>
+          <room-favor-btn class="ml-5"  v-else />
         </v-layout>
         <v-layout class="post__price">
           <span class="display-3 font-weight-bold">{{ room.millionPrice }}</span>
@@ -73,12 +66,19 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { RoomCardDTO } from '@/constants/app.interface'
+import RoomFavorBtn from './RoomFavorBtn.vue'
+import RoomVerifyIcon from './RoomVerifyIcon.vue'
 
 // eslint-disable-next-line no-use-before-define
 @Component<RoomCard>({
-  name: "RoomCard"
+  name: "RoomCard",
+  components: {
+    RoomVerifyIcon,
+    RoomFavorBtn,
+  }
 })
 export default class RoomCard extends Vue {
+  @Prop({ type: Boolean, default: false }) readonly owner!: boolean
   @Prop({ required: true }) readonly room!: RoomCardDTO
 }
 </script>

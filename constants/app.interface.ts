@@ -4,9 +4,8 @@ import { GENDER, ROOM_TYPES } from './app.constant'
 export interface NavLink {
   code: string
   text: string
-  active: boolean
   to: string
-  role: string[]
+  roles: string[]
 }
 
 export interface TextIcon {

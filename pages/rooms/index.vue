@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-row>
+
+      <!-- Filter for desktop screen -->
       <v-col cols="2" class="d-none d-lg-block">
         <v-sheet rounded="lg" light class="pa-3">
           <room-filter />
@@ -9,6 +11,8 @@
 
       <v-col cols="12" lg="10">
         <v-sheet min-height="80vh" rounded="lg" light class="py-2 px-3">
+
+          <!-- Search -->
           <v-text-field
             dense
             outlined
@@ -19,6 +23,8 @@
             class="my-3"
             clearable
           ></v-text-field>
+
+          <!-- Filter for tablet and mobile screen -->
           <v-expansion-panels class="d-flex d-lg-none">
             <v-expansion-panel>
               <v-expansion-panel-header>
@@ -29,12 +35,15 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
+
+        
           <v-breadcrumbs :items="breadcrumbLinks">
             <template #divider>
               <v-icon>mdi-chevron-right</v-icon>
             </template>
           </v-breadcrumbs>
           <v-row>
+              <!-- List post -->
             <v-col lg="6" cols="12">
               <v-row>
                 <v-col
@@ -56,7 +65,7 @@
               ></v-pagination>
             </v-col>
             <v-col lg="6" cols="12">
-              <!-- demo map -->
+              <!-- Map -->
               <v-img
                 src="/imgs/map_minh_hoa.png"
                 class="rounded"

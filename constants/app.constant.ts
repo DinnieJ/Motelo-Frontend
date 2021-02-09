@@ -12,44 +12,54 @@ export const ROLE = {
   GUEST: 'Guest',
   TENANT: 'Tenant',
   OWNER: 'Owner',
-  COLLAORATOR: 'Collaborator'
+  COLLAORATOR: 'Collaborator',
 }
 
 export const NAV_LINKS: NavLink[] = [
+  // Guest link
   {
-    code: 'home',
+    code: 'tenant_home',
     text: 'Trang chủ',
-    active: true,
     to: '/',
-    role: [ROLE.GUEST, ROLE.TENANT],
+    roles: [ROLE.GUEST, ROLE.TENANT],
   },
   {
     code: 'list',
     text: 'Danh sách',
-    active: false,
     to: '/rooms',
-    role: [ROLE.GUEST, ROLE.TENANT],
-  },
-  {
-    code: 'roommate',
-    text: 'Ở ghép',
-    active: false,
-    to: '/roommate',
-    role: [ROLE.TENANT],
+    roles: [ROLE.GUEST, ROLE.TENANT],
   },
   {
     code: 'login',
     text: 'Đăng nhập',
-    active: false,
     to: '/login',
-    role: [ROLE.GUEST],
+    roles: [ROLE.GUEST],
   },
   {
     code: 'register',
     text: 'Đăng kí',
-    active: false,
     to: '/register',
-    role: [ROLE.GUEST],
+    roles: [ROLE.GUEST],
+  },
+  // Tenant link
+  {
+    code: 'roommate',
+    text: 'Ở ghép',
+    to: '/roommate',
+    roles: [ROLE.TENANT],
+  },
+  // Owner link
+  {
+    code: 'owner_home',
+    text: 'Trang chủ',
+    to: '/owner/home',
+    roles: [ROLE.OWNER],
+  },
+  {
+    code: 'owner_room',
+    text: 'Yêu cầu',
+    to: '/owner/requests',
+    roles: [ROLE.OWNER],
   },
 ]
 
@@ -125,17 +135,17 @@ export const ROOM_TYPES: TextIcon[] = [
   {
     text: 'Phòng cho thuê',
     code: 'room',
-    icon: 'home-group'
+    icon: 'home-group',
   },
   {
     text: 'nhà nguyên căn',
     code: 'house',
-    icon: 'home-modern'
+    icon: 'home-modern',
   },
   {
     text: 'Chung cư',
     code: 'apartment',
-    icon: 'office-building'
+    icon: 'office-building',
   },
 ]
 

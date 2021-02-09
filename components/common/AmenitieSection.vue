@@ -1,0 +1,47 @@
+<template>
+  <v-card rounded="lg" class="mt-12 pa-3">
+    <div>
+      <v-layout>
+        <v-icon class="mx-3" size="32" color="success" dark>
+          mdi-thumb-up
+        </v-icon>
+        <h1 class="post__title">Tiện ích</h1>
+      </v-layout>
+      <v-divider />
+    </div>
+    <v-row class="mt-6">
+      <v-col cols="6" md="3" v-for="amenitie in amenitieTags" :key="amenitie.code">
+        <h3 class="font-weight-light">
+          <span class="mr-2">
+            <v-icon size="32">{{ `mdi-${amenitie.icon}` }}</v-icon>
+          </span>
+          <span>{{ amenitie.text }}</span>
+        </h3>
+      </v-col>
+    </v-row>
+  </v-card>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { TextIcon } from '@/constants/app.interface'
+import { AMEENITIES } from '@/constants/app.constant'
+
+@Component<AmenitieSection>({
+  name: 'AmenitieSection',
+  // eslint-disable-next-line no-undef
+})
+export default class AmenitieSection extends Vue {
+  @Prop({ type: Array }) readonly amenities!: string[]
+
+  private get amenitieTags(): TextIcon[] {
+    return AMEENITIES.filter((amenitie) => {
+      const found = this.amenities.find((item) => item === amenitie.code)
+      if (found) {
+        return true
+      }
+      return false
+    })
+  }
+}
+</script>

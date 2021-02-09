@@ -130,14 +130,14 @@ import { AMEENITIES, GENDER, ROOM_TYPES } from '@/constants/app.constant'
 import RoomCard from '@/components/room/RoomCard.vue'
 
 // eslint-disable-next-line no-use-before-define
-@Component<Home>({
-  name: 'Home',
+@Component<TenantHome>({
+  name: 'TenantHome',
   // eslint-disable-next-line no-undef
   components: {
     RoomCard,
   },
 })
-export default class Home extends Vue {
+export default class TenantHome extends Vue {
   private suggestFormDialog: boolean = true
   private ameenities: TextIcon[] = AMEENITIES
   private gender: TextIcon = GENDER[0]

@@ -1,12 +1,12 @@
 <template>
-  <v-sheet min-height="60vh" rounded="lg" class="pa-3">
+  <v-sheet min-height="60vh" rounded="lg" class="pa-5">
     <v-layout justify-space-between class="my-5">
       <h1 class="primary--text">Tài khoản</h1>
       <div v-if="editable">
-        <v-btn rounded outlined color="primary" @click="handleEditClick()">
+        <v-btn rounded outlined color="primary" @click="handleCancelClick()">
           Đồng ý
         </v-btn>
-        <v-btn rounded outlined color="warning" @click="handleEditClick()">
+        <v-btn rounded outlined color="warning" @click="handleCancelClick()">
           Từ chối
         </v-btn>
       </div>
@@ -17,7 +17,7 @@
       </div>
     </v-layout>
     <v-row>
-      <v-col cols="12" sm="6" class="pa-2">
+      <v-col cols="12" :sm="sm" class="pa-2">
         <v-layout column align-center>
           <v-avatar size="300">
             <img src="/imgs/anh_homepage.jpg" alt="" />
@@ -25,7 +25,7 @@
           <v-btn v-if="editable" class="mt-3">Đổi ảnh đại diện</v-btn>
         </v-layout>
       </v-col>
-      <v-col cols="12" sm="6" class="pa-2">
+      <v-col cols="12" :sm="sm" class="pa-2">
         <div>
           <v-text-field
             class="text-h5"
@@ -81,14 +81,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component<AccountProfile>({
   name: 'AccountProfile',
   // eslint-disable-next-line no-undef
 })
 export default class AccountProfile extends Vue {
+  @Prop({default: false, type: Boolean}) readonly twoLine!: boolean
   private editable: boolean = false
+
+  private get sm(): boolean | string {
+    if (this.twoLine) {
+      return '6';
+    }
+    return false;
+  }
 
   public handleEditClick() {
     this.editable = true
