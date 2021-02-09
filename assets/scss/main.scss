@@ -1,0 +1,13 @@
+@import 'mixins.scss';
+@import 'variables.scss';
+@import 'common.scss';
+//Import more of your style here
+.required {
+  & label::after {
+    content: '(*)';
+    color: #D32F2F;
+    margin-left: 0.5rem;
+  }
+}
+
+@import 'reset.scss';

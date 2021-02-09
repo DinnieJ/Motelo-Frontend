@@ -1,93 +1,194 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
+  <v-container>
+    <v-sheet light min-height="100vh" rounded="lg" class="mt-6 pa-3">
+      <v-row class="rounded-lg justify-center ma-3 home__welcome">
+        <v-col cols="12" lg="8" class="py-2">
+          <v-card class="pa-3">
+            <v-layout justify-center align-end>
+              <p class="text-h5 mr-3 primary--text"><b>Chào mừng bạn</b></p>
+            </v-layout>
+            <table>
+              <tbody>
+                <tr>
+                  <td width="50">Bạn là</td>
+                  <td>
+                    <b class="text-h6"> Tân sinh viên </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="50">đang tìm</td>
+                  <td>
+                    <b>
+                      <v-icon>{{ `mdi-${roomType.icon}` }}</v-icon>
+                      <span class="text-h6">
+                        {{ roomType.text }}
+                      </span>
+                    </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="50">cho</td>
+                  <td>
+                    <b>
+                      <v-icon>{{ `mdi-${gender.icon}` }}</v-icon>
+                      <span class="text-h6">
+                        {{ gender.text }}
+                      </span>
+                    </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="50">sức chứa</td>
+                  <td>
+                    <b class="text-h6">2 - 3 người</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="50">rộng</td>
+                  <td>
+                    <b class="text-h6">Vừa (khoảng 18 - 20 m²)</b>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              với các tiện nghi
+              <br />
+
+              <b
+                v-for="ameenitie in ameenities"
+                :key="ameenitie.code"
+                class="mr-2"
+              >
+                <v-icon>{{ `mdi-${ameenitie.icon}` }}</v-icon>
+                <span> {{ ameenitie.text }} </span>,
+              </b>
+            </p>
+          </v-card>
+
+          <v-text-field
+            dense
+            solo
+            hide-details
+            placeholder="Search"
+            rounded
+            append-icon="mdi-magnify"
+            class="my-3"
+            clearable
+            color="primary"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <div>
+        <v-layout justify-space-between class="my-5">
+          <h1>Gợi ý cho bạn</h1>
+          <v-btn rounded outlined color="primary" to="/rooms">Xem thêm</v-btn>
+        </v-layout>
+        <v-row>
+          <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
+            <room-card :room="room" />
+          </v-col>
+        </v-row>
       </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
+      <div>
+        <v-layout justify-space-between class="my-5">
+          <h1>Khu vực <span class="warning--text">HOT</span></h1>
+        </v-layout>
+        <v-row>
+          <v-col cols="6" sm="4" lg="2" v-for="i in 6" :key="i" class="pa-4">
+            <v-layout
+              column
+              justify-end
+              align-center
+              class="rounded-xl shadow home__area"
+              :style="{ 'background-image': `url('/imgs/anh_room.jpg')` }"
             >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+              <h2 class="white--text">{{ `thôn ${i}` }}</h2>
+            </v-layout>
+          </v-col>
+        </v-row>
+      </div>
+      <div>
+        <v-layout justify-space-between class="my-5">
+          <h1>Bài đăng mới nhất</h1>
+          <v-btn rounded outlined color="primary" to="/rooms">Xem thêm</v-btn>
+        </v-layout>
+        <v-row>
+          <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
+            <room-card :room="room" />
+          </v-col>
+        </v-row>
+      </div>
+    </v-sheet>
+  </v-container>
 </template>
 
-<script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { TextIcon, RoomCardDTO } from '@/constants/app.interface'
+import { AMEENITIES, GENDER, ROOM_TYPES } from '@/constants/app.constant'
+import RoomCard from '@/components/room/RoomCard.vue'
 
-export default {
+// eslint-disable-next-line no-use-before-define
+@Component<TenantHome>({
+  name: 'TenantHome',
+  // eslint-disable-next-line no-undef
   components: {
-    Logo,
-    VuetifyLogo,
+    RoomCard,
   },
+})
+export default class TenantHome extends Vue {
+  private suggestFormDialog: boolean = true
+  private ameenities: TextIcon[] = AMEENITIES
+  private gender: TextIcon = GENDER[0]
+  private roomType: TextIcon = ROOM_TYPES[0]
+  private roomCardObjs: RoomCardDTO[] = []
+
+  private e6: any = null
+
+  created() {
+    for (let i = 0; i < 4; i++) {
+      this.roomCardObjs.push(
+        new RoomCardDTO({
+          id: `${i}`,
+          img: '/imgs/anh_room.jpg',
+          title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
+          type: 'room',
+          available: true,
+          gender: 'both',
+          area: 40,
+          capacity_min: 2,
+          capacity_max: 3,
+          address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
+          verify: true,
+          favorite: false,
+          price: 6500000,
+        })
+      )
+    }
+  }
 }
 </script>
+
+<style lang="scss">
+.home {
+  &__welcome {
+    background-image: url('/imgs/anh_homepage.jpg');
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: cover;
+    min-height: 30vh;
+  }
+
+  &__title {
+    max-width: 20%;
+  }
+
+  &__area {
+    min-height: 200px;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: cover;
+  }
+}
+</style>

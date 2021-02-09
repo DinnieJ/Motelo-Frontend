@@ -1,91 +1,98 @@
 <template>
-  <v-app dark>
+  <v-app id="inspire">
+    <v-toolbar max-height="60px" dense flat light class="d-md-none">
+      <v-layout justify-space-between>
+        <v-img contain src="/imgs/logo.png" max-width="137" class="mr-10" />
+        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      </v-layout>
+    </v-toolbar>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
+      right
+      light
       fixed
-      app
+      class="pa-4 d-md-none"
     >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
+      <v-layout justify-center>
+        <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
+      </v-layout>
+      <v-divider class="my-3"></v-divider>
+      <account-card></account-card>
+      <div v-for="link in links" :key="link.code">
+        <v-btn
+          v-if="link.roles.includes(role)"
+          text
+          color="primary"
+          :to="link.to"
+          block
         >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+          {{ link.text }}
+        </v-btn>
+      </div>
+      <v-divider class="my-3"></v-divider>
+      <div>
+        <v-btn text color="primary" block> Cá nhân </v-btn>
+        <v-btn text color="primary" block> Đăng xuất </v-btn>
+      </div>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
-    </v-app-bar>
-    <v-main>
-      <v-container>
-        <nuxt />
+
+    <v-app-bar max-height="60px" dense flat light class="d-none d-md-block">
+      <v-container class="py-0 fill-height">
+        <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
+
+        <v-spacer></v-spacer>
+        <div v-for="link in links" :key="link.code">
+          <v-btn
+            v-if="link.roles.includes(role)"
+            text
+            color="primary"
+            :to="link.to"
+          >
+            {{ link.text }}
+          </v-btn>
+        </div>
+        <account-bar></account-bar>
       </v-container>
+    </v-app-bar>
+
+    <v-main class="grey lighten-3">
+      <nuxt />
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
   </v-app>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js',
-    }
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { NavLink } from '@/constants/app.interface'
+import { NAV_LINKS } from '@/constants/app.constant'
+import AccountBar from '@/components/account/AccountBar.vue'
+import AccountCard from '@/components/account/AccountCard.vue'
+
+// eslint-disable-next-line no-use-before-define
+@Component<Default>({
+  components: {
+    AccountBar,
+    AccountCard,
   },
+})
+export default class Default extends Vue {
+  private links: NavLink[] = NAV_LINKS
+  private drawer: boolean = false
+  private role: string = 'Guest'
 }
 </script>
+
+<style lang="scss">
+.post {
+  &__card {
+    cursor: pointer;
+  }
+
+  &__price {
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
+}
+</style>
