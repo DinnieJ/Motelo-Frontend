@@ -3,7 +3,7 @@
     <v-sheet min-height="60vh" rounded="lg" class="pa-3">
       <v-layout justify-space-between class="my-5">
         <h1>Bài đăng</h1>
-        <v-btn rounded outlined color="primary" to="/rooms">Tạo mới</v-btn>
+        <v-btn rounded outlined color="primary" @click="openRoomFormDialog">Tạo mới</v-btn>
       </v-layout>
       <v-row>
         <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
@@ -11,6 +11,7 @@
         </v-col>
       </v-row>
     </v-sheet>
+    <!-- <room-form-dialog v-model="roomFormDialog" /> -->
   </v-container>
 </template>
 
@@ -18,6 +19,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { RoomCardDTO } from '@/constants/app.interface'
 import RoomCard from '@/components/room/RoomCard.vue'
+import RoomFormDialog from '@/components/room/RoomFormDialog.vue'
 
 // eslint-disable-next-line no-use-before-define
 @Component<OwnerRequests>({
@@ -26,10 +28,16 @@ import RoomCard from '@/components/room/RoomCard.vue'
   layout: 'inhouse',
   components: {
     RoomCard,
+    RoomFormDialog,
   },
 })
 export default class OwnerRequests extends Vue {
   private roomCardObjs: RoomCardDTO[] = []
+  private roomFormDialog: boolean = false
+
+  public openRoomFormDialog() {
+    this.roomFormDialog = true
+  }
 
   created() {
     for (let i = 0; i < 4; i++) {

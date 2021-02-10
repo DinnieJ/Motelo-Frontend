@@ -1,7 +1,7 @@
 <template>
   <v-card
     elevation="0"
-    class="mb-4 post__card"
+    class="mb-4 room__card"
     :to="`/rooms/${room.id}`"
   >
     <v-row>
@@ -47,15 +47,15 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col md="2" cols="4" class="secondary--text text--center pr-5">
-        
-        <v-layout class="justify-end">
-          <room-verify-icon class="mr-5" v-if="room.verify" />
+      <v-col md="2" cols="4" class="secondary--text text--center">
+        <v-layout justify-end >
+          <room-verify-icon v-if="room.verify" />
           <v-btn v-if="owner" class="ml-5" outlined rounded color="info">Sửa</v-btn>
-          <room-favor-btn class="ml-5"  v-else />
+          <v-btn v-if="owner" class="ml-5" outlined rounded color="warning">Xóa</v-btn>
+          <room-favor-btn class="ml-5" v-model="room.favorite"  v-else />
         </v-layout>
-        <v-layout class="post__price">
-          <span class="display-3 font-weight-bold">{{ room.millionPrice }}</span>
+        <v-layout column align-end justify-center class="mt-5">
+          <span class="text-h3 font-weight-bold">{{ room.millionPrice }}</span>
           <span class="caption">{{ room.priceUnit }}</span>
         </v-layout>
       </v-col>

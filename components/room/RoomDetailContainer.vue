@@ -35,6 +35,8 @@
               </v-layout>
 
               <room-owner-section class="pa-2" />
+
+              <room-comment-section />
             </v-sheet>
           </v-col>
         </v-row>
@@ -57,7 +59,7 @@ import RoomVerifySection from '@/components/room/RoomVerifySection.vue'
 import RoomTitleSection from '@/components/room/RoomTitleSection.vue'
 import RoomDescriptionSection from '@/components/room/RoomDescriptionSection.vue'
 import RoomOwnerSection from '@/components/room/RoomOwnerSection.vue'
-
+import RoomCommentSection from '@/components/room/RoomCommentSection.vue'
 
 
 // eslint-disable-next-line no-use-before-define
@@ -73,6 +75,7 @@ import RoomOwnerSection from '@/components/room/RoomOwnerSection.vue'
     RoomTitleSection,
     RoomDescriptionSection,
     RoomOwnerSection,
+    RoomCommentSection,
   },
 })
 export default class RoomDetailContainer extends Vue {

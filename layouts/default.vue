@@ -81,18 +81,3 @@ export default class Default extends Vue {
   private role: string = 'Guest'
 }
 </script>
-
-<style lang="scss">
-.post {
-  &__card {
-    cursor: pointer;
-  }
-
-  &__price {
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-  }
-}
-</style>

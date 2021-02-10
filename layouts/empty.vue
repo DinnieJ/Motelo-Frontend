@@ -10,9 +10,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 // eslint-disable-next-line no-use-before-define
-@Component<Empty>({})
+@Component<Empty>({
+  name: 'Empty',
+})
 export default class Empty extends Vue {}
 </script>
-
-<style lang="scss">
-</style>

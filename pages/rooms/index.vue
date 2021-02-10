@@ -13,16 +13,7 @@
         <v-sheet min-height="80vh" rounded="lg" light class="py-2 px-3">
 
           <!-- Search -->
-          <v-text-field
-            dense
-            outlined
-            hide-details
-            placeholder="Search"
-            rounded
-            append-icon="mdi-magnify"
-            class="my-3"
-            clearable
-          ></v-text-field>
+          <search-address />
 
           <!-- Filter for tablet and mobile screen -->
           <v-expansion-panels class="d-flex d-lg-none">
@@ -66,11 +57,7 @@
             </v-col>
             <v-col lg="6" cols="12">
               <!-- Map -->
-              <v-img
-                src="/imgs/map_minh_hoa.png"
-                class="rounded"
-                max-height="100%"
-              />
+              <big-map />
             </v-col>
           </v-row>
         </v-sheet>
@@ -85,6 +72,8 @@ import { BreadcrumbLink, RoomCardDTO } from '@/constants/app.interface'
 import { PRICE_FILTER } from '@/constants/app.constant'
 import RoomCard from '@/components/room/RoomCard.vue'
 import RoomFilter from '@/components/room/RoomFilter.vue'
+import SearchAddress from '@/components/map/SearchAddress.vue'
+import BigMap from '@/components/map/BigMap.vue'
 
 // eslint-disable-next-line no-use-before-define
 @Component<List>({
@@ -93,6 +82,8 @@ import RoomFilter from '@/components/room/RoomFilter.vue'
   components: {
     RoomCard,
     RoomFilter,
+    SearchAddress,
+    BigMap,
   },
 })
 export default class List extends Vue {
