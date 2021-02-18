@@ -11,7 +11,7 @@
         </v-btn>
       </div>
       <div v-else>
-        <v-btn rounded outlined color="primary" @click="handleEditClick()">
+        <v-btn rounded outlined color="primary" to="/personal/edit">
           Sửa
         </v-btn>
       </div>
@@ -88,14 +88,14 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   // eslint-disable-next-line no-undef
 })
 export default class AccountProfile extends Vue {
-  @Prop({default: false, type: Boolean}) readonly twoLine!: boolean
+  @Prop({ default: false, type: Boolean }) readonly twoLine!: boolean
   private editable: boolean = false
 
   private get sm(): boolean | string {
     if (this.twoLine) {
-      return '6';
+      return '6'
     }
-    return false;
+    return false
   }
 
   public handleEditClick() {

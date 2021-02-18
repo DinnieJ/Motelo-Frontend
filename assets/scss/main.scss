@@ -2,6 +2,79 @@
 @import 'variables.scss';
 @import 'common.scss';
 //Import more of your style here
+.login {
+  &__layout {
+    min-height: 100vh;
+    background-image: url('/imgs/anh_homepage.jpg');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+  }
+
+  &__form {
+    padding: 40px;
+  }
+}
+
+.room {
+  &__favor {
+    cursor: pointer;
+  }
+  &__title {
+    font-weight: 400;
+  }
+  &__card {
+    font-size: 0.9rem;
+  }
+}
+
+.filter {
+  &__section {
+    .v-expansion-panel-content__wrap {
+      padding: 0;
+    }
+  }
+
+  &__content {
+    > * {
+      margin-left: 0.5rem;
+    }
+  }
+
+  &__text {
+    font-size: 0.8rem;
+    margin-top: 1.25rem;
+  }
+}
+
+.owner {
+  &__name {
+    font-weight: 400;
+    font-size: 1.25em;
+  }
+}
+
+.home {
+  &__welcome {
+    background-image: url('/imgs/anh_homepage.jpg');
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: cover;
+    min-height: 30vh;
+  }
+
+  &__title {
+    max-width: 20%;
+  }
+
+  &__area {
+    min-height: 200px;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: cover;
+  }
+}
+
 .required {
   & label::after {
     content: '(*)';

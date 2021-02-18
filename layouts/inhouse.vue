@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app right class="pa-3">
+    <v-navigation-drawer v-model="drawer" app class="pa-3">
       <account-card></account-card>
       <div v-for="link in links" :key="link.code">
         <v-btn
@@ -13,16 +13,25 @@
           {{ link.text }}
         </v-btn>
       </div>
+      <div>
+        <v-btn
+          text
+          color="primary"
+          block
+        >
+          Đăng xuất
+        </v-btn>
+      </div>
     </v-navigation-drawer>
 
     <v-app-bar app>
-      <v-layout justify-space-between>
-        <v-img contain src="/imgs/logo.png" max-width="137" class="mr-10" />
+      <v-layout>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-img contain src="/imgs/logo.png" max-width="137" class="ml-10" />
       </v-layout>
     </v-app-bar>
 
-    <v-main class="accent">
+    <v-main class="grey lighten-3">
       <nuxt />
     </v-main>
   </v-app>

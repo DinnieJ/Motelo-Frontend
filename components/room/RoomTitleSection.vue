@@ -33,10 +33,3 @@ export default class RoomTitleSection extends Vue {
 }
 </script>
 
-<style lang="scss">
-.room {
-  &__title {
-    font-weight: 400;
-  }
-}
-</style>

@@ -49,12 +49,3 @@
     </div>
   </div>
 </template>
-
-<style lang="scss">
-.owner {
-  &__name {
-    font-weight: 400;
-    font-size: 1.25em;
-  }
-}
-</style>

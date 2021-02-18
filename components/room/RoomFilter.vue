@@ -9,9 +9,9 @@
     <v-expansion-panels class="my-5" multiple>
       <v-expansion-panel>
         <v-expansion-panel-header>
-          <h3>
+          <h5>
             {{ `Giá: ${priceFilter[0]}tr - ${priceFilter[1]}tr` }}
-          </h3>
+          </h5>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-range-slider
@@ -25,63 +25,60 @@
       </v-expansion-panel>
       <v-expansion-panel>
         <v-expansion-panel-header>
-          <h3>Tiện ích</h3>
+          <h5>Tiện ích</h5>
         </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-row v-for="amenitie in amenities" :key="amenitie.code">
+        <v-expansion-panel-content class="filter__section">
+          <v-layout
+            v-for="amenitie in amenities"
+            :key="amenitie.code"
+            align-center
+            class="filter__content"
+          >
             <v-checkbox
               v-model="amenitiesFilter"
               :value="amenitie.code"
             ></v-checkbox>
-            <v-flex class="filter__content">
-              <span>
-                <font-awesome-icon
-                  v-if="amenitie.fas"
-                  :icon="['fas', amenitie.icon]"
-                />
-                <v-icon v-else>{{ `mdi-${amenitie.icon}` }}</v-icon>
-              </span>
-              <span>{{ amenitie.text }}</span>
-            </v-flex>
-          </v-row>
+            <v-icon small>{{ `mdi-${amenitie.icon}` }}</v-icon>
+            <p class="filter__text">{{ amenitie.text }}</p>
+          </v-layout>
         </v-expansion-panel-content>
       </v-expansion-panel>
       <v-expansion-panel>
         <v-expansion-panel-header>
-          <h3>Loại phòng</h3>
+          <h5>Loại phòng</h5>
         </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-row v-for="type in roomTypes" :key="type.code">
+        <v-expansion-panel-content class="filter__section">
+          <v-layout
+            v-for="type in roomTypes"
+            :key="type.code"
+            class="filter__content"
+          >
             <v-checkbox
               v-model="roomTypesFilter"
               :value="type.code"
             ></v-checkbox>
-            <v-flex class="filter__content">
-              <span>
-                <v-icon>{{ `mdi-${type.icon}` }}</v-icon>
-              </span>
-              <span>{{ type.text }}</span>
-            </v-flex>
-          </v-row>
+            <v-icon small>{{ `mdi-${type.icon}` }}</v-icon>
+            <p class="filter__text">{{ type.text }}</p>
+          </v-layout>
         </v-expansion-panel-content>
       </v-expansion-panel>
       <v-expansion-panel>
         <v-expansion-panel-header>
-          <h3>Giới tính</h3>
+          <h5>Giới tính</h5>
         </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-row v-for="gender in genders" :key="gender.code">
+        <v-expansion-panel-content class="filter__section">
+          <v-layout
+            v-for="gender in genders"
+            :key="gender.code"
+            class="filter__content"
+          >
             <v-checkbox
               v-model="genderFilter"
               :value="gender.code"
             ></v-checkbox>
-            <v-flex class="filter__content">
-              <span>
-                <v-icon>{{ `mdi-${gender.icon}` }}</v-icon>
-              </span>
-              <span>{{ gender.text }}</span>
-            </v-flex>
-          </v-row>
+            <v-icon small>{{ `mdi-${gender.icon}` }}</v-icon>
+            <p class="filter__text">{{ gender.text }}</p>
+          </v-layout>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -118,20 +115,8 @@ export default class RoomFilter extends Vue {
   private roomTypes: TextIcon[] = ROOM_TYPES
   private roomTypesFilter: string[] = []
 
-  @Prop({default: false, type: Boolean}) readonly sm!: boolean
+  @Prop({ default: false, type: Boolean }) readonly sm!: boolean
 
   created() {}
 }
 </script>
-
-<style lang="scss">
-.filter {
-  &__content {
-    margin-top: 1rem;
-    font-size: 1.25rem;
-    > * {
-      margin-left: 0.5rem;
-    }
-  }
-}
-</style>
