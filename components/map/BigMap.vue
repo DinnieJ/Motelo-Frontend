@@ -1,6 +1,9 @@
 <template>
   <section>
-    <v-img src="/imgs/big-map.png" class="rounded" max-height="100%" />
+    <!-- minh họa thôi -->
+    <div v-for="i in 5" :key="i">
+      <v-img src="/imgs/map_minh_hoa.png" class="rounded" max-height="100%" />
+    </div>
   </section>
 </template>
 

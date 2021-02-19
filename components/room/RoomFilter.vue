@@ -4,18 +4,22 @@
       <v-col>
         <h1>Bộ lọc</h1>
       </v-col>
-      <v-col><v-btn color="primary" rounded outlined>áp dụng</v-btn></v-col>
+      <v-col
+        ><v-btn color="primary" rounded outlined @click="submit"
+          >áp dụng</v-btn
+        ></v-col
+      >
     </v-row>
     <v-expansion-panels class="my-5" multiple>
       <v-expansion-panel>
         <v-expansion-panel-header>
           <h5>
-            {{ `Giá: ${priceFilter[0]}tr - ${priceFilter[1]}tr` }}
+            {{ `Giá: ${filter.price[0]}tr - ${filter.price[1]}tr` }}
           </h5>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-range-slider
-            v-model="priceFilter"
+            v-model="filter.price"
             :max="priceMax"
             :min="priceMin"
             :step="priceStep"
@@ -35,7 +39,7 @@
             class="filter__content"
           >
             <v-checkbox
-              v-model="amenitiesFilter"
+              v-model="filter.amenities"
               :value="amenitie.code"
             ></v-checkbox>
             <v-icon small>{{ `mdi-${amenitie.icon}` }}</v-icon>
@@ -54,7 +58,7 @@
             class="filter__content"
           >
             <v-checkbox
-              v-model="roomTypesFilter"
+              v-model="filter.roomTypes"
               :value="type.code"
             ></v-checkbox>
             <v-icon small>{{ `mdi-${type.icon}` }}</v-icon>
@@ -73,7 +77,7 @@
             class="filter__content"
           >
             <v-checkbox
-              v-model="genderFilter"
+              v-model="filter.genders"
               :value="gender.code"
             ></v-checkbox>
             <v-icon small>{{ `mdi-${gender.icon}` }}</v-icon>
@@ -82,13 +86,13 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <v-btn color="primary" rounded outlined>áp dụng</v-btn>
+    <v-btn color="primary" rounded outlined @click="submit">áp dụng</v-btn>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import { TextIcon } from '@/constants/app.interface'
+import { Component, Vue, Prop, VModel } from 'vue-property-decorator'
+import { TextIcon, RoomFilterDTO } from '@/constants/app.interface'
 import {
   PRICE_FILTER,
   AMEENITIES,
@@ -99,24 +103,21 @@ import {
 // eslint-disable-next-line no-use-before-define
 @Component<RoomFilter>({
   name: 'RoomFilter',
+  created() {},
 })
 export default class RoomFilter extends Vue {
   private priceMax: number = PRICE_FILTER.MAX
   private priceMin: number = PRICE_FILTER.MIN
   private priceStep: number = PRICE_FILTER.STEP
-  private priceFilter: number[] = [PRICE_FILTER.MIN, PRICE_FILTER.MAX]
 
   private amenities: TextIcon[] = AMEENITIES
-  private amenitiesFilter: string[] = []
 
   private genders: TextIcon[] = GENDER
-  private genderFilter: string[] = []
 
   private roomTypes: TextIcon[] = ROOM_TYPES
-  private roomTypesFilter: string[] = []
 
   @Prop({ default: false, type: Boolean }) readonly sm!: boolean
-
-  created() {}
+  @Prop({ type: Function, required: true }) readonly submit!: Function
+  @VModel({ type: Object }) filter!: RoomFilterDTO
 }
 </script>
