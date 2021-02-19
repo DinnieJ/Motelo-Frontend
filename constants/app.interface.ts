@@ -94,3 +94,21 @@ export class RoomCardDTO {
     return `<span class="warning--text">Hết phòng</span>`
   }
 }
+
+export interface LoginDTO {
+  email: string,
+  password: string,
+  role: string
+}
+
+export interface LoginRule {
+  email: {
+    required: boolean
+    email: boolean
+  },
+  password: {
+    required: boolean
+    min?: number
+    max?: number
+  }
+}
