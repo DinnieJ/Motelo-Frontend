@@ -1,17 +1,15 @@
 <template>
   <v-container>
     <v-row>
-
       <!-- Filter for desktop screen -->
       <v-col cols="2" class="d-none d-lg-block">
         <v-sheet rounded="lg" light class="pa-3">
-          <room-filter />
+          <room-filter v-model="filterValue" :submit="clickFilter" />
         </v-sheet>
       </v-col>
 
       <v-col cols="12" lg="10">
         <v-sheet min-height="80vh" rounded="lg" light class="py-2 px-3">
-
           <!-- Search -->
           <search-address />
 
@@ -22,21 +20,23 @@
                 <h2>Bộ lọc</h2>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <room-filter sm />
+                <room-filter sm v-model="filterValue" :submit="clickFilter" />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
 
-        
           <v-breadcrumbs :items="breadcrumbLinks">
             <template #divider>
               <v-icon>mdi-chevron-right</v-icon>
             </template>
           </v-breadcrumbs>
           <v-row>
-              <!-- List post -->
+            <!-- List post -->
             <v-col lg="6" cols="12">
-              <v-row>
+              <section v-if="loading">
+                <h1>Loading</h1>
+              </section>
+              <v-row v-else>
                 <v-col
                   cols="12"
                   sm="6"
@@ -49,10 +49,11 @@
               </v-row>
 
               <v-pagination
-                v-model="page"
-                :length="20"
-                :total-visible="7"
+                v-model="filterValue.page"
+                :length="totalPage"
+                total-visible="7"
                 circle
+                @input="getRoomByFilter"
               ></v-pagination>
             </v-col>
             <v-col lg="6" cols="12">
@@ -68,12 +69,25 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { BreadcrumbLink, RoomCardDTO } from '@/constants/app.interface'
-import { PRICE_FILTER } from '@/constants/app.constant'
+import {
+  BreadcrumbLink,
+  RoomCardDTO,
+  RoomFilterDTO,
+} from '@/constants/app.interface'
 import RoomCard from '@/components/room/RoomCard.vue'
 import RoomFilter from '@/components/room/RoomFilter.vue'
 import SearchAddress from '@/components/map/SearchAddress.vue'
 import BigMap from '@/components/map/BigMap.vue'
+import RoomRepository from '@/repositories/RoomRepository'
+import { Framework } from 'vuetify'
+import { PRICE_FILTER } from '@/constants/app.constant'
+
+declare module 'vue/types/vue' {
+  // this.$vuetify inside Vue components
+  interface Vue {
+    $vuetify: Framework
+  }
+}
 
 // eslint-disable-next-line no-use-before-define
 @Component<List>({
@@ -85,16 +99,16 @@ import BigMap from '@/components/map/BigMap.vue'
     SearchAddress,
     BigMap,
   },
+  async created() {
+    const query = this.$route.query
+    this.filterValue.update = query
+    if (!this.filterValue.price.length) {
+      this.filterValue.price = [PRICE_FILTER.MIN, PRICE_FILTER.MAX]
+    }
+    await this.getRoomByFilter()
+  },
 })
 export default class List extends Vue {
-  private priceFilter: number[] = [PRICE_FILTER.MIN, PRICE_FILTER.MAX]
-
-  private amenitiesFilter: string[] = []
-
-  private genderFilter: string[] = []
-
-  private roomTypesFilter: string[] = []
-
   private breadcrumbLinks: BreadcrumbLink[] = [
     {
       text: 'Hà Nội',
@@ -108,28 +122,30 @@ export default class List extends Vue {
     },
   ]
 
+  private loading: boolean = false
+
   private roomCardObjs: RoomCardDTO[] = []
 
-  created() {
-    for (let i = 0; i < 4; i++) {
-      this.roomCardObjs.push(
-        new RoomCardDTO({
-          id: `${i}`,
-          img: '/imgs/anh_room.jpg',
-          title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-          type: 'room',
-          available: true,
-          gender: 'both',
-          area: 40,
-          capacity_min: 2,
-          capacity_max: 3,
-          address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
-          verify: true,
-          favorite: false,
-          price: 6500000,
-        })
-      )
-    }
+  private totalPage: number = 20
+  private filterValue: RoomFilterDTO = new RoomFilterDTO()
+
+  public async clickFilter() {
+    await this.getRoomByFilter()
+  }
+
+  public async getRoomByFilter(): Promise<void> {
+    this.loading = true
+    await RoomRepository.getRoomsByFilter(this.filterValue)
+      .then((response) => {
+        this.roomCardObjs = response.map((item: any) => new RoomCardDTO(item))
+      })
+      .catch((error) => {
+        console.log('getRoomByFilter', error)
+      })
+      .finally(() => {
+        this.loading = false
+        this.$router.push({ query: this.filterValue.toOject })
+      })
   }
 }
 </script>

@@ -33,52 +33,37 @@ export class RoomCardDTO {
     min: number
   }
 
-  public address: string;
-  public verify: boolean;
-  public favorite: boolean;
-  public price: number;
+  public address: string
+  public verify: boolean
+  public favorite: boolean
+  public price: number
 
-  constructor(data: {
-    id: string,
-    img: string
-    title: string,
-    type: string,
-    available: boolean,
-    gender: string,
-    area: number,
-    capacity_max: number,
-    capacity_min: number,
-    address: string,
-    verify: boolean,
-    favorite: boolean,
-    price: number,
-  }) {
-      this.id = data.id
-      this.title = data.title
-      this.type = ROOM_TYPES.find(type => type.code === data.type)
-      this.available = data.available
-      this.gender = GENDER.find(type => type.code === data.gender)
-      this.area = data.area
-      this.capacity = {
-        max: data.capacity_max,
-        min: data.capacity_min,
-      }
-      this.address = data.address
-      this.verify = data.verify
-      this.favorite = data.favorite
-      this.price = data.price
-      this.imgLink = data.img
+  constructor(data: any) {
+    this.id = data.id
+    this.title = data.title
+    this.type = ROOM_TYPES.find((type) => type.code === data.type)
+    this.available = data.available
+    this.gender = GENDER.find((type) => type.code === data.gender)
+    this.area = data.area
+    this.capacity = {
+      max: data.capacity_max,
+      min: data.capacity_min,
+    }
+    this.address = data.address
+    this.verify = data.verify
+    this.favorite = data.favorite
+    this.price = data.price
+    this.imgLink = data.img
   }
 
-  
   public get millionPrice(): string {
-    return (this.price / 1000000).toFixed(1);
+    return (this.price / 1000000).toFixed(1)
   }
 
   public get priceUnit(): string {
-    return 'tr/tháng';
+    return 'tr/tháng'
   }
-  
+
   public get capacityString(): string {
     return `${this.capacity.min} - ${this.capacity.max} ng`
   }
@@ -110,5 +95,49 @@ export interface LoginRule {
     required: boolean
     min?: number
     max?: number
+  }
+}
+
+export class RoomFilterDTO {
+  public page: number
+  public price: number[]
+  public amenities: string[]
+  public genders: string[]
+  public roomTypes: string[]
+
+  constructor() {
+    this.page = 1
+    this.price = []
+    this.amenities = []
+    this.genders = []
+    this.roomTypes = []
+  }
+
+  set update(value: any) {
+    if (value.page) {
+      try {
+        this.page = parseInt(value.page)
+      } catch(e) {}
+    }
+    if (value.price && value.price.length == 2) {
+      
+      try {
+        this.price[0] = parseInt(value.price[0])
+        this.price[1] = parseInt(value.price[1])
+      } catch(e) {}
+    }
+    if (value.amenities) this.amenities = value.amenities
+    if (value.genders) this.genders = value.genders
+    if (value.roomTypes) this.roomTypes = value.roomTypes
+  }
+
+  get toOject(): any {
+    return {
+      page: this.page,
+      price: this.price,
+      amenities: this.amenities,
+      genders: this.genders,
+      roomTypes: this.roomTypes,
+    }
   }
 }

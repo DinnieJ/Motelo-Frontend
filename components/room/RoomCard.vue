@@ -52,7 +52,7 @@
           <room-verify-icon v-if="room.verify" />
           <v-btn v-if="owner" class="ml-5" outlined rounded color="info">Sửa</v-btn>
           <v-btn v-if="owner" class="ml-5" outlined rounded color="warning">Xóa</v-btn>
-          <room-favor-btn class="ml-5" v-model="room.favorite"  v-else />
+          <room-favor-btn class="ml-5" :favorite.sync="favorite" :clickFavor="clickFavor"  v-else />
         </v-layout>
         <v-layout column align-end justify-center class="mt-5">
           <span class="text-h3 font-weight-bold">{{ room.millionPrice }}</span>
@@ -68,6 +68,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { RoomCardDTO } from '@/constants/app.interface'
 import RoomFavorBtn from './RoomFavorBtn.vue'
 import RoomVerifyIcon from './RoomVerifyIcon.vue'
+import RoomRepository from '@/repositories/RoomRepository'
 
 // eslint-disable-next-line no-use-before-define
 @Component<RoomCard>({
@@ -75,10 +76,46 @@ import RoomVerifyIcon from './RoomVerifyIcon.vue'
   components: {
     RoomVerifyIcon,
     RoomFavorBtn,
-  }
+  },
+  created() {
+    this.favorite = this.room.favorite
+  },
 })
 export default class RoomCard extends Vue {
   @Prop({ type: Boolean, default: false }) readonly owner!: boolean
   @Prop({ required: true }) readonly room!: RoomCardDTO
+
+  private favorite: boolean = false
+
+  public async clickFavor(event: Event) {
+    event.preventDefault()
+    if (this.favorite) {
+      await this.unfavorRoom()
+    } else {
+      await this.favorRoom()
+    }
+  }
+  
+  public async favorRoom() {
+    await RoomRepository.favorRoom(this.room.id)
+      .then(repos => {
+        this.favorite = true
+        // this.$notify.showMessage({
+        //   message: `Bạn đã thêm ${this.room.title} vào danh sách yêu thích`,
+        //   color: SnackbarAction.success,
+        // })
+      })
+  }
+
+  public async unfavorRoom() {
+    await RoomRepository.unfavorRoom(this.room.id)
+      .then(repos => {
+        this.favorite = false
+        // this.$notify.showMessage({
+        //   message: `Bạn đã bỏ ${this.room.title} vào danh sách yêu thích`,
+        //   color: SnackbarAction.error,
+        // })
+      })
+  }
 }
 </script>
