@@ -10,7 +10,7 @@
       <v-divider />
     </div>
     <v-row class="mt-6">
-      <v-col cols="6" md="3" v-for="amenitie in amenitieTags" :key="amenitie.code">
+      <v-col cols="6" md="3" v-for="amenitie in amenities" :key="amenitie.code">
         <h3 class="font-weight-light">
           <span class="mr-2">
             <v-icon size="32">{{ `mdi-${amenitie.icon}` }}</v-icon>
@@ -25,23 +25,12 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { TextIcon } from '@/constants/app.interface'
-import { AMEENITIES } from '@/constants/app.constant'
 
 @Component<AmenitieSection>({
   name: 'AmenitieSection',
   // eslint-disable-next-line no-undef
 })
 export default class AmenitieSection extends Vue {
-  @Prop({ type: Array }) readonly amenities!: string[]
-
-  private get amenitieTags(): TextIcon[] {
-    return AMEENITIES.filter((amenitie) => {
-      const found = this.amenities.find((item) => item === amenitie.code)
-      if (found) {
-        return true
-      }
-      return false
-    })
-  }
+  @Prop({ type: Array }) readonly amenities!: TextIcon[]
 }
 </script>

@@ -8,16 +8,17 @@
       <v-divider />
     </div>
     <div class="pa-1">
-        <div v-for="i in 3" :key="i" class="mb-10">
-            <room-comment-card />
+        <div v-for="comment in asyncComments" :key="comment.id" class="mb-10">
+            <room-comment-card :comment="comment" />
         </div>
-        <room-comment-input />
+        <room-comment-input @add-comment="addComment" />
     </div>
   </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
+import { CommentDTO } from '@/constants/app.interface'
 import RoomCommentCard from './RoomCommentCard.vue'
 import RoomCommentInput from './RoomCommentInput.vue'
 
@@ -29,5 +30,10 @@ import RoomCommentInput from './RoomCommentInput.vue'
     RoomCommentCard,
   },
 })
-export default class RoomCommentSection extends Vue {}
+export default class RoomCommentSection extends Vue {
+  @Prop({ type: Function }) readonly editComment!: Function
+  @Prop({ type: Function }) readonly deleteComment!: Function
+  @Prop({ type: Function }) readonly addComment!: Function
+  @PropSync('comments') readonly asyncComments!: CommentDTO[]
+}
 </script>

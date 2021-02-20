@@ -6,9 +6,9 @@
           <v-avatar color="brown" size="36" class="mr-6">
             <span class="white--text headline">JD</span>
           </v-avatar>
-          <p>John Doe</p>
+          <p>{{ comment.name }}</p>
         </v-layout>
-        <v-menu bottom offset-y>
+        <v-menu bottom offset-y v-if="editable">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
@@ -25,12 +25,10 @@
     <v-card-text>
       <v-textarea
         disabled
-        value="Contrary to popular belief, Lorem Ipsum is not simply random text. It
-        has roots in a piece of classical Latin literature from 45 BC, making it
-        over 2000 years old. Richard McClintock, a Latin professor at
-        Hampden-Sydney College in Virginia, looked up one of the more obscure
-        Latin words, consectetur, from a Lorem Ipsum passage, and going through
-        the cites of the word in classical literature, discovered the"
+        outlined
+        :value="comment.context"
+        clearable
+        :append-outer-icon=" isEditing ? 'mdi-send' : undefined"
       >
       </v-textarea>
     </v-card-text>
@@ -38,11 +36,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Emit } from 'vue-property-decorator'
+import { Component, Vue, Emit, Prop } from 'vue-property-decorator'
+import { CommentDTO } from '@/constants/app.interface'
 
 @Component<RoomCommentCard>({
   name: 'RoomCommentCard',
   // eslint-disable-next-line no-undef
 })
-export default class RoomCommentCard extends Vue {}
+export default class RoomCommentCard extends Vue {
+  @Prop({ type: Function }) readonly editComment!: Function
+  @Prop({ type: Function }) readonly deleteComment!: Function
+  @Prop({ type: Boolean, default: false }) readonly editable!: Function
+  @Prop({ type: Object }) readonly comment!: CommentDTO
+
+  private isEditing: boolean = false
+}
 </script>
