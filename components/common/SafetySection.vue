@@ -10,28 +10,12 @@
       <v-divider />
     </div>
     <v-row class="mt-6"> 
-      <v-col cols="6" md="3">
+      <v-col cols="6" md="3" v-for="item in security" :key="item.code">
         <h3 class="font-weight-light">
           <span class="mr-2">
-            <v-icon size="32">mdi-cctv</v-icon>
+            <v-icon size="32">{{`mdi-${item.icon}`}}</v-icon>
           </span>
-          <span>Camera</span>
-        </h3>
-      </v-col>
-      <v-col cols="6" md="3">
-        <h3 class="font-weight-light">
-          <span class="mr-2">
-            <v-icon size="32">mdi-fingerprint</v-icon>
-          </span>
-          <span>Khóa vân tay</span>
-        </h3>
-      </v-col>
-      <v-col cols="6" md="3">
-        <h3 class="font-weight-light">
-          <span class="mr-2">
-            <v-icon size="32">mdi-shield-account</v-icon>
-          </span>
-          <span>Người bảo vệ</span>
+          <span>{{ item.text }}</span>
         </h3>
       </v-col>
       <v-col cols="6" md="3">
@@ -39,7 +23,7 @@
           <span class="mr-2">
             <v-icon size="32">mdi-door-closed-lock</v-icon>
           </span>
-          <span>Giờ mở cổng: 5h - 23h</span>
+          <span>{{`Giờ mở cổng: ${open_time.open}h - ${open_time.close}h`}}</span>
         </h3>
       </v-col>
     </v-row>
@@ -55,6 +39,7 @@ import { TextIcon } from '@/constants/app.interface'
   // eslint-disable-next-line no-undef
 })
 export default class SafetySection extends Vue {
-
+  @Prop({ type: Array }) readonly security!: TextIcon[]
+  @Prop({ type: Object }) readonly open_time!: Object
 }
 </script>

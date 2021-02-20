@@ -138,7 +138,7 @@ export const ROOM_TYPES: TextIcon[] = [
     icon: 'home-group',
   },
   {
-    text: 'nhà nguyên căn',
+    text: 'Nhà nguyên căn',
     code: 'house',
     icon: 'home-modern',
   },
@@ -164,5 +164,23 @@ export const GENDER: TextIcon[] = [
     text: 'Nữ',
     icon: 'human-female',
     code: 'woman',
+  },
+]
+
+export const SECURITY: TextIcon[] = [
+  {
+    text: 'Camera',
+    code: 'camera',
+    icon: 'cctv',
+  },
+  {
+    text: 'Khóa vân tay',
+    code: 'fingerprint',
+    icon: 'fingerprint',
+  },
+  {
+    text: 'Người bảo vệ',
+    code: 'guard',
+    icon: 'shield-account',
   },
 ]

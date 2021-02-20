@@ -10,7 +10,7 @@
       <v-divider />
     </div>
     <div class="pa-4">
-      <p>Cho Thuê Phòng CĂN HỘ CCMN Full Đồ</p>
+      <!-- <p>Cho Thuê Phòng CĂN HỘ CCMN Full Đồ</p>
       <p>26 Võng Thị cách Hồ Tây 200m</p>
       <p>🌻Diện tích:40m</p>
       <p>🌻 CHÍNH CHỦ KHÔNG MÔI GIƠI, XEM PHÒNG MIỄN PHÍ.</p>
@@ -28,18 +28,20 @@
       <p>
         🌻 Nhận nhà ngay.bảo vệ trông đêm giờ giấc thoải mái ảnh thật của phòng
         liên hệ cc 0333.90.1990
-      </p>
+      </p> -->
+      <pre>{{ description }}</pre>
     </div>
   </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component<RoomDescriptionSection>({
   name: 'RoomDescriptionSection',
   // eslint-disable-next-line no-undef
 })
 export default class RoomDescriptionSection extends Vue {
+  @Prop({type: String}) readonly description!: String
 }
 </script>

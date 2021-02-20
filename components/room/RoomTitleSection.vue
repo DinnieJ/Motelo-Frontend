@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="10">
-      <h1 class="display-1">Phòng cho thuê Võng thị, Quận Tây Hồ</h1>
+      <h1 class="display-1">{{ title }}</h1>
       <v-breadcrumbs :items="breadcrumbs">
         <template #divider>
           <v-icon>mdi-chevron-right</v-icon>
@@ -10,14 +10,18 @@
     </v-col>
     <v-col cols="2">
       <v-layout justify-end>
-        <room-favor-btn class="mr-4" />
+        <room-favor-btn
+          class="mr-4"
+          :clickFavor="clickFavor"
+          :favorite.sync="asyncFavorite"
+        />
       </v-layout>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
 import { BreadcrumbLink } from '@/constants/app.interface'
 import RoomFavorBtn from './RoomFavorBtn.vue'
 
@@ -29,7 +33,10 @@ import RoomFavorBtn from './RoomFavorBtn.vue'
   },
 })
 export default class RoomTitleSection extends Vue {
-    @Prop({type: Array}) readonly breadcrumbs!: BreadcrumbLink[]
+  @Prop({ type: Array }) readonly breadcrumbs!: BreadcrumbLink[]
+  @Prop({ type: String }) readonly title!: string
+  @Prop({ type: Function }) readonly clickFavor!: Function
+  @PropSync('favorite') asyncFavorite!: boolean
 }
 </script>
 

@@ -12,17 +12,17 @@
     <div class="mt-2">
       <v-layout class="mb-4">
         <v-img src="/imgs/logo-name.png" max-width="32" max-height="32"></v-img>
-        <p class="ml-6">Dao Tien Nam</p>
+        <p class="ml-6">{{ name }}</p>
       </v-layout>
-      <v-layout class="mb-4">
+      <v-layout class="mb-4" v-for="(phone, index) in phones" :key="index">
         <v-img
           src="/imgs/logo-phone.png"
           max-width="32"
           max-height="32"
         ></v-img>
-        <p class="ml-6">0912839213</p>
+        <p class="ml-6">{{ phone }}</p>
       </v-layout>
-      <v-layout class="mb-4">
+      <v-layout class="mb-4" v-if="facebook">
         <v-img
           src="/imgs/logo-facebook.png"
           max-width="32"
@@ -30,22 +30,37 @@
         ></v-img>
         <a
           class="ml-6"
-          href="https://www.facebook.com/nguyenvana/"
+          :href="facebook"
           target="_blank"
           rel="noopener noreferrer"
-          >https://www.facebook.com/nguyenvana/</a
+          >{{facebook}}</a
         >
       </v-layout>
-      <v-layout class="mb-4">
+      <v-layout class="mb-4" v-if="zalo">
         <v-img src="/imgs/logo-zalo.jpg" max-width="32" max-height="32"></v-img>
         <a
           class="ml-6"
-          href="https://zalo.me/0912839213"
+          :href="zalo"
           target="_blank"
           rel="noopener noreferrer"
-          >https://zalo.me/0912839213</a
+          >{{ zalo }}</a
         >
       </v-layout>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+
+@Component<RoomOwnerSection>({
+  name: 'RoomOwnerSection',
+  // eslint-disable-next-line no-undef
+})
+export default class RoomOwnerSection extends Vue {
+  @Prop({type: String}) readonly name!: string
+  @Prop({type: Array}) readonly phones!: string[]
+  @Prop({type: String}) readonly facebook!: string
+  @Prop({type: String}) readonly zalo!: string
+}
+</script>
