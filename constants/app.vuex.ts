@@ -5,6 +5,7 @@
 export enum DispatchAction {
     //Vuex action constant
     LOGIN = "auth/login",
+    REGISTER = "auth/register",
     LOGOUT = "auth/logout",
     CLEAR_AUTH = "auth/clear"
 }
