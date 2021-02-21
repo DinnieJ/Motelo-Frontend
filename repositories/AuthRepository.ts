@@ -1,4 +1,4 @@
-import { LoginDTO } from '@/constants/app.interface'
+import { LoginDTO, RegisterDTO } from '@/constants/app.interface'
 import { ROLE } from '@/constants/app.constant'
 
 export default class AuthRepository {
@@ -35,6 +35,13 @@ export default class AuthRepository {
       }
       // console.log("login fail");
       return setTimeout(() => reject(new Error('User not found!')), 500)
+    })
+  }
+
+  public static register(registerInfo: RegisterDTO): Promise<any> {
+    return new Promise((resolve) => {
+      console.log("register info = ", registerInfo);
+      resolve(true);
     })
   }
 }

@@ -98,6 +98,36 @@ export interface LoginRule {
   }
 }
 
+export interface RegisterDTO {
+  name: string,
+  email: string,
+  password: string,
+  repassword: string,
+  role: string,
+  zalo: string,
+  facebook: string,
+  phone: string,
+}
+
+export interface RegisterRule {
+  email: {
+    required: boolean
+    email: boolean
+  },
+  password: {
+    required: boolean
+    min?: number
+    max?: number
+  },
+  repassword: {
+    required: boolean,
+    confirmed: string,
+  }
+  name: {
+    required: boolean
+  }
+}
+
 export class RoomFilterDTO {
   public page: number
   public price: number[]

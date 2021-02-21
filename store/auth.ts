@@ -1,5 +1,5 @@
 import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
-import { LoginDTO } from '@/constants/app.interface'
+import { LoginDTO, RegisterDTO } from '@/constants/app.interface'
 import { setTokenCookie, removeTokenCookie } from '@/utils/cookies'
 import AuthRepository from '@/repositories/AuthRepository'
 
@@ -15,6 +15,7 @@ export enum AuthMutation {
 
 export interface AuthAction<S, R> extends ActionTree<S, R> {
     login(context: ActionContext<S, R>, loginInfo: LoginDTO): Promise<any>
+    register(context: ActionContext<S, R>, registerInfo: RegisterDTO): Promise<any>
     // logout(context: ActionContext<S, R>): Promise<any>
     clear(context: ActionContext<S, R>): void
 }
@@ -45,6 +46,15 @@ export const actions: AuthAction<AuthState, RootState> = {
             commit(AuthMutation.SET_USER, data.user)
             // console.log("user from state", data.user)
             setTokenCookie(data.token)
+            return data
+        } catch (error) {
+            return false
+        }
+    },
+
+    async register( context, registerInfo): Promise<any> {
+        try {
+            const data = await AuthRepository.register(registerInfo);
             return data
         } catch (error) {
             return false
