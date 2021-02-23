@@ -87,10 +87,6 @@ export default class RoomRepository {
       favorite: false,
       price: 6500000,
       reservation_fee: 6000000,
-      electric: 3500,
-      water: 4000,
-      wifi: 100000,
-      inn_name: 'Nhà trọ Minh Tuấn',
       comments: [
         {
           id: 1,
@@ -121,29 +117,37 @@ export default class RoomRepository {
             'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the',
         },
       ],
+      inn: {
+        id: 1,
+        name: 'Nhà trọ Minh Tuấn',
+        electric: 3500,
+        water: 4000,
+        wifi: 100000,
+        amenities: [
+          'wifi',
+          'toilet',
+          'air_conditioner',
+          'parking',
+          'independence',
+          'washing_machine',
+          'cabinet',
+          'fridge',
+          'kitchen',
+          'heater',
+          'pet',
+        ],
+        security: ['camera', 'fingerprint', 'guard'],
+        open_time: [5, 23],
+        owner: {
+          name: 'Dao Tien Nam',
+          phones: ['0912839213'],
+          facebook: 'https://www.facebook.com/nguyenvana/',
+          zalo: 'https://zalo.me/0912839213',
+        },
+        address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
+      },
       accept_date: '23/12/2020',
-      amenities: [
-        'wifi',
-        'toilet',
-        'air_conditioner',
-        'parking',
-        'independence',
-        'washing_machine',
-        'cabinet',
-        'fridge',
-        'kitchen',
-        'heater',
-        'pet',
-      ],
-      security: [
-        'camera',
-        'fingerprint',
-        'guard',
-      ],
-      open_time: [
-        5,
-        23
-      ],
+
       description: `Cho Thuê Phòng CĂN HỘ CCMN Full Đồ
 
       26 Võng Thị cách Hồ Tây 200m
@@ -166,13 +170,8 @@ export default class RoomRepository {
       🌻 Không gian thoáng đãng, yên tĩnh, trong lành
       
       🌻 Nhận nhà ngay.bảo vệ trông đêm giờ giấc thoải mái ảnh thật của phòng liên hệ cc 0333.90.1990`,
-      owner: {
-        name: 'Dao Tien Nam',
-        phones: ['0912839213'],
-        facebook: 'https://www.facebook.com/nguyenvana/',
-        zalo: 'https://zalo.me/0912839213'
-      },
-      eservation_fee: 6000000
+
+      eservation_fee: 6000000,
     }
 
     return new Promise(function (resolve) {
@@ -183,6 +182,38 @@ export default class RoomRepository {
   public static addComment(value: string): Promise<any> {
     return new Promise(function (resolve) {
       setTimeout(resolve.bind(null, false), 1000)
+    })
+  }
+
+  public static getGuestHomepage(): Promise<any> {
+    const data: Object[] = []
+
+    for (let i = 0; i < 4; i++) {
+      data.push({
+        id: `${i}`,
+        img: '/imgs/anh_room.jpg',
+        title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
+        type: 'room',
+        available: true,
+        gender: 'both',
+        area: 40,
+        capacity_min: 2,
+        capacity_max: 3,
+        address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
+        verify: true,
+        favorite: false,
+        price: 6500000,
+      })
+    }
+
+    return new Promise(function (resolve) {
+      setTimeout(
+        resolve.bind(null, {
+          suggest: data,
+          newest: data,
+        }),
+        1000
+      )
     })
   }
 }

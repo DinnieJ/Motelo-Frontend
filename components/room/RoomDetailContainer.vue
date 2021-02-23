@@ -28,21 +28,21 @@
               :price="room.price"
               :area="room.area"
               :eservation_fee="room.eservation_fee"
-              :electric="room.electric"
+              :electric="room.inn.electric"
               :water="room.water"
-              :wifi="room.wifi"
+              :wifi="room.inn.wifi"
               :capacity="room.capacity"
               :gender="room.gender.text"
               :available="room.available"
-              :inn_name="room.inn_name"
-              :address="room.address"
+              :inn_name="room.inn.name"
+              :address="room.inn.address"
             />
 
-            <amenitie-section :amenities="room.amenities" />
+            <amenitie-section :amenities="room.inn.amenities" />
 
             <safety-section
-              :security="room.security"
-              :open_time="room.open_time"
+              :security="room.inn.security"
+              :open_time="room.inn.open_time"
             />
 
             <room-description-section :description="room.description" />
@@ -58,10 +58,10 @@
 
             <room-owner-section 
               class="pa-2" 
-              :name="room.owner.name"
-              :phones="room.owner.phones"
-              :facebook="room.owner.facebook"
-              :zalo="room.owner.zalo"
+              :name="room.inn.owner.name"
+              :phones="room.inn.owner.phones"
+              :facebook="room.inn.owner.facebook"
+              :zalo="room.inn.owner.zalo"
             />
 
             <room-comment-section

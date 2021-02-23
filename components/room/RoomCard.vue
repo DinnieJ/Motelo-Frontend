@@ -1,10 +1,10 @@
 <template>
-  <v-card elevation="0" class="mb-4 room__card" :to="`/rooms/${room.id}`">
+  <v-card elevation="0" class="mb-4 room__card" >
     <v-row>
       <v-col cols="12" md="4">
         <v-img :src="room.imgLink" class="rounded" max-width="100%" />
       </v-col>
-      <v-col cols="8" md="6" class="pa-1">
+      <v-col cols="8" md="6" class="pa-1" :to="`/rooms/${room.id}`">
         <h4 class="mb-2">{{ room.title }}</h4>
         <v-row>
           <v-col sm="6" cols="12">
