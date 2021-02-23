@@ -55,6 +55,8 @@
       </v-container>
     </v-app-bar>
 
+    <snackbar/>
+    
     <v-main class="grey lighten-3">
       <nuxt />
     </v-main>
@@ -67,12 +69,14 @@ import { NavLink } from '@/constants/app.interface'
 import { NAV_LINKS } from '@/constants/app.constant'
 import AccountBar from '@/components/account/AccountBar.vue'
 import AccountCard from '@/components/account/AccountCard.vue'
+import Snackbar from '@/components/common/Snackbar.vue'
 
 // eslint-disable-next-line no-use-before-define
 @Component<Default>({
   components: {
     AccountBar,
     AccountCard,
+    Snackbar,
   },
 })
 export default class Default extends Vue {

@@ -1,9 +1,5 @@
 <template>
-  <v-card
-    elevation="0"
-    class="mb-4 room__card"
-    :to="`/rooms/${room.id}`"
-  >
+  <v-card elevation="0" class="mb-4 room__card" :to="`/rooms/${room.id}`">
     <v-row>
       <v-col cols="12" md="4">
         <v-img :src="room.imgLink" class="rounded" max-width="100%" />
@@ -12,7 +8,7 @@
         <h4 class="mb-2">{{ room.title }}</h4>
         <v-row>
           <v-col sm="6" cols="12">
-            <v-icon>{{`mdi-${room.type.icon}`}}</v-icon>
+            <v-icon>{{ `mdi-${room.type.icon}` }}</v-icon>
             <span>{{ room.type.text }}</span>
           </v-col>
           <v-col sm="6" cols="12">
@@ -22,7 +18,7 @@
         </v-row>
         <v-row>
           <v-col sm="4" cols="12">
-            <v-icon>{{`mdi-${room.gender.icon}`}}</v-icon>
+            <v-icon>{{ `mdi-${room.gender.icon}` }}</v-icon>
             <span>{{ room.gender.text }}</span>
           </v-col>
           <v-col sm="4" cols="12">
@@ -48,11 +44,20 @@
         </v-row>
       </v-col>
       <v-col md="2" cols="4" class="secondary--text text--center">
-        <v-layout justify-end >
+        <v-layout justify-end>
           <room-verify-icon v-if="room.verify" />
-          <v-btn v-if="owner" class="ml-5" outlined rounded color="info">Sửa</v-btn>
-          <v-btn v-if="owner" class="ml-5" outlined rounded color="warning">Xóa</v-btn>
-          <room-favor-btn class="ml-5" :favorite.sync="favorite" :clickFavor="clickFavor"  v-else />
+          <v-btn v-if="owner" class="ml-5" outlined rounded color="info"
+            >Sửa</v-btn
+          >
+          <v-btn v-if="owner" class="ml-5" outlined rounded color="warning"
+            >Xóa</v-btn
+          >
+          <room-favor-btn
+            class="ml-5"
+            :favorite.sync="favorite"
+            :clickFavor="clickFavor"
+            v-else
+          />
         </v-layout>
         <v-layout column align-end justify-center class="mt-5">
           <span class="text-h3 font-weight-bold">{{ room.millionPrice }}</span>
@@ -72,7 +77,7 @@ import RoomRepository from '@/repositories/RoomRepository'
 
 // eslint-disable-next-line no-use-before-define
 @Component<RoomCard>({
-  name: "RoomCard",
+  name: 'RoomCard',
   components: {
     RoomVerifyIcon,
     RoomFavorBtn,
@@ -86,6 +91,7 @@ export default class RoomCard extends Vue {
   @Prop({ required: true }) readonly room!: RoomCardDTO
 
   private favorite: boolean = false
+  $notify: any;
 
   public async clickFavor(event: Event) {
     event.preventDefault()
@@ -95,27 +101,25 @@ export default class RoomCard extends Vue {
       await this.favorRoom()
     }
   }
-  
+
   public async favorRoom() {
-    await RoomRepository.favorRoom(this.room.id)
-      .then(repos => {
-        this.favorite = true
-        // this.$notify.showMessage({
-        //   message: `Bạn đã thêm ${this.room.title} vào danh sách yêu thích`,
-        //   color: SnackbarAction.success,
-        // })
+    await RoomRepository.favorRoom(this.room.id).then((repos) => {
+      this.favorite = true
+      this.$notify.showMessage({
+        message: `Bạn đã thêm "${this.room.title}" vào danh sách yêu thích`,
+        color: 'success',
       })
+    })
   }
 
   public async unfavorRoom() {
-    await RoomRepository.unfavorRoom(this.room.id)
-      .then(repos => {
-        this.favorite = false
-        // this.$notify.showMessage({
-        //   message: `Bạn đã bỏ ${this.room.title} vào danh sách yêu thích`,
-        //   color: SnackbarAction.error,
-        // })
+    await RoomRepository.unfavorRoom(this.room.id).then((repos) => {
+      this.favorite = false
+      this.$notify.showMessage({
+        message: `Bạn đã bỏ "${this.room.title}" vào danh sách yêu thích`,
+        color: 'warning',
       })
+    })
   }
 }
 </script>
