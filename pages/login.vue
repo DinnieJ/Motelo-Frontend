@@ -1,9 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout d-flex column justify-center align-center class="login__layout">
-      <login-form 
-        :loading="loading"
-        @submit="handleSubmit"/>
+      <login-form :loading="loading" @submit="handleSubmit" />
     </v-layout>
   </v-container>
 </template>
@@ -11,7 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import LoginForm from '@/components/account/LoginForm.vue'
-import { DispatchAction } from '@/constants/app.vuex' 
+import { DispatchAction } from '@/constants/app.vuex'
 import { LoginDTO } from '@/constants/app.interface'
 import { ROLE } from '@/constants/app.constant'
 // eslint-disable-next-line no-use-before-define
@@ -25,21 +23,25 @@ import { ROLE } from '@/constants/app.constant'
   layout: 'empty',
 })
 export default class Login extends Vue {
-  private loading: boolean = false;
-  $notify: any;
+  private loading: boolean = false
+  $notify: any
   public async handleSubmit(loginInfo: LoginDTO) {
     this.loading = true
-    const responseDataLogin = await this.$store.dispatch(DispatchAction.LOGIN, loginInfo)
-    // console.log('response login = ', responseDataLogin)
-    if(responseDataLogin) {
-      if (responseDataLogin === ROLE.TENANT) {
-        this.$router.push('/')
-      } else if (responseDataLogin === ROLE.OWNER) {
-        this.$router.push('/owner/home')
-      }
+    const login = await this.$store.dispatch(DispatchAction.LOGIN, loginInfo)
+    if (!login) {
+      this.$notify.showMessage({
+        message: 'Sai email hoặc mật khẩu',
+        color: 'red',
+      })
     } else {
-      // console.log('wrong cred = ', this);
-      this.$notify.showMessage({ message: "Sai role hoặc email hoặc password", color:"red" })
+      const role = this.$store.state.auth.role
+      switch(role) {
+        case ROLE.TENANT:
+          this.$router.push('/')
+          break
+        case ROLE.OWNER:
+          this.$router.push('/owner/home')
+      }
     }
     this.loading = false
   }
