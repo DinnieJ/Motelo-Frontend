@@ -5,5 +5,8 @@
  */
 
 export enum Endpoint {
-    Auth = "auth"
+    Auth = "auth",
+    AuthTenant = "auth/tenant",
+    AuthOwner = "auth/owner",
+    AuthCollaborator = "auth/collaborator"
 }
