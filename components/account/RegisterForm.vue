@@ -79,7 +79,7 @@ export default class RegisterForm extends Vue {
     if (data) {
       await AuthRepository.registerOwner(data)
         .then((response) => {
-          alert('ok')
+          this.$router.push('/register/complete')
         })
         .catch((error) => {
           this.$notify.showMessage({

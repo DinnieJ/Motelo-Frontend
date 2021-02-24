@@ -125,6 +125,10 @@
         >
           ĐĂNG KÝ
         </v-btn>
+        <v-btn color="primary" to="/login">
+            <v-icon left>mdi-arrow-left</v-icon>
+            Quay lại đăng nhập
+        </v-btn>
       </v-form>
     </validation-observer>
   </v-layout>

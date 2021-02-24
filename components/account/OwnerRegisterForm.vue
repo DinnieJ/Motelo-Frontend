@@ -163,6 +163,10 @@
         >
           ĐĂNG KÝ
         </v-btn>
+        <v-btn color="primary" to="/login">
+          <v-icon left>mdi-arrow-left</v-icon>
+          Quay lại đăng nhập
+        </v-btn>
       </v-form>
     </validation-observer>
   </v-layout>
@@ -176,8 +180,10 @@ import {
   setInteractionMode,
 } from 'vee-validate'
 import { required, email, min, confirmed } from 'vee-validate/dist/rules'
-import { ROLE } from '@/constants/app.constant'
-import { OwnerRegisterDTO, OwnerRegisterRule, TenantRegisterDTO } from '@/constants/app.interface'
+import {
+  OwnerRegisterDTO,
+  OwnerRegisterRule,
+} from '@/constants/app.interface'
 
 setInteractionMode('eager')
 
@@ -232,12 +238,15 @@ export default class OwnerRegisterForm extends Vue {
   private showPassword: boolean = false
   @Prop() readonly loading!: boolean
   private rules: OwnerRegisterRule = {
-    name: { required: true, regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*$/},
+    name: {
+      required: true,
+      regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*$/,
+    },
     email: { required: true, email: true },
     password: { required: true, min: 8 },
     repassword: { required: true, confirmed: 'password' },
     date_of_birth: { required: true },
-    address: {required: true}
+    address: { required: true },
   }
 
   private contactItems = [
