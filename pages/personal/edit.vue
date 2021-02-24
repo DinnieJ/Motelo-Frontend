@@ -144,7 +144,7 @@ import InnUpdateSteppers from '@/components/inn/InnUpdateSteppers.vue'
 import WarningDialog from '@/components/common/WarningDialog.vue'
 import { LoginRule, UserInfoDTO } from '@/constants/app.interface'
 import PersonalRepository from '@/repositories/PersonalRepository'
-import { RegisterRule } from '@/constants/app.interface'
+import { TenantRegisterRule } from '@/constants/app.interface'
 import { required, email } from 'vee-validate/dist/rules'
 
 setInteractionMode('eager')
