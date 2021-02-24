@@ -18,7 +18,7 @@
         ></v-autocomplete>
         <validation-provider
           v-slot="{ errors }"
-          name="email"
+          name="name"
           :rules="rules.name"
         >
           <v-text-field

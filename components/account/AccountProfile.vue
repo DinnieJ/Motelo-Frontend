@@ -30,7 +30,7 @@
           <v-text-field
             class="text-h5"
             label="Tên"
-            value="Two-line item"
+            :value="userInfo.name"
             :disabled="!editable"
           ></v-text-field>
         </div>
@@ -38,41 +38,41 @@
           <v-text-field
             class="text-h5"
             label="Email"
-            value="Two-line item"
+            :value="userInfo.email"
             :disabled="!editable"
           ></v-text-field>
         </div>
+        <div v-if="userInfo.zalo">
         <div>
           <v-text-field
             class="text-h5"
             label="Zalo"
-            value="Two-line item"
+            :value="userInfo.zalo"
             :disabled="!editable"
           ></v-text-field>
         </div>
-        <div>
-          <v-text-field
-            class="text-h5"
-            label="Facebook"
-            value="Two-line item"
-            :disabled="!editable"
-          ></v-text-field>
         </div>
-        <div>
-          <v-text-field
-            class="text-h5"
-            label="Điện thoại 1"
-            value="Two-line item"
-            :disabled="!editable"
-          ></v-text-field>
+        <div v-if="userInfo.facebook">
+          <div>
+            <v-text-field
+              class="text-h5"
+              label="Facebook"
+              :value="userInfo.facebook"
+              :disabled="!editable"
+            ></v-text-field>
+          </div>
         </div>
-        <div>
-          <v-text-field
-            class="text-h5"
-            label="Điện thoại 2"
-            value="Two-line item"
-            :disabled="!editable"
-          ></v-text-field>
+        <div v-if="userInfo.phone.length">
+          <div v-for="(phone, index) in userInfo.phone" :key="index">
+            <div>
+              <v-text-field
+                class="text-h5"
+                :label="`Số điện thoại ${index + 1}`"
+                :value="phone"
+                :disabled="!editable"
+              ></v-text-field>
+            </div>
+          </div>
         </div>
         <v-btn v-if="editable" block>Thêm số điện thoại</v-btn>
       </v-col>
@@ -82,6 +82,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { UserInfoDTO } from '@/constants/app.interface'
 
 @Component<AccountProfile>({
   name: 'AccountProfile',
@@ -89,6 +90,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 })
 export default class AccountProfile extends Vue {
   @Prop({ default: false, type: Boolean }) readonly twoLine!: boolean
+  @Prop({ required: true }) readonly userInfo!: UserInfoDTO
   private editable: boolean = false
 
   private get sm(): boolean | string {
