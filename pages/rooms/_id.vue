@@ -17,27 +17,27 @@ import RoomRepository from '@/repositories/RoomRepository'
 import { RoomDetailDTO, CommentDTO } from '@/constants/app.interface'
 
 // eslint-disable-next-line no-use-before-define
-@Component<DetailRequest>({
-  name: 'DetailRequest',
+@Component<DetailRoom>({
+  name: 'DetailRoom',
   components: {
     RoomDetailContainer,
   },
   async created() {
+    this.id = this.$route.params.id
     this.getRoomDetail()
   },
 })
-export default class DetailRequest extends Vue {
+export default class DetailRoom extends Vue {
   private room: RoomDetailDTO = new RoomDetailDTO()
-  private id: number = -1
+  private id: string = '-1'
   private favorite: boolean = false
   private comments: CommentDTO[] = []
   $notify: any;
 
   public async getRoomDetail() {
-    const id: string = this.$route.params.id
-    await RoomRepository.getRoomDetail(id).then((repos) => {
+    
+    await RoomRepository.getRoomDetail(this.id).then((repos) => {
       this.room = new RoomDetailDTO(repos)
-      this.id = this.room.id
       this.favorite = this.room.favorite
       this.comments = this.room.comments
     })

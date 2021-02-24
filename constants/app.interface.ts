@@ -78,6 +78,10 @@ export class RoomCardDTO {
     }
     return `<span class="warning--text">Hết phòng</span>`
   }
+
+  public get requestType(): string {
+    return 'Tạo mới'
+  }
 }
 
 export interface LoginDTO {
@@ -202,30 +206,34 @@ export class RoomDetailDTO {
   public comments: CommentDTO[] = []
   public inn: InnProfileDTO = new InnProfileDTO()
 
+  public verfied_at: string = ''
+
   constructor(data?: any) {
     if (!data) {
       return
     }
     this.id = data.id
-    this.imgLinks = data.imgs
-    this.title = data.title
-    this.type = ROOM_TYPES.find((item) => item.code == data.type)
-    this.available = data.available
+    this.imgLinks = data.imgs || []
+    this.title = data.name
+    this.type = ROOM_TYPES.find((item) => item.code == data.room_type_id)
+    this.available = Boolean(data.available)
     this.gender = GENDER.find((type) => type.code === data.gender)
-    this.area = data.area
+    this.area = data.acreage
     this.capacity = {
-      max: data.capacity_max,
-      min: data.capacity_min,
+      max: data.capacity_max || 0,
+      min: data.capacity_min || 0,
     }
-    this.verify = data.verify
-    this.favorite = data.favorite
+    this.verify = Boolean(data.verify)
+    this.favorite = Boolean(data.favorite)
     this.price = data.price
-    this.eservation_fee = data.eservation_fee
+    this.eservation_fee = data.eservation_fee || 0
     this.description = data.description
-    this.accept_date = data.accept_date
+    this.accept_date = data.accept_date || ''
 
     this.comments = data.comments
-    this.inn = new InnProfileDTO(data.inn)
+    this.inn = new InnProfileDTO(data.inn_detail)
+
+    this.verfied_at = data.verfied_at || ''
   }
 
   public get priceUnit(): string {
@@ -245,6 +253,10 @@ export class RoomDetailDTO {
       return `<span class="success--text">Còn phòng</span>`
     }
     return `<span class="warning--text">Hết phòng</span>`
+  }
+
+  public get requestType(): string {
+    return 'Tạo mới'
   }
 }
 
@@ -295,27 +307,33 @@ export class InnProfileDTO {
     this.imgLinks = data.imgs || []
     this.name = data.name
     this.address = data.address
-    this.electric = data.electric
-    this.water = data.water
-    this.wifi = data.wifi
+    this.electric = data.electric_price
+    this.water = data.water_price
+    this.wifi = data.wifi || 0
     this.amenities = AMEENITIES.filter((amenitie) => {
-      const found = data.amenities.find((item: any) => item === amenitie.code)
+      const found = data.features.find((item: any) => item.title === amenitie.code)
       if (found) {
         return true
       }
       return false
     })
     this.security = SECURITY.filter((amenitie) => {
-      const found = data.security.find((item: any) => item === amenitie.code)
+      const found = data.features.find((item: any) => item.title === amenitie.code)
       if (found) {
         return true
       }
       return false
     })
     this.open_time = {
-      open: data.open_time[0],
-      close: data.open_time[1],
+      open: data.open_time,
+      close: data.close_time,
     }
-    this.owner = data.owner
+    this.owner = {
+      name: data.owner_name,
+      account_id: data.owner_id,
+      phones: data.owner_contact.phones,
+      facebook: data.owner_contact.facebook,
+      zalo: data.owner_contact.zalo,
+    }
   }
 }

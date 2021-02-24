@@ -3,10 +3,10 @@
     <v-col>
       <v-sheet light rounded="lg" min-height="40vh" class="mt-6">
         <v-row class="pa-2">
-          <v-col cols="12" lg="6">
+          <v-col cols="12" :lg="forOwner ? 12 : 6">
             <images-slide :imgs="room.imgLinks" />
           </v-col>
-          <v-col cols="12" lg="6">
+          <v-col cols="12" lg="6" v-if="!forOwner">
             <small-map />
           </v-col>
         </v-row>
@@ -20,6 +20,9 @@
               :favorite.sync="asyncFavorite"
               :clickFavor="clickFavor"
               :title="room.title"
+              :forOwner="forOwner"
+              :clickDelete="clickDelete"
+              :roomId="room.id"
             />
 
             <room-verify-section v-if="room.verify" />
@@ -116,6 +119,8 @@ export default class RoomDetailContainer extends Vue {
   @Prop({ type: Function }) readonly deleteComment!: Function
   @Prop({ type: Function }) readonly addComment!: Function
   @PropSync('comments') readonly asyncComments!: CommentDTO[]
+  @Prop({ type: Boolean, default: false }) readonly forOwner!: boolean
+  @Prop({ type: Function }) readonly clickDelete!: Function
 
   private breadcrumbLinks: BreadcrumbLink[] = [
     {

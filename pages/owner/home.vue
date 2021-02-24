@@ -17,6 +17,7 @@ import AccountProfile from '@/components/account/AccountProfile.vue'
 import InnProfile from '@/components/inn/InnProfile.vue'
 import InnRepository from '@/repositories/InnRepository'
 import { InnProfileDTO } from '~/constants/app.interface'
+import { ROLE } from '@/constants/app.constant'
 
 // eslint-disable-next-line no-use-before-define
 @Component<OwnerHome>({
@@ -27,6 +28,15 @@ import { InnProfileDTO } from '~/constants/app.interface'
     AccountProfile,
     InnProfile,
   },
+  asyncData({ store, redirect }) {
+    if (store.state.auth.user) {
+      if (store.state.auth.role != ROLE.OWNER) {
+        redirect('/login')
+      }
+    } else {
+      redirect('/login')
+    }
+  },
   async created() {
     await this.getDataHomepage()
   },
@@ -36,10 +46,9 @@ export default class OwnerHome extends Vue {
   private inn: InnProfileDTO = new InnProfileDTO()
 
   public async getDataHomepage() {
-    await InnRepository.getOwnerHomepage()
-      .then(repos => {
-        this.inn = new InnProfileDTO(repos.inn)
-      })
+    await InnRepository.getOwnerHomepage().then((repos) => {
+      this.inn = new InnProfileDTO(repos.inn)
+    })
   }
 }
 </script>
