@@ -98,18 +98,26 @@ export interface LoginRule {
   }
 }
 
-export interface RegisterDTO {
+export interface TenantRegisterDTO {
   name: string,
   email: string,
   password: string,
   repassword: string,
-  role: string,
-  zalo: string,
-  facebook: string,
   phone: string,
+  date_of_birth: string
 }
 
-export interface RegisterRule {
+export interface OwnerRegisterDTO {
+  name: string,
+  email: string,
+  password: string,
+  repassword: string,
+  address: string,
+  date_of_birth: string,
+  contact: Array<Object>
+}
+
+export interface TenantRegisterRule {
   email: {
     required: boolean
     email: boolean
@@ -124,6 +132,40 @@ export interface RegisterRule {
     confirmed: string,
   }
   name: {
+    required: boolean,
+    regex: any
+  }
+  phone: {
+    required: boolean
+  }
+  date_of_birth: {
+    required: boolean
+  }
+}
+
+export interface OwnerRegisterRule {
+  email: {
+    required: boolean
+    email: boolean
+  },
+  password: {
+    required: boolean
+    min?: number
+    max?: number
+  },
+  repassword: {
+    required: boolean,
+    confirmed: string,
+  }
+  name: {
+    required: boolean,
+    regex: any
+  }
+  date_of_birth: {
+    required: boolean
+  }
+
+  address: {
     required: boolean
   }
 }
