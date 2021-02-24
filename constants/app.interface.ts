@@ -132,7 +132,8 @@ export interface TenantRegisterRule {
     confirmed: string,
   }
   name: {
-    required: boolean
+    required: boolean,
+    regex: any
   }
   phone: {
     required: boolean
@@ -157,7 +158,8 @@ export interface OwnerRegisterRule {
     confirmed: string,
   }
   name: {
-    required: boolean
+    required: boolean,
+    regex: any
   }
   date_of_birth: {
     required: boolean

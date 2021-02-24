@@ -37,7 +37,7 @@
         <validation-provider
           v-slot="{ errors }"
           name="email"
-          :rules="rules.name"
+          :rules="rules.address"
         >
           <v-text-field
             v-model="registerInfo.address"
@@ -177,8 +177,7 @@ import {
 } from 'vee-validate'
 import { required, email, min, confirmed } from 'vee-validate/dist/rules'
 import { ROLE } from '@/constants/app.constant'
-import { OwnerRegisterDTO, TenantRegisterDTO } from '@/constants/app.interface'
-import { TenantRegisterRule } from '@/constants/app.interface'
+import { OwnerRegisterDTO, OwnerRegisterRule, TenantRegisterDTO } from '@/constants/app.interface'
 
 setInteractionMode('eager')
 
@@ -232,13 +231,13 @@ export default class OwnerRegisterForm extends Vue {
 
   private showPassword: boolean = false
   @Prop() readonly loading!: boolean
-  private rules: TenantRegisterRule = {
-    name: { required: true },
+  private rules: OwnerRegisterRule = {
+    name: { required: true, regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*$/},
     email: { required: true, email: true },
     password: { required: true, min: 8 },
     repassword: { required: true, confirmed: 'password' },
-    phone: { required: true },
     date_of_birth: { required: true },
+    address: {required: true}
   }
 
   private contactItems = [

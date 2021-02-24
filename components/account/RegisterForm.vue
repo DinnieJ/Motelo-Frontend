@@ -46,6 +46,7 @@ import AuthRepository from '@/repositories/AuthRepository'
   // eslint-disable-next-line no-undef
 })
 export default class RegisterForm extends Vue {
+  $notify: any
   private form = ROLE.TENANT
 
   private roles: object[] = [
@@ -59,14 +60,17 @@ export default class RegisterForm extends Vue {
     },
   ]
 
-  public async registerTenant(registerData: TenantRegisterDTO) {
-    if (registerData) {
-      await AuthRepository.registerTenant(registerData)
+  public async registerTenant(registerInfo: TenantRegisterDTO) {
+    if (registerInfo) {
+      await AuthRepository.registerTenant(registerInfo)
         .then((response) => {
-          alert('OK')
+          this.$router.push('/register/complete')
         })
         .catch((error) => {
-          alert('Failed')
+          this.$notify.showMessage({
+            message: error.response.data,
+            color: 'red',
+          })
         })
     }
   }
@@ -78,7 +82,10 @@ export default class RegisterForm extends Vue {
           alert('ok')
         })
         .catch((error) => {
-          alert('Failed')
+          this.$notify.showMessage({
+            message: error.response.data,
+            color: 'red',
+          })
         })
     }
   }
