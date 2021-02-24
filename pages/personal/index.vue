@@ -2,9 +2,11 @@
   <v-container>
     <v-row class="mt-6">
       <v-col cols="12" lg="6" class="pr-3">
-        <account-profile />
+        <section v-if="loadingUserInfo"></section>
+        <account-profile :userInfo="userInfo" />
       </v-col>
       <v-col cols="12" lg="6">
+        <section v-if="loadingRoom"><h1>Loading</h1></section>
         <favourite-list :rooms="roomCardObjs" />
       </v-col>
     </v-row>
@@ -13,9 +15,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { RoomCardDTO } from '@/constants/app.interface'
+import { RoomCardDTO, UserInfoDTO } from '@/constants/app.interface'
 import FavouriteList from '@/components/account/FavouriteList.vue'
 import AccountProfile from '@/components/account/AccountProfile.vue'
+import PersonalRepository from '@/repositories/PersonalRepository'
 
 @Component<Personal>({
   name: 'Personal',
@@ -27,27 +30,45 @@ import AccountProfile from '@/components/account/AccountProfile.vue'
 })
 export default class Personal extends Vue {
   private roomCardObjs: RoomCardDTO[] = []
+  private userInfo: UserInfoDTO = {
+    name: '',
+    email: '',
+    zalo: '',
+    facebook: '',
+    phone: [],
+  }
+  private loadingRoom: boolean = false
+  private loadingUserInfo: boolean = false
+  async created() {
+    await Promise.all([this.getUserInfo(), this.getFavoriteRoom()])
+  }
 
-  created() {
-    for (let i = 0; i < 4; i++) {
-      this.roomCardObjs.push(
-        new RoomCardDTO({
-          id: `${i}`,
-          img: '/imgs/anh_room.jpg',
-          title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-          type: 'room',
-          available: true,
-          gender: 'both',
-          area: 40,
-          capacity_min: 2,
-          capacity_max: 3,
-          address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
-          verify: true,
-          favorite: false,
-          price: 6500000,
-        })
-      )
-    }
+  public async getFavoriteRoom(): Promise<any> {
+    this.loadingRoom = true
+    await PersonalRepository.getFavoriteRoom()
+      .then((response) => {
+        this.roomCardObjs = response.map((item: any) => new RoomCardDTO(item))
+      })
+      .catch((error) => {
+        console.log('getFavoriteRoom', error)
+      })
+      .finally(() => {
+        this.loadingRoom = false
+      })
+  }
+
+  public async getUserInfo(): Promise<any> {
+    this.loadingUserInfo = true
+    await PersonalRepository.getUserInfo()
+      .then((response) => {
+        this.userInfo = response
+      })
+      .catch((error) => {
+        console.log('get user info: ', error)
+      })
+      .finally(() => {
+        this.loadingUserInfo = false
+      })
   }
 }
 </script>
