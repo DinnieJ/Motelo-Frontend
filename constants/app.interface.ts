@@ -128,6 +128,14 @@ export interface RegisterRule {
   }
 }
 
+export interface UserInfoDTO {
+  name: string,
+  email: string,
+  zalo: string,
+  facebook: string,
+  phone: Array<string>
+}
+
 export class RoomFilterDTO {
   public page: number
   public price: number[]
@@ -192,40 +200,15 @@ export class RoomDetailDTO {
     min: 0,
     max: 0,
   }
-  public address: string = ''
   public verify: boolean = false
   public favorite: boolean = false
   public price: number = 0
   public eservation_fee: number = 0
-  public electric: number = 0
-  public water: number = 0
-  public wifi: number = 0
-  public inn_name: string = ''
   public description: string = ''
-  public comments: CommentDTO[] = []
   public accept_date: string = ''
-  public amenities: TextIcon[] = []
-  public security: TextIcon[] = []
-  public open_time: {
-    open: number
-    close: number
-  } = {
-    open: 0,
-    close: 0
-  }
-  public owner: {
-    account_id: number
-    name: string
-    phones: string[]
-    facebook: string
-    zalo: string
-  } = {
-    account_id: 0,
-    name: '',
-    phones: [],
-    facebook: '',
-    zalo: ''
-  }
+
+  public comments: CommentDTO[] = []
+  public inn: InnProfileDTO = new InnProfileDTO()
 
   constructor(data?: any) {
     if (!data) {
@@ -242,37 +225,15 @@ export class RoomDetailDTO {
       max: data.capacity_max,
       min: data.capacity_min,
     }
-    this.address = data.address
     this.verify = data.verify
     this.favorite = data.favorite
     this.price = data.price
     this.eservation_fee = data.eservation_fee
-    this.electric = data.electric
-    this.water = data.water
-    this.wifi = data.wifi
-    this.inn_name = data.inn_name
     this.description = data.description
-    this.comments = data.comments
     this.accept_date = data.accept_date
-    this.amenities = AMEENITIES.filter((amenitie) => {
-      const found = data.amenities.find((item: any) => item === amenitie.code)
-      if (found) {
-        return true
-      }
-      return false
-    })
-    this.security = SECURITY.filter((amenitie) => {
-      const found = data.security.find((item: any) => item === amenitie.code)
-      if (found) {
-        return true
-      }
-      return false
-    })
-    this.open_time = {
-      open: data.open_time[0],
-      close: data.open_time[1],
-    }
-    this.owner = data.owner
+
+    this.comments = data.comments
+    this.inn = new InnProfileDTO(data.inn)
   }
 
   public get priceUnit(): string {
@@ -300,4 +261,69 @@ export interface CommentDTO {
   account_id: number
   name: string
   context: string
+}
+
+export class InnProfileDTO {
+  public id: number = -1
+  public imgLinks: string[] = []
+  public name: string = ''
+  public address: string = ''
+  public electric: number = 0
+  public water: number = 0
+  public wifi: number = 0
+  public amenities: TextIcon[] = []
+  public security: TextIcon[] = []
+  public open_time: {
+    open: number
+    close: number
+  } = {
+    open: 0,
+    close: 0
+  }
+
+  public owner: {
+    account_id: number
+    name: string
+    phones: string[]
+    facebook: string
+    zalo: string
+  } = {
+    account_id: 0,
+    name: '',
+    phones: [],
+    facebook: '',
+    zalo: ''
+  }
+
+  constructor(data?: any) {
+    if (!data) {
+      return
+    }
+    this.id = data.id
+    this.imgLinks = data.imgs || []
+    this.name = data.name
+    this.address = data.address
+    this.electric = data.electric
+    this.water = data.water
+    this.wifi = data.wifi
+    this.amenities = AMEENITIES.filter((amenitie) => {
+      const found = data.amenities.find((item: any) => item === amenitie.code)
+      if (found) {
+        return true
+      }
+      return false
+    })
+    this.security = SECURITY.filter((amenitie) => {
+      const found = data.security.find((item: any) => item === amenitie.code)
+      if (found) {
+        return true
+      }
+      return false
+    })
+    this.open_time = {
+      open: data.open_time[0],
+      close: data.open_time[1],
+    }
+    this.owner = data.owner
+  }
 }

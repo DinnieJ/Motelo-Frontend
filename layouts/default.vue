@@ -17,7 +17,7 @@
         <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
       </v-layout>
       <v-divider class="my-3"></v-divider>
-      <account-card></account-card>
+      <account-card v-if="user"></account-card>
       <div v-for="link in links" :key="link.code">
         <v-btn
           v-if="link.roles.includes(role)"
@@ -51,12 +51,12 @@
             {{ link.text }}
           </v-btn>
         </div>
-        <account-bar></account-bar>
+        <account-bar v-if="user"></account-bar>
       </v-container>
     </v-app-bar>
 
-    <snackbar/>
-    
+    <snackbar />
+
     <v-main class="grey lighten-3">
       <nuxt />
     </v-main>
@@ -70,6 +70,8 @@ import { NAV_LINKS } from '@/constants/app.constant'
 import AccountBar from '@/components/account/AccountBar.vue'
 import AccountCard from '@/components/account/AccountCard.vue'
 import Snackbar from '@/components/common/Snackbar.vue'
+import { mapGetters } from 'vuex'
+import { Getter } from '@/constants/app.vuex'
 
 // eslint-disable-next-line no-use-before-define
 @Component<Default>({
@@ -77,6 +79,11 @@ import Snackbar from '@/components/common/Snackbar.vue'
     AccountBar,
     AccountCard,
     Snackbar,
+  },
+  computed: {
+    ...mapGetters({
+      user: Getter.USER,
+    }),
   },
 })
 export default class Default extends Vue {

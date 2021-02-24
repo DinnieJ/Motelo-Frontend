@@ -14,7 +14,8 @@ export enum MutationState {
     // Vuex mutation tree constant
     SHOW_SNACKBAR = 'snackbar/showMessage',
     SET_TOKEN = "auth/setToken",
-    SET_USER = "auth/setUser"
+    SET_USER = "auth/setUser",
+    SET_ROLE = "auth/setRole"
 }
 
 export enum Getter {

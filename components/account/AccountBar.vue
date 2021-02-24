@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on }">
       <v-btn icon x-large v-on="on">
         <v-avatar color="brown" size="32">
-          <span class="white--text headline">{{ user.initials }}</span>
+          <v-icon dark> mdi-account-circle </v-icon>
         </v-avatar>
       </v-btn>
     </template>

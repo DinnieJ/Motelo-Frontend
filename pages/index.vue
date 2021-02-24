@@ -16,9 +16,9 @@
         </v-row>
       </section>
 
-      <suggest-list :rooms="roomCardObjs" />
+      <suggest-list :rooms="suggestRooms" />
       <hot-area />
-      <newest-list :rooms="roomCardObjs" />
+      <newest-list :rooms="newsestRooms" />
     </v-sheet>
   </v-container>
 </template>
@@ -34,6 +34,8 @@ import NewestList from '@/components/guest/NewestList.vue'
 
 import SearchAddress from '@/components/map/SearchAddress.vue'
 
+import RoomRepository from '@/repositories/RoomRepository'
+
 // eslint-disable-next-line no-use-before-define
 @Component<TenantHome>({
   name: 'TenantHome',
@@ -45,30 +47,20 @@ import SearchAddress from '@/components/map/SearchAddress.vue'
     HotArea,
     NewestList,
   },
+  async created() {
+    await this.getHomeData()
+  },
 })
 export default class TenantHome extends Vue {
-  private roomCardObjs: RoomCardDTO[] = []
+  private suggestRooms: RoomCardDTO[] = []
+  private newsestRooms: RoomCardDTO[] = []
 
-  created() {
-    for (let i = 0; i < 4; i++) {
-      this.roomCardObjs.push(
-        new RoomCardDTO({
-          id: `${i}`,
-          img: '/imgs/anh_room.jpg',
-          title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-          type: 'room',
-          available: true,
-          gender: 'both',
-          area: 40,
-          capacity_min: 2,
-          capacity_max: 3,
-          address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
-          verify: true,
-          favorite: false,
-          price: 6500000,
-        })
-      )
-    }
+  public async getHomeData() {
+     await RoomRepository.getGuestHomepage()
+      .then(repos => {
+        this.suggestRooms = repos.suggest.map((item: any) => new RoomCardDTO(item))
+        this.newsestRooms = repos.newest.map((item: any) => new RoomCardDTO(item))
+      })
   }
 }
 </script>

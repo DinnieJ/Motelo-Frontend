@@ -4,7 +4,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   target: 'static',
   head: {
-    titleTemplate: '%s - project-frontend-template',
+    titleTemplate: '%s',
     title: 'Motelo - kênh hỗ trợ tân sinh viên đại học tìm kiếm nhà trọ',
     htmlAttrs: {
       lang: 'en',
@@ -60,10 +60,14 @@ export default {
       },
     },
   },
-  env: [
-
-  ],
+  env: {
+    BASE_API: process.env.BASE_API
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: [
+      'vee-validate'
+    ]
+  }
 }

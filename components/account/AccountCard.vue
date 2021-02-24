@@ -1,29 +1,30 @@
 <template>
   <v-layout column align-center>
     <v-avatar color="brown">
-      <span class="white--text headline">{{ user.initials }}</span>
+      <v-icon dark> mdi-account-circle </v-icon>
     </v-avatar>
-    <h3>{{ user.fullName }}</h3>
+    <h3>{{ user.name }}</h3>
     <p class="caption mt-1">
-      {{ user.email }}
+      {{ user.email || '' }}
     </p>
   </v-layout>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { mapGetters } from 'vuex'
+import { Getter } from '@/constants/app.vuex'
 
 // eslint-disable-next-line no-use-before-define
 @Component<AccountCard>({
   name: 'AccountCard',
   // eslint-disable-next-line no-undef
   components: {},
+  computed: {
+    ...mapGetters({
+      user: Getter.USER,
+    }),
+  },
 })
-export default class AccountCard extends Vue {
-  private user: object = {
-    initials: 'JD',
-    fullName: 'John Doe',
-    email: 'john.doe@doe.com',
-  }
-}
+export default class AccountCard extends Vue {}
 </script>

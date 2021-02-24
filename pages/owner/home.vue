@@ -2,8 +2,7 @@
   <v-container>
     <v-row class="mt-6">
       <v-col cols="12" lg="9" class="pr-3">
-        <inn-profile :clickUpdate="openInnUpdateDialog" />
-        <!-- <inn-update-dialog v-model="innUpdateDialog" /> -->
+        <inn-profile :inn="inn" />
       </v-col>
       <v-col cols="12" lg="3">
         <account-profile />
@@ -16,7 +15,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import AccountProfile from '@/components/account/AccountProfile.vue'
 import InnProfile from '@/components/inn/InnProfile.vue'
-import InnUpdateDialog from '@/components/inn/InnUpdateDialog.vue'
+import InnRepository from '@/repositories/InnRepository'
+import { InnProfileDTO } from '~/constants/app.interface'
 
 // eslint-disable-next-line no-use-before-define
 @Component<OwnerHome>({
@@ -26,14 +26,20 @@ import InnUpdateDialog from '@/components/inn/InnUpdateDialog.vue'
   components: {
     AccountProfile,
     InnProfile,
-    InnUpdateDialog,
+  },
+  async created() {
+    await this.getDataHomepage()
   },
 })
 export default class OwnerHome extends Vue {
   private innUpdateDialog: boolean = false
+  private inn: InnProfileDTO = new InnProfileDTO()
 
-  public openInnUpdateDialog() {
-    this.$router.push('/owner/edit')
+  public async getDataHomepage() {
+    await InnRepository.getOwnerHomepage()
+      .then(repos => {
+        this.inn = new InnProfileDTO(repos.inn)
+      })
   }
 }
 </script>
