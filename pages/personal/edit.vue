@@ -5,11 +5,9 @@
         <v-toolbar-title>Thiết lập tài khoản</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn text color="white" @click="handleCancelClick()">
-            Đồng ý
-          </v-btn>
+          <v-btn text color="white" @click="handleSubmitClick()"> Lưu </v-btn>
           <v-btn text color="warning" @click="handleCancelClick()">
-            Từ chối
+            Hủy bỏ
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
@@ -27,57 +25,84 @@
               </v-col>
               <v-col cols="12" class="pa-2">
                 <div>
-                  <v-text-field
-                    class="text-h5"
-                    label="Tên"
-                    value="Two-line item"
-                  ></v-text-field>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="name"
+                    :rules="rules.name"
+                  >
+                    <v-text-field
+                      class="text-h5"
+                      label="Tên"
+                      v-model="userInfo.name"
+                      :disabled="!editable"
+                      :error-messages="errors"
+                    ></v-text-field>
+                  </validation-provider>
                 </div>
                 <div>
-                  <v-text-field
-                    class="text-h5"
-                    label="Email"
-                    value="Two-line item"
-                  ></v-text-field>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="email"
+                    :rules="rules.email"
+                  >
+                    <v-text-field
+                      class="text-h5"
+                      label="Email"
+                      v-model="userInfo.email"
+                      :disabled="!editable"
+                      :error-messages="errors"
+                    ></v-text-field>
+                  </validation-provider>
                 </div>
-                <div>
-                  <v-text-field
-                    class="text-h5"
-                    label="Zalo"
-                    value="Two-line item"
-                  ></v-text-field>
+                <div v-if="userInfo.zalo">
+                  <div>
+                    <v-text-field
+                      class="text-h5"
+                      label="Zalo"
+                      v-model="userInfo.zalo"
+                      :disabled="!editable"
+                    ></v-text-field>
+                  </div>
                 </div>
-                <div>
-                  <v-text-field
-                    class="text-h5"
-                    label="Facebook"
-                    value="Two-line item"
-                  ></v-text-field>
+                <div v-if="userInfo.facebook">
+                  <div>
+                    <v-text-field
+                      class="text-h5"
+                      label="Facebook"
+                      v-model="userInfo.facebook"
+                      :disabled="!editable"
+                    ></v-text-field>
+                  </div>
                 </div>
-                <div>
-                  <v-text-field
-                    class="text-h5"
-                    label="Điện thoại 1"
-                    value="Two-line item"
-                  ></v-text-field>
+                <div v-if="userInfo.phone.length">
+                  <div v-for="(phone, index) in userInfo.phone" :key="index">
+                    <div>
+                      <v-text-field
+                        class="text-h5"
+                        :label="`Số điện thoại ${index + 1}`"
+                        v-model="userInfo.phone[index]"
+                        :disabled="!editable"
+                      ></v-text-field>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <v-text-field
-                    class="text-h5"
-                    label="Điện thoại 2"
-                    value="Two-line item"
-                  ></v-text-field>
-                </div>
-                <v-btn block>Thêm số điện thoại</v-btn>
+                <v-btn
+                  block
+                  x-small
+                  @click="addMorePhone()"
+                  color="info"
+                  class="mb-5"
+                  >Thêm số điện thoại (Nếu có)</v-btn
+                >
                 <v-layout justify-end class="mt-5">
                   <v-btn
                     rounded
                     outlined
                     color="primary"
-                    @click="handleCancelClick()"
+                    @click="handleSubmitClick()"
                     class="mr-5"
                   >
-                    Đồng ý
+                    Lưu
                   </v-btn>
                   <v-btn
                     rounded
@@ -85,7 +110,7 @@
                     color="warning"
                     @click="handleCancelClick()"
                   >
-                    Từ chối
+                    Hủy bỏ
                   </v-btn>
                 </v-layout>
               </v-col>
@@ -95,20 +120,44 @@
       </v-row>
     </v-card>
     <warning-dialog
+      title="Hủy thay đổi"
+      content="Bạn có chắc chắn muốn hủy bỏ thông tin vừa thay đổi"
+      @accept="acceptCancelDialog"
+      @refuse="refuseCancelDialog"
+      v-model="openCancelDialog"
+    />
+    <warning-dialog
       title="Lưu thay đổi"
-      content="bạn có muốn lưu sửa đổi này không"
-      @accept="refuseWarningDialog"
-      @refuse="refuseWarningDialog"
-      v-model="openWarningDialog"
+      content="Bạn có chắc chắn muốn lưu thông tin vừa thay đổi"
+      @accept="acceptConfirmDialog"
+      @refuse="refuseConfirmDialog"
+      v-model="openConfirmDialog"
     />
   </v-container>
 </template>
 
 <script lang="ts">
+import { ValidationProvider, extend, setInteractionMode } from 'vee-validate'
 import { Component, Vue } from 'vue-property-decorator'
 import PolicyCard from '@/components/common/PolicyCard.vue'
 import InnUpdateSteppers from '@/components/inn/InnUpdateSteppers.vue'
 import WarningDialog from '@/components/common/WarningDialog.vue'
+import { LoginRule, UserInfoDTO } from '@/constants/app.interface'
+import PersonalRepository from '@/repositories/PersonalRepository'
+import { RegisterRule } from '@/constants/app.interface'
+import { required, email } from 'vee-validate/dist/rules'
+
+setInteractionMode('eager')
+
+extend('required', {
+  ...required,
+  message: 'Bạn không được để trống trường này',
+})
+
+extend('email', {
+  ...email,
+  message: 'Vui lòng nhập đúng email của bạn',
+})
 
 @Component<ProfileUpdate>({
   name: 'ProfileUpdate',
@@ -117,28 +166,84 @@ import WarningDialog from '@/components/common/WarningDialog.vue'
     PolicyCard,
     InnUpdateSteppers,
     WarningDialog,
+    ValidationProvider,
   },
-  layout: 'empty',
 })
 export default class ProfileUpdate extends Vue {
   private acceptPolicy: boolean = false
-  private openWarningDialog: boolean = false
+  private openConfirmDialog: boolean = false
+  private openCancelDialog: boolean = false
+  private userInfo: UserInfoDTO = {
+    name: '',
+    email: '',
+    zalo: '',
+    facebook: '',
+    phone: [],
+  }
+  private loadingUserInfo: boolean = false
+  private editable: boolean = true
+  $notify: any
 
-  public closeForm() {
-    this.openWarningDialog = true
+  private rules: any = {
+    name: { required: true },
+    email: { required: true, email: true },
   }
 
-  public acceptPolicyEvent() {
-    this.acceptPolicy = true
+  async created() {
+    await this.getUserInfo()
   }
 
-  public refuseWarningDialog() {
-    this.openWarningDialog = false
+  public async getUserInfo(): Promise<any> {
+    this.loadingUserInfo = true
+    await PersonalRepository.getUserInfo()
+      .then((response) => {
+        this.userInfo = response
+      })
+      .catch((error) => {
+        console.log('get user info: ', error)
+      })
+      .finally(() => {
+        this.loadingUserInfo = false
+      })
+  }
+
+  // public acceptPolicyEvent() {
+  //   this.acceptPolicy = true
+  // }
+
+  public refuseConfirmDialog() {
+    this.openConfirmDialog = false
+  }
+
+  public refuseCancelDialog() {
+    this.openCancelDialog = false
+  }
+
+  public async acceptCancelDialog() {
+    this.openCancelDialog = false
     this.$router.go(-1)
   }
 
-   public handleCancelClick() {
-    this.openWarningDialog = true
+  public async acceptConfirmDialog() {
+    await PersonalRepository.setUserInfo(this.userInfo).then((response) => {
+      this.$notify.showMessage({
+        message: 'Bạn đã cập nhật thông tin cá nhân thành công!',
+        color: 'success',
+      })
+      this.$router.go(-1)
+    })
+  }
+
+  public handleCancelClick() {
+    this.openCancelDialog = true
+  }
+
+  public handleSubmitClick() {
+    this.openConfirmDialog = true
+  }
+
+  public addMorePhone() {
+    this.userInfo.phone.push('')
   }
 }
 </script>

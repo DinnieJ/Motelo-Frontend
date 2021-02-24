@@ -170,6 +170,14 @@ export interface OwnerRegisterRule {
   }
 }
 
+export interface UserInfoDTO {
+  name: string,
+  email: string,
+  zalo: string,
+  facebook: string,
+  phone: Array<string>
+}
+
 export class RoomFilterDTO {
   public page: number
   public price: number[]
