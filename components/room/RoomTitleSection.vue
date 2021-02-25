@@ -11,10 +11,29 @@
     <v-col cols="2">
       <v-layout justify-end>
         <room-favor-btn
+          v-if="!forOwner"
           class="mr-4"
           :clickFavor="clickFavor"
           :favorite.sync="asyncFavorite"
         />
+        <v-btn
+          v-if="forOwner"
+          class="ml-5"
+          outlined
+          rounded
+          color="info"
+          :to="`/owner/requests/${roomId}/edit`"
+          >Sửa</v-btn
+        >
+        <v-btn
+          v-if="forOwner"
+          class="ml-5"
+          outlined
+          rounded
+          color="warning"
+          @click="clickDelete"
+          >Xóa</v-btn
+        >
       </v-layout>
     </v-col>
   </v-row>
@@ -37,6 +56,9 @@ export default class RoomTitleSection extends Vue {
   @Prop({ type: String }) readonly title!: string
   @Prop({ type: Function }) readonly clickFavor!: Function
   @PropSync('favorite') asyncFavorite!: boolean
+  @Prop({ type: Boolean, default: false }) readonly forOwner!: Function
+  @Prop({ type: Function }) readonly clickDelete!: Function
+  @Prop({ type: Number }) readonly roomId!: number
 }
 </script>
 

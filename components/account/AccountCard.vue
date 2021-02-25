@@ -1,5 +1,5 @@
 <template>
-  <v-layout column align-center>
+  <v-layout column align-center v-if="user">
     <v-avatar color="brown">
       <v-icon dark> mdi-account-circle </v-icon>
     </v-avatar>

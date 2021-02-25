@@ -1,10 +1,10 @@
 <template>
-  <v-card elevation="0" class="mb-4 room__card" >
+  <v-card elevation="0" class="mb-4 room__card">
     <v-row>
       <v-col cols="12" md="4">
         <v-img :src="room.imgLink" class="rounded" max-width="100%" />
       </v-col>
-      <v-col cols="8" md="6" class="pa-1" :to="`/rooms/${room.id}`">
+      <v-col cols="8" md="6" class="pa-1" @click="clickLink">
         <h4 class="mb-2">{{ room.title }}</h4>
         <v-row>
           <v-col sm="6" cols="12">
@@ -31,7 +31,7 @@
           </v-col>
           <v-col sm="6" cols="12" v-if="owner">
             <v-icon>mdi-lead-pencil</v-icon>
-            <span>Tạo mới</span>
+            <span>{{ room.requestType }}</span>
           </v-col>
           <v-col sm="6" cols="12" v-if="owner">
             <v-icon>mdi-marker-check</v-icon>
@@ -46,17 +46,17 @@
       <v-col md="2" cols="4" class="secondary--text text--center">
         <v-layout justify-end>
           <room-verify-icon v-if="room.verify" />
-          <v-btn v-if="owner" class="ml-5" outlined rounded color="info"
+          <v-btn v-if="owner" class="ml-5" outlined rounded color="info" :to="`/owner/requests/${room.id}/edit`"
             >Sửa</v-btn
           >
-          <v-btn v-if="owner" class="ml-5" outlined rounded color="warning"
+          <v-btn v-if="owner" class="ml-5" outlined rounded color="warning" @click="clickDelete(index)"
             >Xóa</v-btn
           >
           <room-favor-btn
             class="ml-5"
             :favorite.sync="favorite"
             :clickFavor="clickFavor"
-            v-else
+            v-if="!owner"
           />
         </v-layout>
         <v-layout column align-end justify-center class="mt-5">
@@ -88,10 +88,20 @@ import RoomRepository from '@/repositories/RoomRepository'
 })
 export default class RoomCard extends Vue {
   @Prop({ type: Boolean, default: false }) readonly owner!: boolean
-  @Prop({ required: true }) readonly room!: RoomCardDTO
+  @Prop({ type: Object, required: true }) readonly room!: RoomCardDTO
+  @Prop({ type: Function }) readonly clickDelete!: Function
+  @Prop({ type: Number }) readonly index!: Number
 
   private favorite: boolean = false
-  $notify: any;
+  $notify: any
+
+  public clickLink() {
+    if (this.owner) {
+      this.$router.push(`/owner/requests/${this.room.id}`)
+    } else {
+      this.$router.push(`/rooms/${this.room.id}`)
+    }
+  }
 
   public async clickFavor(event: Event) {
     event.preventDefault()
