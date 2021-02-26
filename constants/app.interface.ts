@@ -9,6 +9,7 @@ export interface NavLink {
 }
 
 export interface TextIcon {
+  id: number
   text: string
   icon: string
   code: string
@@ -103,21 +104,21 @@ export interface LoginRule {
 }
 
 export interface TenantRegisterDTO {
-  name: string,
-  email: string,
-  password: string,
-  repassword: string,
-  phone: string,
+  name: string
+  email: string
+  password: string
+  repassword: string
+  phone: string
   date_of_birth: string
 }
 
 export interface OwnerRegisterDTO {
-  name: string,
-  email: string,
-  password: string,
-  repassword: string,
-  address: string,
-  date_of_birth: string,
+  name: string
+  email: string
+  password: string
+  repassword: string
+  address: string
+  date_of_birth: string
   contact: Array<Object>
 }
 
@@ -125,18 +126,18 @@ export interface TenantRegisterRule {
   email: {
     required: boolean
     email: boolean
-  },
+  }
   password: {
     required: boolean
     min?: number
     max?: number
-  },
+  }
   repassword: {
-    required: boolean,
-    confirmed: string,
+    required: boolean
+    confirmed: string
   }
   name: {
-    required: boolean,
+    required: boolean
     regex: any
   }
   phone: {
@@ -151,18 +152,18 @@ export interface OwnerRegisterRule {
   email: {
     required: boolean
     email: boolean
-  },
+  }
   password: {
     required: boolean
     min?: number
     max?: number
-  },
+  }
   repassword: {
-    required: boolean,
-    confirmed: string,
+    required: boolean
+    confirmed: string
   }
   name: {
-    required: boolean,
+    required: boolean
     regex: any
   }
   date_of_birth: {
@@ -175,10 +176,10 @@ export interface OwnerRegisterRule {
 }
 
 export interface UserInfoDTO {
-  name: string,
-  email: string,
-  zalo: string,
-  facebook: string,
+  name: string
+  email: string
+  zalo: string
+  facebook: string
   phone: Array<string>
 }
 
@@ -226,6 +227,7 @@ export class RoomFilterDTO {
 }
 
 const NULL_ICON: TextIcon = {
+  id: -1,
   code: '',
   icon: '',
   text: '',
@@ -263,12 +265,12 @@ export class RoomDetailDTO {
       return
     }
     this.id = data.id
-    this.imgLinks = data.imgs || []
-    this.title = data.name
-    this.type = ROOM_TYPES.find((item) => item.code == data.room_type_id)
-    this.available = Boolean(data.available)
-    this.gender = GENDER.find((type) => type.code === data.gender)
-    this.area = data.acreage
+    this.imgLinks = data.imgs
+    this.title = data.title
+    this.type = ROOM_TYPES.find((type) => type.id === data.type)
+    this.available = data.available
+    this.gender = GENDER.find((gender) => gender.id === data.gender)
+    this.area = data.area
     this.capacity = {
       max: data.capacity_max || 0,
       min: data.capacity_min || 0,
@@ -328,11 +330,11 @@ export class InnProfileDTO {
   public amenities: TextIcon[] = []
   public security: TextIcon[] = []
   public open_time: {
-    open: number
-    close: number
+    open: string
+    close: string
   } = {
-    open: 0,
-    close: 0
+    open: '0',
+    close: '0',
   }
 
   public owner: {
@@ -346,7 +348,7 @@ export class InnProfileDTO {
     name: '',
     phones: [],
     facebook: '',
-    zalo: ''
+    zalo: '',
   }
 
   constructor(data?: any) {
@@ -361,14 +363,14 @@ export class InnProfileDTO {
     this.water = data.water_price
     this.wifi = data.wifi || 0
     this.amenities = AMEENITIES.filter((amenitie) => {
-      const found = data.features.find((item: any) => item.title === amenitie.code)
+      const found = data.amenities.find((item: any) => item === amenitie.id)
       if (found) {
         return true
       }
       return false
     })
     this.security = SECURITY.filter((amenitie) => {
-      const found = data.features.find((item: any) => item.title === amenitie.code)
+      const found = data.security.find((item: any) => item === amenitie.id)
       if (found) {
         return true
       }
