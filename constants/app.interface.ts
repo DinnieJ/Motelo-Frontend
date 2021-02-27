@@ -1,4 +1,5 @@
 import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY } from './app.constant'
+import { Contact } from '@/constants/app.constant'
 
 /* eslint-disable camelcase */
 export interface NavLink {
@@ -265,26 +266,43 @@ export class RoomDetailDTO {
       return
     }
     this.id = data.id
-    this.imgLinks = data.imgs
-    this.title = data.title
-    this.type = ROOM_TYPES.find((type) => type.id === data.type)
-    this.available = data.available
-    this.gender = GENDER.find((gender) => gender.id === data.gender)
-    this.area = data.area
+    // imgLinks
+    const imgs: Array<string> = [
+      '/imgs/anh_room.jpg',
+      '/imgs/anh_room.jpg',
+      '/imgs/anh_room.jpg',
+      '/imgs/anh_room.jpg',
+      '/imgs/anh_room.jpg',
+    ]
+    this.imgLinks = data.imgs || imgs // sau nay co imgs roi thì bỏ ||
+    this.title = data.name
+    this.type = ROOM_TYPES.find((type) => type.id === data.room_type_id)
+    this.available = Boolean(data.available)
+    this.gender = GENDER.find((gender) => gender.id === data.gender_type_id)
+    this.area = data.acreage
     this.capacity = {
       max: data.capacity_max || 0,
       min: data.capacity_min || 0,
     }
-    this.verify = Boolean(data.verify)
+    this.verify = Boolean(data.verified)
     this.favorite = Boolean(data.favorite)
     this.price = data.price
     this.eservation_fee = data.eservation_fee || 0
     this.description = data.description
-    this.accept_date = data.accept_date || ''
-
-    this.comments = data.comments
+    this.accept_date = data.created_at
+    // comment
+    const comments: Array<CommentDTO> = []
+    for (let comment of data.comments) {
+      comments.push({
+        id: comment.id,
+        account_id: comment.tenant_id,
+        name: comment.tenant_name,
+        context: comment.comment,
+      })
+    }
+    this.comments = comments
+    // inn
     this.inn = new InnProfileDTO(data.inn_detail)
-
     this.verfied_at = data.verfied_at || ''
   }
 
@@ -340,15 +358,17 @@ export class InnProfileDTO {
   public owner: {
     account_id: number
     name: string
+    emails: string[]
     phones: string[]
-    facebook: string
-    zalo: string
+    facebooks: string[]
+    zalos: string[]
   } = {
     account_id: 0,
     name: '',
+    emails: [],
     phones: [],
-    facebook: '',
-    zalo: '',
+    facebooks: [],
+    zalos: [],
   }
 
   constructor(data?: any) {
@@ -357,20 +377,29 @@ export class InnProfileDTO {
     }
     this.id = data.id
     this.imgLinks = data.imgs || []
-    this.name = data.name
+    this.name = data.inn_name
     this.address = data.address
     this.electric = data.electric_price
     this.water = data.water_price
     this.wifi = data.wifi || 0
-    this.amenities = AMEENITIES.filter((amenitie) => {
-      const found = data.amenities.find((item: any) => item === amenitie.id)
+    // features
+    let amenities: number[] = []
+    let security: number[] = []
+    for (let amenity of data.features) {
+      if (amenity <= 13) amenities.push(amenity)
+      else if (amenity <= 16) {
+        security.push(amenity)
+      }
+    }
+    this.amenities = AMEENITIES.filter((amenity) => {
+      const found = amenities.find((item: number) => item === amenity.id)
       if (found) {
         return true
       }
       return false
     })
-    this.security = SECURITY.filter((amenitie) => {
-      const found = data.security.find((item: any) => item === amenitie.id)
+    this.security = SECURITY.filter((amenity) => {
+      const found = security.find((item: number) => item === amenity.id)
       if (found) {
         return true
       }
@@ -380,12 +409,42 @@ export class InnProfileDTO {
       open: data.open_time,
       close: data.close_time,
     }
+    // onwer contact
+    let phones: string[] = []
+    let facebooks: string[] = []
+    let zalos: string[] = []
+    let emails: string[] = []
+    for (let contact of data.owner_contact) {
+      switch (contact.type) {
+        case Contact.EMAIL:
+          emails.push(contact.content)
+          break
+        case Contact.PHONE:
+          phones.push(contact.content)
+          break
+        case Contact.ZALO:
+          zalos.push(contact.content)
+          break
+        case Contact.FACEBOOK:
+          facebooks.push(contact.content)
+          break
+      }
+    }
     this.owner = {
       name: data.owner_name,
       account_id: data.owner_id,
-      phones: data.owner_contact.phones,
-      facebook: data.owner_contact.facebook,
-      zalo: data.owner_contact.zalo,
+      emails,
+      phones,
+      facebooks,
+      zalos,
     }
   }
+}
+
+export interface ContactDTO {
+  type: number
+  name: string
+  text: string
+  icon: string
+  link: boolean
 }

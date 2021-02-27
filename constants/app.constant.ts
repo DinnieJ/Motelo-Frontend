@@ -1,4 +1,4 @@
-import { NavLink, TextIcon } from './app.interface'
+import { ContactDTO, NavLink, TextIcon } from './app.interface'
 
 export const TOKEN_KEY = 'token'
 
@@ -213,3 +213,34 @@ export enum Contact {
   ZALO = 3,
   FACEBOOK = 4,
 }
+
+export const Contacts: ContactDTO[] = [
+  {
+    type: Contact.EMAIL,
+    name: 'emails',
+    text: 'Email',
+    icon: '/imgs/logo-mail.png',
+    link: true,
+  },
+  {
+    type: Contact.PHONE,
+    name: 'phones',
+    text: 'Số điện thoại',
+    icon: '/imgs/logo-phone.png',
+    link: false,
+  },
+  {
+    type: Contact.ZALO,
+    name: 'zalos',
+    text: 'Zalo',
+    icon: '/imgs/logo-zalo.jpg',
+    link: true,
+  },
+  {
+    type: Contact.FACEBOOK,
+    name: 'facebooks',
+    text: 'Facebook',
+    icon: '/imgs/logo-facebook.png',
+    link: true,
+  },
+]

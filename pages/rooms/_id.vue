@@ -15,8 +15,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import RoomDetailContainer from '@/components/room/RoomDetailContainer.vue'
 import RoomRepository from '@/repositories/RoomRepository'
 import { RoomDetailDTO, CommentDTO } from '@/constants/app.interface'
-import { convertDetailRoomDTO } from '@/converter/DetailRoom'
-import { ROOM_TYPES } from '@/constants/app.constant'
 
 // eslint-disable-next-line no-use-before-define
 @Component<DetailRoom>({
@@ -31,7 +29,7 @@ import { ROOM_TYPES } from '@/constants/app.constant'
       this.id = -1
     }
    
-    this.getRoomDetail()
+    await this.getRoomDetail()
   },
 })
 export default class DetailRoom extends Vue {
@@ -44,7 +42,8 @@ export default class DetailRoom extends Vue {
   public async getRoomDetail() {
     const id: string = this.$route.params.id
     await RoomRepository.getRoomDetail(id).then((repos) => {
-      this.room = new RoomDetailDTO(convertDetailRoomDTO(repos.data))
+      this.room = new RoomDetailDTO(repos.data)
+      // console.log('room = ', this.room.inn.owner);
       this.id = this.room.id
       this.favorite = this.room.favorite
       this.comments = this.room.comments
