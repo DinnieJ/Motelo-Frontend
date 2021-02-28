@@ -8,10 +8,12 @@
       <v-divider />
     </div>
     <div class="pa-1">
-        <div v-for="comment in asyncComments" :key="comment.id" class="mb-10">
-            <room-comment-card :comment="comment" />
-        </div>
+      <div v-if="loggedIn">
         <room-comment-input @add-comment="addComment" />
+      </div>
+      <div v-for="comment in asyncComments" :key="comment.id" class="mb-10">
+        <room-comment-card :comment="comment" />
+      </div>
     </div>
   </v-card>
 </template>
@@ -35,5 +37,9 @@ export default class RoomCommentSection extends Vue {
   @Prop({ type: Function }) readonly deleteComment!: Function
   @Prop({ type: Function }) readonly addComment!: Function
   @PropSync('comments') readonly asyncComments!: CommentDTO[]
+
+  get loggedIn(): boolean {
+    return !!this.$store.state.auth.user
+  }
 }
 </script>

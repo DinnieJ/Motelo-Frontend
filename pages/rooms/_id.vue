@@ -55,7 +55,7 @@ export default class DetailRoom extends Vue {
   public async addComment(comment: string) {
     await RoomRepository.addComment(comment)
       .then(repos => {
-        this.comments.push({
+        this.comments.unshift({
           id: this.comments.length + 1,
           account_id: 2,
           name: 'John Doe',
