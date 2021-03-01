@@ -59,12 +59,9 @@
               </p>
             </v-layout>
 
-            <room-owner-section
-              class="pa-2"
-              :name="room.inn.owner.name"
-              :phones="room.inn.owner.phones"
-              :facebook="room.inn.owner.facebook"
-              :zalo="room.inn.owner.zalo"
+            <room-owner-section 
+              class="pa-2" 
+              :owner="room.inn.owner"
             />
 
             <room-comment-section

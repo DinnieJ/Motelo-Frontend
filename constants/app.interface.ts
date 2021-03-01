@@ -1,4 +1,5 @@
 import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY } from './app.constant'
+import { Contact } from '@/constants/app.constant'
 
 /* eslint-disable camelcase */
 export interface NavLink {
@@ -9,6 +10,7 @@ export interface NavLink {
 }
 
 export interface TextIcon {
+  id: number
   text: string
   icon: string
   code: string
@@ -103,21 +105,21 @@ export interface LoginRule {
 }
 
 export interface TenantRegisterDTO {
-  name: string,
-  email: string,
-  password: string,
-  repassword: string,
-  phone: string,
+  name: string
+  email: string
+  password: string
+  repassword: string
+  phone: string
   date_of_birth: string
 }
 
 export interface OwnerRegisterDTO {
-  name: string,
-  email: string,
-  password: string,
-  repassword: string,
-  address: string,
-  date_of_birth: string,
+  name: string
+  email: string
+  password: string
+  repassword: string
+  address: string
+  date_of_birth: string
   contact: Array<Object>
 }
 
@@ -125,18 +127,18 @@ export interface TenantRegisterRule {
   email: {
     required: boolean
     email: boolean
-  },
+  }
   password: {
     required: boolean
     min?: number
     max?: number
-  },
+  }
   repassword: {
-    required: boolean,
-    confirmed: string,
+    required: boolean
+    confirmed: string
   }
   name: {
-    required: boolean,
+    required: boolean
     regex: any
   }
   phone: {
@@ -151,18 +153,18 @@ export interface OwnerRegisterRule {
   email: {
     required: boolean
     email: boolean
-  },
+  }
   password: {
     required: boolean
     min?: number
     max?: number
-  },
+  }
   repassword: {
-    required: boolean,
-    confirmed: string,
+    required: boolean
+    confirmed: string
   }
   name: {
-    required: boolean,
+    required: boolean
     regex: any
   }
   date_of_birth: {
@@ -175,10 +177,10 @@ export interface OwnerRegisterRule {
 }
 
 export interface UserInfoDTO {
-  name: string,
-  email: string,
-  zalo: string,
-  facebook: string,
+  name: string
+  email: string
+  zalo: string
+  facebook: string
   phone: Array<string>
 }
 
@@ -226,6 +228,7 @@ export class RoomFilterDTO {
 }
 
 const NULL_ICON: TextIcon = {
+  id: -1,
   code: '',
   icon: '',
   text: '',
@@ -263,26 +266,43 @@ export class RoomDetailDTO {
       return
     }
     this.id = data.id
-    this.imgLinks = data.imgs || []
+    // imgLinks
+    const imgs: Array<string> = [
+      '/imgs/anh_room.jpg',
+      '/imgs/anh_room.jpg',
+      '/imgs/anh_room.jpg',
+      '/imgs/anh_room.jpg',
+      '/imgs/anh_room.jpg',
+    ]
+    this.imgLinks = data.imgs || imgs // sau nay co imgs roi thì bỏ ||
     this.title = data.name
-    this.type = ROOM_TYPES.find((item) => item.code == data.room_type_id)
+    this.type = ROOM_TYPES.find((type) => type.id === data.room_type_id)
     this.available = Boolean(data.available)
-    this.gender = GENDER.find((type) => type.code === data.gender)
+    this.gender = GENDER.find((gender) => gender.id === data.gender_type_id)
     this.area = data.acreage
     this.capacity = {
       max: data.capacity_max || 0,
       min: data.capacity_min || 0,
     }
-    this.verify = Boolean(data.verify)
+    this.verify = Boolean(data.verified)
     this.favorite = Boolean(data.favorite)
     this.price = data.price
     this.eservation_fee = data.eservation_fee || 0
     this.description = data.description
-    this.accept_date = data.accept_date || ''
-
-    this.comments = data.comments
+    this.accept_date = data.created_at
+    // comment
+    const comments: Array<CommentDTO> = []
+    for (let comment of data.comments) {
+      comments.push({
+        id: comment.id,
+        account_id: comment.tenant_id,
+        name: comment.tenant_name,
+        context: comment.comment,
+      })
+    }
+    this.comments = comments
+    // inn
     this.inn = new InnProfileDTO(data.inn_detail)
-
     this.verfied_at = data.verfied_at || ''
   }
 
@@ -328,25 +348,27 @@ export class InnProfileDTO {
   public amenities: TextIcon[] = []
   public security: TextIcon[] = []
   public open_time: {
-    open: number
-    close: number
+    open: string
+    close: string
   } = {
-    open: 0,
-    close: 0
+    open: '0',
+    close: '0',
   }
 
   public owner: {
     account_id: number
     name: string
+    emails: string[]
     phones: string[]
-    facebook: string
-    zalo: string
+    facebooks: string[]
+    zalos: string[]
   } = {
     account_id: 0,
     name: '',
+    emails: [],
     phones: [],
-    facebook: '',
-    zalo: ''
+    facebooks: [],
+    zalos: [],
   }
 
   constructor(data?: any) {
@@ -355,20 +377,29 @@ export class InnProfileDTO {
     }
     this.id = data.id
     this.imgLinks = data.imgs || []
-    this.name = data.name
+    this.name = data.inn_name
     this.address = data.address
     this.electric = data.electric_price
     this.water = data.water_price
     this.wifi = data.wifi || 0
-    this.amenities = AMEENITIES.filter((amenitie) => {
-      const found = data.features.find((item: any) => item.title === amenitie.code)
+    // features
+    let amenities: number[] = []
+    let security: number[] = []
+    for (let amenity of data.features) {
+      if (amenity <= 13) amenities.push(amenity)
+      else if (amenity <= 16) {
+        security.push(amenity)
+      }
+    }
+    this.amenities = AMEENITIES.filter((amenity) => {
+      const found = amenities.find((item: number) => item === amenity.id)
       if (found) {
         return true
       }
       return false
     })
-    this.security = SECURITY.filter((amenitie) => {
-      const found = data.features.find((item: any) => item.title === amenitie.code)
+    this.security = SECURITY.filter((amenity) => {
+      const found = security.find((item: number) => item === amenity.id)
       if (found) {
         return true
       }
@@ -378,12 +409,42 @@ export class InnProfileDTO {
       open: data.open_time,
       close: data.close_time,
     }
+    // onwer contact
+    let phones: string[] = []
+    let facebooks: string[] = []
+    let zalos: string[] = []
+    let emails: string[] = []
+    for (let contact of data.owner_contact) {
+      switch (contact.type) {
+        case Contact.EMAIL:
+          emails.push(contact.content)
+          break
+        case Contact.PHONE:
+          phones.push(contact.content)
+          break
+        case Contact.ZALO:
+          zalos.push(contact.content)
+          break
+        case Contact.FACEBOOK:
+          facebooks.push(contact.content)
+          break
+      }
+    }
     this.owner = {
       name: data.owner_name,
       account_id: data.owner_id,
-      phones: data.owner_contact.phones,
-      facebook: data.owner_contact.facebook,
-      zalo: data.owner_contact.zalo,
+      emails,
+      phones,
+      facebooks,
+      zalos,
     }
   }
+}
+
+export interface ContactDTO {
+  type: number
+  name: string
+  text: string
+  icon: string
+  link: boolean
 }
