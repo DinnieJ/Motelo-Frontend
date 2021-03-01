@@ -52,12 +52,12 @@
           <v-btn v-if="owner" class="ml-5" outlined rounded color="warning" @click="clickDelete(index)"
             >Xóa</v-btn
           >
-          <room-favor-btn
-            class="ml-5"
-            :favorite.sync="favorite"
-            :clickFavor="clickFavor"
-            v-if="!owner"
-          />
+            <room-favor-btn
+              v-if="!owner && loggedIn"
+              class="ml-5"
+              :favorite.sync="favorite"
+              :clickFavor="clickFavor"
+            />
         </v-layout>
         <v-layout column align-end justify-center class="mt-5">
           <span class="text-h3 font-weight-bold">{{ room.millionPrice }}</span>
@@ -94,6 +94,10 @@ export default class RoomCard extends Vue {
 
   private favorite: boolean = false
   $notify: any
+
+  get loggedIn(): boolean {
+    return !!this.$store.state.auth.user
+  }
 
   public clickLink() {
     if (this.owner) {
