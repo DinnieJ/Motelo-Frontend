@@ -4,10 +4,9 @@
     name="comment"
     label="Thêm nhận xét"
     clearable
-    append-outer-icon="mdi-send"
     v-model="value"
-    @click:append-outer="addComment"
-  ></v-textarea>
+    ><v-icon slot="append-outer" :disabled="!value" @click="addComment">mdi-send</v-icon>
+  </v-textarea>
 </template>
 
 <script lang="ts">
@@ -23,7 +22,9 @@ export default class RoomCommentInput extends Vue {
   @Emit()
   public addComment(e: Event) {
     e.preventDefault()
-    return this.value
+    let comment: string = this.value
+    this.value = ''
+    return comment
   }
 }
 </script>
