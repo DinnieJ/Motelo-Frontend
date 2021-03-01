@@ -67,10 +67,14 @@ export default class RegisterForm extends Vue {
           this.$router.push('/register/complete')
         })
         .catch((error) => {
+          let message = 'Đăng kí gặp lỗi'
+          if (error && error.response) {
+            message = error.response.data
+          }
           this.$notify.showMessage({
-            message: error.response.data,
-            color: 'red',
-          })
+              message: message,
+              color: 'red',
+            })
         })
     }
   }

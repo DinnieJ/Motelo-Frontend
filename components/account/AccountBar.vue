@@ -13,9 +13,9 @@
           <account-card></account-card>
 
           <v-divider class="my-3"></v-divider>
-          <v-btn depressed rounded text> Cá nhân </v-btn>
+          <v-btn depressed rounded text to="/personal"> Cá nhân </v-btn>
           <v-divider class="my-3"></v-divider>
-          <v-btn depressed rounded text> Đăng xuất </v-btn>
+          <v-btn depressed rounded text @click="clickLogout"> Đăng xuất </v-btn>
         </div>
       </v-list-item-content>
     </v-card>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Emit } from 'vue-property-decorator'
 import AccountCard from './AccountCard.vue'
 
 // eslint-disable-next-line no-use-before-define
@@ -36,10 +36,10 @@ import AccountCard from './AccountCard.vue'
 })
 export default class AccountBar extends Vue {
   [x: string]: any
-  private user: object = {
-    initials: 'JD',
-    fullName: 'John Doe',
-    email: 'john.doe@doe.com',
+
+  @Emit()
+  public async clickLogout(event: Event) {
+    return true
   }
 }
 </script>

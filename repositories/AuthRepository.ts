@@ -41,4 +41,12 @@ export default class AuthRepository {
     })
   }
 
+  public static logoutTenant(): Promise<AxiosResponse<any>> {
+    return authenticatedService.post(`${Endpoint.AuthTenant}/logout`)
+  }
+
+  public static logoutOwner(): Promise<AxiosResponse<any>> {
+    return authenticatedService.post(`${Endpoint.AuthOwner}/logout`)
+  }
+
 }

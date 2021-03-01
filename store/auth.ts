@@ -1,6 +1,7 @@
 import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
 import { LoginDTO, TenantRegisterDTO } from '@/constants/app.interface'
 import { setTokenCookie, removeTokenCookie } from '@/utils/cookies'
+import { ROLE } from '@/constants/app.constant'
 import AuthRepository from '@/repositories/AuthRepository'
 
 export interface AuthState {
@@ -56,17 +57,26 @@ export const actions: AuthAction<AuthState, RootState> = {
             return false
         }
     },
-    // async logout({commit}) {
-    //     try {
-    //         await AuthRepository.logout()
-    //         commit(AuthMutation.SET_TOKEN, "")
-    //         commit(AuthMutation.SET_USER, null)
-    //         removeTokenCookie()
-    //         return true
-    //     } catch ( error ) {
-    //         return false
-    //     }
-    // },
+    async logout({commit, state}) {
+        try {
+            switch (state.role) {
+                case ROLE.TENANT:
+                    await AuthRepository.logoutTenant();
+                    break;
+                case ROLE.OWNER:
+                    await AuthRepository.logoutOwner();
+                    break;
+            }
+                
+            commit(AuthMutation.SET_TOKEN, "")
+            commit(AuthMutation.SET_USER, null)
+            commit(AuthMutation.SET_ROLE, ROLE.GUEST)
+            removeTokenCookie()
+            return true
+        } catch ( error ) {
+            return false
+        }
+    },
 
     clear({ commit }): void {
         commit(AuthMutation.SET_TOKEN, "")
