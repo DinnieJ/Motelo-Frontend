@@ -31,8 +31,8 @@
       </div>
       <v-divider class="my-3"></v-divider>
       <div>
-        <v-btn text color="primary" block> Cá nhân </v-btn>
-        <v-btn text color="primary" block> Đăng xuất </v-btn>
+        <v-btn text color="primary" block to="/personal"> Cá nhân </v-btn>
+        <v-btn text color="primary" block @click="clickLogout"> Đăng xuất </v-btn>
       </div>
     </v-navigation-drawer>
 
@@ -51,7 +51,7 @@
             {{ link.text }}
           </v-btn>
         </div>
-        <account-bar v-if="user"></account-bar>
+        <account-bar v-if="user" @click-logout="clickLogout"></account-bar>
       </v-container>
     </v-app-bar>
 
@@ -71,7 +71,7 @@ import AccountBar from '@/components/account/AccountBar.vue'
 import AccountCard from '@/components/account/AccountCard.vue'
 import Snackbar from '@/components/common/Snackbar.vue'
 import { mapGetters } from 'vuex'
-import { Getter } from '@/constants/app.vuex'
+import { Getter, DispatchAction } from '@/constants/app.vuex'
 
 // eslint-disable-next-line no-use-before-define
 @Component<Default>({
@@ -90,5 +90,18 @@ export default class Default extends Vue {
   private links: NavLink[] = NAV_LINKS
   private drawer: boolean = false
   private role: string = 'Guest'
+  $notify: any
+
+  public async clickLogout(e: Event) {
+    const logout = await this.$store.dispatch(DispatchAction.LOGOUT)
+    if (logout) {
+      this.$router.push('/')
+    } else {
+      this.$notify.showMessage({
+        message: 'Đăng xuất không thành công',
+        color: 'red',
+      })
+    }
+  }
 }
 </script>
