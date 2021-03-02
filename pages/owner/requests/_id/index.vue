@@ -52,7 +52,7 @@ export default class DetailRequest extends Vue {
   }
 
   public async addComment(comment: string) {
-    await RoomRepository.addComment(comment).then((repos) => {
+    await RoomRepository.addComment(1, comment).then((repos) => { // need fix
       this.comments.unshift({
         id: this.comments.length + 1,
         account_id: 2,

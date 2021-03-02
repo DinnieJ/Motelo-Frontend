@@ -67,6 +67,8 @@
             <room-comment-section
               :comments.sync="asyncComments"
               :addComment="addComment"
+              :editComment="editComment"
+              :deleteComment="deleteComment"
             />
           </v-sheet>
         </v-col>
