@@ -71,9 +71,25 @@ export default class RoomRepository {
     return authenticatedService.get(`${Endpoint.DetailRoom}/${roomId}`)
   }
 
-  public static addComment(value: string): Promise<any> {
-    return new Promise(function (resolve) {
-      setTimeout(resolve.bind(null, false), 1000)
+  public static addComment(room_id: number, comment: string): Promise<any> {
+    return authenticatedService.post(`${Endpoint.TenantComment}/add`, {
+      room_id,
+      comment,
+    })
+  }
+
+  public static editComment(id: number, comment: string): Promise<any> {
+    return authenticatedService.post(`${Endpoint.TenantComment}/update`, {
+      id,
+      comment,
+    })
+  }
+
+  public static deleteComment(comment_id: number): Promise<any> {
+    return authenticatedService.delete(`${Endpoint.TenantComment}/delete`, {
+      data: {
+        id: comment_id,
+      },
     })
   }
 

@@ -16,20 +16,26 @@
           </template>
 
           <v-layout column>
-            <v-btn text>Sửa</v-btn>
-            <v-btn text>Xóa</v-btn>
+            <v-btn text @click="enableEdit">Sửa</v-btn>
+            <v-btn text @click="deleteComment">Xóa</v-btn>
           </v-layout>
         </v-menu>
       </v-layout>
     </v-card-title>
     <v-card-text>
       <v-textarea
-        disabled
+        :disabled="!isEditing"
         outlined
-        :value="comment.context"
+        v-model="comment.context"
         clearable
-        :append-outer-icon=" isEditing ? 'mdi-send' : undefined"
       >
+        <v-icon
+          v-if="isEditing"
+          :disabled="!comment.context"
+          slot="append-outer"
+          @click="editComment"
+          >mdi-send</v-icon
+        >
       </v-textarea>
     </v-card-text>
   </v-card>
@@ -44,11 +50,28 @@ import { CommentDTO } from '@/constants/app.interface'
   // eslint-disable-next-line no-undef
 })
 export default class RoomCommentCard extends Vue {
-  @Prop({ type: Function }) readonly editComment!: Function
-  @Prop({ type: Function }) readonly deleteComment!: Function
   @Prop({ type: Boolean, default: false }) readonly editable!: Function
   @Prop({ type: Object }) readonly comment!: CommentDTO
 
   private isEditing: boolean = false
+
+  private enableEdit(): void {
+    this.isEditing = true
+  }
+
+  @Emit()
+  editComment() {
+    this.isEditing = false;
+    let data: { id: number; comment: string } = {
+      id: this.comment.id,
+      comment: this.comment.context,
+    }
+    return data
+  }
+
+  @Emit()
+  deleteComment() {
+    return this.comment.id
+  }
 }
 </script>
