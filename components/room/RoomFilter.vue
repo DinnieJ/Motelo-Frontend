@@ -14,7 +14,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header>
           <h5>
-            {{ `Giá: ${filter.price[0]}tr - ${filter.price[1]}tr` }}
+            {{ `Giá: ${filter.min_price}tr - ${filter.max_price}tr` }}
           </h5>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -34,13 +34,13 @@
         <v-expansion-panel-content class="filter__section">
           <v-layout
             v-for="amenitie in amenities"
-            :key="amenitie.code"
+            :key="amenitie.id"
             align-center
             class="filter__content"
           >
             <v-checkbox
               v-model="filter.amenities"
-              :value="amenitie.code"
+              :value="amenitie.id"
             ></v-checkbox>
             <v-icon small>{{ `mdi-${amenitie.icon}` }}</v-icon>
             <p class="filter__text">{{ amenitie.text }}</p>
@@ -54,12 +54,12 @@
         <v-expansion-panel-content class="filter__section">
           <v-layout
             v-for="type in roomTypes"
-            :key="type.code"
+            :key="type.id"
             class="filter__content"
           >
             <v-checkbox
-              v-model="filter.roomTypes"
-              :value="type.code"
+              v-model="filter.room_type"
+              :value="type.id"
             ></v-checkbox>
             <v-icon small>{{ `mdi-${type.icon}` }}</v-icon>
             <p class="filter__text">{{ type.text }}</p>
@@ -73,12 +73,12 @@
         <v-expansion-panel-content class="filter__section">
           <v-layout
             v-for="gender in genders"
-            :key="gender.code"
+            :key="gender.id"
             class="filter__content"
           >
             <v-checkbox
-              v-model="filter.genders"
-              :value="gender.code"
+              v-model="filter.gender"
+              :value="gender.id"
             ></v-checkbox>
             <v-icon small>{{ `mdi-${gender.icon}` }}</v-icon>
             <p class="filter__text">{{ gender.text }}</p>

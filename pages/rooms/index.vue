@@ -102,9 +102,6 @@ declare module 'vue/types/vue' {
   async created() {
     const query = this.$route.query
     this.filterValue.update = query
-    if (!this.filterValue.price.length) {
-      this.filterValue.price = [PRICE_FILTER.MIN, PRICE_FILTER.MAX]
-    }
     await this.getRoomByFilter()
   },
 })
@@ -127,6 +124,7 @@ export default class List extends Vue {
   private roomCardObjs: RoomCardDTO[] = []
 
   private totalPage: number = 20
+  private page: number = 1
   private filterValue: RoomFilterDTO = new RoomFilterDTO()
 
   public async clickFilter() {
@@ -137,7 +135,11 @@ export default class List extends Vue {
     this.loading = true
     await RoomRepository.getRoomsByFilter(this.filterValue)
       .then((response) => {
-        this.roomCardObjs = response.map((item: any) => new RoomCardDTO(item))
+        let rooms: any = response.data.data
+        this.roomCardObjs = rooms.map(function(item:any) {
+          return new RoomCardDTO(item)
+        })
+        this.totalPage = response.data.total_page
       })
       .catch((error) => {
         console.log('getRoomByFilter', error)

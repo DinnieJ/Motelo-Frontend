@@ -1,4 +1,6 @@
 import { RoomFilterDTO } from '@/constants/app.interface'
+import { Endpoint } from '~/constants/app.endpoint'
+import { authenticatedService } from './BaseRepository'
 
 export default class RoomRepository {
   public static getAllRooms(): Promise<any> {
@@ -9,10 +11,10 @@ export default class RoomRepository {
         id: `${i}`,
         img: '/imgs/anh_room.jpg',
         title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-        type: 'room',
+        room_type: 1,
         available: true,
-        gender: 'both',
-        area: 40,
+        gender: 1,
+        acreage: 40,
         capacity_min: 2,
         capacity_max: 3,
         address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
@@ -28,29 +30,7 @@ export default class RoomRepository {
   }
 
   public static getRoomsByFilter(filter: RoomFilterDTO): Promise<any> {
-    const data: Object[] = []
-
-    for (let i = 0; i < 7; i++) {
-      data.push({
-        id: `${i}`,
-        img: '/imgs/anh_room.jpg',
-        title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-        type: 'room',
-        available: true,
-        gender: 'both',
-        area: 40,
-        capacity_min: 2,
-        capacity_max: 3,
-        address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
-        verify: true,
-        favorite: false,
-        price: 6500000,
-      })
-    }
-
-    return new Promise(function (resolve) {
-      setTimeout(resolve.bind(null, data), 1000)
-    })
+    return authenticatedService.get(`${Endpoint.Room}/list`)
   }
 
   public static favorRoom(roomId: any): Promise<any> {
@@ -201,10 +181,10 @@ export default class RoomRepository {
         id: `${i}`,
         img: '/imgs/anh_room.jpg',
         title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-        type: 'room',
+        room_type: 1,
         available: true,
-        gender: 'both',
-        area: 40,
+        gender: 1,
+        acreage: 40,
         capacity_min: 2,
         capacity_max: 3,
         address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',

@@ -9,6 +9,7 @@ export interface NavLink {
 }
 
 export interface TextIcon {
+  id: number
   text: string
   icon: string
   code: string
@@ -21,39 +22,41 @@ export interface BreadcrumbLink {
 }
 
 export class RoomCardDTO {
-  public id: string
-  public imgLink: string
-  public title: string
-  public type: TextIcon | undefined
-  public available: boolean
-  public gender: TextIcon | undefined
-  public area: number
-  public capacity: {
+  id: string
+  imgLink: string
+  title: string
+  type: TextIcon | undefined
+  available: boolean
+  gender: TextIcon | undefined
+  area: number
+  capacity: {
     max: number
     min: number
   }
 
-  public address: string
-  public verify: boolean
-  public favorite: boolean
-  public price: number
+  address: string
+  verify: boolean
+  favorite: boolean
+  price: number
+  inn_name: string
 
   constructor(data: any) {
     this.id = data.id
-    this.title = data.title
-    this.type = ROOM_TYPES.find((type) => type.code === data.type)
+    this.title = data.name
+    this.type = ROOM_TYPES.find((type) => type.id === data.room_type)
     this.available = data.available
-    this.gender = GENDER.find((type) => type.code === data.gender)
-    this.area = data.area
+    this.gender = GENDER.find((type) => type.id === data.gender)
+    this.area = data.acreage
     this.capacity = {
-      max: data.capacity_max,
-      min: data.capacity_min,
+      max: data.capacity_max || 3,
+      min: data.capacity_min || 2,
     }
     this.address = data.address
-    this.verify = data.verify
-    this.favorite = data.favorite
+    this.verify = data.verified
+    this.favorite = data.favorite || false
     this.price = data.price
-    this.imgLink = data.img
+    this.imgLink = data.img || '/imgs/anh_room.jpg'
+    this.inn_name = data.inn_name
   }
 
   public get millionPrice(): string {
@@ -184,17 +187,23 @@ export interface UserInfoDTO {
 
 export class RoomFilterDTO {
   public page: number
+  public keyword: string
   public price: number[]
+  public min_price: number
+  public max_price: number
   public amenities: string[]
-  public genders: string[]
-  public roomTypes: string[]
+  public gender: number
+  public room_type: number[]
 
   constructor() {
     this.page = 1
-    this.price = []
+    this.keyword = ''
+    this.min_price = 0
+    this.max_price = 6
+    this.price = [this.min_price, this.max_price]
     this.amenities = []
-    this.genders = []
-    this.roomTypes = []
+    this.gender = 1
+    this.room_type = []
   }
 
   set update(value: any) {
@@ -203,29 +212,46 @@ export class RoomFilterDTO {
         this.page = parseInt(value.page)
       } catch (e) {}
     }
-    if (value.price && value.price.length == 2) {
+    if (value.min_price) {
       try {
-        this.price[0] = parseInt(value.price[0])
-        this.price[1] = parseInt(value.price[1])
+        this.min_price = parseInt(value.min_price)
+      } catch (e) {}
+    }
+    if (value.max_price) {
+      try {
+        this.page = parseInt(value.max_price)
+      } catch (e) {}
+    }
+    if(value.price && value.price.length == 2) {
+      try {
+        this.min_price = parseInt(value.price[0])
+        this.max_price = parseInt(value.price[1])
+      } catch(e) {}
+    }
+    if (value.gender) {
+      try {
+        this.page = parseInt(value.gender)
       } catch (e) {}
     }
     if (value.amenities) this.amenities = value.amenities
-    if (value.genders) this.genders = value.genders
-    if (value.roomTypes) this.roomTypes = value.roomTypes
+    if (value.roomTypes) this.room_type = value.room_type
   }
 
   get toOject(): any {
     return {
       page: this.page,
-      price: this.price,
-      amenities: this.amenities,
-      genders: this.genders,
-      roomTypes: this.roomTypes,
+      keyword: this.keyword,
+      min_price: this.min_price,
+      max_price: this.max_price,
+      features: this.amenities.join(','),
+      gender: this.gender,
+      room_type: this.room_type.join(','),
     }
   }
 }
 
 const NULL_ICON: TextIcon = {
+  id: -1,
   code: '',
   icon: '',
   text: '',
@@ -265,9 +291,9 @@ export class RoomDetailDTO {
     this.id = data.id
     this.imgLinks = data.imgs || []
     this.title = data.name
-    this.type = ROOM_TYPES.find((item) => item.code == data.room_type_id)
+    this.type = ROOM_TYPES.find((item) => item.id == data.room_type)
     this.available = Boolean(data.available)
-    this.gender = GENDER.find((type) => type.code === data.gender)
+    this.gender = GENDER.find((type) => type.id == data.gender)
     this.area = data.acreage
     this.capacity = {
       max: data.capacity_max || 0,
