@@ -61,10 +61,7 @@
 
             <room-owner-section 
               class="pa-2" 
-              :name="room.inn.owner.name"
-              :phones="room.inn.owner.phones"
-              :facebook="room.inn.owner.facebook"
-              :zalo="room.inn.owner.zalo"
+              :owner="room.inn.owner"
             />
 
             <room-comment-section
@@ -80,7 +77,11 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
-import { BreadcrumbLink, RoomDetailDTO, CommentDTO } from '@/constants/app.interface'
+import {
+  BreadcrumbLink,
+  RoomDetailDTO,
+  CommentDTO,
+} from '@/constants/app.interface'
 
 import SmallMap from '@/components/map/SmallMap.vue'
 

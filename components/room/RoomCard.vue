@@ -101,6 +101,10 @@ export default class RoomCard extends Vue {
   private loadingFavorite = false
   $notify: any
 
+  get loggedIn(): boolean {
+    return !!this.$store.state.auth.user
+  }
+
   public clickLink() {
     if (this.owner) {
       this.$router.push(`/owner/requests/${this.room.id}`)

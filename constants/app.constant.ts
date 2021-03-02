@@ -1,4 +1,4 @@
-import { NavLink, TextIcon } from './app.interface'
+import { ContactDTO, NavLink, TextIcon } from './app.interface'
 
 export const TOKEN_KEY = 'token'
 
@@ -65,100 +65,121 @@ export const NAV_LINKS: NavLink[] = [
 
 export const AMEENITIES: TextIcon[] = [
   {
-    id:1,
+    id: 1,
     text: 'Wifi',
     icon: 'wifi',
     code: 'wifi',
   },
   {
-    id:2,
+    id: 2,
     text: 'WC riêng',
     icon: 'toilet',
     code: 'toilet',
   },
   {
-    id:3,
+    id: 3,
     text: 'Bình nóng lạnh',
     icon: 'water-boiler',
     code: 'heater',
   },
   {
-    id:4,
+    id: 4,
     text: 'Điều hòa',
     icon: 'air-conditioner',
     code: 'air_conditioner',
   },
   {
-    id:5,
+    id: 5,
     text: 'Nhà bếp',
     icon: 'pot-steam',
     code: 'kitchen',
   },
   {
-    id:6,
+    id: 6,
     text: 'Tủ lạnh',
     icon: 'fridge',
     code: 'fridge',
   },
   {
-    id:7,
+    id: 7,
     text: 'Chỗ để xe',
     icon: 'motorbike',
     code: 'parking',
   },
   {
-    id:8,
+    id: 8,
     text: 'Giờ giới nghiêm',
     icon: 'clock-alert',
     code: 'curfew',
   },
   {
-    id:9,
+    id: 9,
     text: 'Chủ riêng',
     icon: 'account-key',
     code: 'independence',
   },
   {
-    id:10,
+    id: 10,
     text: 'Máy giặt',
     icon: 'washing-machine',
     code: 'washing_machine',
   },
   {
-    id:11,
+    id: 11,
     text: 'Thú nuôi',
     icon: 'paw',
     code: 'pet',
   },
   {
-    id:12,
+    id: 12,
     text: 'Gác lửng',
     icon: 'home-floor-2',
     code: '2_floors',
   },
   {
-    id:13,
+    id: 13,
     text: 'Tủ đồ',
     icon: 'treasure-chest',
     code: 'cabinet',
   },
 ]
 
+export const SECURITY: TextIcon[] = [
+  {
+    id: 14,
+    text: 'Camera',
+    code: 'camera',
+    icon: 'cctv',
+  },
+  {
+    id: 15,
+    text: 'Khóa vân tay',
+    code: 'fingerprint',
+    icon: 'fingerprint',
+  },
+  {
+    id: 16,
+    text: 'Người bảo vệ',
+    code: 'guard',
+    icon: 'shield-account',
+  },
+]
+
 export const ROOM_TYPES: TextIcon[] = [
   {
-    id:1,
+    id: 1,
     text: 'Phòng cho thuê',
     code: 'room',
     icon: 'home-group',
   },
   {
-    id:2,
+    id: 2,
     text: 'Nhà nguyên căn',
     code: 'house',
     icon: 'home-modern',
   },
   {
-    id:3,
+    id: 3,
     text: 'Chung cư',
     code: 'apartment',
     icon: 'office-building',
@@ -167,42 +188,59 @@ export const ROOM_TYPES: TextIcon[] = [
 
 export const GENDER: TextIcon[] = [
   {
-    id:1,
+    id: 1,
     text: 'Nam & Nữ',
     icon: 'human-male-female',
     code: 'both',
   },
   {
-    id:2,
+    id: 2,
     text: 'Nam',
     icon: 'google-street-view',
     code: 'man',
   },
   {
-    id:3,
+    id: 3,
     text: 'Nữ',
     icon: 'human-female',
     code: 'woman',
   },
 ]
 
-export const SECURITY: TextIcon[] = [
+export enum Contact {
+  EMAIL = 1,
+  PHONE = 2,
+  ZALO = 3,
+  FACEBOOK = 4,
+}
+
+export const Contacts: ContactDTO[] = [
   {
-    id:14,
-    text: 'Camera',
-    code: 'camera',
-    icon: 'cctv',
+    type: Contact.EMAIL,
+    name: 'emails',
+    text: 'Email',
+    icon: '/imgs/logo-mail.png',
+    link: true,
   },
   {
-    id:15,
-    text: 'Khóa vân tay',
-    code: 'fingerprint',
-    icon: 'fingerprint',
+    type: Contact.PHONE,
+    name: 'phones',
+    text: 'Số điện thoại',
+    icon: '/imgs/logo-phone.png',
+    link: false,
   },
   {
-    id:16,
-    text: 'Người bảo vệ',
-    code: 'guard',
-    icon: 'shield-account',
+    type: Contact.ZALO,
+    name: 'zalos',
+    text: 'Zalo',
+    icon: '/imgs/logo-zalo.jpg',
+    link: true,
+  },
+  {
+    type: Contact.FACEBOOK,
+    name: 'facebooks',
+    text: 'Facebook',
+    icon: '/imgs/logo-facebook.png',
+    link: true,
   },
 ]

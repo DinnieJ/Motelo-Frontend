@@ -10,12 +10,12 @@
     </v-col>
     <v-col cols="2">
       <v-layout justify-end>
-        <room-favor-btn
-          v-if="!forOwner"
-          class="mr-4"
-          :clickFavor="clickFavor"
-          :favorite.sync="asyncFavorite"
-        />
+          <room-favor-btn
+            v-if="!forOwner && loggedIn"
+            class="mr-4"
+            :clickFavor="clickFavor"
+            :favorite.sync="asyncFavorite"
+          />
         <v-btn
           v-if="forOwner"
           class="ml-5"
@@ -59,6 +59,10 @@ export default class RoomTitleSection extends Vue {
   @Prop({ type: Boolean, default: false }) readonly forOwner!: Function
   @Prop({ type: Function }) readonly clickDelete!: Function
   @Prop({ type: Number }) readonly roomId!: number
+
+  get loggedIn(): boolean {
+    return !!this.$store.state.auth.user
+  }
 }
 </script>
 

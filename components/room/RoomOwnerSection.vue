@@ -9,58 +9,55 @@
       </v-layout>
       <v-divider />
     </div>
-    <div class="mt-2">
-      <v-layout class="mb-4">
-        <v-img src="/imgs/logo-name.png" max-width="32" max-height="32"></v-img>
-        <p class="ml-6">{{ name }}</p>
-      </v-layout>
-      <v-layout class="mb-4" v-for="(phone, index) in phones" :key="index">
-        <v-img
-          src="/imgs/logo-phone.png"
-          max-width="32"
-          max-height="32"
-        ></v-img>
-        <p class="ml-6">{{ phone }}</p>
-      </v-layout>
-      <v-layout class="mb-4" v-if="facebook">
-        <v-img
-          src="/imgs/logo-facebook.png"
-          max-width="32"
-          max-height="32"
-        ></v-img>
-        <a
-          class="ml-6"
-          :href="facebook"
-          target="_blank"
-          rel="noopener noreferrer"
-          >{{facebook}}</a
-        >
-      </v-layout>
-      <v-layout class="mb-4" v-if="zalo">
-        <v-img src="/imgs/logo-zalo.jpg" max-width="32" max-height="32"></v-img>
-        <a
-          class="ml-6"
-          :href="zalo"
-          target="_blank"
-          rel="noopener noreferrer"
-          >{{ zalo }}</a
-        >
-      </v-layout>
+    <v-layout class="mb-4">
+      <v-img src="/imgs/logo-name.png" max-width="32" max-height="32"></v-img>
+      <p class="ml-6">{{ owner.name }}</p>
+    </v-layout>
+    <div v-for="contact in contacts" :key="contact.type">
+      <div v-if="owner[contact.name].length">
+        <v-layout class="mb-4" v-for="item in owner[contact.name]" :key="item">
+          <v-img :src="contact.icon" max-width="32" max-height="32"></v-img>
+          <a
+            v-if="contact.link"
+            class="ml-6"
+            :href="preLink(contact.type) + item"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ item }}</a
+          >
+          <div v-else class="ml-6">{{ item }}</div>
+        </v-layout>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Contacts, Contact } from '@/constants/app.constant'
+import { ContactDTO } from '~/constants/app.interface'
 
 @Component<RoomOwnerSection>({
   name: 'RoomOwnerSection',
   // eslint-disable-next-line no-undef
 })
 export default class RoomOwnerSection extends Vue {
-  @Prop({type: String}) readonly name!: string
-  @Prop({type: Array}) readonly phones!: string[]
-  @Prop({type: String}) readonly facebook!: string
-  @Prop({type: String}) readonly zalo!: string
+  @Prop({ type: Object }) readonly owner!: Object
+  private get contacts(): ContactDTO[] {
+    return Contacts
+  }
+
+  private preLink(type: number): string {
+    let pre: string = ''
+    switch (type) {
+      case Contact.EMAIL:
+        pre = 'mailto:'
+        break
+      case Contact.ZALO:
+        pre = 'https://zalo.me/'
+        break
+    }
+    return pre
+  }
 }
 </script>
