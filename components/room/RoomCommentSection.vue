@@ -12,7 +12,12 @@
         <room-comment-input @add-comment="addComment" />
       </div>
       <div v-for="comment in asyncComments" :key="comment.id" class="mb-10">
-        <room-comment-card :comment="comment" />
+        <room-comment-card
+          :comment="comment"
+          :editable="loggedIn && comment.account_id === user.id"
+          @edit-comment="editComment"
+          @delete-comment="deleteComment"
+        />
       </div>
     </div>
   </v-card>
@@ -23,6 +28,8 @@ import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
 import { CommentDTO } from '@/constants/app.interface'
 import RoomCommentCard from './RoomCommentCard.vue'
 import RoomCommentInput from './RoomCommentInput.vue'
+import { mapGetters } from 'vuex'
+import { Getter } from '@/constants/app.vuex'
 
 @Component<RoomCommentSection>({
   name: 'RoomCommentSection',
@@ -30,6 +37,11 @@ import RoomCommentInput from './RoomCommentInput.vue'
   components: {
     RoomCommentInput,
     RoomCommentCard,
+  },
+  computed: {
+    ...mapGetters({
+      user: Getter.USER,
+    }),
   },
 })
 export default class RoomCommentSection extends Vue {
