@@ -14,7 +14,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header>
           <h5>
-            {{ `Giá: ${filter.min_price}tr - ${filter.max_price}tr` }}
+            {{ `Giá: ${filter.price[0]}tr - ${filter.price[1]}tr` }}
           </h5>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -119,5 +119,9 @@ export default class RoomFilter extends Vue {
   @Prop({ default: false, type: Boolean }) readonly sm!: boolean
   @Prop({ type: Function, required: true }) readonly submit!: Function
   @VModel({ type: Object }) filter!: RoomFilterDTO
+
+  public checkTick(needle: any, arr: Array<any>) {
+    return arr.includes(needle)
+  }
 }
 </script>

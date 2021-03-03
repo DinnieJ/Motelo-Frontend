@@ -192,22 +192,23 @@ export class RoomFilterDTO {
   public price: number[]
   public min_price: number
   public max_price: number
-  public amenities: string[]
-  public gender: number
-  public room_type: number[]
+  public amenities: any[]
+  public gender: any
+  public room_type: any[]
 
   constructor() {
     this.page = 1
     this.keyword = ''
     this.min_price = 0
     this.max_price = 6
-    this.price = [this.min_price, this.max_price]
+    this.price = [0,6]
     this.amenities = []
-    this.gender = 1
+    this.gender = null
     this.room_type = []
   }
 
   set update(value: any) {
+    if(value.keyword) this.keyword = value.keyword
     if (value.page) {
       try {
         this.page = parseInt(value.page)
@@ -216,34 +217,31 @@ export class RoomFilterDTO {
     if (value.min_price) {
       try {
         this.min_price = parseInt(value.min_price)
+        this.price[0] = this.min_price
       } catch (e) {}
     }
     if (value.max_price) {
       try {
-        this.page = parseInt(value.max_price)
+        this.max_price = parseInt(value.max_price)
+        this.price[1] = this.max_price
       } catch (e) {}
-    }
-    if(value.price && value.price.length == 2) {
-      try {
-        this.min_price = parseInt(value.price[0])
-        this.max_price = parseInt(value.price[1])
-      } catch(e) {}
     }
     if (value.gender) {
       try {
-        this.page = parseInt(value.gender)
+        this.gender = parseInt(value.gender)
       } catch (e) {}
     }
-    if (value.amenities) this.amenities = value.amenities
-    if (value.roomTypes) this.room_type = value.room_type
+    if (value.features) this.amenities = [...new Set(value.features.split(','))]
+    if (value.room_type) this.room_type = [...new Set(value.room_type.split(','))]
+    console.log(value.features)
   }
 
-  get toOject(): any {
+  get toObject(): any {
     return {
       page: this.page,
       keyword: this.keyword,
-      min_price: this.min_price,
-      max_price: this.max_price,
+      min_price: this.price[0],
+      max_price: this.price[1],
       features: this.amenities.join(','),
       gender: this.gender,
       room_type: this.room_type.join(','),

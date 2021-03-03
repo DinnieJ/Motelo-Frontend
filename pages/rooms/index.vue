@@ -99,7 +99,7 @@ declare module 'vue/types/vue' {
     SearchAddress,
     BigMap,
   },
-  async created() {
+  async mounted() {
     const query = this.$route.query
     this.filterValue.update = query
     await this.getRoomByFilter()
@@ -123,8 +123,7 @@ export default class List extends Vue {
 
   private roomCardObjs: RoomCardDTO[] = []
 
-  private totalPage: number = 20
-  private page: number = 1
+  private totalPage: number = 1
   private filterValue: RoomFilterDTO = new RoomFilterDTO()
 
   public async clickFilter() {
@@ -146,7 +145,7 @@ export default class List extends Vue {
       })
       .finally(() => {
         this.loading = false
-        this.$router.push({ query: this.filterValue.toOject })
+        this.$router.push({path:'/rooms',  query: this.filterValue.toObject })
       })
   }
 }

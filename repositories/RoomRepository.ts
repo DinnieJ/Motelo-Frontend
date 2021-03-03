@@ -30,7 +30,19 @@ export default class RoomRepository {
   }
 
   public static getRoomsByFilter(filter: RoomFilterDTO): Promise<any> {
-    return authenticatedService.get(`${Endpoint.Room}/list`)
+    let params = {
+      page: filter.toObject.page,
+      keyword: filter.toObject.keyword,
+      min_price: filter.toObject.min_price,
+      max_price: filter.toObject.max_price,
+      gender: filter.toObject.gender,
+    }
+    let filterObj = filter.toObject;
+    console.log('repo', filterObj)
+    if(filterObj.features) Object.assign( params, { features: filterObj.features})
+    if(filterObj.room_type) Object.assign( params, { room_type: filterObj.room_type})
+
+    return authenticatedService.get(`${Endpoint.Room}/list`, { params: params})
   }
 
   public static favorRoom(roomId: any): Promise<any> {

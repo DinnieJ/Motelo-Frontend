@@ -1,15 +1,4 @@
 <template>
-  <v-text-field
-    dense
-    solo
-    hide-details
-    placeholder="Search"
-    rounded
-    append-icon="mdi-magnify"
-    class="my-3"
-    clearable
-    color="primary"
-  ></v-text-field>
 </template>
 
 <script lang="ts">
