@@ -61,7 +61,7 @@
             :favorite.sync="favorite"
             :loading.sync="loadingFavorite"
             :clickFavor="clickFavor"
-            v-if="!owner"
+            v-if="!owner && loggedIn"
           />
         </v-layout>
         <v-layout column align-end justify-center class="mt-5">

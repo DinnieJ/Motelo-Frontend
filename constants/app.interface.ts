@@ -233,7 +233,6 @@ export class RoomFilterDTO {
     }
     if (value.features) this.amenities = [...new Set(value.features.split(','))]
     if (value.room_type) this.room_type = [...new Set(value.room_type.split(','))]
-    console.log(value.features)
   }
 
   get toObject(): any {

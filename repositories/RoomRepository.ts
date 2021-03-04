@@ -38,7 +38,6 @@ export default class RoomRepository {
       gender: filter.toObject.gender,
     }
     let filterObj = filter.toObject;
-    console.log('repo', filterObj)
     if(filterObj.features) Object.assign( params, { features: filterObj.features})
     if(filterObj.room_type) Object.assign( params, { room_type: filterObj.room_type})
 
