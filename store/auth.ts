@@ -1,7 +1,6 @@
 import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
 import { LoginDTO, TenantRegisterDTO } from '@/constants/app.interface'
-import { setTokenCookie, removeTokenCookie } from '@/utils/cookies'
-import { ROLE } from '@/constants/app.constant'
+import { ROLE, COOKIES } from '@/constants/app.constant'
 import AuthRepository from '@/repositories/AuthRepository'
 
 export interface AuthState {
@@ -18,14 +17,14 @@ export enum AuthMutation {
 
 export interface AuthAction<S, R> extends ActionTree<S, R> {
     login(context: ActionContext<S, R>, loginInfo: LoginDTO): Promise<any>
-    // logout(context: ActionContext<S, R>): Promise<any>
+    logout(context: ActionContext<S, R>): Promise<any>
     clear(context: ActionContext<S, R>): void
 }
 
 export const state = (): AuthState => ({
     token: "",
     user: null,
-    role: ""
+    role: ROLE.GUEST,
 })
 
 export type RootState = ReturnType<typeof state>
@@ -33,7 +32,7 @@ export type RootState = ReturnType<typeof state>
 export const getters: GetterTree<RootState, RootState> = {
     token: state => state.token,
     user: state => state.user,
-    role: state => state.role
+    role: state => state.role,
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -48,10 +47,23 @@ export const actions: AuthAction<AuthState, RootState> = {
     async login({ commit }, loginInfo): Promise<any> {
         try {
             const { data } = await AuthRepository.login(loginInfo);
+
             commit(AuthMutation.SET_TOKEN, data.token)
             commit(AuthMutation.SET_USER, data.user)
             commit(AuthMutation.SET_ROLE, data.role)
-            setTokenCookie(data.token)
+    
+            const options = {
+                path: '/',
+                maxAge: 60*60*24, // cookies live in 1 day
+                sameSite: true,
+            }
+            const cookieList = [
+                { name: COOKIES.TOKEN, value: data.token, opts: options },
+                { name: COOKIES.ROLE, value: data.role, opts: options },
+              ]
+            const cookies: any = this.$cookies
+            cookies.setAll(cookieList);
+
             return data
         } catch (error) {
             return false
@@ -71,7 +83,11 @@ export const actions: AuthAction<AuthState, RootState> = {
             commit(AuthMutation.SET_TOKEN, "")
             commit(AuthMutation.SET_USER, null)
             commit(AuthMutation.SET_ROLE, ROLE.GUEST)
-            removeTokenCookie()
+            
+            const cookies: any = this.$cookies
+            cookies.remove(COOKIES.TOKEN);
+            cookies.remove(COOKIES.ROLE);
+
             return true
         } catch ( error ) {
             return false
@@ -81,6 +97,8 @@ export const actions: AuthAction<AuthState, RootState> = {
     clear({ commit }): void {
         commit(AuthMutation.SET_TOKEN, "")
         commit(AuthMutation.SET_USER, null)
-        removeTokenCookie()
+        const cookies: any = this.$cookies
+        cookies.remove(COOKIES.TOKEN);
+        cookies.remove(COOKIES.ROLE);
     }
 }

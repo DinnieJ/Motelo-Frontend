@@ -1,6 +1,10 @@
 import { ContactDTO, NavLink, TextIcon } from './app.interface'
 
-export const TOKEN_KEY = 'token'
+export const COOKIES = {
+  ROLE: 'role',
+  USER: 'user',
+  TOKEN: 'token',
+}
 
 export const PRICE_FILTER = {
   MAX: 6,

@@ -20,5 +20,6 @@ export enum MutationState {
 
 export enum Getter {
     // Vuex getter tree constant
-    USER = "auth/user"
+    USER = "auth/user",
+    ROLE = "auth/role",
 }
