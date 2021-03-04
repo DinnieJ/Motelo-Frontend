@@ -2,7 +2,7 @@ import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
 import { COOKIES, ROLE } from '@/constants/app.constant'
 import { AuthMutation } from './auth'
 import AuthRepository from '@/repositories/AuthRepository'
-import { authenticatedService } from '@/repositories/BaseRepository'
+import { setToken } from '@/repositories/BaseRepository'
 
 // import AuthRepository from '@/repositories/AuthRepository'
 
@@ -30,20 +30,12 @@ export const actions: IndexAction<IndexState, RootState> = {
       commit(`auth/${AuthMutation.SET_TOKEN}`, token)
       const user = null
 
-      authenticatedService.interceptors.request.use(
-        (config) => {
-          config.headers.Authorization = `Bearer ${token}`
-          return config
-        },
-        (error) => {
-          Promise.reject(error)
-        }
-      )
+      setToken(token)
 
       try {
         switch (role) {
           case ROLE.TENANT:
-            await AuthRepository.getTenant(token)
+            await AuthRepository.getTenant()
               .then((response) => {
                 commit(`auth/${AuthMutation.SET_USER}`, response.data)
               })
