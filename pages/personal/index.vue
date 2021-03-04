@@ -27,6 +27,7 @@ import PersonalRepository from '@/repositories/PersonalRepository'
     FavouriteList,
     AccountProfile,
   },
+  middleware: ['authenticated', 'isTenant'],
 })
 export default class Personal extends Vue {
   private roomCardObjs: RoomCardDTO[] = []
