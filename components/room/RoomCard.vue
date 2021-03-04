@@ -2,9 +2,9 @@
   <v-card elevation="0" class="mb-4 room__card">
     <v-row>
       <v-col cols="12" md="4">
-        <v-img :src="room.imgLink" class="rounded" max-width="100%" />
+        <v-img :src="room.imgLink" class="rounded pointer" max-width="100%" @click="clickLink" />
       </v-col>
-      <v-col cols="8" md="6" class="pa-1" @click="clickLink">
+      <v-col cols="8" md="6" class="pa-1 pointer" @click="clickLink">
         <h4 class="mb-2">{{ room.title }}</h4>
         <v-row>
           <v-col sm="6" cols="12">
@@ -41,6 +41,10 @@
             <v-icon>mdi-map-marker</v-icon>
             <span>{{ room.address }}</span>
           </v-col>
+          <v-col cols="12" v-if="!owner">
+            <v-icon>mdi-home</v-icon>
+            <span>{{ room.inn_name }}</span>
+          </v-col>
         </v-row>
       </v-col>
       <v-col md="2" cols="4" class="secondary--text text--center">
@@ -52,12 +56,13 @@
           <v-btn v-if="owner" class="ml-5" outlined rounded color="warning" @click="clickDelete(index)"
             >Xóa</v-btn
           >
-            <room-favor-btn
-              v-if="!owner && loggedIn"
-              class="ml-5"
-              :favorite.sync="favorite"
-              :clickFavor="clickFavor"
-            />
+          <room-favor-btn
+            class="ml-5"
+            :favorite.sync="favorite"
+            :loading.sync="loadingFavorite"
+            :clickFavor="clickFavor"
+            v-if="!owner && loggedIn"
+          />
         </v-layout>
         <v-layout column align-end justify-center class="mt-5">
           <span class="text-h3 font-weight-bold">{{ room.millionPrice }}</span>
@@ -93,6 +98,7 @@ export default class RoomCard extends Vue {
   @Prop({ type: Number }) readonly index!: Number
 
   private favorite: boolean = false
+  private loadingFavorite = false
   $notify: any
 
   get loggedIn(): boolean {
@@ -117,22 +123,28 @@ export default class RoomCard extends Vue {
   }
 
   public async favorRoom() {
+    this.loadingFavorite = true
     await RoomRepository.favorRoom(this.room.id).then((repos) => {
       this.favorite = true
       this.$notify.showMessage({
         message: `Bạn đã thêm "${this.room.title}" vào danh sách yêu thích`,
         color: 'success',
       })
+    }).finally(() => {
+      this.loadingFavorite = false
     })
   }
 
   public async unfavorRoom() {
+    this.loadingFavorite = true
     await RoomRepository.unfavorRoom(this.room.id).then((repos) => {
       this.favorite = false
       this.$notify.showMessage({
         message: `Bạn đã bỏ "${this.room.title}" vào danh sách yêu thích`,
         color: 'warning',
       })
+    }).finally(() => {
+      this.loadingFavorite = false
     })
   }
 }

@@ -11,10 +11,10 @@ export default class RoomRepository {
         id: `${i}`,
         img: '/imgs/anh_room.jpg',
         title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-        type: 'room',
+        room_type: 1,
         available: true,
-        gender: 'both',
-        area: 40,
+        gender: 1,
+        acreage: 40,
         capacity_min: 2,
         capacity_max: 3,
         address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
@@ -30,29 +30,18 @@ export default class RoomRepository {
   }
 
   public static getRoomsByFilter(filter: RoomFilterDTO): Promise<any> {
-    const data: Object[] = []
-
-    for (let i = 0; i < 7; i++) {
-      data.push({
-        id: `${i}`,
-        img: '/imgs/anh_room.jpg',
-        title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-        type: 'room',
-        available: true,
-        gender: 'both',
-        area: 40,
-        capacity_min: 2,
-        capacity_max: 3,
-        address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
-        verify: true,
-        favorite: false,
-        price: 6500000,
-      })
+    let params = {
+      page: filter.toObject.page,
+      keyword: filter.toObject.keyword,
+      min_price: filter.toObject.min_price,
+      max_price: filter.toObject.max_price,
+      gender: filter.toObject.gender,
     }
+    let filterObj = filter.toObject;
+    if(filterObj.features) Object.assign( params, { features: filterObj.features})
+    if(filterObj.room_type) Object.assign( params, { room_type: filterObj.room_type})
 
-    return new Promise(function (resolve) {
-      setTimeout(resolve.bind(null, data), 1000)
-    })
+    return authenticatedService.get(`${Endpoint.Room}/list`, { params: params})
   }
 
   public static favorRoom(roomId: any): Promise<any> {
@@ -101,10 +90,10 @@ export default class RoomRepository {
         id: `${i}`,
         img: '/imgs/anh_room.jpg',
         title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-        type: 'room',
+        room_type: 1,
         available: true,
-        gender: 'both',
-        area: 40,
+        gender: 1,
+        acreage: 40,
         capacity_min: 2,
         capacity_max: 3,
         address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',

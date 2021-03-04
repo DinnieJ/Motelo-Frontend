@@ -11,7 +11,31 @@
               <suggest-result />
             </v-card>
 
-            <search-address />
+            <v-text-field
+              dense
+              solo
+              hide-details
+              placeholder="Search"
+              rounded
+              append-icon="mdi-magnify"
+              class="my-3"
+              clearable
+              color="primary"
+              v-model="keyword"
+              @keyup.enter="search"
+            >
+              <template v-slot:append>
+                <v-btn
+                  depressed
+                  icon
+                  color="primary"
+                  class="ma-0"
+                  @click="search"
+                >
+                  <v-icon>mdi-magnify</v-icon>
+                </v-btn>
+              </template>
+            </v-text-field>
           </v-col>
         </v-row>
       </section>
@@ -54,13 +78,24 @@ import RoomRepository from '@/repositories/RoomRepository'
 export default class TenantHome extends Vue {
   private suggestRooms: RoomCardDTO[] = []
   private newsestRooms: RoomCardDTO[] = []
+  private keyword: string = ''
 
   public async getHomeData() {
-     await RoomRepository.getGuestHomepage()
-      .then(repos => {
-        this.suggestRooms = repos.suggest.map((item: any) => new RoomCardDTO(item))
-        this.newsestRooms = repos.newest.map((item: any) => new RoomCardDTO(item))
-      })
+    await RoomRepository.getGuestHomepage().then((repos) => {
+      this.suggestRooms = repos.suggest.map(
+        (item: any) => new RoomCardDTO(item)
+      )
+      this.newsestRooms = repos.newest.map((item: any) => new RoomCardDTO(item))
+    })
+  }
+
+  public async search() {
+    this.$router.push({
+      path: '/rooms',
+      query: {
+        keyword: this.keyword,
+      },
+    })
   }
 }
 </script>

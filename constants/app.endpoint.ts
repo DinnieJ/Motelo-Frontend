@@ -9,6 +9,7 @@ export enum Endpoint {
     AuthTenant = "auth/tenant",
     AuthOwner = "auth/owner",
     AuthCollaborator = "auth/collaborator",
+    Room = "room",
     DetailRoom = "room/detail",
     TenantComment = "tenant/comment"
 }
