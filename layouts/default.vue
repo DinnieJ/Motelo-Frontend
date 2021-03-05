@@ -72,6 +72,7 @@ import AccountCard from '@/components/account/AccountCard.vue'
 import Snackbar from '@/components/common/Snackbar.vue'
 import { mapGetters } from 'vuex'
 import { Getter, DispatchAction } from '@/constants/app.vuex'
+import { setToken } from '@/repositories/BaseRepository'
 
 // eslint-disable-next-line no-use-before-define
 @Component<Default>({
@@ -84,7 +85,14 @@ import { Getter, DispatchAction } from '@/constants/app.vuex'
     ...mapGetters({
       user: Getter.USER,
       role: Getter.ROLE,
+      token: Getter.TOKEN
     }),
+  },
+   created() {
+    const context: any = this
+    if (context.token) {
+      setToken(context.token)
+    }
   },
 })
 export default class Default extends Vue {

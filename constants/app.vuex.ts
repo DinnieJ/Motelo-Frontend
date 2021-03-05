@@ -22,4 +22,5 @@ export enum Getter {
     // Vuex getter tree constant
     USER = "auth/user",
     ROLE = "auth/role",
+    TOKEN = "auth/token",
 }
