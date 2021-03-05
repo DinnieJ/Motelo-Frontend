@@ -54,7 +54,7 @@ export class RoomCardDTO {
     }
     this.address = data.address
     this.verify = data.verified
-    this.favorite = data.favorite || false
+    this.favorite = Boolean(data.favorited)
     this.price = data.price
     this.imgLink = data.img || '/imgs/anh_room.jpg'
     this.inn_name = data.inn_name
@@ -306,7 +306,7 @@ export class RoomDetailDTO {
       min: data.capacity_min || 0,
     }
     this.verify = Boolean(data.verified)
-    this.favorite = Boolean(data.favorite)
+    this.favorite = Boolean(data.favorited)
     this.price = data.price
     this.eservation_fee = data.eservation_fee || 0
     this.description = data.description

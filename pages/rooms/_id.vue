@@ -45,7 +45,6 @@ export default class DetailRoom extends Vue {
     const id: string = this.$route.params.id
     await RoomRepository.getRoomDetail(id).then((repos) => {
       this.room = new RoomDetailDTO(repos.data)
-      // console.log('room = ', this.room.inn.owner);
       this.id = this.room.id
       this.favorite = this.room.favorite
       this.comments = this.room.comments

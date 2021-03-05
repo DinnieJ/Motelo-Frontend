@@ -88,7 +88,7 @@ import { setToken } from '@/repositories/BaseRepository'
       token: Getter.TOKEN
     }),
   },
-   created() {
+  created() {
     const context: any = this
     if (context.token) {
       setToken(context.token)
