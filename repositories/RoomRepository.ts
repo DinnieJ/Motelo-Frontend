@@ -44,15 +44,15 @@ export default class RoomRepository {
     return authenticatedService.get(`${Endpoint.Room}/list`, { params: params})
   }
 
-  public static favorRoom(roomId: any): Promise<any> {
-    return new Promise(function (resolve) {
-      setTimeout(resolve.bind(null, true), 1000)
+  public static favorRoom(room_id: any): Promise<any> {
+    return authenticatedService.post(`${Endpoint.TenantFavorite}/add`, {
+      room_id
     })
   }
 
-  public static unfavorRoom(roomId: any): Promise<any> {
-    return new Promise(function (resolve) {
-      setTimeout(resolve.bind(null, false), 1000)
+  public static unfavorRoom(room_id: any): Promise<any> {
+    return authenticatedService.post(`${Endpoint.TenantFavorite}/remove`, {
+      room_id
     })
   }
 
