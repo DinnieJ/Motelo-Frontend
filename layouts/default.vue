@@ -29,8 +29,8 @@
           {{ link.text }}
         </v-btn>
       </div>
-      <v-divider class="my-3"></v-divider>
-      <div>
+      <v-divider class="my-3" v-if="user"></v-divider>
+      <div v-if="user">
         <v-btn text color="primary" block to="/personal"> Cá nhân </v-btn>
         <v-btn text color="primary" block @click="clickLogout"> Đăng xuất </v-btn>
       </div>
@@ -72,6 +72,7 @@ import AccountCard from '@/components/account/AccountCard.vue'
 import Snackbar from '@/components/common/Snackbar.vue'
 import { mapGetters } from 'vuex'
 import { Getter, DispatchAction } from '@/constants/app.vuex'
+import { setToken } from '@/repositories/BaseRepository'
 
 // eslint-disable-next-line no-use-before-define
 @Component<Default>({
@@ -83,13 +84,20 @@ import { Getter, DispatchAction } from '@/constants/app.vuex'
   computed: {
     ...mapGetters({
       user: Getter.USER,
+      role: Getter.ROLE,
+      token: Getter.TOKEN
     }),
+  },
+  created() {
+    const context: any = this
+    if (context.token) {
+      setToken(context.token)
+    }
   },
 })
 export default class Default extends Vue {
   private links: NavLink[] = NAV_LINKS
   private drawer: boolean = false
-  private role: string = 'Guest'
   $notify: any
 
   public async clickLogout(e: Event) {

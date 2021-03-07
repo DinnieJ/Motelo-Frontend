@@ -62,7 +62,7 @@
             ></v-text-field>
           </div>
         </div>
-        <div v-if="userInfo.phone.length">
+        <div v-if="userInfo.phone && userInfo.phone.length">
           <div v-for="(phone, index) in userInfo.phone" :key="index">
             <div>
               <v-text-field
@@ -75,6 +75,16 @@
           </div>
         </div>
         <v-btn v-if="editable" block>Thêm số điện thoại</v-btn>
+        <div v-if="userInfo.phone_number">
+          <div>
+            <v-text-field
+              class="text-h5"
+              label="Số điện thoại"
+              :value="userInfo.phone_number"
+              :disabled="!editable"
+            ></v-text-field>
+          </div>
+        </div>
       </v-col>
     </v-row>
   </v-sheet>

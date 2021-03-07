@@ -168,6 +168,7 @@ extend('email', {
     WarningDialog,
     ValidationProvider,
   },
+  middleware: ['authenticated', 'isTenant'],
 })
 export default class ProfileUpdate extends Vue {
   private acceptPolicy: boolean = false
