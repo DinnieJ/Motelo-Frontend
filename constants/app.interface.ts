@@ -40,6 +40,7 @@ export class RoomCardDTO {
   favorite: boolean
   price: number
   inn_name: string
+  favorited: boolean
 
   constructor(data: any) {
     this.id = data.id
@@ -58,6 +59,7 @@ export class RoomCardDTO {
     this.price = data.price
     this.imgLink = data.img || '/imgs/anh_room.jpg'
     this.inn_name = data.inn_name
+    this.favorited = data.favorited || false
   }
 
   public get millionPrice(): string {
@@ -181,9 +183,8 @@ export interface OwnerRegisterRule {
 export interface UserInfoDTO {
   name: string
   email: string
-  zalo: string
-  facebook: string
-  phone: Array<string>
+  date_of_birth: string
+  phone_number: string
 }
 
 export class RoomFilterDTO {

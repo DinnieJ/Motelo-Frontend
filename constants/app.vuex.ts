@@ -7,7 +7,8 @@ export enum DispatchAction {
     LOGIN = "auth/login",
     REGISTER = "auth/register",
     LOGOUT = "auth/logout",
-    CLEAR_AUTH = "auth/clear"
+    CLEAR_AUTH = "auth/clear",
+    SET_AUTH = "auth/setUser"
 }
 
 export enum MutationState {

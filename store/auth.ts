@@ -1,5 +1,5 @@
 import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
-import { LoginDTO, TenantRegisterDTO } from '@/constants/app.interface'
+import { LoginDTO, TenantRegisterDTO, UserInfoDTO } from '@/constants/app.interface'
 import { ROLE, COOKIES } from '@/constants/app.constant'
 import AuthRepository from '@/repositories/AuthRepository'
 
@@ -19,6 +19,7 @@ export interface AuthAction<S, R> extends ActionTree<S, R> {
     login(context: ActionContext<S, R>, loginInfo: LoginDTO): Promise<any>
     logout(context: ActionContext<S, R>): Promise<any>
     clear(context: ActionContext<S, R>): void
+    setUser(context: ActionContext<S, R>, userInfo: UserInfoDTO): void
 }
 
 export const state = (): AuthState => ({
@@ -98,7 +99,11 @@ export const actions: AuthAction<AuthState, RootState> = {
         commit(AuthMutation.SET_TOKEN, "")
         commit(AuthMutation.SET_USER, null)
         const cookies: any = this.$cookies
-        cookies.remove(COOKIES.TOKEN);
-        cookies.remove(COOKIES.ROLE);
+        cookies.remove(COOKIES.TOKEN)
+        cookies.remove(COOKIES.ROLE)
+    },
+
+    setUser({ commit }, userInfo ) {
+        commit(AuthMutation.SET_USER, userInfo)
     }
 }

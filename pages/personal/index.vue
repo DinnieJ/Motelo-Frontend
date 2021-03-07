@@ -47,7 +47,7 @@ export default class Personal extends Vue {
     this.loading = true
     await RoomRepository.getFavoriteList()
       .then((response) => {
-        let rooms: any = response.data.favorite_rooms
+        let rooms: any = response.data.data
         this.roomCardObjs = rooms.map(function (item: any) {
           return new RoomCardDTO(item)
         })
