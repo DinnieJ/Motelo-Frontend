@@ -1,11 +1,8 @@
 import { RoomCardDTO, UserInfoDTO } from '@/constants/app.interface'
-var profile: UserInfoDTO = {
-  name: 'Dao Tien Nam',
-  email: 'daotiennamhl120699@gmail.com',
-  zalo: '',
-  facebook: 'https://www.facebook.com/theonlyoneroses/',
-  phone: ['0912839213', '0999111999'],
-}
+import { AxiosResponse } from 'axios'
+import { Endpoint } from '~/constants/app.endpoint'
+import { authenticatedService } from './BaseRepository'
+
 export default class PersonalRepository {
   public static getFavoriteRoom(): Promise<any> {
     const data: Object[] = []
@@ -33,20 +30,11 @@ export default class PersonalRepository {
     })
   }
 
-  public static getUserInfo(): Promise<any> {
-    return new Promise((resolve) => {
-      return setTimeout(function () {
-        resolve(profile)
-      }, 500)
-    })
+  public static getUserInfo(): Promise<AxiosResponse<any>> {
+    return authenticatedService.get(`${Endpoint.AuthTenant}/user`);
   }
 
-  public static setUserInfo(userInfo: UserInfoDTO): Promise<any> {
-    profile = userInfo
-    return new Promise((resolve) => {
-      return setTimeout(function () {
-        resolve(userInfo)
-      }, 500)
-    })
+  public static updateUserInfo(userInfo: UserInfoDTO): Promise<any> {
+    return authenticatedService.post(`${Endpoint.AuthTenant}/edit`)
   }
 }

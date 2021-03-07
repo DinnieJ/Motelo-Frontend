@@ -181,9 +181,7 @@ export interface OwnerRegisterRule {
 export interface UserInfoDTO {
   name: string
   email: string
-  zalo: string
-  facebook: string
-  phone: Array<string>
+  date_of_birth: string
 }
 
 export class RoomFilterDTO {

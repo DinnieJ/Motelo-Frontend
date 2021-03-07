@@ -74,26 +74,6 @@
                     ></v-text-field>
                   </div>
                 </div>
-                <div v-if="userInfo.phone.length">
-                  <div v-for="(phone, index) in userInfo.phone" :key="index">
-                    <div>
-                      <v-text-field
-                        class="text-h5"
-                        :label="`Số điện thoại ${index + 1}`"
-                        v-model="userInfo.phone[index]"
-                        :disabled="!editable"
-                      ></v-text-field>
-                    </div>
-                  </div>
-                </div>
-                <v-btn
-                  block
-                  x-small
-                  @click="addMorePhone()"
-                  color="info"
-                  class="mb-5"
-                  >Thêm số điện thoại (Nếu có)</v-btn
-                >
                 <v-layout justify-end class="mt-5">
                   <v-btn
                     rounded
@@ -177,9 +157,7 @@ export default class ProfileUpdate extends Vue {
   private userInfo: UserInfoDTO = {
     name: '',
     email: '',
-    zalo: '',
-    facebook: '',
-    phone: [],
+    date_of_birth: ''
   }
   private loadingUserInfo: boolean = false
   private editable: boolean = true
@@ -198,7 +176,7 @@ export default class ProfileUpdate extends Vue {
     this.loadingUserInfo = true
     await PersonalRepository.getUserInfo()
       .then((response) => {
-        this.userInfo = response
+        this.userInfo = response.data
       })
       .catch((error) => {
         console.log('get user info: ', error)
@@ -241,10 +219,6 @@ export default class ProfileUpdate extends Vue {
 
   public handleSubmitClick() {
     this.openConfirmDialog = true
-  }
-
-  public addMorePhone() {
-    this.userInfo.phone.push('')
   }
 }
 </script>
