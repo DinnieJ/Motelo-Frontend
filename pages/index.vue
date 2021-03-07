@@ -4,13 +4,6 @@
       <section>
         <v-row class="rounded-lg justify-center ma-3 home__welcome">
           <v-col cols="12" lg="8" class="py-2">
-            <v-card class="pa-3">
-              <v-layout justify-center align-end>
-                <p class="text-h5 mr-3 primary--text"><b>Chào mừng bạn</b></p>
-              </v-layout>
-              <suggest-result />
-            </v-card>
-
             <v-text-field
               dense
               solo
@@ -40,8 +33,38 @@
         </v-row>
       </section>
 
-      <suggest-list :rooms="suggestRooms" />
-      <hot-area />
+      <section>
+        <v-layout justify-space-between class="my-5">
+          <h1>Bài đăng được ưa thích</h1>
+          <v-btn rounded outlined color="primary" to="/rooms">Xem thêm</v-btn>
+        </v-layout>
+        <v-row>
+          <v-col
+            cols="12"
+            sm="6"
+            v-for="room in topFavoriteRooms"
+            :key="room.id"
+          >
+            <room-card :room="room" />
+          </v-col>
+        </v-row>
+      </section>
+      <section>
+        <v-layout justify-space-between class="my-5">
+          <h1>Bài đăng được xác thực</h1>
+          <v-btn rounded outlined color="primary" to="/rooms">Xem thêm</v-btn>
+        </v-layout>
+        <v-row>
+          <v-col
+            cols="12"
+            sm="6"
+            v-for="room in verifiedRooms"
+            :key="room.id"
+          >
+            <room-card :room="room" />
+          </v-col>
+        </v-row>
+      </section>
       <newest-list :rooms="newsestRooms" />
     </v-sheet>
   </v-container>
@@ -55,6 +78,7 @@ import SuggestResult from '@/components/guest/SuggestResult.vue'
 import SuggestList from '@/components/guest/SuggestList.vue'
 import HotArea from '@/components/guest/HotArea.vue'
 import NewestList from '@/components/guest/NewestList.vue'
+import RoomCard from '@/components/room/RoomCard.vue'
 
 import SearchAddress from '@/components/map/SearchAddress.vue'
 
@@ -70,6 +94,7 @@ import RoomRepository from '@/repositories/RoomRepository'
     SuggestList,
     HotArea,
     NewestList,
+    RoomCard
   },
   async created() {
     await this.getHomeData()
@@ -78,14 +103,26 @@ import RoomRepository from '@/repositories/RoomRepository'
 export default class TenantHome extends Vue {
   private suggestRooms: RoomCardDTO[] = []
   private newsestRooms: RoomCardDTO[] = []
+  private verifiedRooms: RoomCardDTO[] = []
+  private topFavoriteRooms: RoomCardDTO[] = []
   private keyword: string = ''
 
   public async getHomeData() {
-    await RoomRepository.getGuestHomepage().then((repos) => {
-      this.suggestRooms = repos.suggest.map(
+    await Promise.all([
+      RoomRepository.getTopVerified(),
+      RoomRepository.getLatestRoom(),
+      RoomRepository.getTopFavorite(),
+    ]).then((response) => {
+      console.log(response)
+      this.verifiedRooms = response[0].data.map(
         (item: any) => new RoomCardDTO(item)
       )
-      this.newsestRooms = repos.newest.map((item: any) => new RoomCardDTO(item))
+      this.newsestRooms = response[1].data.map(
+        (item: any) => new RoomCardDTO(item)
+      )
+      this.topFavoriteRooms = response[2].data.map(
+        (item: any) => new RoomCardDTO(item)
+      )
     })
   }
 

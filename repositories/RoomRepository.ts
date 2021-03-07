@@ -1,6 +1,7 @@
 import { RoomFilterDTO } from '@/constants/app.interface'
 import { Endpoint } from '@/constants/app.endpoint'
 import { authenticatedService } from './BaseRepository'
+import { AxiosResponse } from 'axios'
 
 export default class RoomRepository {
   public static getAllRooms(): Promise<any> {
@@ -89,35 +90,15 @@ export default class RoomRepository {
     })
   }
 
-  public static getGuestHomepage(): Promise<any> {
-    const data: Object[] = []
+  public static getTopFavorite(): Promise<AxiosResponse<any>> {
+    return authenticatedService.get(`${Endpoint.Room}/favorites`)
+  }
 
-    for (let i = 0; i < 4; i++) {
-      data.push({
-        id: `${i}`,
-        img: '/imgs/anh_room.jpg',
-        title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-        room_type: 1,
-        available: true,
-        gender: 1,
-        acreage: 40,
-        capacity_min: 2,
-        capacity_max: 3,
-        address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
-        verify: true,
-        favorite: false,
-        price: 6500000,
-      })
-    }
+  public static getTopVerified() : Promise<AxiosResponse<any>> {
+    return authenticatedService.get(`${Endpoint.Room}/verified`)
+  }
 
-    return new Promise(function (resolve) {
-      setTimeout(
-        resolve.bind(null, {
-          suggest: data,
-          newest: data,
-        }),
-        1000
-      )
-    })
+  public static getLatestRoom(): Promise<AxiosResponse<any>> {
+    return authenticatedService.get(`${Endpoint.Room}/latest`)
   }
 }
