@@ -58,7 +58,7 @@
           >
           <room-favor-btn
             class="ml-5"
-            :favorite.sync="favorite"
+            :favorite.sync="room.favorited"
             :loading.sync="loadingFavorite"
             :clickFavor="clickFavor"
             v-if="!owner && loggedIn"
@@ -115,7 +115,7 @@ export default class RoomCard extends Vue {
 
   public async clickFavor(event: Event) {
     event.preventDefault()
-    if (this.favorite) {
+    if (this.room.favorited) {
       await this.unfavorRoom()
     } else {
       await this.favorRoom()
@@ -125,7 +125,7 @@ export default class RoomCard extends Vue {
   public async favorRoom() {
     this.loadingFavorite = true
     await RoomRepository.favorRoom(this.room.id).then((repos) => {
-      this.favorite = true
+      this.room.favorited = true
       this.$notify.showMessage({
         message: `Bạn đã thêm "${this.room.title}" vào danh sách yêu thích`,
         color: 'success',
@@ -138,7 +138,7 @@ export default class RoomCard extends Vue {
   public async unfavorRoom() {
     this.loadingFavorite = true
     await RoomRepository.unfavorRoom(this.room.id).then((repos) => {
-      this.favorite = false
+      this.room.favorited = false
       this.$notify.showMessage({
         message: `Bạn đã bỏ "${this.room.title}" vào danh sách yêu thích`,
         color: 'warning',

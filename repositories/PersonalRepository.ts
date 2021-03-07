@@ -35,6 +35,10 @@ export default class PersonalRepository {
   }
 
   public static updateUserInfo(userInfo: UserInfoDTO): Promise<any> {
-    return authenticatedService.post(`${Endpoint.AuthTenant}/edit`)
+    return authenticatedService.post(`${Endpoint.AuthTenant}/edit`, {
+      name: userInfo.name,
+      date_of_birth: userInfo.date_of_birth,
+      phone_number: userInfo.phone_number
+    })
   }
 }
