@@ -44,22 +44,29 @@ export default class RoomRepository {
     return authenticatedService.get(`${Endpoint.Room}/list`, { params: params})
   }
 
-  public static favorRoom(roomId: any): Promise<any> {
-    return new Promise(function (resolve) {
-      setTimeout(resolve.bind(null, true), 1000)
+  // Favorite api
+  public static favorRoom(room_id: any): Promise<any> {
+    return authenticatedService.post(`${Endpoint.TenantFavorite}/add`, {
+      room_id
     })
   }
 
-  public static unfavorRoom(roomId: any): Promise<any> {
-    return new Promise(function (resolve) {
-      setTimeout(resolve.bind(null, false), 1000)
+  public static unfavorRoom(room_id: any): Promise<any> {
+    return authenticatedService.post(`${Endpoint.TenantFavorite}/remove`, {
+      room_id
     })
   }
 
+  public static getFavoriteList(): Promise<any> {
+    return authenticatedService.get(`${Endpoint.TenantFavorite}/list`)
+  }
+
+  // Room Detail api
   public static getRoomDetail(roomId: any): Promise<any> {
     return authenticatedService.get(`${Endpoint.DetailRoom}/${roomId}`)
   }
 
+  // Comment api
   public static addComment(room_id: number, comment: string): Promise<any> {
     return authenticatedService.post(`${Endpoint.TenantComment}/add`, {
       room_id,
