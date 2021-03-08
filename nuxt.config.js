@@ -37,7 +37,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/notify'
+    '@/plugins/notify',
+    { src: "~/plugins/google-maps.js" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -85,7 +86,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [
-      'vee-validate'
+      'vee-validate',
+      /^vue2-google-maps($|\/)/
     ],
     extractCSS: {
       ignoreOrder: true,
