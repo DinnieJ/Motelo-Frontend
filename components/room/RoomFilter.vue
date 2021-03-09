@@ -1,92 +1,88 @@
 <template>
-  <div>
-    <v-row v-if="!sm">
-      <v-col>
-        <h1>Bộ lọc</h1>
-      </v-col>
-      <v-col
-        ><v-btn color="primary" rounded outlined @click="submit"
-          >áp dụng</v-btn
-        ></v-col
-      >
-    </v-row>
-    <v-expansion-panels class="my-5" multiple>
-      <v-expansion-panel>
-        <v-expansion-panel-header>
-          <h5>
-            {{ `Giá: ${filter.price[0]}tr - ${filter.price[1]}tr` }}
-          </h5>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-range-slider
-            v-model="filter.price"
-            :max="priceMax"
-            :min="priceMin"
-            :step="priceStep"
-            hide-details
-          ></v-range-slider>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <v-expansion-panel>
-        <v-expansion-panel-header>
-          <h5>Tiện ích</h5>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content class="filter__section">
-          <v-layout
-            v-for="amenitie in amenities"
-            :key="amenitie.id"
-            align-center
-            class="filter__content"
-          >
-            <v-checkbox
-              v-model="filter.amenities"
-              :value="amenitie.id"
-            ></v-checkbox>
-            <v-icon small>{{ `mdi-${amenitie.icon}` }}</v-icon>
-            <p class="filter__text">{{ amenitie.text }}</p>
-          </v-layout>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <v-expansion-panel>
-        <v-expansion-panel-header>
-          <h5>Loại phòng</h5>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content class="filter__section">
-          <v-layout
-            v-for="type in roomTypes"
-            :key="type.id"
-            class="filter__content"
-          >
-            <v-checkbox
-              v-model="filter.room_type"
-              :value="type.id"
-            ></v-checkbox>
-            <v-icon small>{{ `mdi-${type.icon}` }}</v-icon>
-            <p class="filter__text">{{ type.text }}</p>
-          </v-layout>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <v-expansion-panel>
-        <v-expansion-panel-header>
-          <h5>Giới tính</h5>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content class="filter__section">
-          <v-layout
-            v-for="gender in genders"
-            :key="gender.id"
-            class="filter__content"
-          >
-            <v-checkbox
-              v-model="filter.gender"
-              :value="gender.id"
-            ></v-checkbox>
-            <v-icon small>{{ `mdi-${gender.icon}` }}</v-icon>
-            <p class="filter__text">{{ gender.text }}</p>
-          </v-layout>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-    <v-btn color="primary" rounded outlined @click="submit">áp dụng</v-btn>
+  <div class="pa-8">
+    <section class="mb-14">
+      <v-layout justify-space-between>
+        <h1 class="filter__title primary--text">Bộ lọc</h1>
+        <v-btn color="warning" rounded outlined @click="submit">lọc</v-btn>
+      </v-layout>
+    </section>
+
+    <section class="mb-6">
+      <v-layout>
+        <v-range-slider
+          label="Giá:"
+          hint="tr VND/tháng"
+          persistent-hint
+          v-model="filter.price"
+          :max="priceMax"
+          :min="priceMin"
+          :step="priceStep"
+          thumb-label="always"
+          color="secondary"
+        ></v-range-slider>
+      </v-layout>
+    </section>
+
+    <section class="mb-6">
+      <h2>Tiện ích</h2>
+      <v-row>
+        <v-col
+          cols="12" sm="4"
+          v-for="item in amenities"
+          :key="item.id"
+          align-center
+          class="d-flex filter__content"
+        >
+          <v-checkbox
+            v-model="filter.amenities"
+            :value="item.id"
+          ></v-checkbox>
+          <v-icon>{{ `mdi-${item.icon}` }}</v-icon>
+          <p class="filter__text my-2">{{ item.text }}</p>
+        </v-col>
+      </v-row>
+    </section>
+
+    <section class="mb-6">
+      <h2>Loại phòng</h2>
+      <v-row>
+        <v-col
+          cols="12" sm="4"
+          v-for="item in roomTypes"
+          :key="item.id"
+          align-center
+          class="d-flex filter__content"
+        >
+          <v-checkbox
+            v-model="filter.room_type"
+            :value="item.id"
+          ></v-checkbox>
+          <v-icon>{{ `mdi-${item.icon}` }}</v-icon>
+          <p class="filter__text my-2">{{ item.text }}</p>
+        </v-col>
+      </v-row>
+    </section>
+
+    <section class="mb-6">
+      <h2>Giới tính</h2>
+      <v-row>
+        <v-col
+          cols="12" sm="4"
+          v-for="item in genders"
+          :key="item.id"
+          align-center
+          class="d-flex filter__content"
+        >
+          <v-checkbox
+            v-model="filter.gender"
+            :value="item.id"
+          ></v-checkbox>
+          <v-icon>{{ `mdi-${item.icon}` }}</v-icon>
+          <p class="filter__text my-2">{{ item.text }}</p>
+        </v-col>
+      </v-row>
+    </section>
+    <v-btn color="warning" rounded outlined @click="submit" block>lọc</v-btn>
   </div>
 </template>
 

@@ -7,9 +7,9 @@ export const COOKIES = {
 }
 
 export const PRICE_FILTER = {
-  MAX: 6,
+  MAX: 9,
   MIN: 0,
-  STEP: 0.2,
+  STEP: 0.1,
 }
 
 export const ROLE = {
@@ -25,24 +25,28 @@ export const NAV_LINKS: NavLink[] = [
     code: 'tenant_home',
     text: 'Trang chủ',
     to: '/',
+    icon: 'home',
     roles: [ROLE.GUEST, ROLE.TENANT],
   },
   {
     code: 'list',
     text: 'Danh sách',
     to: '/rooms',
+    icon: 'clipboard-list',
     roles: [ROLE.GUEST, ROLE.TENANT],
   },
   {
     code: 'login',
     text: 'Đăng nhập',
     to: '/login',
+    icon: 'login',
     roles: [ROLE.GUEST],
   },
   {
     code: 'register',
     text: 'Đăng kí',
     to: '/register',
+    icon: 'account-plus',
     roles: [ROLE.GUEST],
   },
   // Tenant link
@@ -50,6 +54,7 @@ export const NAV_LINKS: NavLink[] = [
     code: 'roommate',
     text: 'Ở ghép',
     to: '/roommate',
+    icon: 'account-plus',
     roles: [ROLE.TENANT],
   },
   // Owner link
@@ -57,12 +62,14 @@ export const NAV_LINKS: NavLink[] = [
     code: 'owner_home',
     text: 'Trang chủ',
     to: '/owner/home',
+    icon: 'home',
     roles: [ROLE.OWNER],
   },
   {
     code: 'owner_room',
     text: 'Yêu cầu',
     to: '/owner/requests',
+    icon: 'home',
     roles: [ROLE.OWNER],
   },
 ]

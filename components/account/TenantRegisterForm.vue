@@ -13,8 +13,7 @@
             v-model="registerInfo.name"
             label="Tên"
             name="name"
-            light
-            clearable
+            outlined
             class="required"
             :error-messages="errors"
           ></v-text-field>
@@ -28,9 +27,8 @@
             v-model="registerInfo.email"
             label="Email"
             name="email"
-            light
+            outlined
             class="required"
-            clearable
             :error-messages="errors"
           ></v-text-field>
         </validation-provider>
@@ -43,9 +41,8 @@
             v-model="registerInfo.phone"
             label="Số điện thoại"
             name="phone"
-            light
+            outlined
             class="required"
-            clearable
             :error-messages="errors"
           ></v-text-field>
         </validation-provider>
@@ -61,7 +58,7 @@
             <v-text-field
               v-model="registerInfo.date_of_birth"
               label="Ngay sinh"
-              light
+              outlined
               color="primary"
               readonly
               class="required"
@@ -87,8 +84,7 @@
             @click:append="showPassword = !showPassword"
             label="Mật khẩu"
             name="password"
-            light
-            clearable
+            outlined
             color="primary"
             class="required"
             :error-messages="errors"
@@ -105,8 +101,7 @@
             :type="showPassword ? 'text' : 'password'"
             @click:append="showPassword = !showPassword"
             label="Nhập lại Mật khẩu"
-            light
-            clearable
+            outlined
             color="primary"
             class="required"
             :error-messages="errors"

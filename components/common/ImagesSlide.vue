@@ -1,7 +1,7 @@
 <template>
   <v-carousel cycle height="auto">
     <v-carousel-item v-for="(img, i) in imgs" :key="i">
-      <v-img :src="img" class="rounded" aspect-ratio="1.77" />
+      <v-img :lazy-srcs="img" class="rounded" aspect-ratio="1.77" />
     </v-carousel-item>
   </v-carousel>
 </template>

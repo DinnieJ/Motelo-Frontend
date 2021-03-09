@@ -1,18 +1,52 @@
-@import 'mixins.scss';
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,300&display=swap');
+
 @import 'variables.scss';
+@import 'mixins.scss';
 @import 'common.scss';
 //Import more of your style here
-.login {
-  &__layout {
-    min-height: 100vh;
-    background-image: url('/imgs/anh_homepage.jpg');
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: cover;
+
+.nav {
+  &__menu {
+    width: 100%;
+    height: auto;
+    background-color: #80d8ff;
+    display: none;
+    transition: 0.6s;
+    border-bottom: 1px solid #ffffff;
+    margin-bottom: 0;
+
+    &.active {
+      display: block;
+    }
   }
 
-  &__form {
-    padding: 0 40px;
+  &__toolbar {
+    height: 51px;
+  }
+}
+
+.main {
+  background-color: $bg-color;
+}
+
+.auth {
+  &__section {
+    max-width: $min-width_sm;
+    width: 100%;
+    min-height: 90vh;
+  }
+
+  &__title {
+    margin-top: 40px;
+    font-size: $h1-font-size;
+  }
+
+  &__select {
+    max-width: 3rem;
+  }
+
+  &__input {
+    min-width: 70%;
   }
 }
 
@@ -20,11 +54,33 @@
   &__favor {
     cursor: pointer;
   }
+  
   &__title {
-    font-weight: 400;
+    font-size: $small-font-size;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    width: 100%;
   }
+
+  &__small {
+    font-size: $small-font-size;
+  }
+
+  &__smaller {
+    font-size: $smaller-font-size;
+  }
+
+  &__img {
+    height: 100%;
+  }
+
+  &__header{
+    font-size: $h3-font-size;
+  }
+
   &__card {
-    font-size: 0.9rem;
+    height: 100%;
   }
 }
 
@@ -39,11 +95,18 @@
     > * {
       margin-left: 0.5rem;
     }
+    align-items: center;
+    line-height: 1;
+    padding: 0;
   }
 
   &__text {
-    font-size: 0.8rem;
+    font-size: $h2-font-size;
     margin-top: 1.25rem;
+  }
+
+  &__title {
+    font-size: $h1-font-size;
   }
 }
 
@@ -55,23 +118,19 @@
 }
 
 .home {
-  &__welcome {
-    background-image: url('/imgs/anh_homepage.jpg');
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    background-size: cover;
-    min-height: 30vh;
-  }
-
   &__title {
-    max-width: 20%;
+    font-size: $h1-font-size;
+    text-transform: uppercase;
   }
 
-  &__area {
-    min-height: 200px;
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    background-size: cover;
+  &__subtitle {
+    font-size: $small-font-size;
+
+  }
+
+  &__header {
+    font-size: $h2-font-size;
+    width: 100%;
   }
 }
 

@@ -3,8 +3,8 @@
     <v-card-title>
       <v-layout justify-space-between align-center>
         <v-layout>
-          <v-avatar color="brown" size="36" class="mr-6">
-            <span class="white--text headline">JD</span>
+          <v-avatar color="grey" size="36" class="mr-6">
+            <v-icon dark> mdi-account-circle </v-icon>
           </v-avatar>
           <p>{{ comment.name }}</p>
         </v-layout>
@@ -27,7 +27,8 @@
         :disabled="!isEditing"
         outlined
         v-model="comment.context"
-        clearable
+        rows="2"
+    auto-grow
       >
         <v-icon
           v-if="isEditing"

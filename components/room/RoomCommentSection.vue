@@ -1,13 +1,13 @@
 <template>
-  <v-card rounded="lg" class="mt-12 pa-3">
+  <div class="mt-6 pa-3">
     <div>
-      <v-layout>
-        <v-icon class="mx-3" size="32" color="info" dark> mdi-comment </v-icon>
-        <h1 class="room__title">Nhận xét</h1>
-      </v-layout>
+      <h1 class="post__title">
+        <v-icon class="mx-3" size="32" color="info" dark> mdi-comment </v-icon
+        ><span>Nhận xét</span>
+      </h1>
       <v-divider />
     </div>
-    <div class="pa-1">
+    <div class="pa-4">
       <div v-if="loggedIn">
         <room-comment-input @add-comment="addComment" />
       </div>
@@ -20,7 +20,7 @@
         />
       </div>
     </div>
-  </v-card>
+  </div>
 </template>
 
 <script lang="ts">
