@@ -113,7 +113,6 @@ export default class TenantHome extends Vue {
       RoomRepository.getLatestRoom(),
       RoomRepository.getTopFavorite(),
     ]).then((response) => {
-      console.log(response)
       this.verifiedRooms = response[0].data.map(
         (item: any) => new RoomCardDTO(item)
       )

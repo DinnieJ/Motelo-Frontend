@@ -4,12 +4,14 @@
     <v-text-field
       class="text-h5"
       label="Tên nhà trọ"
+      v-model="basicInfo.name"
     ></v-text-field>
     <v-layout align-center>
       <v-text-field
         class="text-h5"
         label="Tiền điện"
         type="number"
+        v-model="basicInfo.electric_price"
       ></v-text-field>
       <span>VNĐ/số</span>
     </v-layout>
@@ -18,6 +20,7 @@
         class="text-h5"
         label="Tiền nước"
         type="number"
+        v-model="basicInfo.water_price"
       ></v-text-field>
       <span>VNĐ/khối</span>
     </v-layout>
@@ -38,15 +41,24 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from 'vue-property-decorator'
+import { DispatchAction } from '~/constants/app.vuex'
 
 @Component<InnBasicForm>({
   name: 'InnBasicForm',
   // eslint-disable-next-line no-undef
 })
 export default class InnBasicForm extends Vue {
+
+  private basicInfo = {
+    name: '',
+    water_price: null,
+    electric_price: null
+  }
+
   @Emit('next')
   clickNext(event: Event): string {
     event.preventDefault()
+    this.$store.dispatch(DispatchAction.ADD_BASIC_INN_INFO, this.basicInfo)
     return 'demo'
   }
 
