@@ -25,14 +25,10 @@
       <span>VNĐ/khối</span>
     </v-layout>
     <v-layout align-center>
-      <v-text-field
-        class="text-h5"
-        label="Wifi"
-        type="number"
-      ></v-text-field>
+      <v-text-field class="text-h5" label="Wifi" type="number"></v-text-field>
       <span>VNĐ/tháng</span>
     </v-layout>
-
+    
     <v-btn color="primary" type="submit"> Tiếp theo </v-btn>
 
     <v-btn @click="clickBack"> Trở lại </v-btn>
@@ -41,6 +37,7 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from 'vue-property-decorator'
+import { GENDER, ROOM_TYPES } from '~/constants/app.constant'
 import { DispatchAction } from '~/constants/app.vuex'
 
 @Component<InnBasicForm>({
@@ -48,11 +45,13 @@ import { DispatchAction } from '~/constants/app.vuex'
   // eslint-disable-next-line no-undef
 })
 export default class InnBasicForm extends Vue {
+  private CONST_GENDER = GENDER
+  private CONST_ROOM_TYPE = ROOM_TYPES
 
   private basicInfo = {
     name: '',
     water_price: null,
-    electric_price: null
+    electric_price: null,
   }
 
   @Emit('next')

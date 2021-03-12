@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from 'vue-property-decorator'
+import { DispatchAction } from '~/constants/app.vuex'
 
 @Component<AddressForm>({
   name: 'AddressForm',
@@ -22,6 +23,10 @@ export default class AddressForm extends Vue {
   @Emit('next')
   clickNext(event: Event) {
     event.preventDefault()
+    this.$store.dispatch(DispatchAction.ADD_LOCATION_INFO, {
+      address: 'Dai hoc FPT',
+      location: '12.000023 52.223123'
+    })
   }
 
   @Emit('back')

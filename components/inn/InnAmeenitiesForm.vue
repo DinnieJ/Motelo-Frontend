@@ -50,7 +50,7 @@ export default class InnAmeenitiesForm extends Vue {
   @Emit('next')
   clickNext(event: Event): string {
     event.preventDefault()
-    this.$store.dispatch(DispatchAction.ADD_INN_FEATURES, this.amenitiesChosen)
+    this.$store.dispatch(DispatchAction.ADD_INN_FEATURES, this.amenitiesChosen.sort())
     return 'demo'
   }
 
