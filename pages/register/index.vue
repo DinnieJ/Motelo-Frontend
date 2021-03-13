@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <register-form :loading="loading" @submit="handleSubmit" />
   </v-container>
 </template>
@@ -17,8 +17,6 @@ import { LoginDTO, TenantRegisterDTO } from '@/constants/app.interface'
   components: {
     RegisterForm,
   },
-  // eslint-disable-next-line no-undef
-  layout: 'empty',
 })
 export default class Register extends Vue {
   private loading: boolean = false

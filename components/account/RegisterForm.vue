@@ -1,9 +1,11 @@
 <template>
-  <v-layout d-flex column justify-center align-center class="login__layout">
-    <div class="mb-6">
-      <h1 class="white--text text-center mb-3">ĐĂNG KÝ</h1>
+  <v-layout d-flex justify-center class="rounded white">
+    <div class="auth__section pa-2">
+      <h1 class="primary--text text-center auth__title">ĐĂNG KÝ</h1>
+      <p class="text-center auth__subtitle"><i>Trở thành 1 phần của chúng tôi</i></p>
+
       <v-layout
-        class="d-flex flex-column justify-content-center white rounded-xl pb-6"
+        class="mt-3 d-flex flex-column"
       >
         <v-autocomplete
           v-model="form"
@@ -11,8 +13,7 @@
           :items="roles"
           item-text="text"
           item-value="role_id"
-          filled
-          light
+          outlined
           label="Bạn đăng ký theo tư cách"
         ></v-autocomplete>
         <tenant-register-form

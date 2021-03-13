@@ -2,6 +2,7 @@ import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
 import { LoginDTO, TenantRegisterDTO, UserInfoDTO } from '@/constants/app.interface'
 import { ROLE, COOKIES } from '@/constants/app.constant'
 import AuthRepository from '@/repositories/AuthRepository'
+import { setToken } from '@/repositories/BaseRepository'
 
 export interface AuthState {
     token: string
@@ -52,6 +53,8 @@ export const actions: AuthAction<AuthState, RootState> = {
             commit(AuthMutation.SET_TOKEN, data.token)
             commit(AuthMutation.SET_USER, data.user)
             commit(AuthMutation.SET_ROLE, data.role)
+
+            setToken(data.token)
     
             const options = {
                 path: '/',

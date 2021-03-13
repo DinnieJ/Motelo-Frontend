@@ -1,12 +1,7 @@
 <template>
   <v-row>
     <v-col cols="10">
-      <h1 class="display-1">{{ title }}</h1>
-      <v-breadcrumbs :items="breadcrumbs">
-        <template #divider>
-          <v-icon>mdi-chevron-right</v-icon>
-        </template>
-      </v-breadcrumbs>
+      <h1>{{ title }}</h1>
     </v-col>
     <v-col cols="2">
       <v-layout justify-end>

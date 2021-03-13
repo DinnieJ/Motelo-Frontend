@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid>
-    <v-layout d-flex column justify-center align-center class="login__layout">
+  <v-container>
+    <v-layout d-flex justify-center class="rounded white">
       <login-form :loading="loading" @submit="handleSubmit" />
     </v-layout>
   </v-container>
@@ -19,8 +19,6 @@ import { ROLE } from '@/constants/app.constant'
   components: {
     LoginForm,
   },
-  // eslint-disable-next-line no-undef
-  layout: 'empty',
 })
 export default class Login extends Vue {
   private loading: boolean = false

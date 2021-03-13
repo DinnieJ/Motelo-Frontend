@@ -1,17 +1,18 @@
 <template>
-  <section>
-    <h1 class="white--text text-center">ĐĂNG NHẬP</h1>
+  <section class="auth__section pa-2">
+    <h1 class="primary--text text-center auth__title">ĐĂNG NHẬP</h1>
+    <p class="text-center auth__subtitle"><i>Chào mừng bạn quay trở lại</i></p>
+
     <validation-observer ref="formObserver" v-slot="{ invalid }">
       <v-form
-        class="mt-3 d-flex flex-column justify-content-center white rounded-xl login__form"
+        class="mt-3 d-flex flex-column"
       >
         <v-autocomplete
           v-model="loginInfo.role"
           :items="roles"
           item-text="text"
           item-value="role_id"
-          filled
-          light
+          outlined
           label="Bạn đăng nhập theo tư cách"
         ></v-autocomplete>
         <validation-provider
@@ -22,7 +23,7 @@
           <v-text-field
             label="Email"
             v-model="loginInfo.email"
-            light
+            outlined
             :error-messages="errors"
           ></v-text-field>
         </validation-provider>
@@ -37,7 +38,7 @@
             :type="showPassword ? 'text' : 'password'"
             @click:append="showPassword = !showPassword"
             label="Password"
-            light
+            outlined
             color="primary"
             :error-messages="errors"
           ></v-text-field>
@@ -50,13 +51,10 @@
         >
           Đăng nhập
         </v-btn>
-        <v-btn class="mt-3" light>
-          <v-icon left>mdi-google</v-icon>
-          Login with google
-        </v-btn>
         <nuxt-link to="/register" class="mt-5 text-center"
           >Đăng kí nếu chưa có tài khoản</nuxt-link
         >
+        <v-img lazy-src="/imgs/undraw_city_life_gnpr.svg" />
       </v-form>
     </validation-observer>
   </section>

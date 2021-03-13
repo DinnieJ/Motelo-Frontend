@@ -13,8 +13,7 @@
             v-model="registerInfo.name"
             label="Tên"
             name="name"
-            light
-            clearable
+            outlined
             class="required"
             :error-messages="errors"
           ></v-text-field>
@@ -28,9 +27,8 @@
             v-model="registerInfo.email"
             label="Email"
             name="email"
-            light
+            outlined
             class="required"
-            clearable
             :error-messages="errors"
           ></v-text-field>
         </validation-provider>
@@ -43,9 +41,8 @@
             v-model="registerInfo.address"
             label="Địa chỉ"
             name="address"
-            light
+            outlined
             class="required"
-            clearable
             :error-messages="errors"
           ></v-text-field>
         </validation-provider>
@@ -64,6 +61,7 @@
               light
               color="primary"
               readonly
+              outlined
               class="required"
               v-bind="attrs"
               v-on="on"
@@ -74,42 +72,66 @@
             @input="dateDialog = false"
           ></v-date-picker>
         </v-menu>
+        <p>Liên lạc</p>
         <v-row
           v-for="(contact, i) in registerInfo.contact"
           :key="i"
-          class="flex align-center"
+          class="d-flex align-start"
         >
-          <v-col cols="3">
-            <v-select
-              v-model="contact.type"
-              :items="contactItems"
-              item-text="text"
-              item-value="value"
-              label="Liên lạc"
-            ></v-select>
+          <v-col cols="2" sm="1">
+            <v-menu bottom offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <div
+                  v-bind="attrs"
+                  v-on="on"
+                  class="d-flex justify-start align-center auth__select"
+                >
+                  <v-img
+                    contain
+                    max-width="2rem"
+                    max-height="2rem"
+                    :lazy-src="contactItems.filter(item => item.value == contact.type)[0].img"
+                  />
+                  <v-icon>mdi-menu-down</v-icon>
+                </div>
+              </template>
+              <v-list>
+                <v-list-item v-for="(item, index) in contactItems" :key="index" @click="contact.type = item.value">
+                  <v-img
+                    contain
+                    max-width="2rem"
+                    max-height="2rem"
+                    :lazy-src="item.img"
+                  />
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-col>
-          <v-col cols="8">
+          <v-col cols="8" sm="10" class="pl-6">
             <validation-provider
               v-slot="{ errors }"
               :name="`contact-${i}`"
               :rules="rules.date_of_birth"
             >
               <v-text-field
+                outlined
+                full-width
                 v-model="contact.content"
                 :error-messages="errors"
               ></v-text-field>
             </validation-provider>
           </v-col>
           <v-col cols="1">
-            <v-btn icon x-small @click="removeContactBox(i)">
-              <v-icon>mdi-close</v-icon>
+            <v-btn icon @click="removeContactBox(i)">
+              <v-icon>mdi-close-circle</v-icon>
             </v-btn>
           </v-col>
         </v-row>
         <v-btn
           small
           @click="addContactBox"
-          :disabled="registerInfo.contact.length >= 4"
+          :disabled="registerInfo.contact.length >= 5"
+          class="mb-3"
           >Thêm liên lạc</v-btn
         >
         <validation-provider
@@ -125,8 +147,7 @@
             @click:append="showPassword = !showPassword"
             label="Mật khẩu"
             name="password"
-            light
-            clearable
+            outlined
             color="primary"
             class="required"
             :error-messages="errors"
@@ -143,8 +164,7 @@
             :type="showPassword ? 'text' : 'password'"
             @click:append="showPassword = !showPassword"
             label="Nhập lại Mật khẩu"
-            light
-            clearable
+            outlined
             color="primary"
             class="required"
             :error-messages="errors"
@@ -180,10 +200,7 @@ import {
   setInteractionMode,
 } from 'vee-validate'
 import { required, email, min, confirmed } from 'vee-validate/dist/rules'
-import {
-  OwnerRegisterDTO,
-  OwnerRegisterRule,
-} from '@/constants/app.interface'
+import { OwnerRegisterDTO, OwnerRegisterRule } from '@/constants/app.interface'
 
 setInteractionMode('eager')
 
@@ -253,18 +270,22 @@ export default class OwnerRegisterForm extends Vue {
     {
       text: 'Email',
       value: 1,
+      img: '/imgs/logo-mail.png',
     },
     {
       text: 'Điện thoại',
       value: 2,
+      img: '/imgs/logo-phone.png',
     },
     {
       text: 'Zalo',
       value: 3,
+      img: '/imgs/logo-zalo.jpg',
     },
     {
       text: 'Facebook',
       value: 4,
+      img: '/imgs/logo-facebook.png',
     },
   ]
   private dateDialog = false

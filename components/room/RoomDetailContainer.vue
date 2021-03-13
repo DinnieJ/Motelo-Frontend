@@ -1,80 +1,76 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-sheet light rounded="lg" min-height="40vh" class="mt-6">
-        <v-row class="pa-2">
-          <v-col cols="12" :lg="forOwner ? 12 : 6">
-            <images-slide :imgs="room.imgLinks" />
-          </v-col>
-          <v-col cols="12" lg="6" v-if="!forOwner">
-            <small-map />
-          </v-col>
-        </v-row>
-      </v-sheet>
-
-      <v-row>
-        <v-col cols="12" lg="7">
-          <v-sheet light rounded="lg" class="mt-6 pa-2">
-            <room-title-section
-              :breadcrumbs="breadcrumbLinks"
-              :favorite.sync="asyncFavorite"
-              :clickFavor="clickFavor"
-              :title="room.title"
-              :forOwner="forOwner"
-              :clickDelete="clickDelete"
-              :roomId="room.id"
-            />
-
-            <room-verify-section v-if="room.verify" />
-
-            <basic-section
-              :price="room.price"
-              :area="room.area"
-              :eservation_fee="room.eservation_fee"
-              :electric="room.inn.electric"
-              :water="room.water"
-              :wifi="room.inn.wifi"
-              :capacity="room.capacity"
-              :gender="room.gender.text"
-              :available="room.available"
-              :inn_name="room.inn.name"
-              :address="room.inn.address"
-            />
-
-            <amenitie-section :amenities="room.inn.amenities" />
-
-            <safety-section
-              :security="room.inn.security"
-              :open_time="room.inn.open_time"
-            />
-
-            <room-description-section :description="room.description" />
-          </v-sheet>
+  <div>
+    <section class="white pa-1 rounded">
+      <v-row class="pa-1">
+        <v-col cols="12" :sm="forOwner ? 12 : 6">
+          <images-slide :imgs="room.imgLinks" />
         </v-col>
-        <v-col cols="12" lg="5" class="pr-2">
-          <v-sheet light rounded="lg" class="mt-6 pa-2">
-            <v-layout justify-center>
-              <p class="title">
-                Ngày đăng: <span>{{ room.accept_date }}</span>
-              </p>
-            </v-layout>
-
-            <room-owner-section 
-              class="pa-2" 
-              :owner="room.inn.owner"
-            />
-
-            <room-comment-section
-              :comments.sync="asyncComments"
-              :addComment="addComment"
-              :editComment="editComment"
-              :deleteComment="deleteComment"
-            />
-          </v-sheet>
+        <v-col cols="12" sm="6" v-if="!forOwner">
+          <small-map />
         </v-col>
       </v-row>
-    </v-col>
-  </v-row>
+    </section>
+    <!-- <v-sheet light rounded="lg" min-height="40vh" class="mt-6">
+        
+      </v-sheet> -->
+
+    <v-row class="mt-3">
+      <v-col cols="12" lg="7" class="pt-0">
+        <section class="white pa-1 rounded">
+          <room-title-section
+            :breadcrumbs="breadcrumbLinks"
+            :favorite.sync="asyncFavorite"
+            :clickFavor="clickFavor"
+            :title="room.title"
+            :forOwner="forOwner"
+            :clickDelete="clickDelete"
+            :roomId="room.id"
+          />
+
+          <p class="small my-3">
+            Ngày đăng: <i>{{ room.accept_date }}</i>
+          </p>
+
+          <room-verify-section v-if="room.verify" />
+
+          <basic-section
+            :price="room.price"
+            :area="room.area"
+            :eservation_fee="room.eservation_fee"
+            :electric="room.inn.electric"
+            :water="room.water"
+            :wifi="room.inn.wifi"
+            :capacity="room.capacity"
+            :gender="room.gender.text"
+            :available="room.available"
+            :inn_name="room.inn.name"
+            :address="room.inn.address"
+          />
+
+          <amenitie-section :amenities="room.inn.amenities" />
+
+          <safety-section
+            :security="room.inn.security"
+            :open_time="room.inn.open_time"
+          />
+
+          <room-description-section :description="room.description" />
+        </section>
+      </v-col>
+      <v-col cols="12" lg="5" class="pt-0">
+        <section class="white pa-1 rounded">
+          <room-owner-section class="pa-2" :owner="room.inn.owner" />
+
+          <room-comment-section
+            :comments.sync="asyncComments"
+            :addComment="addComment"
+            :editComment="editComment"
+            :deleteComment="deleteComment"
+          />
+        </section>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script lang="ts">

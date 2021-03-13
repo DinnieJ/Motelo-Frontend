@@ -1,12 +1,13 @@
 <template>
-  <v-card rounded="lg" class="mt-12 pa-3">
+  <div class="mt-6 pa-3">
     <div>
-      <v-layout>
-        <v-icon class="mx-3" size="32" color="success" dark>
-          mdi-thumb-up
-        </v-icon>
-        <h1 class="post__title">Tiện ích</h1>
-      </v-layout>
+        <h1 >
+          <v-icon class="mx-3" size="32" color="success" dark>
+            mdi-thumb-up
+          </v-icon>
+
+          <span>Tiện ích</span>
+        </h1>
       <v-divider />
     </div>
     <v-row class="mt-6">
@@ -19,7 +20,7 @@
         </h3>
       </v-col>
     </v-row>
-  </v-card>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,127 +1,111 @@
 <template>
-  <v-container fluid>
-    <v-card class="grey lighten-3">
-      <v-toolbar dark color="primary">
-        <v-toolbar-title>Thiết lập tài khoản</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn text color="warning" @click="handleCancelClick()">
-            Hủy bỏ
+  <v-container>
+    <v-layout d-flex justify-center class="rounded white">
+      <div class="auth__section pa-2">
+        <v-layout justify-space-between>
+          <h1 class="primary--text ma-0 auth__title">SỬA TÀI KHOẢN</h1>
+          <v-btn color="secondary" text icon @click="handleCancelClick()">
+            <v-icon>mdi-close-circle</v-icon>
           </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-row class="mt-5 justify-center align-center">
-        <v-col cols="12" md="6">
+        </v-layout>
+
+        <v-layout class="mt-3 d-flex flex-column">
           <validation-observer ref="formObserver" v-slot="{ invalid }">
-            <v-sheet min-height="60vh" rounded="lg" class="pa-5">
-              <v-row>
-                <v-col cols="12" class="pa-2">
-                  <v-layout column align-center>
-                    <v-avatar size="300">
-                      <img src="/imgs/anh_homepage.jpg" alt="" />
-                    </v-avatar>
-                    <v-btn class="mt-3">Đổi ảnh đại diện</v-btn>
-                  </v-layout>
-                </v-col>
-                <v-col cols="12" class="pa-2">
-                  <div>
-                    <validation-provider
-                      v-slot="{ errors }"
-                      name="email"
-                      :rules="rules.email"
-                    >
-                      <v-text-field
-                        class="text-h5"
-                        label="Email"
-                        v-model="userInfo.email"
-                        :error-messages="errors"
-                        readonly
-                        disabled
-                      ></v-text-field>
-                    </validation-provider>
-                  </div>
-                  <div>
-                    <validation-provider
-                      v-slot="{ errors }"
-                      name="name"
-                      :rules="rules.name"
-                    >
-                      <v-text-field
-                        class="text-h5"
-                        label="Tên"
-                        v-model="userInfo.name"
-                        :error-messages="errors"
-                      ></v-text-field>
-                    </validation-provider>
-                  </div>
-                  <div v-if="userInfo.date_of_birth">
-                    <v-menu
-                      v-model="dateDialog"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="userInfo.date_of_birth"
-                          label="Ngay sinh"
-                          light
-                          color="primary"
-                          readonly
-                          class="required"
-                          v-bind="attrs"
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker
-                        v-model="userInfo.date_of_birth"
-                        @input="dateDialog = false"
-                      ></v-date-picker>
-                    </v-menu>
-                  </div>
-                  <div v-if="userInfo.phone_number">
-                    <validation-provider
-                      v-slot="{ errors }"
-                      name="name"
-                      :rules="rules.phone_number"
-                    >
-                      <v-text-field
-                        class="text-h5"
-                        label="Số điện thoại"
-                        v-model="userInfo.phone_number"
-                        :error-messages="errors"
-                      ></v-text-field>
-                    </validation-provider>
-                  </div>
-                  <v-layout justify-end class="mt-5">
-                    <v-btn
-                      rounded
-                      outlined
-                      :disabled="invalid"
-                      color="primary"
-                      @click="handleSubmitClick()"
-                      class="mr-5"
-                    >
-                      Lưu
-                    </v-btn>
-                    <v-btn
-                      rounded
-                      outlined
-                      color="warning"
-                      @click="handleCancelClick()"
-                    >
-                      Hủy bỏ
-                    </v-btn>
-                  </v-layout>
-                </v-col>
-              </v-row>
-            </v-sheet>
+            <v-form
+              class="d-flex flex-column justify-content-center login__form"
+            >
+              <validation-provider
+                v-slot="{ errors }"
+                name="email"
+                :rules="rules.email"
+              >
+                <v-text-field
+                  label="Email"
+                  name="email"
+                  v-model="userInfo.email"
+                  outlined
+                  :error-messages="errors"
+                  readonly
+                  disabled
+                ></v-text-field>
+              </validation-provider>
+              <validation-provider
+                v-slot="{ errors }"
+                name="name"
+                :rules="rules.name"
+              >
+                <v-text-field
+                  label="Tên"
+                  name="name"
+                  v-model="userInfo.name"
+                  outlined
+                  :error-messages="errors"
+                ></v-text-field>
+              </validation-provider>
+
+              <validation-provider
+                v-slot="{ errors }"
+                name="email"
+                :rules="rules.phone"
+              >
+                <v-text-field
+                  v-model="userInfo.phone"
+                  label="Số điện thoại"
+                  name="phone"
+                  outlined
+                  :error-messages="errors"
+                ></v-text-field>
+              </validation-provider>
+              <v-menu
+                v-model="dateDialog"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="userInfo.date_of_birth"
+                    label="Ngày sinh"
+                    outlined
+                    color="primary"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="userInfo.date_of_birth"
+                  @input="dateDialog = false"
+                ></v-date-picker>
+              </v-menu>
+
+              <v-layout justify-end>
+                <v-btn
+                  color="primary"
+                  :disabled="invalid"
+                  :loading="loading"
+                  class="mr-1"
+                  @click="handleSubmitClick()"
+                >
+                  Lưu
+                </v-btn>
+
+                <v-btn
+                  rounded
+                  outlined
+                  color="warning"
+                  @click="handleCancelClick()"
+                  >Hủy</v-btn
+                >
+              </v-layout>
+            </v-form>
           </validation-observer>
-        </v-col>
-      </v-row>
-    </v-card>
+        </v-layout>
+      </div>
+    </v-layout>
+
     <warning-dialog
       title="Hủy thay đổi"
       content="Bạn có chắc chắn muốn hủy bỏ thông tin vừa thay đổi"
@@ -140,7 +124,12 @@
 </template>
 
 <script lang="ts">
-import { ValidationProvider, extend, setInteractionMode, ValidationObserver } from 'vee-validate'
+import {
+  ValidationProvider,
+  extend,
+  setInteractionMode,
+  ValidationObserver,
+} from 'vee-validate'
 import { Component, Vue } from 'vue-property-decorator'
 import PolicyCard from '@/components/common/PolicyCard.vue'
 import InnUpdateSteppers from '@/components/inn/InnUpdateSteppers.vue'
@@ -181,7 +170,7 @@ extend('numeric', {
     InnUpdateSteppers,
     WarningDialog,
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
   middleware: ['authenticated', 'isTenant'],
 })

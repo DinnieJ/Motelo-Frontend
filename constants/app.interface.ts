@@ -3,6 +3,7 @@ import { Contact } from '@/constants/app.constant'
 
 /* eslint-disable camelcase */
 export interface NavLink {
+  icon: string
   code: string
   text: string
   to: string
@@ -67,7 +68,7 @@ export class RoomCardDTO {
   }
 
   public get priceUnit(): string {
-    return 'tr/tháng'
+    return 'tr VND/tháng'
   }
 
   public get capacityString(): string {

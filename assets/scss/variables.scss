@@ -2,3 +2,29 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+
+// Size
+$nav-bottom-height: 56px;
+$min-width_sm: 600px;
+$min-width_md: 1184px;
+
+// font size < sm
+$h1-font-size: 2rem;
+$h2-font-size: 1.25rem;
+$h3-font-size: 1rem;
+$normal-font-size: .875rem;
+$small-font-size: .813rem;
+$smaller-font-size: .78rem;
+
+// font size >= sm
+$h1-font-size_sm: 2.25rem;
+$h2-font-size_sm: 1.5rem;
+$h3-font-size_sm: 1.25rem;
+$normal-font-size_sm: 1rem;
+$small-font-size_sm: .875rem;
+$smaller-font-size_sm: .813rem;
+
+$body-font: 'Raleway', sans-serif;
+
+// color
+$bg-color: #f4f4f4;

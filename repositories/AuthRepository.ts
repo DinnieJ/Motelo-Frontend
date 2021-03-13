@@ -26,7 +26,7 @@ export default class AuthRepository {
       password: data.password,
       name: data.name,
       date_of_birth: data.date_of_birth,
-      phone: data.phone
+      phone_number: data.phone
     })
   }
 
