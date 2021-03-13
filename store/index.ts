@@ -45,6 +45,16 @@ export const actions: IndexAction<IndexState, RootState> = {
                 redirect('/login')
               })
             break
+          case ROLE.OWNER:
+            await AuthRepository.getOwner()
+              .then((response) => {
+                commit(`auth/${AuthMutation.SET_USER}`, response.data)
+              })
+              .catch((error) => {
+                dispatch(DispatchAction.CLEAR_AUTH)
+                redirect('/login')
+              })
+            break
         }
       } catch (e) {}
     }

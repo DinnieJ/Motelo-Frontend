@@ -66,7 +66,15 @@
       </div>
 
       <v-layout justify-space-between class="nav__toolbar">
-        <v-img lazy-src="/imgs/logo.png" max-width="110" contain class="ml-6" />
+        <nuxt-link :to="getPersonalLink()">
+          <v-img
+            :lazy-src="loadingImg"
+            src="/imgs/logo.png"
+            max-width="110"
+            contain
+            class="ml-6"
+          />
+        </nuxt-link>
 
         <div class="d-flex">
           <v-btn color="white" icon @click="drawer = !drawer">
@@ -81,7 +89,14 @@
       <v-container
         class="py-0 fill-height d-flex justify-space-between align-center"
       >
-        <v-img lazy-src="/imgs/logo.png" max-width="137" />
+        <nuxt-link :to="getPersonalLink()">
+          <v-img
+            :lazy-src="loadingImg"
+            src="/imgs/logo.png"
+            max-width="137"
+            contain
+          />
+        </nuxt-link>
 
         <div class="d-flex">
           <template v-for="link in links">
@@ -128,7 +143,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { NavLink } from '@/constants/app.interface'
-import { NAV_LINKS, ROLE } from '@/constants/app.constant'
+import { NAV_LINKS, ROLE, LOADING_IMG } from '@/constants/app.constant'
 import AccountBar from '@/components/account/AccountBar.vue'
 import AccountCard from '@/components/account/AccountCard.vue'
 import Snackbar from '@/components/common/Snackbar.vue'
@@ -147,7 +162,6 @@ import { setToken } from '@/repositories/BaseRepository'
     ...mapGetters({
       user: Getter.USER,
       role: Getter.ROLE,
-      token: Getter.TOKEN,
     }),
   },
   created() {
@@ -162,6 +176,8 @@ export default class Default extends Vue {
   private drawer: boolean = false
   $notify: any
 
+  private loadingImg: string = LOADING_IMG
+
   public isMobile(): boolean {
     return this.$vuetify.breakpoint.smAndDown
   }
@@ -171,8 +187,10 @@ export default class Default extends Vue {
     switch (context.role) {
       case ROLE.TENANT:
         return '/personal'
+      case ROLE.OWNER:
+        return '/owner/home'
       default:
-        return '/personal'
+        return '/'
     }
   }
 
