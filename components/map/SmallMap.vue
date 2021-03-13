@@ -1,5 +1,5 @@
 <template>
-  <v-img src="/imgs/map_minh_hoa.png" class="rounded" max-height="100%" />
+  <v-img lazy-src="/imgs/map_minh_hoa.png" class="rounded" max-height="100%" />
 </template>
 
 <script lang="ts">

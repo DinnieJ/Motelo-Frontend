@@ -1,76 +1,67 @@
 <template>
   <v-container>
-    <v-row>
-      <!-- Filter for desktop screen -->
-      <v-col cols="2" class="d-none d-lg-block">
-        <v-sheet rounded="lg" light class="pa-3">
-          <room-filter v-model="filterValue" :submit="clickFilter" />
-        </v-sheet>
-      </v-col>
-
-      <v-col cols="12" lg="10">
-        <v-sheet min-height="80vh" rounded="lg" light class="py-2 px-3">
-          <!-- Search -->
-          <search-address />
-
-          <!-- Filter for tablet and mobile screen -->
-          <v-expansion-panels class="d-flex d-lg-none">
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                <h2>Bộ lọc</h2>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <room-filter sm v-model="filterValue" :submit="clickFilter" />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-
-          <v-breadcrumbs :items="breadcrumbLinks">
-            <template #divider>
-              <v-icon>mdi-chevron-right</v-icon>
+    <section class="white pa-1 rounded">
+      <v-row>
+        <v-col sm="2" cols="12">
+          <v-btn outlined block color="grey" @click="openFilter = true">
+            <v-icon class="mr-3">mdi-filter</v-icon>
+            Lọc
+          </v-btn>
+        </v-col>
+        <v-col sm="10" cols="12">
+          <v-text-field
+            dense
+            solo
+            hide-details
+            placeholder="Search"
+            append-icon="mdi-magnify"
+            color="primary"
+            v-model="filterValue.keyword"
+            @keyup.enter="getRoomByFilter"
+          >
+            <template v-slot:append>
+              <v-btn depressed icon color="primary" class="ma-0" @click="getRoomByFilter">
+                <v-icon>mdi-magnify</v-icon>
+              </v-btn>
             </template>
-          </v-breadcrumbs>
-          <v-row>
-            <!-- List post -->
-            <v-col lg="6" cols="12">
-              <section v-if="loading">
-                <h1>Loading</h1>
-              </section>
-              <v-row v-else>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  lg="12"
-                  v-for="room in roomCardObjs"
-                  :key="room.id"
-                >
-                  <room-card :room="room" />
-                </v-col>
-              </v-row>
-
-              <v-pagination
-                v-model="filterValue.page"
-                :length="totalPage"
-                total-visible="7"
-                circle
-                @input="getRoomByFilter"
-              ></v-pagination>
-            </v-col>
-            <v-col lg="6" cols="12">
-              <!-- Map -->
-              <big-map />
+          </v-text-field>
+        </v-col>
+        <!-- List post -->
+        <v-col sm="6" cols="12">
+          <section v-if="loading">
+            <h1>Loading</h1>
+          </section>
+          <v-row v-else>
+            <v-col cols="12" md="6" v-for="room in roomCardObjs" :key="room.id">
+              <room-card :room="room" />
             </v-col>
           </v-row>
-        </v-sheet>
-      </v-col>
-    </v-row>
+
+          <v-pagination
+            v-model="filterValue.page"
+            :length="totalPage"
+            total-visible="7"
+            circle
+            @input="getRoomByFilter"
+          ></v-pagination>
+        </v-col>
+        <v-col sm="6" cols="12">
+          <!-- Map -->
+          <big-map />
+        </v-col>
+      </v-row>
+    </section>
+    <v-dialog max-width="1184px" v-model="openFilter" :fullscreen="$vuetify.breakpoint.smAndDown">
+      <v-card>
+        <room-filter v-model="filterValue" :submit="clickFilter" />
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import {
-  BreadcrumbLink,
   RoomCardDTO,
   RoomFilterDTO,
 } from '@/constants/app.interface'
@@ -106,22 +97,11 @@ declare module 'vue/types/vue' {
   },
 })
 export default class List extends Vue {
-  private breadcrumbLinks: BreadcrumbLink[] = [
-    {
-      text: 'Hà Nội',
-      disabled: false,
-      href: 'breadcrumbs_dashboard',
-    },
-    {
-      text: 'Tây Hồ',
-      disabled: true,
-      href: 'breadcrumbs_link_1',
-    },
-  ]
-
   private loading: boolean = false
 
   private roomCardObjs: RoomCardDTO[] = []
+
+  private openFilter: boolean = false
 
   private totalPage: number = 1
   private filterValue: RoomFilterDTO = new RoomFilterDTO()
@@ -131,11 +111,12 @@ export default class List extends Vue {
   }
 
   public async getRoomByFilter(): Promise<void> {
+    this.openFilter = false
     this.loading = true
     await RoomRepository.getRoomsByFilter(this.filterValue)
       .then((response) => {
         let rooms: any = response.data.data
-        this.roomCardObjs = rooms.map(function(item:any) {
+        this.roomCardObjs = rooms.map(function (item: any) {
           return new RoomCardDTO(item)
         })
         this.totalPage = response.data.total_page
@@ -145,7 +126,7 @@ export default class List extends Vue {
       })
       .finally(() => {
         this.loading = false
-        this.$router.push({path:'/rooms',  query: this.filterValue.toObject })
+        this.$router.push({ path: '/rooms', query: this.filterValue.toObject })
       })
   }
 }

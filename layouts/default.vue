@@ -1,63 +1,125 @@
 <template>
   <v-app id="inspire">
-    <v-toolbar max-height="60px" dense flat light class="d-md-none">
-      <v-layout justify-space-between>
-        <v-img contain src="/imgs/logo.png" max-width="137" class="mr-10" />
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      </v-layout>
-    </v-toolbar>
-    <v-navigation-drawer
-      v-model="drawer"
-      right
-      light
+    <!-- Navigation "< sm" -->
+    <v-bottom-navigation
+      v-if="isMobile()"
       fixed
-      class="pa-4 d-md-none"
+      class="primary d-block"
+      min-height="51px"
+      height="auto"
     >
-      <v-layout justify-center>
-        <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
-      </v-layout>
-      <v-divider class="my-3"></v-divider>
-      <account-card v-if="user"></account-card>
-      <div v-for="link in links" :key="link.code">
-        <v-btn
-          v-if="link.roles.includes(role)"
-          text
-          color="primary"
-          :to="link.to"
-          block
-        >
-          {{ link.text }}
-        </v-btn>
+      <div :class="`nav__menu ${drawer ? 'active' : ''}`">
+        <v-row class="ma-0">
+          <template v-for="link in links">
+            <v-col
+              cols="6"
+              sm="4"
+              :key="link.code"
+              class="pa-1"
+              v-if="link.roles.includes(role)"
+            >
+              <v-btn
+                x-small
+                :to="link.to"
+                plain
+                block
+                color="white"
+                @click="drawer = false"
+              >
+                <v-layout column>
+                  <v-icon class="mb-2"> {{ `mdi-${link.icon}` }} </v-icon>
+                  <span>
+                    {{ link.text }}
+                  </span>
+                </v-layout>
+              </v-btn>
+            </v-col>
+          </template>
+          <template v-if="user">
+            <v-col cols="6" sm="4" class="pa-1">
+              <v-btn
+                x-small
+                :to="getPersonalLink()"
+                plain
+                block
+                color="white"
+                @click="drawer = false"
+              >
+                <v-layout column>
+                  <v-icon class="mb-2"> mdi-account </v-icon>
+                  <span>
+                    {{ user.name }}
+                  </span>
+                </v-layout>
+              </v-btn>
+            </v-col>
+            <v-col cols="6" sm="4" class="pa-1">
+              <v-btn x-small plain block color="white" @click="clickLogout">
+                <v-layout column>
+                  <v-icon class="mb-2"> mdi-logout </v-icon>
+                  <span> Đăng xuất </span>
+                </v-layout>
+              </v-btn>
+            </v-col>
+          </template>
+        </v-row>
       </div>
-      <v-divider class="my-3" v-if="user"></v-divider>
-      <div v-if="user">
-        <v-btn text color="primary" block to="/personal"> Cá nhân </v-btn>
-        <v-btn text color="primary" block @click="clickLogout"> Đăng xuất </v-btn>
-      </div>
-    </v-navigation-drawer>
 
-    <v-app-bar max-height="60px" dense flat light class="d-none d-md-block">
-      <v-container class="py-0 fill-height">
-        <v-img src="/imgs/logo.png" max-width="137" class="mr-10" />
+      <v-layout justify-space-between class="nav__toolbar">
+        <v-img lazy-src="/imgs/logo.png" max-width="110" contain class="ml-6" />
 
-        <v-spacer></v-spacer>
-        <div v-for="link in links" :key="link.code">
-          <v-btn
-            v-if="link.roles.includes(role)"
-            text
-            color="primary"
-            :to="link.to"
-          >
-            {{ link.text }}
+        <div class="d-flex">
+          <v-btn color="white" icon @click="drawer = !drawer">
+            <v-icon color="white"> mdi-clipboard-arrow-up </v-icon>
           </v-btn>
         </div>
-        <account-bar v-if="user" @click-logout="clickLogout"></account-bar>
+      </v-layout>
+    </v-bottom-navigation>
+
+    <!-- Navigation ">= sm" -->
+    <v-app-bar v-if="!isMobile()" max-height="60px" class="primary">
+      <v-container
+        class="py-0 fill-height d-flex justify-space-between align-center"
+      >
+        <v-img lazy-src="/imgs/logo.png" max-width="137" />
+
+        <div class="d-flex">
+          <template v-for="link in links">
+            <div :key="link.code">
+              <v-btn
+                v-if="link.roles.includes(role)"
+                color="white"
+                x-small
+                plain
+                :to="link.to"
+              >
+                <v-icon dark class="mr-2"> {{ `mdi-${link.icon}` }} </v-icon>
+                {{ link.text }}
+              </v-btn>
+            </div>
+          </template>
+
+          <template v-if="user">
+            <div>
+              <v-btn plain color="white" x-small :to="getPersonalLink()">
+                <v-icon dark class="mr-2"> mdi-account </v-icon>
+                {{ user.name }}
+              </v-btn>
+            </div>
+            <div>
+              <v-btn plain color="white" x-small @click="clickLogout">
+                <v-icon dark class="mr-2"> mdi-logout </v-icon>
+                Đăng xuất
+              </v-btn>
+            </div>
+          </template>
+        </div>
       </v-container>
     </v-app-bar>
 
     <snackbar />
 
-    <v-main class="grey lighten-3">
+    <v-main class="main">
       <nuxt />
     </v-main>
   </v-app>
@@ -66,7 +128,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { NavLink } from '@/constants/app.interface'
-import { NAV_LINKS } from '@/constants/app.constant'
+import { NAV_LINKS, ROLE } from '@/constants/app.constant'
 import AccountBar from '@/components/account/AccountBar.vue'
 import AccountCard from '@/components/account/AccountCard.vue'
 import Snackbar from '@/components/common/Snackbar.vue'
@@ -85,7 +147,7 @@ import { setToken } from '@/repositories/BaseRepository'
     ...mapGetters({
       user: Getter.USER,
       role: Getter.ROLE,
-      token: Getter.TOKEN
+      token: Getter.TOKEN,
     }),
   },
   created() {
@@ -100,16 +162,24 @@ export default class Default extends Vue {
   private drawer: boolean = false
   $notify: any
 
-  public async clickLogout(e: Event) {
-    const logout = await this.$store.dispatch(DispatchAction.LOGOUT)
-    if (logout) {
-      this.$router.push('/')
-    } else {
-      this.$notify.showMessage({
-        message: 'Đăng xuất không thành công',
-        color: 'red',
-      })
+  public isMobile(): boolean {
+    return this.$vuetify.breakpoint.smAndDown
+  }
+
+  public getPersonalLink(): string {
+    const context: any = this
+    switch (context.role) {
+      case ROLE.TENANT:
+        return '/personal'
+      default:
+        return '/personal'
     }
+  }
+
+  public async clickLogout(e: Event) {
+    this.drawer = false
+    const logout = await this.$store.dispatch(DispatchAction.LOGOUT)
+    this.$router.push('/login')
   }
 }
 </script>

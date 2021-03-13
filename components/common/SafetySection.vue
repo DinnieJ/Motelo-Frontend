@@ -1,33 +1,35 @@
 <template>
-  <v-card rounded="lg" class="mt-12 pa-3">
+  <div class="mt-6 pa-3">
     <div>
-      <v-layout>
-        <v-icon class="mx-3" size="32" color="info" dark>
-          mdi-lock-check
-        </v-icon>
-        <h1 class="post__title">An toàn</h1>
-      </v-layout>
+        <h1 >
+          <v-icon class="mx-3" size="32" color="info" dark>
+            mdi-lock-check
+          </v-icon>
+          <span> An toàn </span>
+        </h1>
       <v-divider />
     </div>
-    <v-row class="mt-6"> 
+    <v-row class="mt-3">
       <v-col cols="6" md="3" v-for="item in security" :key="item.code">
         <h3 class="font-weight-light">
           <span class="mr-2">
-            <v-icon size="32">{{`mdi-${item.icon}`}}</v-icon>
+            <v-icon size="32">{{ `mdi-${item.icon}` }}</v-icon>
           </span>
           <span>{{ item.text }}</span>
         </h3>
       </v-col>
-      <v-col cols="6" md="3">
+      <v-col cols="12" sm="6">
         <h3 class="font-weight-light">
           <span class="mr-2">
             <v-icon size="32">mdi-door-closed-lock</v-icon>
           </span>
-          <span>{{`Giờ mở cổng: ${open_time.open}h - ${open_time.close}h`}}</span>
+          <span>{{
+            `Giờ mở cổng: ${open_time.open}h - ${open_time.close}h`
+          }}</span>
         </h3>
       </v-col>
     </v-row>
-  </v-card>
+  </div>
 </template>
 
 <script lang="ts">

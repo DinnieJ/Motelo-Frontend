@@ -3,8 +3,9 @@
     outlined
     name="comment"
     label="Thêm nhận xét"
-    clearable
     v-model="value"
+    rows="2"
+    auto-grow
     ><v-icon slot="append-outer" :disabled="!value" @click="addComment">mdi-send</v-icon>
   </v-textarea>
 </template>

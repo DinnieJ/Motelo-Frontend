@@ -1,22 +1,22 @@
 <template>
   <div class="owner">
     <div>
-      <v-layout>
-        <v-icon class="mx-3" size="32" color="primary" dark>
-          mdi-book-account
-        </v-icon>
-        <h1 class="room__title">Chủ phòng</h1>
-      </v-layout>
+        <h1>
+          <v-icon class="mx-3" size="32" color="primary" dark>
+            mdi-book-account
+          </v-icon>
+          <span>Chủ phòng</span>
+        </h1>
       <v-divider />
     </div>
-    <v-layout class="mb-4">
-      <v-img src="/imgs/logo-name.png" max-width="32" max-height="32"></v-img>
+    <v-layout class="my-4">
+      <v-img lazy-src="/imgs/logo-name.png" max-width="32" max-height="32"></v-img>
       <p class="ml-6">{{ owner.name }}</p>
     </v-layout>
     <div v-for="contact in contacts" :key="contact.type">
       <div v-if="owner[contact.name].length">
-        <v-layout class="mb-4" v-for="item in owner[contact.name]" :key="item">
-          <v-img :src="contact.icon" max-width="32" max-height="32"></v-img>
+        <v-layout class="my-4" v-for="item in owner[contact.name]" :key="item">
+          <v-img :lazy-src="contact.icon" max-width="32" max-height="32"></v-img>
           <a
             v-if="contact.link"
             class="ml-6"
