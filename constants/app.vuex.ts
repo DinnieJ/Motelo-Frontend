@@ -12,7 +12,8 @@ export enum DispatchAction {
     ADD_BASIC_INN_INFO = "new-inn/addBasicInfo",
     ADD_INN_FEATURES = "new-inn/addFeatures",
     ADD_SECURITY_INFO = "new-inn/addSafetyFeatures",
-    ADD_LOCATION_INFO = "new-inn/addLocation"
+    ADD_LOCATION_INFO = "new-inn/addLocation",
+    CREATE_INN = "new-inn/createInn"
 }
 
 export enum MutationState {

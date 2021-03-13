@@ -28,6 +28,8 @@ import { ROLE } from '@/constants/app.constant'
     AccountProfile,
     InnProfile,
   },
+
+  middleware: ['hasInn'],
   asyncData({ store, redirect }) {
     if (store.state.auth.user) {
       if (store.state.auth.role != ROLE.OWNER) {

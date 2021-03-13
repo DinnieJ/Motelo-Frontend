@@ -1,6 +1,7 @@
 import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
 import FormData from 'form-data'
 import { GENDER } from '~/constants/app.constant'
+import InnRepository from '~/repositories/InnRepository'
 
 export interface CreateInnFormState {
     singleData: any,
@@ -27,6 +28,7 @@ export interface CreateInnAction<S,R> extends ActionTree<S,R> {
     addFeatures(context: ActionContext<S,R>, data:any): void
     addSafetyFeatures(context: ActionContext<S,R>, data: any): void
     addLocation(context: ActionContext<S,R>, data: any): void
+    createInn(context: ActionContext<S,R>, img: any[]) : Promise<any>
 }
 
 export const state = (): CreateInnFormState => ({
@@ -38,7 +40,6 @@ export const state = (): CreateInnFormState => ({
         open_minute: null,
         close_hour: null,
         close_minute: null,
-        description: '',
         location: '',
         address: '',
         features: [],
@@ -61,7 +62,6 @@ export const mutations: MutationTree<RootState> = {
     [CreateInnFormMutation.SET_CLOSE_HOUR]: (state, close_hour: any) => (state.singleData.close_hour = close_hour || 12),
     [CreateInnFormMutation.SET_CLOSE_MINUTE]: (state, close_minute: any) => (state.singleData.close_minute = close_minute || 0),
     [CreateInnFormMutation.SET_FEATURES]: (state, features: Array<any>) => (state.singleData.features = features),
-    [CreateInnFormMutation.SET_DESCRIPTION]: (state, description: string) => (state.singleData.description = description),
     [CreateInnFormMutation.SET_LOCATION]: (state, location: string) => (state.singleData.location = location),
     [CreateInnFormMutation.SET_ADDRESS]: (state, address: string) => (state.singleData.address = address),
     [CreateInnFormMutation.SET_SECURITY]: (state, security: number[]) => (state.singleData.features = state.singleData.features.concat(security)),
@@ -101,11 +101,35 @@ export const actions: CreateInnAction<CreateInnFormState, RootState> = {
         Object.keys(state.singleData).forEach(function(value, i) {
             requestData[value] = state.singleData[value]
         })
+        requestData.features = []
 
-        console.log(state.singleData.features.values())
-        //requestData.features = 
+        state.singleData.features.forEach(function(value: any) {
+            requestData.features.push(value)
+        })
 
-        console.log(requestData)
+    },
+
+    async createInn({ state }, data: any[]) :Promise<any> {
+        let formImageData = new FormData()
+        try {
+            await InnRepository.createInn(state.singleData)
+            .then((response) => {
+                formImageData.append('inn_id', response.data.inn_id)
+                data.forEach(function(value, i) {
+                    formImageData.append(`images[${i}]`, value)
+                })
+                return InnRepository.updateInnImage(formImageData)
+            }).then(response => {
+                console.log("success")
+            }) 
+            .catch(error => {
+                throw "Something is wrong"
+            })
+        } catch(error) {
+            return false
+        }
+        state.singleData = {}
+        return true
     }
 
 

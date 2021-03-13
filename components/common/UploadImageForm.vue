@@ -39,7 +39,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-btn color="primary" type="submit"> Tiếp theo </v-btn>
+    <v-btn color="primary" :loading="loading" @click="sendRequest"> Tiếp theo </v-btn>
 
     <v-btn @click="clickBack"> Trở lại </v-btn>
   </v-form>
@@ -47,6 +47,7 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from 'vue-property-decorator'
+import { DispatchAction } from '~/constants/app.vuex'
 
 @Component<UploadImageForm>({
   name: 'UploadImageForm',
@@ -54,6 +55,8 @@ import { Component, Vue, Emit } from 'vue-property-decorator'
 })
 export default class UploadImageForm extends Vue {
   private images: any[] = []
+  private loading: boolean = false
+  $notify: any
 
   @Emit('next')
   clickNext(event: Event): string {
@@ -64,6 +67,25 @@ export default class UploadImageForm extends Vue {
   @Emit('back')
   clickBack(event: Event) {
     event.preventDefault()
+  }
+
+  async sendRequest() {
+    this.loading = true
+    const create = await this.$store.dispatch(DispatchAction.CREATE_INN, this.images)
+    if(create) {
+      this.$notify.showMessage({
+        message:'Cài đặt thông tin nhà trọ thành công',
+        color: 'green'
+      })
+
+      this.$router.push('/owner/home')
+    } else {
+      this.$notify.showMessage({
+        message:'Co van de xay ra',
+        color: 'red'
+      })
+    }
+    this.loading = false
   }
 
   clickUpload(e: Event) {
