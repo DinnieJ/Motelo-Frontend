@@ -32,5 +32,6 @@ export enum Getter {
     SEARCH_MAX_PRICE = "search/max_price",
     SEARCH_FEATURES = "search/features",
     SEARCH_ROOM_TYPE = "search/room_type",
-    SEARCH_GENDER = "search/gender"
+    SEARCH_GENDER = "search/gender",
+    LOADING_IMG = "loadingImg"
 }

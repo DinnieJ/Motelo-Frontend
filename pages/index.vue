@@ -72,7 +72,7 @@
           </v-text-field>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-img lazy-src="/imgs/6268.jpg" />
+          <v-img :lazy-src="loadingImg" src="/imgs/6268.jpg" />
         </v-col>
       </v-row>
     </section>
@@ -144,6 +144,7 @@ import RoomCard from '@/components/room/RoomCard.vue'
 import SearchAddress from '@/components/map/SearchAddress.vue'
 
 import RoomRepository from '@/repositories/RoomRepository'
+import { LOADING_IMG } from '@/constants/app.constant'
 
 // eslint-disable-next-line no-use-before-define
 @Component<TenantHome>({
@@ -167,6 +168,7 @@ export default class TenantHome extends Vue {
   private verifiedRooms: RoomCardDTO[] = []
   private topFavoriteRooms: RoomCardDTO[] = []
   private keyword: string = ''
+  private loadingImg: string = LOADING_IMG
 
   public async getHomeData() {
     await Promise.all([

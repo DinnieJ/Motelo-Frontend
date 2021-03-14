@@ -52,4 +52,8 @@ export default class AuthRepository {
   public static getTenant(): Promise<AxiosResponse<any>> {
     return authenticatedService.get(`${Endpoint.AuthTenant}/user`)
   }
+
+  public static getOwner(): Promise<AxiosResponse<any>> {
+    return authenticatedService.get(`${Endpoint.AuthOwner}/user`)
+  }
 }

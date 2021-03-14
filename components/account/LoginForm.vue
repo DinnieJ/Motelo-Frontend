@@ -54,7 +54,7 @@
         <nuxt-link to="/register" class="mt-5 text-center"
           >Đăng kí nếu chưa có tài khoản</nuxt-link
         >
-        <v-img lazy-src="/imgs/undraw_city_life_gnpr.svg" />
+        <v-img :lazy-src="loadingImg" src="/imgs/undraw_city_life_gnpr.svg" />
       </v-form>
     </validation-observer>
   </section>
@@ -66,8 +66,7 @@ import { ValidationObserver, ValidationProvider, extend, setInteractionMode } fr
 import { LoginDTO } from '@/constants/app.interface'
 import { required, email, min, max } from 'vee-validate/dist/rules'
 import { LoginRule } from '@/constants/app.interface'
-import { ROLE } from '@/constants/app.constant'
-
+import { ROLE, LOADING_IMG } from '@/constants/app.constant'
 
 setInteractionMode('eager')
 
@@ -102,6 +101,9 @@ export default class LoginForm extends Vue {
     password: '',
     role: ROLE.TENANT, // default
   }
+
+  private loadingImg: string = LOADING_IMG
+
   private showPassword: boolean = false
   private rules: LoginRule = {
     email: { required: true, email: true },
