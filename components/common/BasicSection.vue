@@ -56,7 +56,7 @@
           <span v-if="available" class="success--text">Còn phòng</span>
           <span v-else class="warning--text">Hết phòng</span>
         </h3> </v-col
-      ><v-col cols="12" v-if="!forInn">
+      ><v-col cols="12">
         <p class="caption font-weight-thin font-italic">NHÀ TRỌ</p>
         <h3 class="font-weight-light">
           {{ inn_name }}

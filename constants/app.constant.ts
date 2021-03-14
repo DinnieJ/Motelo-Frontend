@@ -6,6 +6,8 @@ export const COOKIES = {
   TOKEN: 'token',
 }
 
+export const LOADING_IMG = "https://lh3.googleusercontent.com/proxy/N1sR8KAszrgh9kXVdElzPEZr9hIwYeXlrFADgGLGoQsQ_fr8uIhXteIIDaTRXWzCqp8P0anT2JGnK1JjWvFScaE"
+
 export const PRICE_FILTER = {
   MAX: 9,
   MIN: 0,
@@ -57,14 +59,7 @@ export const NAV_LINKS: NavLink[] = [
     icon: 'account-plus',
     roles: [ROLE.TENANT],
   },
-  // Owner link
-  {
-    code: 'owner_home',
-    text: 'Trang chủ',
-    to: '/owner/home',
-    icon: 'home',
-    roles: [ROLE.OWNER],
-  },
+  // Owner links
   {
     code: 'owner_room',
     text: 'Yêu cầu',
