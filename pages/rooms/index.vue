@@ -13,7 +13,7 @@
             dense
             solo
             hide-details
-            placeholder="Search"
+            placeholder="Tìm kiếm"
             append-icon="mdi-magnify"
             color="primary"
             v-model="keyword"
@@ -126,7 +126,7 @@ export default class List extends Vue {
   get page() {
     return this.$store.state.search.page
   }
-
+  
   set page(val) {
     this.$store.commit('search/setPage', val)
   }

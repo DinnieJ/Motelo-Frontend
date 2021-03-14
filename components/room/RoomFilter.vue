@@ -124,7 +124,6 @@ export default class RoomFilter extends Vue {
 
   public clearFilter() {
     this.$store.dispatch(DispatchAction.CLEAR_FILTER)
-    this.filterSearch()
   }
 
   get features() {
