@@ -17,9 +17,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '@/assets/scss/main.scss',
-  ],
+  css: ['@/assets/scss/main.scss'],
   generate: {
     cache: {
       ignore: [
@@ -36,14 +34,10 @@ export default {
   target: 'server',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    '@/plugins/notify'
-  ],
+  plugins: ['@/plugins/notify', { src: '~/plugins/google-maps.js' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: [
-    { path: '@/components/common', prefix: 'base' },
-  ],
+  components: [{ path: '@/components/common', prefix: 'base' }],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -56,10 +50,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    ['cookie-universal-nuxt', { parseJSON: false }],
-    '@nuxtjs/pwa',
-  ],
+  modules: [['cookie-universal-nuxt', { parseJSON: false }], '@nuxtjs/pwa'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -79,14 +70,12 @@ export default {
     },
   },
   env: {
-    BASE_API: process.env.BASE_API
+    BASE_API: process.env.BASE_API,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [
-      'vee-validate'
-    ],
+    transpile: ['vee-validate', /^vue2-google-maps($|\/)/],
     extractCSS: {
       ignoreOrder: true,
     },
@@ -128,8 +117,8 @@ export default {
         chunks: 'all',
         automaticNameDelimiter: '.',
         name: undefined,
-        cacheGroups: {}
-      }
+        cacheGroups: {},
+      },
     },
-  }
+  },
 }
