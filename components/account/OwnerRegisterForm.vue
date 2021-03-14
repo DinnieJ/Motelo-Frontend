@@ -90,7 +90,8 @@
                     contain
                     max-width="2rem"
                     max-height="2rem"
-                    :lazy-src="contactItems.filter(item => item.value == contact.type)[0].img"
+                    :lazy-src="loadingImg"
+                    :src="contactItems.filter(item => item.value == contact.type)[0].img"
                   />
                   <v-icon>mdi-menu-down</v-icon>
                 </div>
@@ -101,7 +102,8 @@
                     contain
                     max-width="2rem"
                     max-height="2rem"
-                    :lazy-src="item.img"
+                    :lazy-src="loadingImg"
+                    :src="item.img"
                   />
                 </v-list-item>
               </v-list>
@@ -201,6 +203,7 @@ import {
 } from 'vee-validate'
 import { required, email, min, confirmed } from 'vee-validate/dist/rules'
 import { OwnerRegisterDTO, OwnerRegisterRule } from '@/constants/app.interface'
+import { LOADING_IMG } from '@/constants/app.constant'
 
 setInteractionMode('eager')
 
@@ -249,6 +252,8 @@ export default class OwnerRegisterForm extends Vue {
     address: '',
     date_of_birth: new Date().toISOString().substr(0, 10),
   }
+
+  private loadingImg: string = LOADING_IMG
 
   $notify: any
 

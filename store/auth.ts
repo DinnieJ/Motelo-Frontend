@@ -75,15 +75,9 @@ export const actions: AuthAction<AuthState, RootState> = {
     },
     async logout({commit, state}) {
         try {
-            switch (state.role) {
-                case ROLE.TENANT:
-                    await AuthRepository.logoutTenant();
-                    break;
-                case ROLE.OWNER:
-                    await AuthRepository.logoutOwner();
-                    break;
-            }
-                
+            const role = state.role
+            
+            // delete data in vuex before BE to ensure API is successful or not, all delete data in FE
             commit(AuthMutation.SET_TOKEN, "")
             commit(AuthMutation.SET_USER, null)
             commit(AuthMutation.SET_ROLE, ROLE.GUEST)
@@ -92,6 +86,15 @@ export const actions: AuthAction<AuthState, RootState> = {
             cookies.remove(COOKIES.TOKEN);
             cookies.remove(COOKIES.ROLE);
 
+            switch (role) {
+                case ROLE.TENANT:
+                    await AuthRepository.logoutTenant();
+                    break;
+                case ROLE.OWNER:
+                    await AuthRepository.logoutOwner();
+                    break;
+            }
+            
             return true
         } catch ( error ) {
             return false

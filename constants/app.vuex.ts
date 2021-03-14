@@ -24,4 +24,5 @@ export enum Getter {
     USER = "auth/user",
     ROLE = "auth/role",
     TOKEN = "auth/token",
+    LOADING_IMG = "loadingImg"
 }

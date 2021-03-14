@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="8" rounded class="room__card">
     <nuxt-link :to="getLink()">
-      <v-img :lazy-src="room.imgLink" class="rounded" max-width="100%">
+      <v-img :lazy-src="loadingImg" :src="room.imgLink" class="rounded" max-width="100%">
         <v-layout column justify-space-between class="room__img">
           <v-card-actions class="justify-space-between">
             <room-favor-btn
@@ -91,6 +91,7 @@ import { RoomCardDTO } from '@/constants/app.interface'
 import RoomFavorBtn from './RoomFavorBtn.vue'
 import RoomVerifyIcon from './RoomVerifyIcon.vue'
 import RoomRepository from '@/repositories/RoomRepository'
+import { LOADING_IMG } from '@/constants/app.constant'
 
 // eslint-disable-next-line no-use-before-define
 @Component<RoomCard>({
@@ -112,6 +113,8 @@ export default class RoomCard extends Vue {
   private favorite: boolean = false
   private loadingFavorite = false
   $notify: any
+  private loadingImg: string = LOADING_IMG
+
 
   get loggedIn(): boolean {
     return !!this.$store.state.auth.user
