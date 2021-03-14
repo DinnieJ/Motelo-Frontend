@@ -4,7 +4,9 @@
       <v-layout justify-space-between>
         <h1 class="filter__title primary--text">Bộ lọc</h1>
         <div>
-          <v-btn color="error" rounded outlined @click="clearFilter">Clear</v-btn>
+          <v-btn color="error" rounded outlined @click="clearFilter">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
           <v-btn color="warning" rounded outlined @click="filterSearch"
             >lọc</v-btn
           >
