@@ -8,7 +8,9 @@ export enum DispatchAction {
     REGISTER = "auth/register",
     LOGOUT = "auth/logout",
     CLEAR_AUTH = "auth/clear",
-    SET_AUTH = "auth/setUser"
+    SET_AUTH = "auth/setUser",
+    FILTER_ROOM = "search/filterSearch",
+    CLEAR_FILTER = "search/clearFilter"
 }
 
 export enum MutationState {
@@ -24,4 +26,11 @@ export enum Getter {
     USER = "auth/user",
     ROLE = "auth/role",
     TOKEN = "auth/token",
+
+    SEARCH_KEYWORD = "search/keyword",
+    SEARCH_MIN_PRICE = "search/min_price",
+    SEARCH_MAX_PRICE = "search/max_price",
+    SEARCH_FEATURES = "search/features",
+    SEARCH_ROOM_TYPE = "search/room_type",
+    SEARCH_GENDER = "search/gender"
 }

@@ -16,11 +16,17 @@
             placeholder="Search"
             append-icon="mdi-magnify"
             color="primary"
-            v-model="filterValue.keyword"
+            v-model="keyword"
             @keyup.enter="getRoomByFilter"
           >
             <template v-slot:append>
-              <v-btn depressed icon color="primary" class="ma-0" @click="getRoomByFilter">
+              <v-btn
+                depressed
+                icon
+                color="primary"
+                class="ma-0"
+                @click="getRoomByFilter"
+              >
                 <v-icon>mdi-magnify</v-icon>
               </v-btn>
             </template>
@@ -38,7 +44,7 @@
           </v-row>
 
           <v-pagination
-            v-model="filterValue.page"
+            v-model="page"
             :length="totalPage"
             total-visible="7"
             circle
@@ -51,9 +57,15 @@
         </v-col>
       </v-row>
     </section>
-    <v-dialog max-width="1184px" v-model="openFilter" :fullscreen="$vuetify.breakpoint.smAndDown">
+    <v-dialog
+      max-width="1184px"
+      v-model="openFilter"
+      :fullscreen="$vuetify.breakpoint.smAndDown"
+    >
       <v-card>
-        <room-filter v-model="filterValue" :submit="clickFilter" />
+        <room-filter
+          :open.sync="openFilter" 
+          @filter="getRoomByFilter"/>
       </v-card>
     </v-dialog>
   </v-container>
@@ -61,17 +73,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import {
-  RoomCardDTO,
-  RoomFilterDTO,
-} from '@/constants/app.interface'
+import { RoomCardDTO, RoomFilterDTO } from '@/constants/app.interface'
 import RoomCard from '@/components/room/RoomCard.vue'
 import RoomFilter from '@/components/room/RoomFilter.vue'
 import SearchAddress from '@/components/map/SearchAddress.vue'
 import BigMap from '@/components/map/BigMap.vue'
-import RoomRepository from '@/repositories/RoomRepository'
 import { Framework } from 'vuetify'
-import { PRICE_FILTER } from '@/constants/app.constant'
+import { DispatchAction } from '~/constants/app.vuex'
 
 declare module 'vue/types/vue' {
   // this.$vuetify inside Vue components
@@ -91,8 +99,6 @@ declare module 'vue/types/vue' {
     BigMap,
   },
   async mounted() {
-    const query = this.$route.query
-    this.filterValue.update = query
     await this.getRoomByFilter()
   },
 })
@@ -104,30 +110,39 @@ export default class List extends Vue {
   private openFilter: boolean = false
 
   private totalPage: number = 1
-  private filterValue: RoomFilterDTO = new RoomFilterDTO()
 
   public async clickFilter() {
     await this.getRoomByFilter()
   }
 
+  get keyword() {
+    return this.$store.state.search.keyword
+  }
+
+  set keyword(val) {
+    this.$store.commit('search/setKeyword', val)
+  }
+
+  get page() {
+    return this.$store.state.search.page
+  }
+
+  set page(val) {
+    this.$store.commit('search/setPage', val)
+  }
+
   public async getRoomByFilter(): Promise<void> {
-    this.openFilter = false
     this.loading = true
-    await RoomRepository.getRoomsByFilter(this.filterValue)
-      .then((response) => {
-        let rooms: any = response.data.data
-        this.roomCardObjs = rooms.map(function (item: any) {
-          return new RoomCardDTO(item)
-        })
-        this.totalPage = response.data.total_page
+    const item = await this.$store.dispatch(DispatchAction.FILTER_ROOM)
+    if (item.data) {
+      this.totalPage = item.total_page
+
+      this.roomCardObjs = item.data.map(function (item: any) {
+        return new RoomCardDTO(item)
       })
-      .catch((error) => {
-        console.log('getRoomByFilter', error)
-      })
-      .finally(() => {
-        this.loading = false
-        this.$router.push({ path: '/rooms', query: this.filterValue.toObject })
-      })
+    }
+
+    this.loading = false
   }
 }
 </script>
