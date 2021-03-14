@@ -116,8 +116,5 @@ export default class RoomFilter extends Vue {
   @Prop({ type: Function, required: true }) readonly submit!: Function
   @VModel({ type: Object }) filter!: RoomFilterDTO
 
-  public checkTick(needle: any, arr: Array<any>) {
-    return arr.includes(needle)
-  }
 }
 </script>
