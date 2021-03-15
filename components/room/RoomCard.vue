@@ -1,9 +1,14 @@
 <template>
   <v-card elevation="8" rounded class="room__card">
     <nuxt-link :to="getLink()">
-      <v-img :lazy-src="loadingImg" :src="room.imgLink" class="rounded" max-width="100%">
+      <v-img
+        :lazy-src="loadingImg"
+        :src="room.imgLink"
+        class="rounded"
+        max-width="100%"
+      >
         <v-layout column justify-space-between class="room__img">
-          <v-card-actions class="justify-space-between">
+          <v-card-actions class="justify-space-between align-start">
             <room-favor-btn
               :favorite.sync="room.favorited"
               :loading.sync="loadingFavorite"
@@ -11,28 +16,29 @@
               v-if="!owner && loggedIn"
             />
 
+            <v-layout column v-if="owner">
+              <v-btn
+                fab
+                small
+                color="info"
+                class="mb-2"
+                :to="`/owner/requests/${room.id}/edit`"
+              >
+                <v-icon dark> mdi-cog </v-icon>
+              </v-btn>
+              <v-btn
+                fab
+                small
+                color="warning"
+                @click="clickDelete(index)"
+              >
+                <v-icon dark> mdi-trash-can-outline </v-icon>
+              </v-btn>
+            </v-layout>
+
             <v-btn fab small color="primary" v-if="room.verify">
               <v-icon dark> mdi-shield-home </v-icon>
             </v-btn>
-
-            <v-btn
-              v-if="owner"
-              class="ml-5"
-              outlined
-              rounded
-              color="info"
-              :to="`/owner/requests/${room.id}/edit`"
-              >Sửa</v-btn
-            >
-            <v-btn
-              v-if="owner"
-              class="ml-5"
-              outlined
-              rounded
-              color="warning"
-              @click="clickDelete(index)"
-              >Xóa</v-btn
-            >
           </v-card-actions>
           <v-card-subtitle class="pa-0 ml-3">
             <v-btn x-small depressed class="mb-2">
@@ -114,7 +120,6 @@ export default class RoomCard extends Vue {
   private loadingFavorite = false
   $notify: any
   private loadingImg: string = LOADING_IMG
-
 
   get loggedIn(): boolean {
     return !!this.$store.state.auth.user

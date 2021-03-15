@@ -65,8 +65,8 @@
         </v-row>
       </div>
 
-      <v-layout justify-space-between class="nav__toolbar">
-        <nuxt-link :to="getPersonalLink()">
+      <v-layout align-center justify-space-between class="nav__toolbar">
+        <nuxt-link :to="getHomeLink()">
           <v-img
             :lazy-src="loadingImg"
             src="/imgs/logo.png"
@@ -89,7 +89,7 @@
       <v-container
         class="py-0 fill-height d-flex justify-space-between align-center"
       >
-        <nuxt-link :to="getPersonalLink()">
+        <nuxt-link :to="getHomeLink()">
           <v-img
             :lazy-src="loadingImg"
             src="/imgs/logo.png"
@@ -187,6 +187,18 @@ export default class Default extends Vue {
     switch (context.role) {
       case ROLE.TENANT:
         return '/personal'
+      case ROLE.OWNER:
+        return '/owner/home'
+      default:
+        return '/'
+    }
+  }
+
+  public getHomeLink(): string {
+    const context: any = this
+    switch (context.role) {
+      case ROLE.TENANT:
+        return '/'
       case ROLE.OWNER:
         return '/owner/home'
       default:
