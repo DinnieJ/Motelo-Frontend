@@ -142,4 +142,12 @@
   }
 }
 
+.right-text-field {
+  .v-text-field__slot {
+    input {
+      text-align: right;
+    }
+  }
+}
+
 @import 'reset.scss';

@@ -4,32 +4,6 @@ import { authenticatedService } from './BaseRepository'
 import { AxiosResponse } from 'axios'
 
 export default class RoomRepository {
-  public static getAllRooms(): Promise<any> {
-    const data: Object[] = []
-
-    for (let i = 0; i < 7; i++) {
-      data.push({
-        id: `${i}`,
-        img: '/imgs/anh_room.jpg',
-        title: 'Phòng cho thuê Võng thị, Quận Tây Hồ',
-        room_type: 1,
-        available: true,
-        gender: 1,
-        acreage: 40,
-        capacity_min: 2,
-        capacity_max: 3,
-        address: '26 Võng thị, Phường Bưởi, Quận Tây Hồ, Hà Nội',
-        verify: true,
-        favorite: false,
-        price: 6500000,
-      })
-    }
-
-    return new Promise(function (resolve) {
-      setTimeout(resolve.bind(null, data), 1000)
-    })
-  }
-
   public static getRoomsByFilter(params: any): Promise<any> {
     return authenticatedService.get(`${Endpoint.Room}/list`, { params })
   }
@@ -89,5 +63,15 @@ export default class RoomRepository {
 
   public static getLatestRoom(): Promise<AxiosResponse<any>> {
     return authenticatedService.get(`${Endpoint.Room}/latest`)
+  }
+
+  public static createRoom(formData: any): Promise<any> {
+    return new Promise(function (resolve) {
+      console.log('createRoom', formData)
+      setTimeout(resolve.bind(null, {
+        code: 200,
+        data: formData
+      }), 1000)
+    })
   }
 }

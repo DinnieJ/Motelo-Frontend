@@ -14,6 +14,12 @@ export const PRICE_FILTER = {
   STEP: 0.1,
 }
 
+export const CAPACITY = {
+  MAX: 10,
+  MIN: 1,
+  STEP: 1,
+}
+
 export const ROLE = {
   GUEST: 'Guest',
   TENANT: 'Tenant',
