@@ -1,6 +1,6 @@
 <template>
-<v-btn @click="clickFavor" small depressed fab :loading="asyncLoadingFavorite">
-  <v-icon class="room__favor" color="secondary" dark>
+<v-btn @click="clickFavor" x-small depressed fab :loading="asyncLoadingFavorite">
+  <v-icon small class="room__favor" color="secondary" dark>
     {{ asyncFavorite ? 'mdi-heart' : 'mdi-heart-plus-outline'}}
   </v-icon>
 </v-btn>
