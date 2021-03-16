@@ -39,7 +39,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-btn color="primary" :loading="loading" @click="sendRequest"> Tiếp theo </v-btn>
+    <v-btn color="primary" :loading="loading" @click="sendRequest"> Hoàn thành </v-btn>
 
     <v-btn @click="clickBack"> Trở lại </v-btn>
   </v-form>
