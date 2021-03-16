@@ -4,7 +4,7 @@
       <h1>{{ title }}</h1>
     </v-col>
     <v-col cols="2">
-      <v-layout justify-end>
+      <v-layout :column="forOwner" justify-end align-end class="pa-1">
           <room-favor-btn
             v-if="!forOwner && loggedIn"
             class="mr-4"
@@ -13,22 +13,23 @@
           />
         <v-btn
           v-if="forOwner"
-          class="ml-5"
-          outlined
-          rounded
+          fab 
+          small
+          class="mb-2"
           color="info"
           :to="`/owner/requests/${roomId}/edit`"
-          >Sửa</v-btn
         >
+          <v-icon dark> mdi-cog </v-icon>
+        </v-btn>
         <v-btn
           v-if="forOwner"
-          class="ml-5"
-          outlined
-          rounded
+          fab 
+          small
           color="warning"
           @click="clickDelete"
-          >Xóa</v-btn
         >
+          <v-icon dark> mdi-trash-can-outline </v-icon>
+        </v-btn>
       </v-layout>
     </v-col>
   </v-row>
@@ -47,7 +48,6 @@ import RoomFavorBtn from './RoomFavorBtn.vue'
   },
 })
 export default class RoomTitleSection extends Vue {
-  @Prop({ type: Array }) readonly breadcrumbs!: BreadcrumbLink[]
   @Prop({ type: String }) readonly title!: string
   @Prop({ type: Function }) readonly clickFavor!: Function
   @PropSync('favorite') asyncFavorite!: boolean

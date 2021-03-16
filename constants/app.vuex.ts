@@ -13,7 +13,9 @@ export enum DispatchAction {
     ADD_INN_FEATURES = "new-inn/addFeatures",
     ADD_SECURITY_INFO = "new-inn/addSafetyFeatures",
     ADD_LOCATION_INFO = "new-inn/addLocation",
-    CREATE_INN = "new-inn/createInn"
+    CREATE_INN = "new-inn/createInn",
+    FILTER_ROOM = "search/filterSearch",
+    CLEAR_FILTER = "search/clearFilter",
 }
 
 export enum MutationState {
@@ -29,5 +31,12 @@ export enum Getter {
     USER = "auth/user",
     ROLE = "auth/role",
     TOKEN = "auth/token",
+
+    SEARCH_KEYWORD = "search/keyword",
+    SEARCH_MIN_PRICE = "search/min_price",
+    SEARCH_MAX_PRICE = "search/max_price",
+    SEARCH_FEATURES = "search/features",
+    SEARCH_ROOM_TYPE = "search/room_type",
+    SEARCH_GENDER = "search/gender",
     LOADING_IMG = "loadingImg"
 }

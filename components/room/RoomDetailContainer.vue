@@ -10,15 +10,11 @@
         </v-col>
       </v-row>
     </section>
-    <!-- <v-sheet light rounded="lg" min-height="40vh" class="mt-6">
-        
-      </v-sheet> -->
 
     <v-row class="mt-3">
-      <v-col cols="12" lg="7" class="pt-0">
+      <v-col cols="12" :lg="forOwner ? 12 : 7" class="pt-0">
         <section class="white pa-1 rounded">
           <room-title-section
-            :breadcrumbs="breadcrumbLinks"
             :favorite.sync="asyncFavorite"
             :clickFavor="clickFavor"
             :title="room.title"
@@ -57,7 +53,7 @@
           <room-description-section :description="room.description" />
         </section>
       </v-col>
-      <v-col cols="12" lg="5" class="pt-0">
+      <v-col cols="12" lg="5" class="pt-0" v-if="!forOwner">
         <section class="white pa-1 rounded">
           <room-owner-section class="pa-2" :owner="room.inn.owner" />
 
@@ -76,7 +72,6 @@
 <script lang="ts">
 import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
 import {
-  BreadcrumbLink,
   RoomDetailDTO,
   CommentDTO,
 } from '@/constants/app.interface'
@@ -120,18 +115,5 @@ export default class RoomDetailContainer extends Vue {
   @PropSync('comments') readonly asyncComments!: CommentDTO[]
   @Prop({ type: Boolean, default: false }) readonly forOwner!: boolean
   @Prop({ type: Function }) readonly clickDelete!: Function
-
-  private breadcrumbLinks: BreadcrumbLink[] = [
-    {
-      text: 'Hà Nội',
-      disabled: false,
-      href: 'breadcrumbs_dashboard',
-    },
-    {
-      text: 'Tây Hồ',
-      disabled: true,
-      href: 'breadcrumbs_link_1',
-    },
-  ]
 }
 </script>

@@ -6,7 +6,7 @@ export const COOKIES = {
   TOKEN: 'token',
 }
 
-export const LOADING_IMG = "https://lh3.googleusercontent.com/proxy/N1sR8KAszrgh9kXVdElzPEZr9hIwYeXlrFADgGLGoQsQ_fr8uIhXteIIDaTRXWzCqp8P0anT2JGnK1JjWvFScaE"
+export const LOADING_IMG = "https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"
 
 export const PRICE_FILTER = {
   MAX: 9,
