@@ -66,7 +66,7 @@
             <images-slide :imgs="inn.imgs" />
           </v-col>
           <v-col cols="12" md="6">
-            <small-map />
+            <small-map :center="inn.position"/>
           </v-col>
         </v-row>
       </section>

@@ -258,3 +258,4 @@ export const Contacts: ContactDTO[] = [
 ]
 
 export const FPTLocation = [21.013430248238773, 105.5270750314157]
+export const DefaultMapZoom = 15

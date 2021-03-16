@@ -1,4 +1,4 @@
-import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY } from './app.constant'
+import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY, FPTLocation } from './app.constant'
 import { Contact } from '@/constants/app.constant'
 
 /* eslint-disable camelcase */
@@ -376,6 +376,13 @@ export class InnProfileDTO {
   } = {
     open: '0',
     close: '0',
+  }
+  public position: {
+    lat: number,
+    lng: number
+  } = {
+    lat: FPTLocation[0],
+    lng: FPTLocation[1]
   }
 
   public owner: {
