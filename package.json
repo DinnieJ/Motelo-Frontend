@@ -19,11 +19,13 @@
     "@types/js-cookie": "^2.2.6",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.8.3",
+    "form-data": "^4.0.0",
     "nuxt": "^2.14.12",
     "vee-validate": "^3.4.5",
     "vue-class-component": "^7.2.6",
     "vue-fontawesome": "0.0.2",
-    "vue-property-decorator": "^9.1.2"
+    "vue-property-decorator": "^9.1.2",
+    "vue2-google-maps": "^0.10.7"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.12",

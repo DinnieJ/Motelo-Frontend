@@ -250,3 +250,5 @@ export const Contacts: ContactDTO[] = [
     link: true,
   },
 ]
+
+export const FPTLocation = [21.013430248238773, 105.5270750314157]

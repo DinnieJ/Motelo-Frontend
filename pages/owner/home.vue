@@ -112,7 +112,7 @@ import SafetySection from '@/components/common/SafetySection.vue'
     AmenitieSection,
     SafetySection,
   },
-  middleware: ['authenticated', 'isOwner'],
+  middleware: ['authenticated', 'isOwner', 'hasInn'],
   computed: {
     ...mapGetters({
       user: Getter.USER,

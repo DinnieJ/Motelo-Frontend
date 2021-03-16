@@ -6,12 +6,12 @@
         cols="6"
         sm="4"
         v-for="amenitie in amenities"
-        :key="amenitie.code"
+        :key="amenitie.id"
       >
         <v-layout align-center>
           <v-checkbox
             v-model="amenitiesChosen"
-            :value="amenitie.code"
+            :value="amenitie.id"
           ></v-checkbox>
           <v-flex class="filter__content">
             <span>
@@ -33,18 +33,24 @@
 import { Component, Vue, Emit } from 'vue-property-decorator'
 import { TextIcon } from '@/constants/app.interface'
 import { AMEENITIES } from '@/constants/app.constant'
+import { DispatchAction } from '~/constants/app.vuex'
 
 @Component<InnAmeenitiesForm>({
   name: 'InnAmeenitiesForm',
+
+  created() {
+    this.amenitiesChosen = []
+  }
   // eslint-disable-next-line no-undef
 })
 export default class InnAmeenitiesForm extends Vue {
   private amenities: TextIcon[] = AMEENITIES
-  private amenitiesChosen: string[] = []
+  private amenitiesChosen: number[] = []
 
   @Emit('next')
   clickNext(event: Event): string {
     event.preventDefault()
+    this.$store.dispatch(DispatchAction.ADD_INN_FEATURES, this.amenitiesChosen.sort())
     return 'demo'
   }
 
