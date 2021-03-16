@@ -258,4 +258,8 @@ export const Contacts: ContactDTO[] = [
 ]
 
 export const FPTLocation = [21.013430248238773, 105.5270750314157]
+<<<<<<< HEAD
 export const DefaultMapZoom = 14
+=======
+export const DefaultMapZoom = 15
+>>>>>>> add map in detail room page

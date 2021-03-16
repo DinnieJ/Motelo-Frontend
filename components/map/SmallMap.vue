@@ -1,15 +1,22 @@
 <template>
   <gmap-map
+<<<<<<< HEAD
+=======
+    ref="mapRef"
+>>>>>>> add map in detail room page
     style="width: auto; height: 100%; min-height: 30vh"
     :center="center"
     :zoom="zoom"
     :options="mapOptions"
   >
+<<<<<<< HEAD
     <gmap-circle
       :center="center"
       :radius="circleRadius"
       :options="circleOptions"
     ></gmap-circle>
+=======
+>>>>>>> add map in detail room page
     <gmap-marker :position="center"></gmap-marker>
   </gmap-map>
 </template>
@@ -23,7 +30,11 @@ import { DefaultMapZoom } from '~/constants/app.constant'
   // eslint-disable-next-line no-undef
 })
 export default class SmallMap extends Vue {
+<<<<<<< HEAD
   @Prop() readonly center!: any
+=======
+  @Prop({ required: true }) readonly center!: any
+>>>>>>> add map in detail room page
   private zoom: number = DefaultMapZoom
   private mapOptions = {
     zoomControl: true,
@@ -34,6 +45,7 @@ export default class SmallMap extends Vue {
     fullscreenControl: true,
     disableDefaultUi: false,
   }
+<<<<<<< HEAD
 
   private circleRadius: number = 1000 // meter(s)
   private circleOptions: any = {
@@ -49,5 +61,7 @@ export default class SmallMap extends Vue {
   public getCircleByRadius() {
     this.circleRadius = this.searchRadius
   }
+=======
+>>>>>>> add map in detail room page
 }
 </script>

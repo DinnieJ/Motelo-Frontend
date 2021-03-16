@@ -1,4 +1,4 @@
-import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY } from './app.constant'
+import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY, FPTLocation } from './app.constant'
 import { Contact } from '@/constants/app.constant'
 
 /* eslint-disable camelcase */
@@ -381,8 +381,13 @@ export class InnProfileDTO {
     lat: number,
     lng: number
   } = {
+<<<<<<< HEAD
     lat: 0,
     lng: 0
+=======
+    lat: FPTLocation[0],
+    lng: FPTLocation[1]
+>>>>>>> add map in detail room page
   }
 
   public owner: {
