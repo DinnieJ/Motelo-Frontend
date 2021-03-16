@@ -99,7 +99,7 @@ declare module 'vue/types/vue' {
     BigMap,
   },
   async mounted() {
-    await this.getRoomByFilter()
+    // await this.getRoomByFilter()
   },
 })
 export default class List extends Vue {

@@ -134,6 +134,40 @@
   }
 }
 
+.map {
+  &__big {
+    width: 100%;
+    height: 100%;
+    min-height: 80vh;
+    position: relative;
+  }
+
+  &__container {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__bottom {
+    position: absolute;
+    width: 100%;
+    bottom: -200px;
+    left: 0;
+    transition: 0.3s;
+    overflow: hidden;
+    height: 0;
+
+    &.active {
+      bottom: 0;
+      height: 200px;
+    }
+
+    .layout {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
 .required {
   & label::after {
     content: '(*)';
