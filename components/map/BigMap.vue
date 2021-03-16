@@ -99,6 +99,8 @@ export default class BigMap extends Vue {
     position: this.center,
     img: '/imgs/anh_room.jpg',
   }
+  private description: string =
+    'Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.'
 
   private showBottom: boolean = false
   private loadingImg = LOADING_IMG
