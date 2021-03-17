@@ -14,7 +14,7 @@ export interface TextIcon {
   id: number
   text: string
   icon: string
-  code: string
+  code?: string
 }
 
 export interface BreadcrumbLink {
