@@ -33,7 +33,7 @@
 import { Component, Vue, Emit } from 'vue-property-decorator'
 import { DispatchAction } from '~/constants/app.vuex'
 import axios from 'axios'
-import { FPTLocation } from '~/constants/app.constant'
+import { DefaultMapZoom } from '~/constants/app.constant'
 @Component<AddressForm>({
   name: 'AddressForm',
   // eslint-disable-next-line no-undef
@@ -42,8 +42,25 @@ export default class AddressForm extends Vue {
   private innAddress: string = ''
   private suggestAddress: string = ''
   private mapLocation: any = {}
-  private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
-  private zoom: number = 15
+  private center: any = { lat: 0, lng: 0 }
+  private zoom: number = DefaultMapZoom
+
+  created() {
+    this.getCurrentPosition()
+  }
+
+  public getCurrentPosition() {
+    const context = this
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function setMapCenterByGPS(position) {
+        context.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+      })
+    }
+  }
+
   @Emit('next')
   clickNext(event: Event) {
     event.preventDefault()
