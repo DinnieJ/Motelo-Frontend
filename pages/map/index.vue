@@ -5,11 +5,20 @@
     :class="`${isMobile() ? '' : 'pa-1'} map__full`"
   >
     <!-- This for google map -->
-    <div class="yellow map__container">
-      <v-layout justify-end>
-        <v-btn @click="clickMarker">Marker</v-btn>
-      </v-layout>
-    </div>
+    <gmap-map
+      :center="center"
+      :zoom="zoom"
+      :options="mapOptions"
+      class="map__container"
+    >
+      <gmap-marker
+        v-for="marker in markers"
+        :position="marker.position"
+        :key="marker.id"
+        :icon="marker.icon"
+        @click="clickMarker(marker)"
+      ></gmap-marker>
+    </gmap-map>
     <!-- End google map -->
 
     <div class="map__create-btn">
@@ -115,29 +124,62 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { LOADING_IMG, FPTLocation } from '@/constants/app.constant'
+import {
+  LOADING_IMG,
+  FPTLocation,
+  DefaultMapZoom,
+} from '@/constants/app.constant'
+import { markers } from '@/utils/inn_mockup'
+
 @Component<FullMap>({
   name: 'FullMap',
   // eslint-disable-next-line no-undef
   // middleware: ['authenticate', 'isCollaborator']
 })
 export default class FullMap extends Vue {
+  private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
+  private zoom: number = DefaultMapZoom
+  private mapOptions = {
+    zoomControl: true,
+    mapTypeControl: false,
+    scaleControl: false,
+    streetViewControl: false,
+    rotateControl: false,
+    fullscreenControl: true,
+    disableDefaultUi: false,
+  }
   private currentMarker = {
-    name: 'faefafaefafaefaefafaefafaefaefafaefafaefaefafaefafae',
-    description:
-      'faefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafaefaefafaefafae',
+    name: '',
+    description: '',
     type: {
       id: 3,
       text: 'Chung cư',
       code: 'apartment',
       icon: 'office-building',
     },
+    position: this.center,
     img: '/imgs/anh_room.jpg',
   }
+
   private showBottom: boolean = false
   private loadingImg = LOADING_IMG
 
-  public clickMarker(inn: any) {
+  get markers() {
+    return markers
+  }
+  public clickMarker(marker: any) {
+    this.currentMarker = {
+      name: marker.title,
+      description: marker.content,
+      type: {
+        id: 3,
+        text: 'Chung cư',
+        code: 'apartment',
+        icon: 'office-building',
+      },
+      position: marker.position,
+      img: '/imgs/anh_room.jpg',
+    }
     this.showBottom = true
   }
 
