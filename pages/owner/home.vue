@@ -130,6 +130,7 @@ export default class OwnerHome extends Vue {
       open: '',
       close: '',
     },
+    position: { lat: 0, lng: 0 }
   }
 
   private loadingImg: string = LOADING_IMG
@@ -146,7 +147,7 @@ export default class OwnerHome extends Vue {
 
   public async getInnProfile() {
     const context: any = this
-    await InnRepository.getInnDetailByOwner(context.user.id).then(
+    await InnRepository.getInnDetailByOwner().then(
       (response) => {
         const inn = response.data
         // features
@@ -176,7 +177,12 @@ export default class OwnerHome extends Vue {
           open: inn.open_time,
           close: inn.close_time,
         }
-        inn.position = { lat: FPTLocation[0], lng: FPTLocation[1] }
+        const position = inn.location.split(" ");
+        inn.position = {
+          lat: parseFloat(position[0]),
+          lng: parseFloat(position[1])
+        }
+        inn.imgs = [LOADING_IMG, LOADING_IMG]
         this.inn = inn
       }
     )
