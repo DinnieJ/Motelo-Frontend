@@ -41,7 +41,7 @@ export const NAV_LINKS: NavLink[] = [
     text: 'Danh sách',
     to: '/rooms',
     icon: 'clipboard-list',
-    roles: [ROLE.GUEST, ROLE.TENANT],
+    roles: [ROLE.GUEST, ROLE.TENANT, ROLE.COLLAORATOR],
   },
   {
     code: 'login',
@@ -72,6 +72,16 @@ export const NAV_LINKS: NavLink[] = [
     to: '/owner/requests',
     icon: 'home',
     roles: [ROLE.OWNER],
+  },
+  // Collaborator links
+  {
+    code: 'map',
+    text: 'Bản đồ',
+    to: '/map',
+    icon: 'home',
+    roles: [ROLE.COLLAORATOR, 
+      ROLE.GUEST //for mockups
+    ],
   },
 ]
 
@@ -258,4 +268,4 @@ export const Contacts: ContactDTO[] = [
 ]
 
 export const FPTLocation = [21.013430248238773, 105.5270750314157]
-export const DefaultMapZoom = 14
+export const DefaultMapZoom = 15

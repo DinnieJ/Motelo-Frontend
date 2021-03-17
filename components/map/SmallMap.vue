@@ -1,6 +1,7 @@
 <template>
   <gmap-map
-    style="width: auto; height: 100%; min-height: 30vh"
+    ref="mapRef"
+    class="map__small"
     :center="center"
     :zoom="zoom"
     :options="mapOptions"

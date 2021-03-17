@@ -24,7 +24,6 @@
             <v-img
               :lazy-src="loadingImg"
               :src="currentMarker.img"
-              contain
               width="100%"
               height="100%"
               class="rounded"
@@ -48,7 +47,7 @@
             <a
               :href="`http://maps.google.com?q=${currentMarker.position.lat},${currentMarker.position.lng}`"
               target="_blank"
-              class="room__smaller"
+              class="text-decoration-underline room__smaller"
             >
               <i>Xem thêm trên Google Map</i>
             </a>
@@ -99,6 +98,8 @@ export default class BigMap extends Vue {
     position: this.center,
     img: '/imgs/anh_room.jpg',
   }
+  private description: string =
+    'Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.Nemo quam iste molestias. Est perspiciatis sed adipisci ut. Et numquam eum qui aut qui sequi voluptate.'
 
   private showBottom: boolean = false
   private loadingImg = LOADING_IMG
