@@ -23,8 +23,9 @@
             {{ item.header }}
           </v-tab>
           <v-tabs-items v-model="tab">
+            <!-- basic utility data step -->
             <v-tab-item>
-              <v-form class="mt-4" @submit="submitBasicRoomData">
+              <v-form class="mt-4">
                 <v-select
                   label="Loại tiện ích"
                   :prepend-icon="`mdi-${selectIcon}`"
@@ -36,10 +37,15 @@
                 ></v-select>
 
                 <v-text-field
-                  name="title"
                   label="Tiêu đề"
                   v-model="formData.title"
                 ></v-text-field>
+                <v-text-field
+                  required
+                  label="Địa chỉ"
+                  v-model="formData.address"
+                >
+                </v-text-field>
                 <v-textarea
                   label="Miêu tả thêm"
                   outlined
@@ -47,22 +53,75 @@
                   rows="2"
                   v-model="formData.description"
                 ></v-textarea>
-                <v-btn color="primary" type="submit"> Tiếp theo </v-btn>
+                <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
               </v-form>
             </v-tab-item>
-            <v-tab-item> Image </v-tab-item>
-            <v-tab-item> Address </v-tab-item>
+            <!-- choose utility's location step -->
+            <v-tab-item>
+              <gmap-map
+                :center="center"
+                :zoom="zoom"
+                :options="mapOptions"
+                class="map__container"
+                @click="setMapCenter"
+                style="width: auto; height: 100%; min-height: 50vh"
+              >
+                <gmap-marker :position="center"></gmap-marker>
+                <gmap-marker
+                  v-for="marker in markers"
+                  :position="marker.position"
+                  :key="marker.id"
+                  :icon="marker.icon"
+                  :title="marker.title"
+                ></gmap-marker>
+              </gmap-map>
+              <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
+              <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
+            </v-tab-item>
+            <!-- Update image step -->
+            <v-tab-item>
+              <v-form class="mt-8">
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref="images"
+                  class="d-none"
+                  @change="onFileChange"
+                />
+                <v-row class="mb-4 justify-center">
+                  <v-col cols="12" sm="6">
+                    <img width="100%" height="auto" ref="image" />
+                  </v-col>
+                </v-row>
+                <v-layout justify-center>
+                  <v-btn outlined color="primary" @click="clickUpload">
+                    <v-icon left>mdi-upload</v-icon>
+                    Tải lên
+                  </v-btn>
+                </v-layout>
+                <v-layout justify-start class="mt-6">
+                  <v-btn
+                    class="mr-3"
+                    color="primary"
+                    @click="submitForm"
+                    :disabled="!image"
+                  >
+                    Hoàn thành
+                  </v-btn>
+                  <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
+                </v-layout>
+              </v-form>
+            </v-tab-item>
           </v-tabs-items>
         </v-tabs>
       </div>
     </v-layout>
     <warning-dialog
-      title="Lưu thay đổi"
-      content="bạn có muốn lưu sửa đổi này không"
+      title="THOÁT"
+      content="Nếu bạn thoát, những thông tin trên sẽ không được lưu lại.<br>Bạn có muốn thoát không?"
       has-cancel
-      @accept="refuseWarningDialog"
+      @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
-      @cancel="cancelWarningDialog"
       v-model="openWarningDialog"
     />
   </v-container>
@@ -71,15 +130,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import WarningDialog from '@/components/common/WarningDialog.vue'
-import { TextIcon } from '@/constants/app.interface'
 import {
-  ROOM_TYPES,
-  GENDER,
   CAPACITY,
   UTIBITY_TYPE,
+  DefaultMapZoom,
+  FPTLocation,
 } from '@/constants/app.constant'
-import RoomReponsitory from '@/repositories/RoomRepository'
+import UtilityRepository from '@/repositories/UtilityRepository'
 import UploadImageForm from '@/components/common/UploadImageForm.vue'
+import { markers } from '@/utils/inn_mockup'
 
 @Component<CreateUtibity>({
   name: 'CreateUtibity',
@@ -89,7 +148,41 @@ import UploadImageForm from '@/components/common/UploadImageForm.vue'
   },
 })
 export default class CreateUtibity extends Vue {
-  private acceptPolicy: boolean = false
+  private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
+  private zoom: number = DefaultMapZoom
+  private mapOptions = {
+    zoomControl: true,
+    mapTypeControl: false,
+    scaleControl: false,
+    streetViewControl: false,
+    rotateControl: false,
+    fullscreenControl: true,
+    disableDefaultUi: false,
+  }
+  get markers() {
+    return markers
+  }
+  public setMapCenter({ latLng }: any) {
+    this.center = latLng
+  }
+
+  created() {
+    this.getCurrentPosition()
+  }
+  public getCurrentPosition() {
+    const context = this
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function setMapCenterByGPS(
+        position
+      ) {
+        context.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+      })
+    }
+  }
+
   private openWarningDialog: boolean = false
   private tabHeaders = [
     {
@@ -97,53 +190,39 @@ export default class CreateUtibity extends Vue {
       disabled: false,
     },
     {
-      header: 'VỊ trí',
-      disabled: true,
+      header: 'Vị trí',
+      disabled: false,
     },
     {
       header: 'Ảnh',
-      disabled: true,
+      disabled: false,
     },
   ]
   private utilitysType = UTIBITY_TYPE.map((item, index) => ({ ...item, index }))
-  private capacityDefault = CAPACITY
-  private policy: string =
-    'Contrary to popular belief, Lorem Ipsum is not simply Random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum etMalorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.'
-
   private tab: number = 0
 
   private formData = {
     title: '',
+    address: '',
     type_id: -1,
     description: '',
   }
 
   private selectIcon: string = 'help'
   private selectIndex = ''
+  private image: any = null
 
   public closeDialog() {
     this.openWarningDialog = true
   }
 
-  public acceptPolicyEvent(event: Event) {
-    this.acceptPolicy = true
-    this.nextTab(event)
-  }
-
-  public refuseWarningDialog() {
+  public acceptWarningDialog() {
     this.openWarningDialog = false
     this.$router.go(-1)
   }
 
-  public cancelWarningDialog() {
+  public refuseWarningDialog() {
     this.openWarningDialog = false
-  }
-
-  public async submitBasicRoomData(event: Event) {
-    event.preventDefault()
-    await RoomReponsitory.createRoom(this.formData).then((response) => {
-      this.nextTab(event)
-    })
   }
 
   public changeSelect(i: number) {
@@ -152,11 +231,62 @@ export default class CreateUtibity extends Vue {
     this.selectIcon = utility.icon
   }
 
-  public nextTab(event: Event) {
-    event.preventDefault()
-    const nextTab = (this.tab + 1) % this.tabHeaders.length
-    this.tabHeaders[nextTab].disabled = false
+  public nextTab() {
     this.tab++
+  }
+
+  public preTab() {
+    this.tab--
+  }
+
+  $notify: any
+
+  async submitForm() {
+    const formData = new FormData()
+    formData.append('title', this.formData.title)
+    formData.append('utility_type_id', this.formData.type_id.toString())
+    formData.append('description', this.formData.description)
+    formData.append('address', this.formData.address)
+    formData.append('location[0]', this.center.lat())
+    formData.append('location[1]', this.center.lng())
+    formData.append('image', this.image)
+    console.log('form data =', this.formData, this.center)
+    await UtilityRepository.createUtility(formData)
+      .then((response) => {
+        this.$notify.showMessage({
+          message: 'Thêm thành công',
+          color: 'success',
+        })
+        setTimeout(() => {
+          this.$router.go(-1)
+        }, 400)
+      })
+      .catch((error) => {
+        this.$notify.showMessage({
+          message: 'Thêm không thành công',
+          color: 'red',
+        })
+      })
+  }
+
+  clickUpload(e: Event) {
+    e.preventDefault()
+    const input = this.$refs.images as any
+    input.click()
+  }
+
+  onFileChange(e: any) {
+    console.log('event map = ', e.target.files[0], this.$refs)
+    let vm: any = this
+    var selectedFiles = e.target.files
+    this.image = selectedFiles[0]
+
+    let reader = new FileReader()
+    reader.onload = (e) => {
+      vm.$refs.image.src = reader.result
+    }
+
+    reader.readAsDataURL(this.image)
   }
 }
 </script>
