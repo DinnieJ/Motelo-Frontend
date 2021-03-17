@@ -53,7 +53,7 @@
         </v-col>
         <v-col sm="6" cols="12">
           <!-- Map -->
-          <big-map />
+          <big-map :inns="inns"/>
         </v-col>
       </v-row>
     </section>
@@ -80,6 +80,7 @@ import SearchAddress from '@/components/map/SearchAddress.vue'
 import BigMap from '@/components/map/BigMap.vue'
 import { Framework } from 'vuetify'
 import { DispatchAction } from '~/constants/app.vuex'
+import { markers } from '@/utils/inn_mockup'
 
 declare module 'vue/types/vue' {
   // this.$vuetify inside Vue components
@@ -110,6 +111,10 @@ export default class List extends Vue {
   private openFilter: boolean = false
 
   private totalPage: number = 1
+
+  get inns() {
+    return markers;
+  }
 
   public async clickFilter() {
     await this.getRoomByFilter()

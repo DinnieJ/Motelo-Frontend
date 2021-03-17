@@ -5,6 +5,7 @@
         :lazy-src="loadingImg"
         :src="room.imgLink"
         class="rounded"
+        contain
         max-width="100%"
       >
         <v-layout column justify-space-between class="room__img">
@@ -19,30 +20,30 @@
             <v-layout column v-if="owner">
               <v-btn
                 fab
-                small
+                x-small
                 color="info"
                 class="mb-2"
                 :to="`/owner/requests/${room.id}/edit`"
               >
-                <v-icon dark> mdi-cog </v-icon>
+                <v-icon small dark> mdi-cog </v-icon>
               </v-btn>
               <v-btn
                 fab
-                small
+                x-small
                 color="warning"
                 @click="clickDelete(index)"
               >
-                <v-icon dark> mdi-trash-can-outline </v-icon>
+                <v-icon small dark> mdi-trash-can-outline </v-icon>
               </v-btn>
             </v-layout>
 
-            <v-btn fab small color="primary" v-if="room.verify">
-              <v-icon dark> mdi-shield-home </v-icon>
+            <v-btn fab x-small color="primary" v-if="room.verify">
+              <v-icon small dark> mdi-shield-home </v-icon>
             </v-btn>
           </v-card-actions>
           <v-card-subtitle class="pa-0 ml-3">
             <v-btn x-small depressed class="mb-2">
-              <v-icon small>{{ `mdi-${room.type.icon}` }}</v-icon>
+              <v-icon x-small>{{ `mdi-${room.type.icon}` }}</v-icon>
               <span>{{ room.type.text }}</span>
             </v-btn>
           </v-card-subtitle>

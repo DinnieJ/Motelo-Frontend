@@ -377,6 +377,13 @@ export class InnProfileDTO {
     open: '0',
     close: '0',
   }
+  public position: {
+    lat: number,
+    lng: number
+  } = {
+    lat: 0,
+    lng: 0
+  }
 
   public owner: {
     account_id: number

@@ -6,7 +6,7 @@
           <images-slide :imgs="room.imgLinks" />
         </v-col>
         <v-col cols="12" sm="6" v-if="!forOwner">
-          <small-map />
+          <small-map :center="room.inn.position"/>
         </v-col>
       </v-row>
     </section>
