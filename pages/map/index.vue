@@ -57,19 +57,18 @@
                 <h1 class="ma-0 map__title mobile">
                   {{ currentMarker.name }}
                 </h1>
-                <v-btn small color="primary" text icon :to="`#`">
-                  <!-- bổ sung ":to" => "/map/_id/edit" nhét -->
+                <v-btn small color="primary" text icon :to="`/map/${currentMarker.id}/edit`">
                   <v-icon>mdi-wrench</v-icon>
                 </v-btn>
               </v-layout>
 
-              <!-- <a
+              <a
                 :href="`http://maps.google.com?q=${currentMarker.position.lat},${currentMarker.position.lng}`"
                 target="_blank"
-                class="room__smaller"
+                class="text-decoration-underline room__smaller"
               >
-                <i>Xem thêm về {{ currentMarker.name }} ở Google Map</i>
-              </a> -->
+                <i>Xem thêm trên Google Map</i>
+              </a>
               <p class="room__small map__overflow">
                 {{ currentMarker.description }}
               </p>
@@ -101,18 +100,17 @@
               {{ currentMarker.name }}
             </h1>
 
-            <v-btn small color="primary" text icon :to="`#`">
-              <!-- bổ sung ":to" => "/map/_id/edit" nhét -->
+            <v-btn small color="primary" text icon :to="`/map/${currentMarker.id}/edit`">
               <v-icon>mdi-wrench</v-icon>
             </v-btn>
           </v-layout>
-          <!-- <a
+          <a
                 :href="`http://maps.google.com?q=${currentMarker.position.lat},${currentMarker.position.lng}`"
                 target="_blank"
-                class="room__smaller"
+                class="text-decoration-underline room__smaller"
               >
-                <i>Xem thêm về {{ currentMarker.name }} ở Google Map</i>
-              </a> -->
+                <i>Xem thêm trên Google Map</i>
+              </a>
           <p class="room__small map__description">
             {{ currentMarker.description }}
           </p>
@@ -149,6 +147,7 @@ export default class FullMap extends Vue {
     disableDefaultUi: false,
   }
   private currentMarker = {
+    id: 0,
     name: '',
     description: '',
     type: {
@@ -169,6 +168,7 @@ export default class FullMap extends Vue {
   }
   public clickMarker(marker: any) {
     this.currentMarker = {
+      id: 0,
       name: marker.title,
       description: marker.content,
       type: {

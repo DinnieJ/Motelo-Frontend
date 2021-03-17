@@ -33,12 +33,12 @@
           </v-text-field>
         </v-col>
         <!-- List post -->
-        <v-col sm="6" cols="12">
+        <v-col md="6" cols="12">
           <section v-if="loading">
             <h1>Loading</h1>
           </section>
           <v-row v-else>
-            <v-col cols="12" md="6" v-for="room in roomCardObjs" :key="room.id">
+            <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
               <room-card :room="room" />
             </v-col>
           </v-row>
@@ -51,7 +51,7 @@
             @input="getRoomByFilter"
           ></v-pagination>
         </v-col>
-        <v-col sm="6" cols="12">
+        <v-col md="6" cols="12">
           <!-- Map -->
           <big-map :inns="inns"/>
         </v-col>

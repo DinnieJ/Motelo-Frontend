@@ -1,4 +1,4 @@
-import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY, FPTLocation } from './app.constant'
+import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY } from './app.constant'
 import { Contact } from '@/constants/app.constant'
 
 /* eslint-disable camelcase */
