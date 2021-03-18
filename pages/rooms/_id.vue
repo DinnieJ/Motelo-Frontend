@@ -8,6 +8,9 @@
       :addComment="addComment"
       :editComment="editComment"
       :deleteComment="deleteComment"
+
+      :verify.sync="verify"
+      :clickVerify="clickVerify"
     />
   </v-container>
 </template>
@@ -38,6 +41,7 @@ export default class DetailRoom extends Vue {
   private room: RoomDetailDTO = new RoomDetailDTO()
   private id: number = -1
   private favorite: boolean = false
+  private verify: boolean = false
   private comments: CommentDTO[] = []
   $notify: any
 
@@ -48,6 +52,7 @@ export default class DetailRoom extends Vue {
       this.id = this.room.id
       this.favorite = this.room.favorite
       this.comments = this.room.comments
+      this.verify = this.room.verify
     })
   }
 
@@ -57,6 +62,15 @@ export default class DetailRoom extends Vue {
       await this.unfavorRoom()
     } else {
       await this.favorRoom()
+    }
+  }
+
+  public async clickVerify(event: Event) {
+    event.preventDefault()
+    if (this.verify) {
+      this.verifyRoom();
+    } else {
+      this.unverifyRoom()
     }
   }
 
@@ -127,6 +141,28 @@ export default class DetailRoom extends Vue {
         color: 'warning',
       })
     })
+  }
+
+  public async verifyRoom() {
+    await RoomRepository.verifyRoom(this.room.id)
+      .then((repos) => {
+        this.verify = true
+        this.$notify.showMessage({
+          message: `Bạn đã kiểm chứng "${this.room.title}"`,
+          color: 'success',
+        })
+      })
+  }
+
+  public async unverifyRoom() {
+    // await RoomRepository.unverifyRoom(this.room.id)
+    //   .then((repos) => {
+    //     this.verify = false
+    //     this.$notify.showMessage({
+    //       message: `Bạn đã bỏ kiẻm chứng "${this.room.title}"`,
+    //       color: 'warning',
+    //     })
+    //   })
   }
 }
 </script>
