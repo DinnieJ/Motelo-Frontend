@@ -14,4 +14,5 @@ export enum Endpoint {
     DetailRoom = "room/detail",
     TenantComment = "tenant/comment",
     TenantFavorite = "tenant/favorite",
+    OwnerRoom = "owner/room"
 }

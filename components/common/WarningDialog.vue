@@ -5,8 +5,7 @@
         {{ title }}
       </v-card-title>
 
-      <v-card-text>
-        {{ content }}
+      <v-card-text v-html="content">
       </v-card-text>
 
       <v-divider></v-divider>
