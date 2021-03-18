@@ -56,33 +56,34 @@
       </v-card-title>
       <v-card-text class="mb-2">
         <p class="text-center secondary--text">
-          <span class="font-weight-bold">{{ room.millionPrice }}</span>
-          <i>{{ room.priceUnit }}</i>
+          <span class="font-weight-bold">{{ room.price/10 }}</span>
+          <i>tr VND/tháng</i>
         </p>
         <v-row>
           <v-col cols="4" class="pa-1">
             <v-layout column align-center>
               <v-icon>mdi-ruler</v-icon>
-              <span class="room__smaller">{{ room.areaString }}</span>
+              <span class="room__smaller">{{ `${room.area} m²` }}</span>
             </v-layout>
           </v-col>
           <v-col cols="4" class="pa-1">
             <v-layout column align-center>
               <v-icon>{{ `mdi-${room.gender.icon}` }}</v-icon>
-              <span class="room__smaller">{{ room.capacityString }}</span>
+              <span class="room__smaller">{{ room.gender.text }}</span>
             </v-layout>
           </v-col>
           <v-col cols="4" class="pa-1">
             <v-layout column align-center>
               <v-icon>mdi-check-circle-outline</v-icon>
-              <span class="room__smaller" v-html="room.availableHtml"></span>
+              <span class="room__smaller success--text" v-if="room.available">Còn phòng</span>
+              <span class="room__smaller warning--text" v-else>Hết phòng</span>
             </v-layout>
           </v-col>
-          <v-col cols="12" class="pa-1">
+          <v-col cols="12" class="pa-1" v-if="!owner">
             <v-icon>mdi-map-marker</v-icon>
             <span class="room__small">{{ room.address }}</span>
           </v-col>
-          <v-col cols="12" class="pa-1">
+          <v-col cols="12" class="pa-1" v-if="!owner">
             <v-icon>mdi-home</v-icon>
             <span class="room__smaller">{{ room.inn_name }}</span>
           </v-col>
@@ -113,7 +114,7 @@ import { LOADING_IMG } from '@/constants/app.constant'
 })
 export default class RoomCard extends Vue {
   @Prop({ type: Boolean, default: false }) readonly owner!: boolean
-  @Prop({ type: Object, required: true }) readonly room!: RoomCardDTO
+  @Prop({ type: Object, required: true }) readonly room!: any
   @Prop({ type: Function }) readonly clickDelete!: Function
   @Prop({ type: Number }) readonly index!: Number
 

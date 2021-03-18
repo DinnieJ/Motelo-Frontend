@@ -23,25 +23,33 @@
             {{ item.header }}
           </v-tab>
           <v-tabs-items v-model="tab">
+            <!-- Policy step -->
             <v-tab-item>
               <v-card rounded="lg" class="pa-4">
                 <v-card-text>
                   {{ policy }}
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn color="primary" @click="nextTab">đồng ý</v-btn>
-                  <v-btn color="warning" @click="refuseWarningDialog"
+                  <v-btn color="primary" @click="acceptPolicyEvent"
+                    >đồng ý</v-btn
+                  >
+                  <v-btn color="warning" @click="acceptWarningDialog"
                     >từ chối</v-btn
                   >
                 </v-card-actions>
               </v-card>
             </v-tab-item>
+            <!-- Room basic info step -->
             <v-tab-item>
-              <v-form @submit="submitBasicRoomData">
-                <v-text-field name="title" label="Tiêu đề" v-model="formData.title"></v-text-field>
+              <v-form>
+                <v-text-field
+                  name="title"
+                  label="Tiêu đề"
+                  v-model="formData.title"
+                ></v-text-field>
                 <v-layout align-center>
                   <v-text-field
-                    class=" right-text-field"
+                    class="right-text-field"
                     label="Tiền thuê"
                     type="number"
                     name="price"
@@ -51,7 +59,7 @@
                 </v-layout>
                 <v-layout align-center>
                   <v-text-field
-                    class=" right-text-field"
+                    class="right-text-field"
                     label="Diện tích"
                     type="number"
                     name="acreage"
@@ -59,19 +67,6 @@
                   ></v-text-field>
                   <span class="pb-1">m²</span>
                 </v-layout>
-                <v-range-slider
-                  label="Sức chứa:"
-                  hint="người/phòng"
-                  persistent-hint
-                  name="capacity"
-                  v-model="formData.capacity"
-                  :max="capacityDefault.MAX"
-                  :min="capacityDefault.MIN"
-                  :step="capacityDefault.STEP"
-                  thumb-label="always"
-                  color="secondary"
-                  class="my-6 mr-4"
-                ></v-range-slider>
                 <v-select
                   label="Loại phòng"
                   :items="roomTypes"
@@ -93,23 +88,61 @@
                   rows="2"
                   v-model="formData.description"
                 ></v-textarea>
-                <v-btn color="primary" type="submit"> Tiếp theo </v-btn>
+                <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
               </v-form>
             </v-tab-item>
+            <!-- Update image step -->
             <v-tab-item>
-              <upload-image-form @next="refuseWarningDialog" @back="refuseWarningDialog" />
+              <v-form class="mt-8">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple="multiple"
+                  ref="images"
+                  class="d-none"
+                  @change="onFileChange"
+                />
+                <v-row class="mb-4 justify-center">
+                  <v-col cols="12" sm="6" v-for="(image, i) in images" :key="i">
+                    <v-btn small block color="secondary" @click="clickDelete(i)"
+                      >xóa</v-btn
+                    >
+                    <img width="100%" height="auto" ref="image" />
+                  </v-col>
+                </v-row>
+                <v-layout justify-center>
+                  <v-btn outlined color="primary" @click="clickUpload">
+                    <v-icon left>mdi-upload</v-icon>
+                    Tải lên
+                  </v-btn>
+                </v-layout>
+                <v-layout justify-start class="mt-6">
+                  <v-btn
+                    class="mr-3"
+                    color="primary"
+                    @click="submitForm"
+                    :disabled="images.length == 0"
+                  >
+                    Hoàn thành
+                  </v-btn>
+                  <v-btn
+                    class="mr-3"
+                    @click="preTab"
+                  >
+                    Trở lại
+                  </v-btn>
+                </v-layout>
+              </v-form>
             </v-tab-item>
           </v-tabs-items>
         </v-tabs>
       </div>
     </v-layout>
     <warning-dialog
-      title="Lưu thay đổi"
-      content="bạn có muốn lưu sửa đổi này không"
-      has-cancel
-      @accept="refuseWarningDialog"
+      title="Thoát ra"
+      content="Nếu bạn thoát bấy giờ, đơn sẽ bị hủy.<br />Bạn có muốn thuát không ?"
+      @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
-      @cancel="cancelWarningDialog"
       v-model="openWarningDialog"
     />
   </v-container>
@@ -121,20 +154,21 @@ import WarningDialog from '@/components/common/WarningDialog.vue'
 import { TextIcon } from '@/constants/app.interface'
 import { ROOM_TYPES, GENDER, CAPACITY } from '@/constants/app.constant'
 import RoomReponsitory from '@/repositories/RoomRepository'
-import UploadImageForm from '@/components/common/UploadImageForm.vue'
 
 @Component<RoomCreateRequest>({
   name: 'RoomCreateRequest',
   // eslint-disable-next-line no-undef
   components: {
     WarningDialog,
-    UploadImageForm,
   },
-  // middleware: ['authenticated', 'isOwner'],
+  middleware: ['authenticated', 'isOwner'],
 })
 export default class RoomCreateRequest extends Vue {
   private acceptPolicy: boolean = false
   private openWarningDialog: boolean = false
+  $notify: any
+
+  // when policy isn't accepted, disable all except policy
   private tabHeaders = [
     {
       header: 'Chính sách',
@@ -165,8 +199,10 @@ export default class RoomCreateRequest extends Vue {
     owner_id: 0,
     description: '',
     acreage: 0,
-    capacity: [CAPACITY.MIN, CAPACITY.MAX]
+    capacity: [CAPACITY.MIN, CAPACITY.MAX],
   }
+
+  private images: any[] = []
 
   public closeDialog() {
     this.openWarningDialog = true
@@ -174,31 +210,81 @@ export default class RoomCreateRequest extends Vue {
 
   public acceptPolicyEvent(event: Event) {
     this.acceptPolicy = true
-    this.nextTab(event)
+
+    //if policy is accepted, disable policy, enable other
+    const policyIndex = 0
+    this.tabHeaders.forEach((item) => (item.disabled = false))
+    this.tabHeaders[policyIndex].disabled = true
+    this.tab = policyIndex + 1
   }
 
-  public refuseWarningDialog() {
+  public acceptWarningDialog() {
     this.openWarningDialog = false
     this.$router.go(-1)
   }
 
-  public cancelWarningDialog() {
+  public refuseWarningDialog() {
     this.openWarningDialog = false
   }
 
-  public async submitBasicRoomData(event: Event) {
-    event.preventDefault()
-    await RoomReponsitory.createRoom(this.formData)
+  public nextTab() {
+    this.tab++
+  }
+
+  public preTab() {
+    this.tab--
+  }
+
+  async submitForm() {
+    const formData = new FormData();
+    formData.append('title', this.formData.title)
+    formData.append('room_type_id', this.formData.room_type_id)
+    formData.append('price', this.formData.price.toString())
+    formData.append('acreage', this.formData.acreage.toString())
+    formData.append('gender_type_id', this.formData.gender_type_id)
+    formData.append('description', this.formData.description)
+
+    this.images.forEach((image, i) => {
+      formData.append(`images[${i}]`, image)
+    })
+
+    await RoomReponsitory.createRoom(formData)
       .then(response => {
-        this.nextTab(event)
+        this.$notify.showMessage({ message: "Đăng thành công", color: "success"})
+        setTimeout(() => {
+          this.$router.go(-1)
+        }, 400)
+      })
+      .catch(error => {
+        this.$notify.showMessage({ message: "Tạo không thành công", color: "red"})
       })
   }
 
-  public nextTab(event: Event) {
-    event.preventDefault()
-    const nextTab = (this.tab + 1) % this.tabHeaders.length
-    this.tabHeaders[nextTab].disabled = false
-    this.tab++
+  clickUpload(e: Event) {
+    e.preventDefault()
+    const input = this.$refs.images as any
+    input.click()
+  }
+
+  clickDelete(imgIndex: number) {
+    this.images.splice(imgIndex, 1)
+  }
+
+  onFileChange(e: any) {
+    let vm: any = this
+    var selectedFiles = e.target.files
+    for (let i = 0; i < selectedFiles.length; i++) {
+      this.images.push(selectedFiles[i])
+    }
+
+    for (let i = 0; i < this.images.length; i++) {
+      let reader = new FileReader()
+      reader.onload = (e) => {
+        vm.$refs.image[i].src = reader.result
+      }
+
+      reader.readAsDataURL(this.images[i])
+    }
   }
 }
 </script>

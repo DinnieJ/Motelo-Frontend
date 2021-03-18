@@ -162,6 +162,7 @@ import { setToken } from '@/repositories/BaseRepository'
     ...mapGetters({
       user: Getter.USER,
       role: Getter.ROLE,
+      token: Getter.TOKEN
     }),
   },
   created() {

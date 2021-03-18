@@ -28,6 +28,7 @@
         :length="totalPage"
         total-visible="7"
         circle
+        @change="getAllOwnRequests"
       ></v-pagination>
     </v-sheet>
     <warning-dialog
@@ -74,11 +75,11 @@ export default class OwnerRequests extends Vue {
   private filterValue: RoomFilterDTO = new RoomFilterDTO()
 
   public async getAllOwnRequests() {
-    await RoomRepository.getRoomsByFilter(this.filterValue)
+    await RoomRepository.getOwnerRoom(this.filterValue)
       .then((response) => {
         let rooms: any = response.data.data
         this.requests = rooms.map(function (item: any) {
-          return new RoomCardDTO(item)
+          return new RoomCardDTO(item, true)
         })
         this.totalPage = response.data.total_page
       })
@@ -89,7 +90,7 @@ export default class OwnerRequests extends Vue {
 
   public clickDelete(index: number) {
     this.deletingRoom = index
-    this.warningDialogContent = `Bạn có muốn xóa yêu cầu "${this.requests[index].requestType}: ${this.requests[index].title}" không ?`
+    this.warningDialogContent = `Bạn có muốn xóa bài đăng: ${this.requests[index].title}" không ?`
     this.openWarningDialog = true
   }
 
