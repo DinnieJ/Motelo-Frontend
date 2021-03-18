@@ -31,63 +31,41 @@ export class RoomCardDTO {
   available: boolean
   gender: TextIcon | undefined
   area: number
-  capacity: {
-    max: number
-    min: number
-  }
-
   address: string
   verify: boolean
   favorite: boolean
   price: number
   inn_name: string
-  favorited: boolean
+  location: {
+    lat: any,
+    lng: any,
+  }
 
-  constructor(data: any) {
+  constructor(data: any, forOwner?: boolean) {
     this.id = data.id
     this.title = data.name
     this.type = ROOM_TYPES.find((type) => type.id === data.room_type)
     this.available = data.available
     this.gender = GENDER.find((type) => type.id === data.gender)
     this.area = data.acreage
-    this.capacity = {
-      max: data.capacity_max || 3,
-      min: data.capacity_min || 2,
-    }
-    this.address = data.address
+ 
     this.verify = data.verified
     this.favorite = Boolean(data.favorited)
     this.price = data.price
-    this.imgLink = data.img || '/imgs/anh_room.jpg'
-    this.inn_name = data.inn_name
-    this.favorited = data.favorited || false
-  }
+    this.imgLink = data.img || 'https://www.pikpng.com/pngl/m/159-1594016_png-file-svg-error-icon-png-clipart.png'
 
-  public get millionPrice(): string {
-    return (this.price / 1000000).toFixed(1)
-  }
-
-  public get priceUnit(): string {
-    return 'tr VND/tháng'
-  }
-
-  public get capacityString(): string {
-    return `${this.capacity.min} - ${this.capacity.max} ng`
-  }
-
-  public get areaString(): string {
-    return `${this.area} m²`
-  }
-
-  public get availableHtml(): string {
-    if (this.available) {
-      return `<span class="success--text">Còn phòng</span>`
+    if (forOwner) {
+      this.inn_name = ''
+      this.address = ''
+      this.location = {
+        lat: '',
+        lng: '',
+      }
+    } else {
+      this.inn_name = data.inn_name
+      this.address = data.address
+      this.location = data.location
     }
-    return `<span class="warning--text">Hết phòng</span>`
-  }
-
-  public get requestType(): string {
-    return 'Tạo mới'
   }
 }
 

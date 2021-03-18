@@ -65,13 +65,15 @@ export default class RoomRepository {
     return authenticatedService.get(`${Endpoint.Room}/latest`)
   }
 
-  public static createRoom(formData: any): Promise<any> {
-    return new Promise(function (resolve) {
-      console.log('createRoom', formData)
-      setTimeout(resolve.bind(null, {
-        code: 200,
-        data: formData
-      }), 1000)
+  public static getOwnerRoom(params: any): Promise<AxiosResponse<any>> {
+    return authenticatedService.get(`${Endpoint.OwnerRoom}/list`, { params })
+  }
+
+  public static createRoom(data: any): Promise<any> {
+    return authenticatedService.post(`${Endpoint.OwnerRoom}/create`, data , { 
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
   }
 }
