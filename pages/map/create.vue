@@ -247,10 +247,16 @@ export default class CreateUtibity extends Vue {
     formData.append('utility_type_id', this.formData.type_id.toString())
     formData.append('description', this.formData.description)
     formData.append('address', this.formData.address)
-    formData.append('location[0]', this.center.lat())
-    formData.append('location[1]', this.center.lng())
+    const position = this.center
+    if (typeof position.lat === 'function') { // when user choose location, lat and lng will become function
+      formData.append('location[0]', position.lat())
+      formData.append('location[1]', position.lng())
+    } else {
+      formData.append('location[0]', position.lat)
+      formData.append('location[1]', position.lng)
+    }
+
     formData.append('image', this.image)
-    console.log('form data =', this.formData, this.center)
     await UtilityRepository.createUtility(formData)
       .then((response) => {
         this.$notify.showMessage({
@@ -276,7 +282,6 @@ export default class CreateUtibity extends Vue {
   }
 
   onFileChange(e: any) {
-    console.log('event map = ', e.target.files[0], this.$refs)
     let vm: any = this
     var selectedFiles = e.target.files
     this.image = selectedFiles[0]

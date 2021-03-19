@@ -13,4 +13,8 @@ export default class UtilityRepository {
       }
     )
   }
+
+  public static getAllUtilities(): Promise<any> {
+    return authenticatedService.get(`${Endpoint.Collaborator}/utility/all`)
+  }
 }

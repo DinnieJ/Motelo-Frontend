@@ -1,12 +1,38 @@
 import { ContactDTO, NavLink, TextIcon } from './app.interface'
-
+import {
+  mdiBank,
+  mdiBed,
+  mdiBilliards,
+  mdiBusStop,
+  mdiCart,
+  mdiCash,
+  mdiCellphone,
+  mdiCoffee,
+  mdiControllerClassic,
+  mdiGasStation,
+  mdiGlassMugVariant,
+  mdiLaptop,
+  mdiMicrophoneSettings,
+  mdiMotorbike,
+  mdiMovieOpen,
+  mdiPill,
+  mdiPoliceBadge,
+  mdiSilverwareVariant,
+  mdiSim,
+  mdiSoccer,
+  mdiStore,
+  mdiStorefrontOutline,
+  mdiWashingMachine,
+  mdiWeightLifter,
+} from '@mdi/js'
 export const COOKIES = {
   ROLE: 'role',
   USER: 'user',
   TOKEN: 'token',
 }
 
-export const LOADING_IMG = "https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"
+export const LOADING_IMG =
+  'https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif'
 
 export const PRICE_FILTER = {
   MAX: 9,
@@ -79,8 +105,9 @@ export const NAV_LINKS: NavLink[] = [
     text: 'Bản đồ',
     to: '/map',
     icon: 'home',
-    roles: [ROLE.COLLAORATOR, 
-      ROLE.GUEST //for mockups
+    roles: [
+      ROLE.COLLAORATOR,
+      ROLE.GUEST, //for mockups
     ],
   },
 ]
@@ -209,31 +236,56 @@ export const ROOM_TYPES: TextIcon[] = [
 ]
 
 export const UTIBITY_TYPE: TextIcon[] = [
-  { id: 1, text: "Sửa xe máy", icon: "motorbike" },
-  { id: 2, text: "Quán ăn", icon: "silverware-variant" },
-  { id: 3, text: "Bi-a", icon: "billiards" },
-  { id: 4, text: "Chợ", icon: "storefront-outline" },
-  { id: 5, text: "Siêu thị", icon: "cart" },
-  { id: 6, text: "Giặt là", icon: "washing-machine" },
-  { id: 7, text: "Hàng thuốc", icon: "pill" },
-  { id: 8, text: "Quán nhậu", icon: "glass-mug-variant" },
-  { id: 9, text: "Tạp hóa", icon: "store" },
-  { id: 10, text: "Cây xăng", icon: "gas-station" },
-  { id: 11, text: "Karaoke", icon: "microphone-settings" },
-  { id: 12, text: "Rạp phim", icon: "movie-open" },
-  { id: 13, text: "Chỗ công an đứng", icon: "police-badge" },
-  { id: 14, text: "Điểm đón xe bus", icon: "bus-stop" },
-  { id: 15, text: "ATM", icon: "cash" },
-  { id: 16, text: "Ngân hàng", icon: "bank" },
-  { id: 17, text: "Sân bóng", icon: "soccer" },
-  { id: 18, text: "Quán net", icon: "controller-classic" },
-  { id: 19, text: "Sửa máy tính", icon: "laptop" },
-  { id: 20, text: "Bể bơi", icon: "swim" },
-  { id: 21, text: "Gym", icon: "weight-lifter" },
-  { id: 22, text: "Quán nước", icon: "coffee" },
-  { id: 23, text: "Nhà nghỉ", icon: "bed" },
-  { id: 24, text: "Hàng điện thoại", icon: "cellphone" },
-  ];
+  { id: 1, code: mdiMotorbike, text: 'Sửa xe máy', icon: 'motorbike' },
+  {
+    id: 2,
+    code: mdiSilverwareVariant,
+    text: 'Quán ăn',
+    icon: 'silverware-variant',
+  },
+  { id: 3, code: mdiBilliards, text: 'Bi-a', icon: 'billiards' },
+  {
+    id: 4,
+    code: mdiStorefrontOutline,
+    text: 'Chợ',
+    icon: 'storefront-outline',
+  },
+  { id: 5, code: mdiCart, text: 'Siêu thị', icon: 'cart' },
+  { id: 6, code: mdiWashingMachine, text: 'Giặt là', icon: 'washing-machine' },
+  { id: 7, code: mdiPill, text: 'Hàng thuốc', icon: 'pill' },
+  {
+    id: 8,
+    code: mdiGlassMugVariant,
+    text: 'Quán nhậu',
+    icon: 'glass-mug-variant',
+  },
+  { id: 9, code: mdiStore, text: 'Tạp hóa', icon: 'store' },
+  { id: 10, code: mdiGasStation, text: 'Cây xăng', icon: 'gas-station' },
+  {
+    id: 11,
+    code: mdiMicrophoneSettings,
+    text: 'Karaoke',
+    icon: 'microphone-settings',
+  },
+  { id: 12, code: mdiMovieOpen, text: 'Rạp phim', icon: 'movie-open' },
+  { id: 13, code: mdiPoliceBadge, text: 'Chốt', icon: 'police-badge' },
+  { id: 14, code: mdiBusStop, text: 'Điểm đón xe bus', icon: 'bus-stop' },
+  { id: 15, code: mdiCash, text: 'ATM', icon: 'cash' },
+  { id: 16, code: mdiBank, text: 'Ngân hàng', icon: 'bank' },
+  { id: 17, code: mdiSoccer, text: 'Sân bóng', icon: 'soccer' },
+  {
+    id: 18,
+    code: mdiControllerClassic,
+    text: 'Quán net',
+    icon: 'controller-classic',
+  },
+  { id: 19, code: mdiLaptop, text: 'Sửa máy tính', icon: 'laptop' },
+  { id: 20, code: mdiSim, text: 'Bể bơi', icon: 'swim' },
+  { id: 21, code: mdiWeightLifter, text: 'Gym', icon: 'weight-lifter' },
+  { id: 22, code: mdiCoffee, text: 'Quán nước', icon: 'coffee' },
+  { id: 23, code: mdiBed, text: 'Nhà nghỉ', icon: 'bed' },
+  { id: 24, code: mdiCellphone, text: 'Hàng điện thoại', icon: 'cellphone' },
+]
 
 export const GENDER: TextIcon[] = [
   {
