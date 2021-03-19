@@ -38,5 +38,6 @@ export enum Getter {
     SEARCH_FEATURES = "search/features",
     SEARCH_ROOM_TYPE = "search/room_type",
     SEARCH_GENDER = "search/gender",
-    LOADING_IMG = "loadingImg"
+    LOADING_IMG = "loadingImg",
+    IS_TENANT = 'auth/isTenant',
 }

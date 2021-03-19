@@ -68,9 +68,9 @@ export default class DetailRoom extends Vue {
   public async clickVerify(event: Event) {
     event.preventDefault()
     if (this.verify) {
-      this.verifyRoom();
-    } else {
       this.unverifyRoom()
+    } else {
+      this.verifyRoom();
     }
   }
 
@@ -144,6 +144,7 @@ export default class DetailRoom extends Vue {
   }
 
   public async verifyRoom() {
+    console.log('verifyRoom')
     await RoomRepository.verifyRoom(this.room.id)
       .then((repos) => {
         this.verify = true

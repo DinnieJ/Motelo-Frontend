@@ -14,7 +14,7 @@
               :favorite.sync="room.favorited"
               :loading.sync="loadingFavorite"
               :clickFavor="clickFavor"
-              v-if="!owner && loggedIn"
+              v-if="isTenant && loggedIn"
             />
 
             <v-layout column v-if="owner">
@@ -34,7 +34,7 @@
 
             <!-- verify btn -->
             <template v-if="isCollaborator()">
-              <v-btn fab x-small color="primary" :loading="loadingVerify">
+              <v-btn fab x-small color="primary" :loading="loadingVerify" @click="clickVerify">
                 <v-icon small dark> 
                   {{ verify ? 'mdi-shield-home' : 'mdi-shield-plus' }}
                 </v-icon>
@@ -62,7 +62,7 @@
       </v-card-title>
       <v-card-text class="mb-2">
         <p class="text-center secondary--text">
-          <span class="font-weight-bold">{{ room.price/10 }}</span>
+          <span class="font-weight-bold">{{ room.price }}</span>
           <i>tr VND/tháng</i>
         </p>
         <v-row>
@@ -119,6 +119,7 @@ import { Getter } from '@/constants/app.vuex'
   computed: {
     ...mapGetters({
       role: Getter.ROLE,
+      isTenant: Getter.IS_TENANT
     }),
   },
   created() {
@@ -170,9 +171,9 @@ export default class RoomCard extends Vue {
   public async clickVerify(event: Event) {
     event.preventDefault()
     if (this.verify) {
-      this.verifyRoom();
-    } else {
       this.unverifyRoom()
+    } else {
+      this.verifyRoom();
     }
   }
 
@@ -215,9 +216,8 @@ export default class RoomCard extends Vue {
           message: `Bạn đã kiểm chứng "${this.room.title}"`,
           color: 'success',
         })
-      })
-      .finally(() => {
-        this.loadingFavorite = false
+      }).finally(() => {
+        this.loadingVerify = false
       })
   }
 

@@ -2,6 +2,8 @@ import axios from 'axios';
 import { getTokenCookie } from '@/utils/cookies'
 import { COOKIES } from '@/constants/app.constant'
 
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
 export const unauthenticatedService = axios.create({
     baseURL: `${process.env.BASE_API}/api`
 })

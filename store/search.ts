@@ -91,7 +91,7 @@ export const actions: FilterAction<FilterState, RootState> = {
         commit(FilterMutation.SET_GENDER, 1)
         commit(FilterMutation.SET_FEATURES, [])
         commit(FilterMutation.SET_MIN_PRICE, 0)
-        commit(FilterMutation.SET_MAX_PRICE, 6)
+        commit(FilterMutation.SET_MAX_PRICE, 9)
         commit(FilterMutation.SET_ROOM_TYPE, [])
         commit(FilterMutation.SET_PAGE, 1)
     }

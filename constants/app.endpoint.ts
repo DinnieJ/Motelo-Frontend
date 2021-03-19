@@ -15,6 +15,10 @@ export enum Endpoint {
     TenantComment = "tenant/comment",
     TenantFavorite = "tenant/favorite",
     OwnerRoom = "owner/room",
+<<<<<<< HEAD
     Collaborator = "collaborator",
     CollaboratorRoom = "collab/room",
+=======
+    CollaboratorRoom = "collaborator/room",
+>>>>>>> implement verify api
 }
