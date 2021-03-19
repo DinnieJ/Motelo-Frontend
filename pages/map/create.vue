@@ -40,12 +40,6 @@
                   label="Tiêu đề"
                   v-model="formData.title"
                 ></v-text-field>
-                <v-text-field
-                  required
-                  label="Địa chỉ"
-                  v-model="formData.address"
-                >
-                </v-text-field>
                 <v-textarea
                   label="Miêu tả thêm"
                   outlined
@@ -58,6 +52,8 @@
             </v-tab-item>
             <!-- choose utility's location step -->
             <v-tab-item>
+              <v-text-field required label="Địa chỉ" v-model="formData.address">
+              </v-text-field>
               <gmap-map
                 :center="center"
                 :zoom="zoom"
@@ -71,12 +67,16 @@
                   v-for="marker in markers"
                   :position="marker.position"
                   :key="marker.id"
-                  :icon="marker.icon"
-                  :title="marker.title"
+                  :icon="{ path: marker.type.code }"
+                  :title="marker.name"
                 ></gmap-marker>
               </gmap-map>
-              <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
-              <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
+              <div class="mt-3">
+                <v-btn color="primary" @click="nextTab" class="mr-3">
+                  Tiếp theo
+                </v-btn>
+                <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
+              </div>
             </v-tab-item>
             <!-- Update image step -->
             <v-tab-item>
@@ -130,15 +130,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import WarningDialog from '@/components/common/WarningDialog.vue'
-import {
-  CAPACITY,
-  UTILITY_TYPE,
-  DefaultMapZoom,
-  FPTLocation,
-} from '@/constants/app.constant'
+import { UTILITY_TYPE, DefaultMapZoom } from '@/constants/app.constant'
 import UtilityRepository from '@/repositories/UtilityRepository'
 import UploadImageForm from '@/components/common/UploadImageForm.vue'
-import { markers } from '@/utils/inn_mockup'
+import { MarkerDTO } from '~/constants/app.interface'
 
 @Component<CreateUtility>({
   name: 'CreateUtility',
@@ -146,10 +141,14 @@ import { markers } from '@/utils/inn_mockup'
     WarningDialog,
     UploadImageForm,
   },
+  async created() {
+    await this.getAllMarker()
+  },
 })
 export default class CreateUtility extends Vue {
-  private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
+  private center: any = { lat: 0, lng: 0 }
   private zoom: number = DefaultMapZoom
+  private markers: MarkerDTO[] = []
   private mapOptions = {
     zoomControl: true,
     mapTypeControl: false,
@@ -159,9 +158,7 @@ export default class CreateUtility extends Vue {
     fullscreenControl: true,
     disableDefaultUi: false,
   }
-  get markers() {
-    return markers
-  }
+
   public setMapCenter({ latLng }: any) {
     this.center = latLng
   }
@@ -181,6 +178,15 @@ export default class CreateUtility extends Vue {
         }
       })
     }
+  }
+
+  public async getAllMarker() {
+    await UtilityRepository.getAllUtilities().then((response) => {
+      const markers = response.data
+      this.markers = markers.map(function (marker: any) {
+        return new MarkerDTO(marker)
+      })
+    })
   }
 
   private openWarningDialog: boolean = false
@@ -248,7 +254,8 @@ export default class CreateUtility extends Vue {
     formData.append('description', this.formData.description)
     formData.append('address', this.formData.address)
     const position = this.center
-    if (typeof position.lat === 'function') { // when user choose location, lat and lng will become function
+    if (typeof position.lat === 'function') {
+      // when user choose location, lat and lng will become function
       formData.append('location[0]', position.lat())
       formData.append('location[1]', position.lng())
     } else {

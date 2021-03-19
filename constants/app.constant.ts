@@ -348,3 +348,8 @@ export const Contacts: ContactDTO[] = [
 
 export const FPTLocation = [21.013430248238773, 105.5270750314157]
 export const DefaultMapZoom = 15
+export enum MARKER_ANIMATION {
+  NONE = 0,
+  BOUNCE = 1,
+  DROP = 2,
+}

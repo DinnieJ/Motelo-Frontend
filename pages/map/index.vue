@@ -16,6 +16,11 @@
         :position="marker.position"
         :key="marker.id"
         :icon="{ path: marker.type.code }"
+        :animation="
+          marker.id === currentMarker.id
+            ? markerAnimation['BOUNCE']
+            : markerAnimation['NONE']
+        "
         @click="clickMarker(marker)"
       ></gmap-marker>
     </gmap-map>
@@ -138,6 +143,7 @@ import {
   LOADING_IMG,
   FPTLocation,
   DefaultMapZoom,
+  MARKER_ANIMATION,
 } from '@/constants/app.constant'
 import UtilityRepository from '~/repositories/UtilityRepository'
 import { MarkerDTO } from '~/constants/app.interface'
@@ -146,13 +152,15 @@ import { MarkerDTO } from '~/constants/app.interface'
   name: 'FullMap',
   // eslint-disable-next-line no-undef
   // middleware: ['authenticate', 'isCollaborator']
-  created() {
-    this.getAllMarker()
+  async created() {
+    await this.getAllMarker()
   },
 })
 export default class FullMap extends Vue {
   private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
   private zoom: number = DefaultMapZoom
+  private markerAnimation: any = MARKER_ANIMATION
+  private animation: number = MARKER_ANIMATION.NONE
   private mapOptions = {
     zoomControl: true,
     mapTypeControl: false,
@@ -163,7 +171,7 @@ export default class FullMap extends Vue {
     disableDefaultUi: false,
   }
 
-  private markers: any[] = []
+  private markers: MarkerDTO[] = []
 
   private currentMarker = new MarkerDTO()
 
