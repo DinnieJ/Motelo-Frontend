@@ -132,7 +132,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import WarningDialog from '@/components/common/WarningDialog.vue'
 import {
   CAPACITY,
-  UTIBITY_TYPE,
+  UTILITY_TYPE,
   DefaultMapZoom,
   FPTLocation,
 } from '@/constants/app.constant'
@@ -140,14 +140,14 @@ import UtilityRepository from '@/repositories/UtilityRepository'
 import UploadImageForm from '@/components/common/UploadImageForm.vue'
 import { markers } from '@/utils/inn_mockup'
 
-@Component<CreateUtibity>({
-  name: 'CreateUtibity',
+@Component<CreateUtility>({
+  name: 'CreateUtility',
   components: {
     WarningDialog,
     UploadImageForm,
   },
 })
-export default class CreateUtibity extends Vue {
+export default class CreateUtility extends Vue {
   private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
   private zoom: number = DefaultMapZoom
   private mapOptions = {
@@ -166,7 +166,7 @@ export default class CreateUtibity extends Vue {
     this.center = latLng
   }
 
-  created() {
+  mounted() {
     this.getCurrentPosition()
   }
   public getCurrentPosition() {
@@ -198,7 +198,7 @@ export default class CreateUtibity extends Vue {
       disabled: false,
     },
   ]
-  private utilitysType = UTIBITY_TYPE.map((item, index) => ({ ...item, index }))
+  private utilitysType = UTILITY_TYPE.map((item, index) => ({ ...item, index }))
   private tab: number = 0
 
   private formData = {

@@ -2,16 +2,16 @@
   <v-container
     tag="section"
   >
-    This is EditUtibity
+    This is EditUtility
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-@Component<EditUtibity>({
-    name: 'EditUtibity'
+@Component<EditUtility>({
+    name: 'EditUtility'
 })
-export default class EditUtibity extends Vue {
+export default class EditUtility extends Vue {
 
 }
 </script>

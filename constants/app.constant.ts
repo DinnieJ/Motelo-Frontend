@@ -235,7 +235,7 @@ export const ROOM_TYPES: TextIcon[] = [
   },
 ]
 
-export const UTIBITY_TYPE: TextIcon[] = [
+export const UTILITY_TYPE: TextIcon[] = [
   { id: 1, code: mdiMotorbike, text: 'Sửa xe máy', icon: 'motorbike' },
   {
     id: 2,

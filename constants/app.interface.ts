@@ -3,7 +3,7 @@ import {
   ROOM_TYPES,
   AMEENITIES,
   SECURITY,
-  UTIBITY_TYPE,
+  UTILITY_TYPE,
 } from './app.constant'
 import { Contact } from '@/constants/app.constant'
 
@@ -205,7 +205,7 @@ export class MarkerDTO {
       return
     }
     this.id = data.id
-    this.type = UTIBITY_TYPE.find((utility) => utility.id == data.type)
+    this.type = UTILITY_TYPE.find((utility) => utility.id == data.type)
     this.name = data.title
     this.description = data.description
     this.address = data.address
