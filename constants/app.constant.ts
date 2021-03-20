@@ -105,10 +105,14 @@ export const NAV_LINKS: NavLink[] = [
     text: 'Bản đồ',
     to: '/map',
     icon: 'home',
+<<<<<<< HEAD
     roles: [
       ROLE.COLLAORATOR,
       ROLE.GUEST, //for mockups
     ],
+=======
+    roles: [ROLE.COLLAORATOR],
+>>>>>>> fix hasInn
   },
 ]
 

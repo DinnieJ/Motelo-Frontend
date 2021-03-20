@@ -40,4 +40,5 @@ export enum Getter {
     SEARCH_GENDER = "search/gender",
     LOADING_IMG = "loadingImg",
     IS_TENANT = 'auth/isTenant',
+    IS_COLLABORATOR = 'auth/isCollaborator',
 }

@@ -28,7 +28,7 @@
           </p>
 
           <!-- verify btn -->
-          <template v-if="isCollaborator()">
+          <template v-if="isCollaborator">
             <v-btn color="primary" large @click="clickVerify">
               <v-icon dark large left class="mr-4">
                 {{ asyncVerify ? 'mdi-shield-home' : 'mdi-shield-plus' }}
@@ -131,6 +131,7 @@ import { Getter } from '@/constants/app.vuex'
   computed: {
     ...mapGetters({
       role: Getter.ROLE,
+      isCollaborator: Getter.IS_COLLABORATOR,
     }),
   },
 })
@@ -147,10 +148,5 @@ export default class RoomDetailContainer extends Vue {
 
   @Prop({ type: Function }) readonly clickVerify!: Function
   @PropSync('verify') readonly asyncVerify!: boolean
-
-  public isCollaborator() {
-    const context: any = this
-    return context.role == ROLE.COLLAORATOR
-  }
 }
 </script>

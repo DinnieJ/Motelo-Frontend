@@ -33,7 +33,7 @@
             </v-layout>
 
             <!-- verify btn -->
-            <template v-if="isCollaborator()">
+            <template v-if="isCollaborator">
               <v-btn fab x-small color="primary" :loading="loadingVerify" @click="clickVerify">
                 <v-icon small dark> 
                   {{ verify ? 'mdi-shield-home' : 'mdi-shield-plus' }}
@@ -119,7 +119,8 @@ import { Getter } from '@/constants/app.vuex'
   computed: {
     ...mapGetters({
       role: Getter.ROLE,
-      isTenant: Getter.IS_TENANT
+      isTenant: Getter.IS_TENANT,
+      isCollaborator: Getter.IS_COLLABORATOR,
     }),
   },
   created() {
@@ -146,11 +147,6 @@ export default class RoomCard extends Vue {
     return !!this.$store.state.auth.user
   }
 
-  public isCollaborator() {
-    const context: any = this
-    return context.role == ROLE.COLLAORATOR
-  }
-
   public getLink(): string {
     if (this.owner) {
       return `/owner/requests/${this.room.id}`
@@ -170,9 +166,7 @@ export default class RoomCard extends Vue {
 
   public async clickVerify(event: Event) {
     event.preventDefault()
-    if (this.verify) {
-      this.unverifyRoom()
-    } else {
+    if (!this.verify) {
       this.verifyRoom();
     }
   }
@@ -220,20 +214,9 @@ export default class RoomCard extends Vue {
         this.loadingVerify = false
       })
   }
-
-  public async unverifyRoom() {
-    // this.loadingVerify = true
-    // await RoomRepository.unverifyRoom(this.room.id)
-    //   .then((repos) => {
-    //     this.verify = false
-    //     this.$notify.showMessage({
-    //       message: `Bạn đã bỏ kiẻm chứng "${this.room.title}"`,
-    //       color: 'warning',
-    //     })
-    //   })
-    //   .finally(() => {
-    //     this.loadingFavorite = false
-    //   })
-  }
 }
+/**
+ * lấy token từ vuex rồi setToken cho middleware hasInn
+ */
+
 </script>

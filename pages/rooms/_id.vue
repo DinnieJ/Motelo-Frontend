@@ -67,9 +67,7 @@ export default class DetailRoom extends Vue {
 
   public async clickVerify(event: Event) {
     event.preventDefault()
-    if (this.verify) {
-      this.unverifyRoom()
-    } else {
+    if (!this.verify) {
       this.verifyRoom();
     }
   }
@@ -153,17 +151,6 @@ export default class DetailRoom extends Vue {
           color: 'success',
         })
       })
-  }
-
-  public async unverifyRoom() {
-    // await RoomRepository.unverifyRoom(this.room.id)
-    //   .then((repos) => {
-    //     this.verify = false
-    //     this.$notify.showMessage({
-    //       message: `Bạn đã bỏ kiẻm chứng "${this.room.title}"`,
-    //       color: 'warning',
-    //     })
-    //   })
   }
 }
 </script>

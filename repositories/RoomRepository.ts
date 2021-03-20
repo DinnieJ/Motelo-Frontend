@@ -83,10 +83,4 @@ export default class RoomRepository {
       room_id
     })
   }
-
-  public static unverifyRoom(room_id: any): Promise<any> {
-    return authenticatedService.post(`${Endpoint.TenantFavorite}/remove`, {
-      room_id
-    })
-  }
 }
