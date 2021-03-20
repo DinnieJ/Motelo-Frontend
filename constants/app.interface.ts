@@ -472,6 +472,7 @@ export class InnProfileDTO {
       open: data.open_time,
       close: data.close_time,
     }
+    this.position = data.location
     // onwer contact
     let phones: string[] = []
     let facebooks: string[] = []

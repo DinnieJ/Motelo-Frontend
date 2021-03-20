@@ -100,7 +100,6 @@ import ImagesSlide from '@/components/common/ImagesSlide.vue'
 import BasicSection from '@/components/common/BasicSection.vue'
 import AmenitieSection from '@/components/common/AmenitieSection.vue'
 import SafetySection from '@/components/common/SafetySection.vue'
-import { FPTLocation } from '~/constants/app.constant'
 
 // eslint-disable-next-line no-use-before-define
 @Component<OwnerHome>({
@@ -177,11 +176,7 @@ export default class OwnerHome extends Vue {
           open: inn.open_time,
           close: inn.close_time,
         }
-        const position = inn.location.split(" ");
-        inn.position = {
-          lat: parseFloat(position[0]),
-          lng: parseFloat(position[1])
-        }
+        inn.position = inn.location;
         inn.imgs = [LOADING_IMG, LOADING_IMG]
         this.inn = inn
       }
