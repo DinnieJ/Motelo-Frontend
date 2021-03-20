@@ -1,4 +1,10 @@
-import { GENDER, ROOM_TYPES, AMEENITIES, SECURITY } from './app.constant'
+import {
+  GENDER,
+  ROOM_TYPES,
+  AMEENITIES,
+  SECURITY,
+  UTILITY_TYPE,
+} from './app.constant'
 import { Contact } from '@/constants/app.constant'
 
 /* eslint-disable camelcase */
@@ -14,7 +20,7 @@ export interface TextIcon {
   id: number
   text: string
   icon: string
-  code: string
+  code?: string
 }
 
 export interface BreadcrumbLink {
@@ -37,8 +43,8 @@ export class RoomCardDTO {
   price: number
   inn_name: string
   location: {
-    lat: any,
-    lng: any,
+    lat: any
+    lng: any
   }
 
   constructor(data: any, forOwner?: boolean) {
@@ -48,11 +54,13 @@ export class RoomCardDTO {
     this.available = data.available
     this.gender = GENDER.find((type) => type.id === data.gender)
     this.area = data.acreage
- 
+
     this.verify = data.verified
     this.favorite = Boolean(data.favorited)
     this.price = data.price
-    this.imgLink = data.img || 'https://www.pikpng.com/pngl/m/159-1594016_png-file-svg-error-icon-png-clipart.png'
+    this.imgLink =
+      data.img ||
+      'https://www.pikpng.com/pngl/m/159-1594016_png-file-svg-error-icon-png-clipart.png'
 
     if (forOwner) {
       this.inn_name = ''
@@ -166,6 +174,52 @@ export interface UserInfoDTO {
   phone_number: string
 }
 
+export class MarkerDTO {
+  id: number
+  name: string
+  description: string
+  type: TextIcon | undefined
+  address: string
+  position: {
+    lat: number
+    lng: number
+  }
+  img: string
+
+  constructor(data?: any) {
+    if (!data) {
+      this.id = -1
+      this.name = ''
+      this.description = ''
+      this.type = {
+        id: -1,
+        text: '',
+        icon: '',
+      }
+      this.address = ''
+      this.position = {
+        lat: 0,
+        lng: 0,
+      }
+      this.img = ''
+      return
+    }
+    this.id = data.id
+    this.type = UTILITY_TYPE.find((utility) => utility.id == data.type)
+    this.name = data.title
+    this.description = data.description
+    this.address = data.address
+    const location = data.location
+      .split(' ')
+      .map((coord: any) => parseFloat(coord))
+    this.position = {
+      lat: location[0],
+      lng: location[1],
+    }
+    this.img = data.image_url
+  }
+}
+
 export class RoomFilterDTO {
   public page: number
   public keyword: string
@@ -181,14 +235,14 @@ export class RoomFilterDTO {
     this.keyword = ''
     this.min_price = 0
     this.max_price = 6
-    this.price = [0,6]
+    this.price = [0, 6]
     this.amenities = []
     this.gender = null
     this.room_type = []
   }
 
   set update(value: any) {
-    if(value.keyword) this.keyword = value.keyword
+    if (value.keyword) this.keyword = value.keyword
     if (value.page) {
       try {
         this.page = parseInt(value.page)
@@ -212,7 +266,8 @@ export class RoomFilterDTO {
       } catch (e) {}
     }
     if (value.features) this.amenities = [...new Set(value.features.split(','))]
-    if (value.room_type) this.room_type = [...new Set(value.room_type.split(','))]
+    if (value.room_type)
+      this.room_type = [...new Set(value.room_type.split(','))]
   }
 
   get toObject(): any {
@@ -356,11 +411,11 @@ export class InnProfileDTO {
     close: '0',
   }
   public position: {
-    lat: number,
+    lat: number
     lng: number
   } = {
     lat: 0,
-    lng: 0
+    lng: 0,
   }
 
   public owner: {
@@ -417,6 +472,7 @@ export class InnProfileDTO {
       open: data.open_time,
       close: data.close_time,
     }
+    this.position = data.location
     // onwer contact
     let phones: string[] = []
     let facebooks: string[] = []

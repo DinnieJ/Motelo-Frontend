@@ -15,7 +15,12 @@
         v-for="marker in markers"
         :position="marker.position"
         :key="marker.id"
-        :icon="marker.icon"
+        :icon="{ path: marker.type.code }"
+        :animation="
+          marker.id === currentMarker.id
+            ? markerAnimation['BOUNCE']
+            : markerAnimation['NONE']
+        "
         @click="clickMarker(marker)"
       ></gmap-marker>
     </gmap-map>
@@ -57,7 +62,13 @@
                 <h1 class="ma-0 map__title mobile">
                   {{ currentMarker.name }}
                 </h1>
-                <v-btn small color="primary" text icon :to="`/map/${currentMarker.id}/edit`">
+                <v-btn
+                  small
+                  color="primary"
+                  text
+                  icon
+                  :to="`/map/${currentMarker.id}/edit`"
+                >
                   <v-icon>mdi-wrench</v-icon>
                 </v-btn>
               </v-layout>
@@ -100,17 +111,23 @@
               {{ currentMarker.name }}
             </h1>
 
-            <v-btn small color="primary" text icon :to="`/map/${currentMarker.id}/edit`">
+            <v-btn
+              small
+              color="primary"
+              text
+              icon
+              :to="`/map/${currentMarker.id}/edit`"
+            >
               <v-icon>mdi-wrench</v-icon>
             </v-btn>
           </v-layout>
           <a
-                :href="`http://maps.google.com?q=${currentMarker.position.lat},${currentMarker.position.lng}`"
-                target="_blank"
-                class="text-decoration-underline room__smaller"
-              >
-                <i>Xem thêm trên Google Map</i>
-              </a>
+            :href="`http://maps.google.com?q=${currentMarker.position.lat},${currentMarker.position.lng}`"
+            target="_blank"
+            class="text-decoration-underline room__smaller"
+          >
+            <i>Xem thêm trên Google Map</i>
+          </a>
           <p class="room__small map__description">
             {{ currentMarker.description }}
           </p>
@@ -126,17 +143,24 @@ import {
   LOADING_IMG,
   FPTLocation,
   DefaultMapZoom,
+  MARKER_ANIMATION,
 } from '@/constants/app.constant'
-import { markers } from '@/utils/inn_mockup'
+import UtilityRepository from '~/repositories/UtilityRepository'
+import { MarkerDTO } from '~/constants/app.interface'
 
 @Component<FullMap>({
   name: 'FullMap',
   // eslint-disable-next-line no-undef
   // middleware: ['authenticate', 'isCollaborator']
+  async created() {
+    await this.getAllMarker()
+  },
 })
 export default class FullMap extends Vue {
   private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
   private zoom: number = DefaultMapZoom
+  private markerAnimation: any = MARKER_ANIMATION
+  private animation: number = MARKER_ANIMATION.NONE
   private mapOptions = {
     zoomControl: true,
     mapTypeControl: false,
@@ -146,40 +170,25 @@ export default class FullMap extends Vue {
     fullscreenControl: true,
     disableDefaultUi: false,
   }
-  private currentMarker = {
-    id: 0,
-    name: '',
-    description: '',
-    type: {
-      id: 3,
-      text: 'Chung cư',
-      code: 'apartment',
-      icon: 'office-building',
-    },
-    position: this.center,
-    img: '/imgs/anh_room.jpg',
-  }
+
+  private markers: MarkerDTO[] = []
+
+  private currentMarker = new MarkerDTO()
 
   private showBottom: boolean = false
   private loadingImg = LOADING_IMG
 
-  get markers() {
-    return markers
+  public async getAllMarker() {
+    await UtilityRepository.getAllUtilities().then((response) => {
+      const markers = response.data
+      this.markers = markers.map(function (marker: any) {
+        return new MarkerDTO(marker)
+      })
+    })
   }
+
   public clickMarker(marker: any) {
-    this.currentMarker = {
-      id: 0,
-      name: marker.title,
-      description: marker.content,
-      type: {
-        id: 3,
-        text: 'Chung cư',
-        code: 'apartment',
-        icon: 'office-building',
-      },
-      position: marker.position,
-      img: '/imgs/anh_room.jpg',
-    }
+    this.currentMarker = marker
     this.showBottom = true
   }
 
