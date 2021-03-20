@@ -50,7 +50,7 @@ export const ROLE = {
   GUEST: 'Guest',
   TENANT: 'Tenant',
   OWNER: 'Owner',
-  COLLAORATOR: 'Collaborator',
+  COLLABORATOR: 'Collaborator',
 }
 
 export const NAV_LINKS: NavLink[] = [
@@ -67,7 +67,7 @@ export const NAV_LINKS: NavLink[] = [
     text: 'Danh sách',
     to: '/rooms',
     icon: 'clipboard-list',
-    roles: [ROLE.GUEST, ROLE.TENANT, ROLE.COLLAORATOR],
+    roles: [ROLE.GUEST, ROLE.TENANT, ROLE.COLLABORATOR],
   },
   {
     code: 'login',
@@ -105,14 +105,7 @@ export const NAV_LINKS: NavLink[] = [
     text: 'Bản đồ',
     to: '/map',
     icon: 'home',
-<<<<<<< HEAD
-    roles: [
-      ROLE.COLLAORATOR,
-      ROLE.GUEST, //for mockups
-    ],
-=======
-    roles: [ROLE.COLLAORATOR],
->>>>>>> fix hasInn
+    roles: [ROLE.COLLABORATOR],
   },
 ]
 

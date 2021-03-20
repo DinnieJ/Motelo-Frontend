@@ -23,7 +23,7 @@
       <v-col cols="6" md="3" v-if="!forInn">
         <p class="caption font-weight-thin font-italic">GIỚI TÍNH</p>
         <h3 class="font-weight-light">
-          {{ `${gender}` }}
+          {{ gender }}
         </h3>
       </v-col>
       <v-col cols="6" :md="forInn ? 4 : 3" v-if="electric">

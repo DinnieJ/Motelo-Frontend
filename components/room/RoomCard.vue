@@ -215,8 +215,5 @@ export default class RoomCard extends Vue {
       })
   }
 }
-/**
- * lấy token từ vuex rồi setToken cho middleware hasInn
- */
 
 </script>
