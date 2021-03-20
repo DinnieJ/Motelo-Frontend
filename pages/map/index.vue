@@ -151,10 +151,10 @@ import { MarkerDTO } from '~/constants/app.interface'
 @Component<FullMap>({
   name: 'FullMap',
   // eslint-disable-next-line no-undef
+  middleware: ['authenticated', 'isCollaborator'],
   async created() {
     await this.getAllMarker()
   },
-  middleware: ['authenticate', 'isCollaborator'],
 })
 export default class FullMap extends Vue {
   private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
