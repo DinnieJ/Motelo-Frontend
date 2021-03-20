@@ -71,6 +71,7 @@ export default {
   },
   env: {
     BASE_API: process.env.BASE_API,
+    MAP_API_KEY: process.env.MAP_API_KEY
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
