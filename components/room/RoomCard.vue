@@ -14,7 +14,7 @@
               :favorite.sync="room.favorited"
               :loading.sync="loadingFavorite"
               :clickFavor="clickFavor"
-              v-if="!owner && loggedIn"
+              v-if="isTenant && loggedIn"
             />
 
             <v-layout column v-if="owner">
@@ -27,19 +27,25 @@
               >
                 <v-icon small dark> mdi-cog </v-icon>
               </v-btn>
-              <v-btn
-                fab
-                x-small
-                color="warning"
-                @click="clickDelete(index)"
-              >
+              <v-btn fab x-small color="warning" @click="clickDelete(index)">
                 <v-icon small dark> mdi-trash-can-outline </v-icon>
               </v-btn>
             </v-layout>
 
-            <v-btn fab x-small color="primary" v-if="room.verify">
-              <v-icon small dark> mdi-shield-home </v-icon>
-            </v-btn>
+            <!-- verify btn -->
+            <template v-if="isCollaborator">
+              <v-btn fab x-small color="primary" :loading="loadingVerify" @click="clickVerify">
+                <v-icon small dark> 
+                  {{ verify ? 'mdi-shield-home' : 'mdi-shield-plus' }}
+                </v-icon>
+              </v-btn>
+            </template>
+            <template v-else>
+              <v-btn fab x-small color="primary" v-if="verify">
+                <v-icon small dark> mdi-shield-home </v-icon>
+              </v-btn>
+            </template>
+            <!-- end verify btn -->
           </v-card-actions>
           <v-card-subtitle class="pa-0 ml-3">
             <v-btn x-small depressed class="mb-2">
@@ -56,7 +62,7 @@
       </v-card-title>
       <v-card-text class="mb-2">
         <p class="text-center secondary--text">
-          <span class="font-weight-bold">{{ room.price/10 }}</span>
+          <span class="font-weight-bold">{{ room.price }}</span>
           <i>tr VND/tháng</i>
         </p>
         <v-row>
@@ -99,7 +105,9 @@ import { RoomCardDTO } from '@/constants/app.interface'
 import RoomFavorBtn from './RoomFavorBtn.vue'
 import RoomVerifyIcon from './RoomVerifyIcon.vue'
 import RoomRepository from '@/repositories/RoomRepository'
-import { LOADING_IMG } from '@/constants/app.constant'
+import { LOADING_IMG, ROLE } from '@/constants/app.constant'
+import { mapGetters } from 'vuex'
+import { Getter } from '@/constants/app.vuex'
 
 // eslint-disable-next-line no-use-before-define
 @Component<RoomCard>({
@@ -108,8 +116,16 @@ import { LOADING_IMG } from '@/constants/app.constant'
     RoomVerifyIcon,
     RoomFavorBtn,
   },
+  computed: {
+    ...mapGetters({
+      role: Getter.ROLE,
+      isTenant: Getter.IS_TENANT,
+      isCollaborator: Getter.IS_COLLABORATOR,
+    }),
+  },
   created() {
     this.favorite = this.room.favorite
+    this.verify = this.room.verify
   },
 })
 export default class RoomCard extends Vue {
@@ -120,21 +136,15 @@ export default class RoomCard extends Vue {
 
   private favorite: boolean = false
   private loadingFavorite = false
+
+  private verify: boolean = false
+  private loadingVerify: boolean = false
+
   $notify: any
   private loadingImg: string = LOADING_IMG
 
   get loggedIn(): boolean {
     return !!this.$store.state.auth.user
-  }
-
-  public shortTitle(): string {
-    const title: string = this.room.title
-
-    if (title.length > 35) {
-      return title.substring(0, 35) + '...'
-    }
-
-    return title
   }
 
   public getLink(): string {
@@ -154,7 +164,14 @@ export default class RoomCard extends Vue {
     }
   }
 
-  public async favorRoom() {
+  public async clickVerify(event: Event) {
+    event.preventDefault()
+    if (!this.verify) {
+      this.verifyRoom();
+    }
+  }
+
+   public async favorRoom() {
     this.loadingFavorite = true
     await RoomRepository.favorRoom(this.room.id)
       .then((repos) => {
@@ -183,5 +200,20 @@ export default class RoomCard extends Vue {
         this.loadingFavorite = false
       })
   }
+
+  public async verifyRoom() {
+    this.loadingVerify = true
+    await RoomRepository.verifyRoom(this.room.id)
+      .then((repos) => {
+        this.verify = true
+        this.$notify.showMessage({
+          message: `Bạn đã kiểm chứng "${this.room.title}"`,
+          color: 'success',
+        })
+      }).finally(() => {
+        this.loadingVerify = false
+      })
+  }
 }
+
 </script>

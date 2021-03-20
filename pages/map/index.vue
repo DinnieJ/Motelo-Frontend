@@ -151,7 +151,7 @@ import { MarkerDTO } from '~/constants/app.interface'
 @Component<FullMap>({
   name: 'FullMap',
   // eslint-disable-next-line no-undef
-  // middleware: ['authenticate', 'isCollaborator']
+  middleware: ['authenticated', 'isCollaborator'],
   async created() {
     await this.getAllMarker()
   },

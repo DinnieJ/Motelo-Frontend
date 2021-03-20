@@ -76,4 +76,11 @@ export default class RoomRepository {
       }
     })
   }
+
+  // Verify api
+  public static verifyRoom(room_id: any): Promise<any> {
+    return authenticatedService.post(`${Endpoint.CollaboratorRoom}/verify`, {
+      room_id
+    })
+  }
 }

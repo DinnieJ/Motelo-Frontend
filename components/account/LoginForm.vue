@@ -119,7 +119,7 @@ export default class LoginForm extends Vue {
       text: 'Chủ trọ',
     },
     {
-      role_id: ROLE.COLLAORATOR,
+      role_id: ROLE.COLLABORATOR,
       text: 'Cộng tác viên',
     },
   ]

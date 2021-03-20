@@ -40,7 +40,7 @@ export default class Login extends Vue {
         case ROLE.OWNER:
           this.$router.push('/owner/home')
           break
-        case ROLE.COLLAORATOR:
+        case ROLE.COLLABORATOR:
           this.$router.push('/map')
           break
       }

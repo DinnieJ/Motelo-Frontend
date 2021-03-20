@@ -21,15 +21,9 @@
         <h3 class="font-weight-light">{{ `${area} mét vuông` }}</h3>
       </v-col>
       <v-col cols="6" md="3" v-if="!forInn">
-        <p class="caption font-weight-thin font-italic">ĐẶT CỌC</p>
+        <p class="caption font-weight-thin font-italic">GIỚI TÍNH</p>
         <h3 class="font-weight-light">
-          {{ `${numberFormat.format(eservation_fee)} đồng` }}
-        </h3>
-      </v-col>
-      <v-col cols="6" md="3" v-if="!forInn">
-        <p class="caption font-weight-thin font-italic">SỨC CHỨA</p>
-        <h3 class="font-weight-light">
-          {{ `${capacity.min}-${capacity.max} ${gender}` }}
+          {{ gender }}
         </h3>
       </v-col>
       <v-col cols="6" :md="forInn ? 4 : 3" v-if="electric">

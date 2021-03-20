@@ -239,7 +239,7 @@ export default class RoomCreateRequest extends Vue {
     const formData = new FormData();
     formData.append('title', this.formData.title)
     formData.append('room_type_id', this.formData.room_type_id)
-    formData.append('price', this.formData.price.toString())
+    formData.append('price', (this.formData.price / 10).toString())
     formData.append('acreage', this.formData.acreage.toString())
     formData.append('gender_type_id', this.formData.gender_type_id)
     formData.append('description', this.formData.description)
