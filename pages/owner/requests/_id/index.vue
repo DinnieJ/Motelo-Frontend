@@ -1,10 +1,6 @@
 <template>
   <v-container>
-    <room-detail-container
-      forOwner
-      :room="room"
-      :clickDelete="clickDelete"
-    />
+    <room-detail-container forOwner :room="room" :clickDelete="clickDelete" />
     <warning-dialog
       title="Xoá yêu cầu"
       :content="warningDialogContent"
@@ -20,7 +16,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import { RoomDetailDTO } from '@/constants/app.interface'
 import RoomDetailContainer from '@/components/room/RoomDetailContainer.vue'
 import RoomRepository from '@/repositories/RoomRepository'
-import RequestRepository from '@/repositories/RequestRepository'
 import WarningDialog from '@/components/common/WarningDialog.vue'
 
 // eslint-disable-next-line no-use-before-define
@@ -32,15 +27,21 @@ import WarningDialog from '@/components/common/WarningDialog.vue'
   },
   middleware: ['authenticated', 'isOwner'],
   async created() {
-    this.id = this.$route.params.id
+    try {
+      this.id = parseInt(this.$route.params.id)
+    } catch {
+      this.id = -1
+    }
+
     this.getRoomDetail()
   },
 })
 export default class DetailRequest extends Vue {
   private room: RoomDetailDTO = new RoomDetailDTO()
-  private id: string = '-1'
+  private id: number = -1
   private openWarningDialog: boolean = false
   private warningDialogContent: string = ''
+  $notify: any
 
   public async getRoomDetail() {
     // Mockup get demo data from api Guest(ListRoom)
@@ -59,9 +60,13 @@ export default class DetailRequest extends Vue {
   }
 
   public async deleteRoom() {
-    await RequestRepository.deleteRoom(this.id)
-      .then(repos => {
-        this.$router.push('/owner/requests');
+    await RoomRepository.deleteRoom(this.id)
+      .then((repos) => {
+        this.$router.push('/owner/requests')
+        this.$notify.showMessage({
+          message: 'Xóa bài đăng thành công',
+          color: 'success',
+        })
       })
       .finally(() => {
         this.closeDialog()
