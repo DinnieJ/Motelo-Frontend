@@ -55,6 +55,10 @@
               <v-text-field required label="Địa chỉ" v-model="formData.address">
               </v-text-field>
               {{ center }}
+              <br />
+              <v-btn class="my-6" @click="getCurrentPosition">
+                current location
+              </v-btn>
               <gmap-map
                 :center="center"
                 :zoom="zoom"
