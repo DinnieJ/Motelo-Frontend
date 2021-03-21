@@ -27,7 +27,12 @@
               >
                 <v-icon small dark> mdi-cog </v-icon>
               </v-btn>
-              <v-btn fab x-small color="warning" @click="clickDelete(index)">
+              <v-btn
+                fab
+                x-small
+                color="warning"
+                @click="clickDelete($event, index)"
+              >
                 <v-icon small dark> mdi-trash-can-outline </v-icon>
               </v-btn>
             </v-layout>

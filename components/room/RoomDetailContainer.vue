@@ -3,7 +3,7 @@
     <section class="white pa-1 rounded">
       <v-row class="pa-1">
         <v-col cols="12" :sm="forOwner ? 12 : 6">
-          <images-slide :imgs="room.imgLinks" />
+          <images-slide :imgs="roomImages" />
         </v-col>
         <v-col cols="12" sm="6" v-if="!forOwner">
           <small-map :center="room.inn.position" />
@@ -148,5 +148,9 @@ export default class RoomDetailContainer extends Vue {
 
   @Prop({ type: Function }) readonly clickVerify!: Function
   @PropSync('verify') readonly asyncVerify!: boolean
+
+  get roomImages() {
+    return this.room.images.map((item) => item.image_url)
+  }
 }
 </script>

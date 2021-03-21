@@ -45,7 +45,6 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { RoomCardDTO, RoomFilterDTO } from '@/constants/app.interface'
 import RoomCard from '@/components/room/RoomCard.vue'
-import RequestRepository from '@/repositories/RequestRepository'
 import WarningDialog from '@/components/common/WarningDialog.vue'
 
 // demo get data from api
@@ -70,6 +69,7 @@ export default class OwnerRequests extends Vue {
   private warningDialogContent: string = ''
   private deletingRoom: number = -1
   private totalPage: number = 1
+  $notify: any
 
   // demo get data from api
   private filterValue: RoomFilterDTO = new RoomFilterDTO()
@@ -88,7 +88,8 @@ export default class OwnerRequests extends Vue {
       })
   }
 
-  public clickDelete(index: number) {
+  public clickDelete(event: Event, index: number) {
+    event.preventDefault();
     this.deletingRoom = index
     this.warningDialogContent = `Bạn có muốn xóa bài đăng: ${this.requests[index].title}" không ?`
     this.openWarningDialog = true
@@ -101,9 +102,13 @@ export default class OwnerRequests extends Vue {
   }
 
   public async deleteRoom() {
-    await RequestRepository.deleteRoom(this.requests[this.deletingRoom].id)
+    await RoomRepository.deleteRoom(parseInt(this.requests[this.deletingRoom].id))
       .then((repos) => {
-        this.requests = this.requests.splice(this.deletingRoom, 1)
+        this.requests.splice(this.deletingRoom, 1)
+        this.$notify.showMessage({
+          message: 'Xóa bài đăng thành công',
+          color: 'success',
+        })
       })
       .finally(() => {
         this.closeDialog()

@@ -234,8 +234,8 @@ export class RoomFilterDTO {
     this.page = 1
     this.keyword = ''
     this.min_price = 0
-    this.max_price = 6
-    this.price = [0, 6]
+    this.max_price = 9
+    this.price = [0, 9]
     this.amenities = []
     this.gender = null
     this.room_type = []
@@ -292,7 +292,12 @@ const NULL_ICON: TextIcon = {
 
 export class RoomDetailDTO {
   public id: number = -1
-  public imgLinks: string[] = []
+  public images: { id: number; image_url: string }[] = [
+    {
+      id: -1,
+      image_url: '',
+    },
+  ]
   public title: string = ''
   public type: TextIcon | undefined = NULL_ICON
   public available: boolean = false
@@ -323,14 +328,14 @@ export class RoomDetailDTO {
     }
     this.id = data.id
     // imgLinks
-    const imgs: Array<string> = [
-      '/imgs/anh_room.jpg',
-      '/imgs/anh_room.jpg',
-      '/imgs/anh_room.jpg',
-      '/imgs/anh_room.jpg',
-      '/imgs/anh_room.jpg',
+    const imgs: Array<object> = [
+      {
+        id: -1,
+        image_url:
+          'https://tgrh.org/wp-content/uploads/2020/02/avt-demo-la-gi.png',
+      },
     ]
-    this.imgLinks = data.imgs || imgs // sau nay co imgs roi thì bỏ ||
+    this.images = data.images || imgs // sau nay co imgs roi thì bỏ ||
     this.title = data.name
     this.type = ROOM_TYPES.find((type) => type.id === data.room_type_id)
     this.available = Boolean(data.available)
@@ -439,7 +444,7 @@ export class InnProfileDTO {
       return
     }
     this.id = data.id
-    this.imgLinks = data.imgs || []
+    this.imgLinks = data.images || []
     this.name = data.inn_name
     this.address = data.address
     this.electric = data.electric_price

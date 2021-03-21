@@ -11,13 +11,13 @@ export default class RoomRepository {
   // Favorite api
   public static favorRoom(room_id: any): Promise<any> {
     return authenticatedService.post(`${Endpoint.TenantFavorite}/add`, {
-      room_id
+      room_id,
     })
   }
 
   public static unfavorRoom(room_id: any): Promise<any> {
     return authenticatedService.post(`${Endpoint.TenantFavorite}/remove`, {
-      room_id
+      room_id,
     })
   }
 
@@ -57,7 +57,7 @@ export default class RoomRepository {
     return authenticatedService.get(`${Endpoint.Room}/favorites`)
   }
 
-  public static getTopVerified() : Promise<AxiosResponse<any>> {
+  public static getTopVerified(): Promise<AxiosResponse<any>> {
     return authenticatedService.get(`${Endpoint.Room}/verified`)
   }
 
@@ -70,10 +70,24 @@ export default class RoomRepository {
   }
 
   public static createRoom(data: any): Promise<any> {
-    return authenticatedService.post(`${Endpoint.OwnerRoom}/create`, data , { 
+    return authenticatedService.post(`${Endpoint.OwnerRoom}/create`, data, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+  }
+
+  public static updateRoom(data: any): Promise<any> {
+    return authenticatedService.post(`${Endpoint.OwnerRoom}/update`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+  }
+
+  public static deleteRoom(room_id: number): Promise<any> {
+    return authenticatedService.post(`${Endpoint.OwnerRoom}/delete`, {
+      room_id,
     })
   }
 
