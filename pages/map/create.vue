@@ -54,6 +54,7 @@
             <v-tab-item>
               <v-text-field required label="Địa chỉ" v-model="formData.address">
               </v-text-field>
+              {{ center }}
               <gmap-map
                 :center="center"
                 :zoom="zoom"
