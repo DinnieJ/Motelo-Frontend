@@ -57,7 +57,7 @@
       <v-layout class="mb-3" justify-space-between>
         <h1 class="primary--text text-left home__header">Nhà trọ</h1>
 
-        <v-btn small rounded outlined color="primary"> Sửa </v-btn>
+        <v-btn small rounded outlined color="primary" to="/owner/inn/edit"> Sửa </v-btn>
       </v-layout>
 
       <section class="white pa-1 rounded">

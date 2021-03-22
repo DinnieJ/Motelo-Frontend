@@ -52,36 +52,41 @@
             </v-tab-item>
             <!-- choose utility's location step -->
             <v-tab-item>
-              <v-text-field
-                required
-                label="Địa chỉ"
-                v-model="formData.address"
-                append-icon="mdi-crosshairs-gps"
-                @click:append="getCurrentPosition"
+              <div 
+                class="pa-0 ma-0 mapTab" 
+                @touchstart="stopTouchTransition"
+                @touchmove="stopTouchTransition"
+                @touchend="stopTouchTransition"
               >
-              </v-text-field>
-              <gmap-map
-                :center="center"
-                :zoom="zoom"
-                :options="mapOptions"
-                class="map__container"
-                @click="setMapCenter"
-                style="width: auto; height: 100%; min-height: 50vh"
-              >
-                <gmap-marker :position="center"></gmap-marker>
-                <gmap-marker
-                  v-for="marker in markers"
-                  :position="marker.position"
-                  :key="marker.id"
-                  :icon="{ path: marker.type.code }"
-                  :title="marker.name"
-                ></gmap-marker>
-              </gmap-map>
-              <div class="mt-3">
-                <v-btn color="primary" @click="nextTab" class="mr-3">
-                  Tiếp theo
-                </v-btn>
-                <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
+                <v-text-field
+                  required
+                  label="Địa chỉ"
+                  v-model="formData.address"
+                >
+                </v-text-field>
+                <gmap-map
+                  :center="center"
+                  :zoom="zoom"
+                  :options="mapOptions"
+                  class="map__container"
+                  @click="setMapCenter"
+                  style="width: auto; height: 100%; min-height: 50vh"
+                >
+                  <gmap-marker :position="center"></gmap-marker>
+                  <gmap-marker
+                    v-for="marker in markers"
+                    :position="marker.position"
+                    :key="marker.id"
+                    :icon="{ path: marker.type.code }"
+                    :title="marker.name"
+                  ></gmap-marker>
+                </gmap-map>
+                <div class="mt-3">
+                  <v-btn color="primary" @click="nextTab" class="mr-3">
+                    Tiếp theo
+                  </v-btn>
+                  <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
+                </div>
               </div>
             </v-tab-item>
             <!-- Update image step -->
@@ -140,6 +145,7 @@ import { UTILITY_TYPE, DefaultMapZoom } from '@/constants/app.constant'
 import UtilityRepository from '@/repositories/UtilityRepository'
 import UploadImageForm from '@/components/common/UploadImageForm.vue'
 import { MarkerDTO } from '~/constants/app.interface'
+import { stopEventFromParentElement } from '@/utils/event'
 
 @Component<CreateUtility>({
   name: 'CreateUtility',
@@ -172,6 +178,9 @@ export default class CreateUtility extends Vue {
   mounted() {
     this.getCurrentPosition()
   }
+
+  public stopTouchTransition: Function = stopEventFromParentElement
+
   public getCurrentPosition() {
     const context = this
     if (navigator.geolocation) {
