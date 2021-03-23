@@ -24,6 +24,9 @@ import {
   mdiStorefrontOutline,
   mdiWashingMachine,
   mdiWeightLifter,
+  mdiHomeGroup,
+  mdiHomeModern,
+  mdiOfficeBuilding,
 } from '@mdi/js'
 export const COOKIES = {
   ROLE: 'role',
@@ -215,19 +218,19 @@ export const ROOM_TYPES: TextIcon[] = [
   {
     id: 1,
     text: 'Phòng cho thuê',
-    code: 'room',
+    code: mdiHomeGroup,
     icon: 'home-group',
   },
   {
     id: 2,
     text: 'Nhà nguyên căn',
-    code: 'house',
+    code: mdiHomeModern,
     icon: 'home-modern',
   },
   {
     id: 3,
     text: 'Chung cư',
-    code: 'apartment',
+    code: mdiOfficeBuilding,
     icon: 'office-building',
   },
 ]
