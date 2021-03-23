@@ -22,7 +22,7 @@
             }}</v-icon>
             {{ item.header }}
           </v-tab>
-          <v-tabs-items v-model="tab">
+          <v-tabs-items v-model="tab" class="pt-6">
             <!-- Policy step -->
             <v-tab-item>
               <v-card rounded="lg" class="pa-4">
@@ -77,7 +77,7 @@
               </v-btn>
             </v-tab-item>
             <!-- inn ameenities step -->
-            <v-tab-item class="pt-4">
+            <v-tab-item>
               <v-row>
                 <v-col
                   cols="12"
@@ -88,7 +88,7 @@
                 >
                   <v-layout align-center>
                     <v-checkbox
-                      v-model="formData.amenities"
+                      v-model="amenitiesChosen"
                       :value="item.id"
                     ></v-checkbox>
                     <v-flex class="filter__content">
@@ -119,7 +119,7 @@
                 >
                   <v-layout align-center>
                     <v-checkbox
-                      v-model="formData.securities"
+                      v-model="securitiesChosen"
                       :value="item.id"
                     ></v-checkbox>
                     <v-flex class="filter__content">
@@ -137,14 +137,13 @@
                   outlined
                   label="Mở cửa"
                   type="time"
-                  v-model="formData.open_time"
+                  v-model="open_time"
                 ></v-text-field>
                 <v-text-field
                   outlined
                   label="Đóng cửa"
                   type="time"
-                  value="12:30:00"
-                  v-model="formData.close_time"
+                  v-model="close_time"
                 ></v-text-field>
               </template>
 
@@ -165,6 +164,7 @@
               >
                 <v-text-field
                   required
+                  outlined
                   label="Địa chỉ"
                   v-model="formData.address"
                 >
@@ -205,13 +205,13 @@
                   @change="onFileChange"
                 />
                 <v-row class="mb-4 justify-center">
-                  <v-col cols="12" sm="6" v-for="(image, i) in formData.images" :key="i">
-                    <v-btn small block color="secondary">
+                  <v-col cols="12" sm="6" v-for="(image, i) in old_images" :key="`old-${i}`">
+                    <v-btn small block color="secondary" @click="clickDelete(i, true)">
                       >xóa</v-btn
                     >
-                    <img width="100%" height="auto" :src="image" />
+                    <img width="100%" height="auto" :src="image.image_url" />
                   </v-col>
-                  <v-col cols="12" sm="6" v-for="(image, i) in images" :key="i">
+                  <v-col cols="12" sm="6" v-for="(image, i) in formData.new_images" :key="`new-${i}`">
                     <v-btn small block color="secondary" @click="clickDelete(i)"
                       >xóa</v-btn
                     >
@@ -289,6 +289,9 @@ export default class UpdateInn extends Vue {
   private securities: TextIcon[] = SECURITY
   private securitiesChosen: number[] = []
 
+  private open_time: string = "12:00"
+  private close_time: string = "12:00"
+
   private center: any = { lat: 0, lng: 0 }
   private zoom: number = DefaultMapZoom
   private markers: MarkerDTO[] = []
@@ -332,21 +335,21 @@ export default class UpdateInn extends Vue {
   private tab: number = 1
 
   private formData: any = {
+    inn_id: -1,
     name: '',
     water_price: 0,
     electric_price: 0,
-    wifi_price: 0,
-    open_time: '00:00',
-    close_time: '00:00',
+    open_hour: '0',
+    open_minute: '0',
+    close_hour: '0',
+    close_minute: '0',
     address: '',
-    location: {
-      lat: 0,
-      lng: 0,
-    },
-    amenities: [],
-    securities: [],
-    images: [],
+    location: [],
+    features: [],
+    new_images: [],
+    delete_images: [],
   }
+  private old_images: any[] = []
   private images: any[] = []
 
   $notify: any
@@ -398,18 +401,32 @@ export default class UpdateInn extends Vue {
 
   public async getInnProfile() {
     const context: any = this
-    await InnRepository.getInnDetailByOwner().then((response) => {
-      const data = response.data
-      this.formData = data
-      if (!this.formData.wifi_price) {
-        this.formData.wifi_price = 0
-      }
+    await InnRepository.getInnDetailByOwner().then(({ data }) => {
+      Object.keys(this.formData).forEach(key => {
+        if (data[key]) {
+          this.formData[key] = data[key]
+        }
+      })
+
+      this.formData.inn_id = data.id
 
       const amenitieIds: any[] = AMEENITIES.map((item) => item.id);
       const securityIds: any[]  = SECURITY.map((item) => item.id);
 
-      this.formData.amenities = data.features.filter((id: any) => amenitieIds.includes(id));
-      this.formData.securities = data.features.filter((id: any) => securityIds.includes(id));
+      data.features.forEach((id: any) => {
+        if (amenitieIds.includes(id)) {
+          this.amenitiesChosen.push(id);
+        }
+
+        if (securityIds.includes(id)) {
+          this.securitiesChosen.push(id);
+        }
+      });
+
+      this.open_time = data.open_time
+      this.close_time = data.close_time
+
+      this.old_images = data.images
       this.center = data.location
     })
   }
@@ -424,44 +441,64 @@ export default class UpdateInn extends Vue {
     let vm: any = this
     var selectedFiles = e.target.files
     for (let i = 0; i < selectedFiles.length; i++) {
-      this.images.push(selectedFiles[i])
+      this.formData.new_images.push(selectedFiles[i])
     }
 
-    for (let i = 0; i < this.images.length; i++) {
+    for (let i = 0; i < this.formData.new_images.length; i++) {
       let reader = new FileReader()
       reader.onload = (e) => {
         vm.$refs.image[i].src = reader.result
       }
 
-      reader.readAsDataURL(this.images[i])
+      reader.readAsDataURL(this.formData.new_images[i])
+    }
+  }
+
+  clickDelete(i: number, old: boolean = false) {
+    if (old) {
+      this.formData.delete_images.push(this.old_images[i].id)
+      this.old_images.splice(i, 1)
+    } else {
+      this.formData.new_images.splice(i, 1)
     }
   }
 
   async submitForm() {
-    // const formData = new FormData();
-    // formData.append('inn_id', this.formData.id)
-    // formData.append('name', this.formData.name)
-    // formData.append('water_price', this.formData.water_price)
-    // formData.append('electric_price', this.formData.electric_price)
-    // formData.append('open_hour', this.formData.open_hour)
-    // formData.append('open_hour', this.formData.open_hour)
-    // formData.append('open_hour', this.formData.open_hour)
-    // formData.append('open_hour', this.formData.open_hour)
+    this.formData.location = [this.center.lat, this.center.lng]
 
-    // this.images.forEach((image, i) => {
-    //   formData.append(`images[${i}]`, image)
-    // })
+    const open_time = this.open_time.split(':')
+    this.formData.open_hour = parseInt(open_time[0])
+    this.formData.open_minute = parseInt(open_time[1])
 
-    // await InnRepository.updateInn(formData)
-    //   .then(response => {
-    //     this.$notify.showMessage({ message: "Đăng thành công", color: "success"})
-    //     setTimeout(() => {
-    //       this.$router.go(-1)
-    //     }, 400)
-    //   })
-    //   .catch(error => {
-    //     this.$notify.showMessage({ message: "Tạo không thành công", color: "red"})
-    //   })
+    const close_time = this.close_time.split(':')
+    this.formData.close_hour = parseInt(close_time[0])
+    this.formData.close_minute = parseInt(close_time[1])
+
+    this.formData.features = this.amenitiesChosen.concat(this.securitiesChosen)
+
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(this.formData)) {
+      if (Array.isArray(value)) {
+        value.forEach((item, i) => {
+          formData.append(`${key}[${i}]`, item)
+        })
+      } else {
+        formData.append(key, value as string)
+      }
+    }
+
+    await InnRepository.updateInn(formData)
+      .then(response => {
+        this.$notify.showMessage({ message: "Sửa thành công", color: "success"})
+        setTimeout(() => {
+          this.$router.go(-1)
+        }, 400)
+      }).catch(error => {
+        this.$notify.showMessage({ message: "Sửa không thành công", color: "red"})
+        setTimeout(() => {
+          this.$router.go(-1)
+        }, 400)
+      })
   }
 }
 </script>
