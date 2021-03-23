@@ -153,7 +153,7 @@ export default class List extends Vue {
             type: room.type,
             address: room.address,
             position: room.location,
-            img: room.imgLink,
+            img: room.image,
             description: `Bài đăng: ${room.title}`
           })
         }
