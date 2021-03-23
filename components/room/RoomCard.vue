@@ -3,7 +3,7 @@
     <nuxt-link :to="getLink()">
       <v-img
         :lazy-src="loadingImg"
-        :src="room.imgLink"
+        :src="room.image"
         class="rounded"
         contain
         max-width="100%"

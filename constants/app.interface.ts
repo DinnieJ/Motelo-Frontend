@@ -31,7 +31,7 @@ export interface BreadcrumbLink {
 
 export class RoomCardDTO {
   id: string
-  imgLink: string
+  image: string
   title: string
   type: TextIcon | undefined
   available: boolean
@@ -58,9 +58,10 @@ export class RoomCardDTO {
     this.verify = data.verified
     this.favorite = Boolean(data.favorited)
     this.price = data.price
-    this.imgLink =
-      data.img ||
-      'https://www.pikpng.com/pngl/m/159-1594016_png-file-svg-error-icon-png-clipart.png'
+    // images
+    this.image =
+      data.image ||
+      'https://tgrh.org/wp-content/uploads/2020/02/avt-demo-la-gi.png'
 
     if (forOwner) {
       this.inn_name = ''
@@ -327,7 +328,7 @@ export class RoomDetailDTO {
       return
     }
     this.id = data.id
-    // imgLinks
+    // images
     const imgs: Array<object> = [
       {
         id: -1,
@@ -335,7 +336,7 @@ export class RoomDetailDTO {
           'https://tgrh.org/wp-content/uploads/2020/02/avt-demo-la-gi.png',
       },
     ]
-    this.images = data.images || imgs // sau nay co imgs roi thì bỏ ||
+    this.images = data.images || imgs
     this.title = data.name
     this.type = ROOM_TYPES.find((type) => type.id === data.room_type_id)
     this.available = Boolean(data.available)
@@ -400,7 +401,12 @@ export interface CommentDTO {
 
 export class InnProfileDTO {
   public id: number = -1
-  public imgLinks: string[] = []
+  public images: { id: number; image_url: string }[] = [
+    {
+      id: -1,
+      image_url: '',
+    },
+  ]
   public name: string = ''
   public address: string = ''
   public electric: number = 0
@@ -444,7 +450,15 @@ export class InnProfileDTO {
       return
     }
     this.id = data.id
-    this.imgLinks = data.images || []
+    // images
+    const imgs: Array<object> = [
+      {
+        id: -1,
+        image_url:
+          'https://tgrh.org/wp-content/uploads/2020/02/avt-demo-la-gi.png',
+      },
+    ]
+    this.images = data.images || imgs
     this.name = data.inn_name
     this.address = data.address
     this.electric = data.electric_price
