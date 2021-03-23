@@ -75,8 +75,8 @@
               >
                 <i>Xem thêm trên Google Map</i>
               </a>
-              <p class="room__small map__overflow">
-                {{ currentMarker.description }}
+              <p class="room__small map__overflow" v-html="currentMarker.description">
+                
               </p>
             </template>
           </v-col>
