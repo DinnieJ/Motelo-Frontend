@@ -33,7 +33,7 @@
             path: marker.type.code,
             fillColor: '#FFFFFF',
             fillOpacity: 1,
-            anchor: markerAnchor(),
+            anchor: {x: -6.5, y: -7},
             strokeOpacity: 0,
             strokeWeight: 0,
           }"
@@ -198,12 +198,6 @@ export default class FullMap extends Vue {
   private loadingImg = LOADING_IMG
 
   private pinIcon = mdiCircle
-  private google = gmapApi()
-
-  public markerAnchor() {
-    const point = this.google.maps.Point(-6.5, -7)
-    return point 
-  }
 
   public async getAllMarker() {
     await UtilityRepository.getAllUtilities().then((response) => {
