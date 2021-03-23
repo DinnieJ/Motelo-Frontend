@@ -9,32 +9,33 @@
         class="map__container"
       >
         <template v-for="marker in markers.concat(inns)">
-          <gmap-marker
-            :key="marker.id"
-            :position="marker.position"
-            :icon="{
-              path: pinIcon,
-              fillColor: marker.id === currentMarker.id ? '#ec655d' : '#5591f4',
-              fillOpacity: 1,
-              scale: 1.5,
-              strokeColor: '#FFFFFF',
-              strokeOpacity: 0,
-              strokeWeight: 0,
-            }"
-          ></gmap-marker>
-          <gmap-marker
-            :position="marker.position"
-            :key="`marker-${marker.id}`"
-            :icon="{
-              path: marker.type.code,
-              fillColor: '#FFFFFF',
-              fillOpacity: 1,
-              anchor: {x: -6.5, y: -7},
-              strokeOpacity: 0,
-              strokeWeight: 0,
-            }"
-            @click="clickMarker(marker)"
-          ></gmap-marker>
+          <span :key="marker.id">
+            <gmap-marker
+              :position="marker.position"
+              :icon="{
+                path: pinIcon,
+                fillColor:
+                  marker.id === currentMarker.id ? '#ec655d' : '#5591f4',
+                fillOpacity: 1,
+                scale: 1.5,
+                strokeColor: '#FFFFFF',
+                strokeOpacity: 0,
+                strokeWeight: 0,
+              }"
+            ></gmap-marker>
+            <gmap-marker
+              :position="marker.position"
+              :icon="{
+                path: marker.type.code,
+                fillColor: '#FFFFFF',
+                fillOpacity: 1,
+                anchor: { x: -6.5, y: -7 },
+                strokeOpacity: 0,
+                strokeWeight: 0,
+              }"
+              @click="clickMarker(marker)"
+            ></gmap-marker>
+          </span>
         </template>
       </gmap-map>
 
@@ -75,9 +76,10 @@
               >
                 <i>Xem thêm trên Google Map</i>
               </a>
-              <p class="room__small map__overflow" v-html="currentMarker.description">
-                
-              </p>
+              <p
+                class="room__small map__overflow"
+                v-html="currentMarker.description"
+              />
             </template>
           </v-col>
         </v-row>
@@ -96,13 +98,12 @@ import {
 import UtilityRepository from '~/repositories/UtilityRepository'
 import { MarkerDTO } from '~/constants/app.interface'
 
-import { gmapApi } from 'vue2-google-maps'
 import { mdiCircle } from '@mdi/js'
 
 @Component<BigMap>({
   name: 'BigMap',
   // eslint-disable-next-line no-undef
-  async created() { 
+  async created() {
     this.getAllMarker()
   },
 })

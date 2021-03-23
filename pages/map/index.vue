@@ -27,8 +27,8 @@
 
         ></gmap-marker>
         <gmap-marker
+          :key="marker.id"
           :position="marker.position"
-          :key="`marker-${marker.id}`"
           :icon="{
             path: marker.type.code,
             fillColor: '#FFFFFF',
