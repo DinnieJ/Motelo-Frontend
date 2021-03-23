@@ -52,7 +52,13 @@
             </v-tab-item>
             <!-- choose utility's location step -->
             <v-tab-item>
-              <v-text-field required label="Địa chỉ" v-model="formData.address">
+              <v-text-field
+                required
+                label="Địa chỉ"
+                v-model="formData.address"
+                append-icon="mdi-crosshairs-gps"
+                @click:append="getCurrentPosition"
+              >
               </v-text-field>
               <gmap-map
                 :center="center"
