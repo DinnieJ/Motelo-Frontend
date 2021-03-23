@@ -145,7 +145,7 @@ export default class List extends Vue {
         const room = new RoomCardDTO(item)
 
         if (innMap.has(room.inn_name)) {
-          innMap.get(room.inn_name).description += `/nBài đăng: ${room.title}`
+          innMap.get(room.inn_name).description += `<br />Bài đăng: ${room.title}`
         } else {
           innMap.set(room.inn_name, {
             id: `inn-${room.id}`,
