@@ -45,7 +45,7 @@
         </validation-provider>
         <v-btn
           color="primary"
-          :disabled="invalid"
+          :disabled="invalid || loading"
           :loading="loading"
           @click="submit"
         >
