@@ -29,7 +29,7 @@
               path: marker.type.code,
               fillColor: '#FFFFFF',
               fillOpacity: 1,
-              anchor: markerAnchor(),
+              anchor: {x: -6.5, y: -7},
               strokeOpacity: 0,
               strokeWeight: 0,
             }"
@@ -103,7 +103,7 @@ import { mdiCircle } from '@mdi/js'
   name: 'BigMap',
   // eslint-disable-next-line no-undef
   async fetch() { 
-    await this.getAllMarker()
+    this.getAllMarker()
   },
 })
 export default class BigMap extends Vue {
@@ -128,12 +128,6 @@ export default class BigMap extends Vue {
   private loadingImg = LOADING_IMG
 
   private pinIcon = mdiCircle
-  private google = gmapApi()
-
-  public markerAnchor() {
-    const point = new this.google.maps.Point(-6.5, -7)
-    return point
-  }
 
   public async getAllMarker() {
     await UtilityRepository.getAllUtilities().then((response) => {
