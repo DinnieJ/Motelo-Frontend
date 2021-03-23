@@ -67,7 +67,7 @@
       </v-card-title>
       <v-card-text class="mb-2">
         <p class="text-center secondary--text">
-          <span class="font-weight-bold">{{ room.price }}</span>
+          <span class="font-weight-bold">{{ room.price / 1000000 }}</span>
           <i>tr VND/tháng</i>
         </p>
         <v-row>
