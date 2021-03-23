@@ -102,7 +102,7 @@ import { mdiCircle } from '@mdi/js'
 @Component<BigMap>({
   name: 'BigMap',
   // eslint-disable-next-line no-undef
-  async fetch() { 
+  async created() { 
     this.getAllMarker()
   },
 })

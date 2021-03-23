@@ -173,7 +173,7 @@ import { mdiCircle } from '@mdi/js';
   name: 'FullMap',
   // eslint-disable-next-line no-undef
   middleware: ['authenticated', 'isCollaborator'],
-  async fetch() {
+  async created() {
     await this.getAllMarker()
   },
 })
