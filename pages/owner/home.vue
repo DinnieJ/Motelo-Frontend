@@ -149,6 +149,7 @@ export default class OwnerHome extends Vue {
     await InnRepository.getInnDetailByOwner().then(
       (response) => {
         const inn = response.data
+        console.log('inn =', response.data)
         // features
         let amenities: number[] = []
         let security: number[] = []
@@ -177,7 +178,7 @@ export default class OwnerHome extends Vue {
           close: inn.close_time,
         }
         inn.position = inn.location;
-        inn.imgs = [LOADING_IMG, LOADING_IMG]
+        inn.imgs = inn.images.map((item: any) => item.image_url)
         this.inn = inn
       }
     )
