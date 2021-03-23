@@ -1,4 +1,5 @@
 import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
+import { PRICE_FILTER } from '~/constants/app.constant'
 import RoomRepository from '~/repositories/RoomRepository'
 
 
@@ -29,8 +30,8 @@ export interface FilterAction<S,R> extends ActionTree<S,R> {
 
 export const state = (): FilterState => ({
     keyword: '',
-    min_price: 0,
-    max_price: 6,
+    min_price: PRICE_FILTER.MIN,
+    max_price: PRICE_FILTER.MAX,
     features: [],
     room_type: [],
     gender: 1,
@@ -63,8 +64,8 @@ export const actions: FilterAction<FilterState, RootState> = {
     async filterSearch({ commit, state }) : Promise<any> {
         let params: any = {
             keyword: state.keyword,
-            min_price: state.min_price,
-            max_price: state.max_price,
+            min_price: state.min_price * 1000000,
+            max_price: state.max_price * 1000000,
             gender: state.gender,
             page: state.page
         }
@@ -90,8 +91,8 @@ export const actions: FilterAction<FilterState, RootState> = {
         commit(FilterMutation.SET_KEYWORD, '')
         commit(FilterMutation.SET_GENDER, 1)
         commit(FilterMutation.SET_FEATURES, [])
-        commit(FilterMutation.SET_MIN_PRICE, 0)
-        commit(FilterMutation.SET_MAX_PRICE, 9)
+        commit(FilterMutation.SET_MIN_PRICE, PRICE_FILTER.MIN)
+        commit(FilterMutation.SET_MAX_PRICE, PRICE_FILTER.MAX)
         commit(FilterMutation.SET_ROOM_TYPE, [])
         commit(FilterMutation.SET_PAGE, 1)
     }
