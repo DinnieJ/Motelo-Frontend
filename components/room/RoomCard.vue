@@ -11,7 +11,7 @@
         <v-layout column justify-space-between class="room__img">
           <v-card-actions class="justify-space-between align-start">
             <room-favor-btn
-              :favorite.sync="room.favorited"
+              :favorite.sync="room.favorite"
               :loading.sync="loadingFavorite"
               :clickFavor="clickFavor"
               v-if="isTenant && loggedIn"
@@ -157,7 +157,7 @@ export default class RoomCard extends Vue {
 
   public async clickFavor(event: Event) {
     event.preventDefault()
-    if (this.room.favorited) {
+    if (this.room.favorite) {
       await this.unfavorRoom()
     } else {
       await this.favorRoom()
@@ -175,10 +175,16 @@ export default class RoomCard extends Vue {
     this.loadingFavorite = true
     await RoomRepository.favorRoom(this.room.id)
       .then((repos) => {
-        this.room.favorited = true
+        this.room.favorite = true
         this.$notify.showMessage({
           message: `Bạn đã thêm "${this.room.title}" vào danh sách yêu thích`,
           color: 'success',
+        })
+      }).catch((error) => {
+        console.log(error);
+        this.$notify.showMessage({
+          message: error.response.data.message,
+          color: 'error'
         })
       })
       .finally(() => {
@@ -190,9 +196,9 @@ export default class RoomCard extends Vue {
     this.loadingFavorite = true
     await RoomRepository.unfavorRoom(this.room.id)
       .then((repos) => {
-        this.room.favorited = false
+        this.room.favorite = false
         this.$notify.showMessage({
-          message: `Bạn đã bỏ "${this.room.title}" vào danh sách yêu thích`,
+          message: `Bạn đã bỏ "${this.room.title}" khỏi danh sách yêu thích`,
           color: 'warning',
         })
       })
@@ -210,7 +216,13 @@ export default class RoomCard extends Vue {
           message: `Bạn đã kiểm chứng "${this.room.title}"`,
           color: 'success',
         })
-      }).finally(() => {
+      }).catch((error) => {
+        this.$notify.showMessage({
+          message: error.response.data.message,
+          color: 'error'
+        })
+      })
+      .finally(() => {
         this.loadingVerify = false
       })
   }
