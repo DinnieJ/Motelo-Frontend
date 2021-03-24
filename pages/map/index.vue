@@ -11,18 +11,36 @@
       :options="mapOptions"
       class="map__container"
     >
-      <gmap-marker
-        v-for="marker in markers"
-        :position="marker.position"
-        :key="marker.id"
-        :icon="{ path: marker.type.code }"
-        :animation="
-          marker.id === currentMarker.id
-            ? markerAnimation['BOUNCE']
-            : markerAnimation['NONE']
-        "
-        @click="clickMarker(marker)"
-      ></gmap-marker>
+      <template v-for="marker in markers" >
+        <gmap-marker
+          :key="marker.id"
+          :position="marker.position"
+          :icon="{
+            path: pinIcon,
+            fillColor: marker.id === currentMarker.id ? '#ec655d' : '#5591f4',
+            fillOpacity: 1,
+            scale: 1.5,
+            strokeColor: '#FFFFFF',
+            strokeOpacity: 0,
+            strokeWeight: 0,
+          }"
+
+        ></gmap-marker>
+        <gmap-marker
+          :position="marker.position"
+          :key="`marker-${marker.id}`"
+          :icon="{
+            path: marker.type.code,
+            fillColor: '#FFFFFF',
+            fillOpacity: 1,
+            anchor: {x: -6.5, y: -7},
+            strokeOpacity: 0,
+            strokeWeight: 0,
+          }"
+          @click="clickMarker(marker)"
+        ></gmap-marker>
+        
+      </template>
     </gmap-map>
     <!-- End google map -->
 
@@ -80,8 +98,7 @@
               >
                 <i>Xem thêm trên Google Map</i>
               </a>
-              <p class="room__small map__overflow">
-                {{ currentMarker.description }}
+              <p class="room__small map__overflow" v-html="currentMarker.description">
               </p>
             </template>
           </v-col>
@@ -128,8 +145,7 @@
           >
             <i>Xem thêm trên Google Map</i>
           </a>
-          <p class="room__small map__description">
-            {{ currentMarker.description }}
+          <p class="room__small map__description" v-html="currentMarker.description">
           </p>
         </template>
       </div>
@@ -143,10 +159,13 @@ import {
   LOADING_IMG,
   FPTLocation,
   DefaultMapZoom,
-  MARKER_ANIMATION,
 } from '@/constants/app.constant'
 import UtilityRepository from '~/repositories/UtilityRepository'
 import { MarkerDTO } from '~/constants/app.interface'
+
+import { gmapApi } from 'vue2-google-maps'
+import { mdiCircle } from '@mdi/js';
+
 
 @Component<FullMap>({
   name: 'FullMap',
@@ -159,8 +178,6 @@ import { MarkerDTO } from '~/constants/app.interface'
 export default class FullMap extends Vue {
   private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
   private zoom: number = DefaultMapZoom
-  private markerAnimation: any = MARKER_ANIMATION
-  private animation: number = MARKER_ANIMATION.NONE
   private mapOptions = {
     zoomControl: true,
     mapTypeControl: false,
@@ -177,6 +194,8 @@ export default class FullMap extends Vue {
 
   private showBottom: boolean = false
   private loadingImg = LOADING_IMG
+
+  private pinIcon = mdiCircle
 
   public async getAllMarker() {
     await UtilityRepository.getAllUtilities().then((response) => {

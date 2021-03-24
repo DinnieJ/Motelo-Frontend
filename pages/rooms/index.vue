@@ -80,7 +80,6 @@ import SearchAddress from '@/components/map/SearchAddress.vue'
 import BigMap from '@/components/map/BigMap.vue'
 import { Framework } from 'vuetify'
 import { DispatchAction } from '~/constants/app.vuex'
-import { markers } from '@/utils/inn_mockup'
 
 declare module 'vue/types/vue' {
   // this.$vuetify inside Vue components
@@ -112,9 +111,7 @@ export default class List extends Vue {
 
   private totalPage: number = 1
 
-  get inns() {
-    return markers;
-  }
+  private inns: any[] = []
 
   public async clickFilter() {
     await this.getRoomByFilter()
@@ -142,10 +139,32 @@ export default class List extends Vue {
     if (item.data) {
       this.totalPage = item.total_page
 
-      this.roomCardObjs = item.data.map(function (item: any) {
-        return new RoomCardDTO(item)
+      const innMap = new Map<string, any>()
+
+      this.roomCardObjs = item.data.map((item: any) => {
+        const room = new RoomCardDTO(item)
+
+        if (innMap.has(room.inn_name)) {
+          innMap.get(room.inn_name).description += `<br />Bài đăng: ${room.title}`
+        } else {
+          innMap.set(room.inn_name, {
+            id: `inn-${room.id}`,
+            name: room.inn_name,
+            type: room.type,
+            address: room.address,
+            position: room.location,
+            img: room.image,
+            description: `Bài đăng: ${room.title}`
+          })
+        }
+
+        return room
       })
+
+      this.inns = Array.from(innMap.values())
     }
+
+   
 
     this.loading = false
   }

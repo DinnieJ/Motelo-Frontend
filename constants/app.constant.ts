@@ -24,6 +24,9 @@ import {
   mdiStorefrontOutline,
   mdiWashingMachine,
   mdiWeightLifter,
+  mdiHomeGroup,
+  mdiHomeModern,
+  mdiOfficeBuilding,
 } from '@mdi/js'
 export const COOKIES = {
   ROLE: 'role',
@@ -215,19 +218,19 @@ export const ROOM_TYPES: TextIcon[] = [
   {
     id: 1,
     text: 'Phòng cho thuê',
-    code: 'room',
+    code: mdiHomeGroup,
     icon: 'home-group',
   },
   {
     id: 2,
     text: 'Nhà nguyên căn',
-    code: 'house',
+    code: mdiHomeModern,
     icon: 'home-modern',
   },
   {
     id: 3,
     text: 'Chung cư',
-    code: 'apartment',
+    code: mdiOfficeBuilding,
     icon: 'office-building',
   },
 ]
@@ -344,7 +347,7 @@ export const Contacts: ContactDTO[] = [
 ]
 
 export const FPTLocation = [21.013430248238773, 105.5270750314157]
-export const DefaultMapZoom = 15
+export const DefaultMapZoom = 18
 export enum MARKER_ANIMATION {
   NONE = 0,
   BOUNCE = 1,
