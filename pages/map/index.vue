@@ -80,15 +80,26 @@
                 <h1 class="ma-0 map__title mobile">
                   {{ currentMarker.name }}
                 </h1>
-                <v-btn
-                  small
-                  color="primary"
-                  text
-                  icon
-                  :to="`/map/${currentMarker.id}/edit`"
-                >
-                  <v-icon>mdi-wrench</v-icon>
-                </v-btn>
+                <v-layout justify-end>
+                  <v-btn
+                    small
+                    color="primary"
+                    text
+                    icon
+                    :to="`/map/${currentMarker.id}/edit`"
+                  >
+                    <v-icon>mdi-wrench</v-icon>
+                  </v-btn>
+                  <v-btn
+                    small
+                    color="primary"
+                    text
+                    icon
+                    @click="deleteUtility(currentMarker.id)"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-layout>
               </v-layout>
 
               <a
@@ -127,16 +138,26 @@
             <h1 class="ma-0 map__title">
               {{ currentMarker.name }}
             </h1>
-
-            <v-btn
-              small
-              color="primary"
-              text
-              icon
-              :to="`/map/${currentMarker.id}/edit`"
-            >
-              <v-icon>mdi-wrench</v-icon>
-            </v-btn>
+            <v-layout justify-end>
+              <v-btn
+                small
+                color="primary"
+                text
+                icon
+                :to="`/map/${currentMarker.id}/edit`"
+              >
+                <v-icon>mdi-wrench</v-icon>
+              </v-btn>
+              <v-btn
+                small
+                color="primary"
+                text
+                icon
+                @click="deleteUtility(currentMarker.id)"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-layout>
           </v-layout>
           <a
             :href="`http://maps.google.com?q=${currentMarker.position.lat},${currentMarker.position.lng}`"
@@ -194,6 +215,7 @@ export default class FullMap extends Vue {
 
   private showBottom: boolean = false
   private loadingImg = LOADING_IMG
+  $notify: any
 
   private pinIcon = mdiCircle
 
@@ -217,6 +239,19 @@ export default class FullMap extends Vue {
 
   public isMobile(): boolean {
     return this.$vuetify.breakpoint.smAndDown
+  }
+
+  public async deleteUtility(utility_id: number) {
+    await UtilityRepository.deleteRoom(utility_id)
+      .then((response) => {
+        this.$notify.showMessage({
+          message: 'Xóa tiện ích thành công',
+          color: 'success',
+        })
+      })
+      .finally(() => {
+        this.closeBottom()
+      })
   }
 }
 </script>
