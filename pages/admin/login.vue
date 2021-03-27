@@ -47,11 +47,11 @@ import { Component, Vue } from 'vue-property-decorator'
 
 
 // eslint-disable-next-line no-use-before-define
-@Component<AdminHome>({
-  name: 'AdminHome',
+@Component<AdminLogin>({
+  name: 'AdminLogin',
   layout: 'empty',
 })
-export default class AdminHome extends Vue {
+export default class AdminLogin extends Vue {
     public username: string = ''
     public password: string = ''
 }

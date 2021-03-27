@@ -164,9 +164,9 @@
           <!-- Basic infor -->
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="formData.name"
+              v-model="formData.username"
               label="Tên"
-              name="name"
+              name="username"
               outlined
               class="required"
             ></v-text-field>
@@ -305,7 +305,7 @@ export default class AdminHome extends Vue {
   private openDialog: boolean = false
   private formData: any = {
     id: -1,
-    name: '',
+    username: '',
     email: '',
     phone_number: '',
     address: '',
