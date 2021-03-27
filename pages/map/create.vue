@@ -170,7 +170,6 @@ export default class CreateUtility extends Vue {
     fullscreenControl: true,
     disableDefaultUi: false,
   }
-
   public setMapCenter({ latLng }: any) {
     this.center = latLng
   }
@@ -207,7 +206,6 @@ export default class CreateUtility extends Vue {
       )
     }
   }
-
   public async getAllMarker() {
     await UtilityRepository.getAllUtilities().then((response) => {
       const markers = response.data
@@ -216,7 +214,6 @@ export default class CreateUtility extends Vue {
       })
     })
   }
-
   private openWarningDialog: boolean = false
   private tabHeaders = [
     {
@@ -234,47 +231,37 @@ export default class CreateUtility extends Vue {
   ]
   private utilitysType = UTILITY_TYPE.map((item, index) => ({ ...item, index }))
   private tab: number = 0
-
   private formData = {
     title: '',
     address: '',
     type_id: -1,
     description: '',
   }
-
   private selectIcon: string = 'help'
   private selectIndex = ''
   private image: any = null
-
   public closeDialog() {
     this.openWarningDialog = true
   }
-
   public acceptWarningDialog() {
     this.openWarningDialog = false
     this.$router.push("/map")
   }
-
   public refuseWarningDialog() {
     this.openWarningDialog = false
   }
-
   public changeSelect(i: number) {
     const utility = this.utilitysType[i]
     this.formData.type_id = utility.id
     this.selectIcon = utility.icon
   }
-
   public nextTab() {
     this.tab++
   }
-
   public preTab() {
     this.tab--
   }
-
   $notify: any
-
   async submitForm() {
     const formData = new FormData()
     formData.append('title', this.formData.title)
@@ -290,7 +277,6 @@ export default class CreateUtility extends Vue {
       formData.append('location[0]', position.lat)
       formData.append('location[1]', position.lng)
     }
-
     formData.append('image', this.image)
     await UtilityRepository.createUtility(formData)
       .then((response) => {
@@ -309,23 +295,19 @@ export default class CreateUtility extends Vue {
         })
       })
   }
-
   clickUpload(e: Event) {
     e.preventDefault()
     const input = this.$refs.images as any
     input.click()
   }
-
   onFileChange(e: any) {
     let vm: any = this
     var selectedFiles = e.target.files
     this.image = selectedFiles[0]
-
     let reader = new FileReader()
     reader.onload = (e) => {
       vm.$refs.image.src = reader.result
     }
-
     reader.readAsDataURL(this.image)
   }
 }
