@@ -231,7 +231,7 @@ export default class ProfileUpdate extends Vue {
 
   public async acceptCancelDialog() {
     this.openCancelDialog = false
-    this.$router.go(-1)
+    this.$router.push("/personal")
   }
 
   public async acceptConfirmDialog() {
@@ -242,7 +242,7 @@ export default class ProfileUpdate extends Vue {
       })
 
       this.$store.dispatch(DispatchAction.SET_AUTH, this.userInfo)
-      this.$router.go(-1)
+      this.$router.push("/personal")
     })
   }
 

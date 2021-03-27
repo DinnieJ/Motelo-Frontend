@@ -20,9 +20,9 @@
       </v-row>
     </v-card>
     <warning-dialog
-      title="Lưu thay đổi"
-      content="bạn có muốn lưu sửa đổi này không"
-      @accept="refuseWarningDialog"
+      title="THOÁT"
+      content="Nếu bạn thoát, những thông tin trên sẽ không được lưu lại.<br>Bạn có muốn thoát không?"
+      @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
       v-model="openWarningDialog"
     />
@@ -59,7 +59,10 @@ export default class InnUpdate extends Vue {
 
   public refuseWarningDialog() {
     this.openWarningDialog = false
-    this.$router.go(-1)
+  }
+  public acceptWarningDialog() {
+    this.openWarningDialog = false
+    this.$router.push("/owner/inn/create")
   }
 }
 </script>

@@ -130,7 +130,6 @@
     <warning-dialog
       title="THOÁT"
       content="Nếu bạn thoát, những thông tin trên sẽ không được lưu lại.<br>Bạn có muốn thoát không?"
-      has-cancel
       @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
       v-model="openWarningDialog"
@@ -239,7 +238,7 @@ export default class CreateUtility extends Vue {
 
   public acceptWarningDialog() {
     this.openWarningDialog = false
-    this.$router.go(-1)
+    this.$router.push("/map")
   }
 
   public refuseWarningDialog() {
@@ -286,7 +285,7 @@ export default class CreateUtility extends Vue {
           color: 'success',
         })
         setTimeout(() => {
-          this.$router.go(-1)
+          this.$router.push("/map")
         }, 400)
       })
       .catch((error) => {
