@@ -237,7 +237,7 @@
             <v-layout justify-center>
               <v-btn outlined color="primary" @click="clickUpload">
                 <v-icon left>mdi-upload</v-icon>
-                Tải Ảnh đại diện
+                Tải lên ảnh đại diện
               </v-btn>
             </v-layout>
           </v-col>
@@ -270,13 +270,13 @@ import { LOADING_IMG } from '@/constants/app.constant'
   },
 })
 export default class AdminHome extends Vue {
-  public loadingImg = LOADING_IMG
-  public search = ''
-  public sortDesc = false
-  public page = 1
-  public itemsPerPage = 8
-  public sortBy = 'email'
-  public headers = [
+  private loadingImg = LOADING_IMG
+  private search = ''
+  private sortDesc = false
+  private page = 1
+  private itemsPerPage = 8
+  private sortBy = 'email'
+  private headers = [
     {
       text: 'Email',
       value: 'email',
@@ -302,8 +302,8 @@ export default class AdminHome extends Vue {
       value: 'created_at',
     },
   ]
-  public openDialog: boolean = false
-  public formData: any = {
+  private openDialog: boolean = false
+  private formData: any = {
     id: -1,
     name: '',
     email: '',
@@ -316,7 +316,7 @@ export default class AdminHome extends Vue {
   private dialogTitle: string = ''
   private dateDialog = false
 
-  public items: any[] = []
+  private items: any[] = []
   get numberOfPages() {
     return Math.ceil(this.items.length / this.itemsPerPage)
   }
@@ -348,15 +348,9 @@ export default class AdminHome extends Vue {
 
   clickEdit(item: any) {
     this.dialogTitle = 'Sửa đổi Cộng tác viên'
-    this.formData = {
-      id: item.id,
-      name: item.name,
-      email: item.email,
-      phone_number: item.phone_number,
-      address: item.address,
-      date_of_birth: item.date_of_birth,
-      identity_number: item.identity_number,
-    }
+    Object.keys(this.formData).forEach(key => {
+      this.formData[key] = item[key]
+    });
     this.openDialog = true
   }
 
