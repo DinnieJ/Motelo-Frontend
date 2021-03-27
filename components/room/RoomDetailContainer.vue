@@ -57,7 +57,7 @@
             :area="room.area"
             :eservation_fee="room.eservation_fee"
             :electric="room.inn.electric"
-            :water="room.water"
+            :water="room.inn.water"
             :wifi="room.inn.wifi"
             :capacity="room.capacity"
             :gender="room.gender.text"
