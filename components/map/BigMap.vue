@@ -95,8 +95,6 @@ import {
 } from '@/constants/app.constant'
 import UtilityRepository from '~/repositories/UtilityRepository'
 import { MarkerDTO } from '~/constants/app.interface'
-
-import { gmapApi } from 'vue2-google-maps'
 import { mdiCircle } from '@mdi/js'
 
 @Component<BigMap>({
