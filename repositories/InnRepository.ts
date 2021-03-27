@@ -24,4 +24,12 @@ export default class InnRepository {
   public static checkExistInn() : Promise<AxiosResponse<any>> {
     return authenticatedService.get(`${Endpoint.Owner}/inn/check`)
   }
+
+  public static updateInn( data: any ) : Promise<AxiosResponse<any>> {
+    return authenticatedService.post(`${Endpoint.Owner}/inn/update`, data , { 
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  }
 }
