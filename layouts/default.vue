@@ -165,6 +165,7 @@ import { setToken } from '@/repositories/BaseRepository'
       token: Getter.TOKEN
     }),
   },
+  middleware: ['checkAuthen'],
   created() {
     const context: any = this
     if (context.token) {
