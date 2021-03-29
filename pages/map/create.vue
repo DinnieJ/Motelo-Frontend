@@ -52,8 +52,8 @@
             </v-tab-item>
             <!-- choose utility's location step -->
             <v-tab-item>
-              <div 
-                class="pa-0 ma-0 mapTab" 
+              <div
+                class="pa-0 ma-0 mapTab"
                 @touchstart="stopTouchTransition"
                 @touchmove="stopTouchTransition"
                 @touchend="stopTouchTransition"
@@ -146,6 +146,7 @@ import UtilityRepository from '@/repositories/UtilityRepository'
 import UploadImageForm from '@/components/common/UploadImageForm.vue'
 import { MarkerDTO } from '~/constants/app.interface'
 import { stopEventFromParentElement } from '@/utils/event'
+import axios from 'axios'
 
 @Component<CreateUtility>({
   name: 'CreateUtility',
@@ -175,23 +176,36 @@ export default class CreateUtility extends Vue {
     this.center = latLng
   }
 
-  mounted() {
-    this.getCurrentPosition()
+  async mounted() {
+    await this.getCurrentPosition()
   }
 
   public stopTouchTransition: Function = stopEventFromParentElement
 
-  public getCurrentPosition() {
+  public async getCurrentPosition() {
     const context = this
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function setMapCenterByGPS(
-        position
-      ) {
-        context.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+      await navigator.geolocation.getCurrentPosition(
+        async function setMapCenterByGPS(position) {
+          const currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
+          context.center = currentPosition
+          await axios
+            .get(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${currentPosition.lat},${currentPosition.lng}&key=${process.env.MAP_API_KEY}`
+            )
+            .then((res) => {
+              const address = res.data.results[0]
+              context.formData.address =
+                (address && address.formatted_address) || 'Trường đại học FPT'
+            })
+            .catch((err) => {
+              console.log('get current address = ', err)
+            })
         }
-      })
+      )
     }
   }
 

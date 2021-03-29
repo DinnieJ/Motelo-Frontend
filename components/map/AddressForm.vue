@@ -45,19 +45,35 @@ export default class AddressForm extends Vue {
   private center: any = { lat: 0, lng: 0 }
   private zoom: number = DefaultMapZoom
 
-  created() {
-    this.getCurrentPosition()
+  async created() {
+    const context = this
+    context.getCurrentPosition()
   }
 
-  public getCurrentPosition() {
+  public async getCurrentPosition() {
     const context = this
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function setMapCenterByGPS(position) {
-        context.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+      await navigator.geolocation.getCurrentPosition(
+        async function setMapCenterByGPS(position) {
+          const currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
+          context.center = currentPosition
+          await axios
+            .get(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${currentPosition.lat},${currentPosition.lng}&key=${process.env.MAP_API_KEY}`
+            )
+            .then((res) => {
+              const address = res.data.results[0]
+              context.innAddress =
+                (address && address.formatted_address) || 'Trường đại học FPT'
+            })
+            .catch((err) => {
+              console.log('get current address = ', err)
+            })
         }
-      })
+      )
     }
   }
 
@@ -75,8 +91,8 @@ export default class AddressForm extends Vue {
     event.preventDefault()
   }
 
-  public searchAddress() {
-    axios
+  public async searchAddress() {
+    await axios
       .get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${this.innAddress}&key=${process.env.MAP_API_KEY}`
       )
