@@ -88,10 +88,6 @@ export const actions: AuthAction<AuthState, RootState> = {
             commit(AuthMutation.SET_TOKEN, "")
             commit(AuthMutation.SET_USER, null)
             commit(AuthMutation.SET_ROLE, ROLE.GUEST)
-            
-            // const cookies: any = this.$cookies
-            // cookies.remove(COOKIES.TOKEN);
-            // cookies.remove(COOKIES.ROLE);
 
             removeTokenCookie()
             removeRoleCookie()
@@ -104,6 +100,8 @@ export const actions: AuthAction<AuthState, RootState> = {
                     await AuthRepository.logoutOwner();
                     break;
             }
+
+            setToken(false)
             
             return true
         } catch ( error ) {
@@ -114,12 +112,11 @@ export const actions: AuthAction<AuthState, RootState> = {
     clear({ commit }): void {
         commit(AuthMutation.SET_TOKEN, "")
         commit(AuthMutation.SET_USER, null)
-        // const cookies: any = this.$cookies
-        // cookies.remove(COOKIES.TOKEN)
-        // cookies.remove(COOKIES.ROLE)
+        commit(AuthMutation.SET_ROLE, ROLE.GUEST)
 
         removeTokenCookie()
         removeRoleCookie()
+        setToken(false)
     },
 
     setUser({ commit }, userInfo ) {

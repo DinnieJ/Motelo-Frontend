@@ -9,15 +9,30 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import LoginForm from '@/components/account/LoginForm.vue'
-import { DispatchAction } from '@/constants/app.vuex'
+import { Getter, DispatchAction } from '@/constants/app.vuex'
 import { LoginDTO } from '@/constants/app.interface'
 import { ROLE } from '@/constants/app.constant'
+import { mapGetters } from 'vuex'
 // eslint-disable-next-line no-use-before-define
 @Component<Login>({
   name: 'Login',
   // eslint-disable-next-line no-undef
   components: {
     LoginForm,
+  },
+  computed: {
+    ...mapGetters({
+      token: Getter.TOKEN
+    }),
+  },
+  middleware: ['checkAuthen'],
+  async created() {
+    const context: any = this
+    if (context.token) {
+      await this.$store.dispatch(DispatchAction.LOGOUT)
+    } else {
+      await this.$store.dispatch(DispatchAction.CLEAR_AUTH)
+    }
   },
 })
 export default class Login extends Vue {

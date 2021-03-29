@@ -15,13 +15,18 @@ export let authenticatedService = createAxiosInstance()
 
 export const setToken = (token: any) => {
     authenticatedService = createAxiosInstance()
-    authenticatedService.interceptors.request.use(
-        (config) => {
-            config.headers.Authorization = `Bearer ${token}`
-            return config
-        },
-        (error) => {
-            Promise.reject(error)
-        }
-    )
+
+    if (token) {
+        authenticatedService.interceptors.request.use(
+            (config) => {
+                config.headers.Authorization = `Bearer ${token}`
+                return config
+            },
+            (error) => {
+                Promise.reject(error)
+            }
+        )
+    }
+
+    // not token => clear token
 }
