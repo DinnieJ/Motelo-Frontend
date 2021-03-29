@@ -24,11 +24,11 @@
         </v-col>
       </v-row>
       <v-pagination
-        v-model="filterValue.page"
+        v-model="page"
         :length="totalPage"
         total-visible="7"
         circle
-        @change="getAllOwnRequests"
+        @input="getAllOwnRequests"
       ></v-pagination>
     </v-sheet>
     <warning-dialog
@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { RoomCardDTO, RoomFilterDTO } from '@/constants/app.interface'
+import { RoomCardDTO } from '@/constants/app.interface'
 import RoomCard from '@/components/room/RoomCard.vue'
 import WarningDialog from '@/components/common/WarningDialog.vue'
 
@@ -69,13 +69,13 @@ export default class OwnerRequests extends Vue {
   private warningDialogContent: string = ''
   private deletingRoom: number = -1
   private totalPage: number = 1
+  private page: number = 1
   $notify: any
 
   // demo get data from api
-  private filterValue: RoomFilterDTO = new RoomFilterDTO()
 
   public async getAllOwnRequests() {
-    await RoomRepository.getOwnerRoom(this.filterValue)
+    await RoomRepository.getOwnerRoom({ page: this.page })
       .then((response) => {
         let rooms: any = response.data.data
         this.requests = rooms.map(function (item: any) {
@@ -84,12 +84,12 @@ export default class OwnerRequests extends Vue {
         this.totalPage = response.data.total_page
       })
       .catch((error) => {
-        console.log('getAllOwnRequests', error) 
+        console.log('getAllOwnRequests', error)
       })
   }
 
   public clickDelete(event: Event, index: number) {
-    event.preventDefault();
+    event.preventDefault()
     this.deletingRoom = index
     this.warningDialogContent = `Bạn có muốn xóa bài đăng: ${this.requests[index].title}" không ?`
     this.openWarningDialog = true
@@ -102,7 +102,9 @@ export default class OwnerRequests extends Vue {
   }
 
   public async deleteRoom() {
-    await RoomRepository.deleteRoom(parseInt(this.requests[this.deletingRoom].id))
+    await RoomRepository.deleteRoom(
+      parseInt(this.requests[this.deletingRoom].id)
+    )
       .then((repos) => {
         this.requests.splice(this.deletingRoom, 1)
         this.$notify.showMessage({
