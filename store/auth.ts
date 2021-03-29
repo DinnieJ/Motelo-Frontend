@@ -59,18 +59,6 @@ export const actions: AuthAction<AuthState, RootState> = {
             commit(AuthMutation.SET_ROLE, data.role)
 
             setToken(data.token)
-    
-            // const options = {
-            //     path: '/',
-            //     maxAge: 60*60*24, // cookies live in 1 day
-            //     sameSite: true,
-            // }
-            // const cookieList = [
-            //     { name: COOKIES.TOKEN, value: data.token, opts: options },
-            //     { name: COOKIES.ROLE, value: data.role, opts: options },
-            //   ]
-            // const cookies: any = this.$cookies
-            // cookies.setAll(cookieList);
 
             setTokenCookie(data.token);
             setRoleCookie(data.role);

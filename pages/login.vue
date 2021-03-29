@@ -25,7 +25,6 @@ import { mapGetters } from 'vuex'
       token: Getter.TOKEN
     }),
   },
-  middleware: ['checkAuthen'],
   async created() {
     const context: any = this
     if (context.token) {
