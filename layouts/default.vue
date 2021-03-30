@@ -166,12 +166,6 @@ import { setToken } from '@/repositories/BaseRepository'
     }),
   },
   middleware: ['checkAuthen'],
-  created() {
-    const context: any = this
-    if (context.token) {
-      setToken(context.token)
-    }
-  },
 })
 export default class Default extends Vue {
   private links: NavLink[] = NAV_LINKS
