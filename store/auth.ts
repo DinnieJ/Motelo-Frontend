@@ -4,6 +4,8 @@ import { ROLE, COOKIES } from '@/constants/app.constant'
 import AuthRepository from '@/repositories/AuthRepository'
 import { setToken } from '@/repositories/BaseRepository'
 
+import { setTokenCookie, setRoleCookie, removeTokenCookie, removeRoleCookie } from '@/utils/cookies'
+
 export interface AuthState {
     token: string
     user: any,
@@ -57,18 +59,9 @@ export const actions: AuthAction<AuthState, RootState> = {
             commit(AuthMutation.SET_ROLE, data.role)
 
             setToken(data.token)
-    
-            const options = {
-                path: '/',
-                maxAge: 60*60*24, // cookies live in 1 day
-                sameSite: true,
-            }
-            const cookieList = [
-                { name: COOKIES.TOKEN, value: data.token, opts: options },
-                { name: COOKIES.ROLE, value: data.role, opts: options },
-              ]
-            const cookies: any = this.$cookies
-            cookies.setAll(cookieList);
+
+            setTokenCookie(data.token);
+            setRoleCookie(data.role);
 
             return data
         } catch (error) {
@@ -83,10 +76,9 @@ export const actions: AuthAction<AuthState, RootState> = {
             commit(AuthMutation.SET_TOKEN, "")
             commit(AuthMutation.SET_USER, null)
             commit(AuthMutation.SET_ROLE, ROLE.GUEST)
-            
-            const cookies: any = this.$cookies
-            cookies.remove(COOKIES.TOKEN);
-            cookies.remove(COOKIES.ROLE);
+
+            removeTokenCookie()
+            removeRoleCookie()
 
             switch (role) {
                 case ROLE.TENANT:
@@ -96,6 +88,8 @@ export const actions: AuthAction<AuthState, RootState> = {
                     await AuthRepository.logoutOwner();
                     break;
             }
+
+            setToken(false)
             
             return true
         } catch ( error ) {
@@ -106,9 +100,11 @@ export const actions: AuthAction<AuthState, RootState> = {
     clear({ commit }): void {
         commit(AuthMutation.SET_TOKEN, "")
         commit(AuthMutation.SET_USER, null)
-        const cookies: any = this.$cookies
-        cookies.remove(COOKIES.TOKEN)
-        cookies.remove(COOKIES.ROLE)
+        commit(AuthMutation.SET_ROLE, ROLE.GUEST)
+
+        removeTokenCookie()
+        removeRoleCookie()
+        setToken(false)
     },
 
     setUser({ commit }, userInfo ) {

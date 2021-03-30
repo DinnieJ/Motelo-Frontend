@@ -31,6 +31,7 @@ export default {
    * @description Nuxt target
    * @docs https://nuxtjs.org/api/configuration-target
    */
+  ssr: false,
   target: 'server',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
