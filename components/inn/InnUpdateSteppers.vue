@@ -82,7 +82,6 @@ export default class InnUpdateSteppers extends Vue {
 
   public nextStep(e: any) {
     this.statusComplete[this.current++] = true
-    console.log(this.current, this.statusComplete)
   }
 
   public backStep() {

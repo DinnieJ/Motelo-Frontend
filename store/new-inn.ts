@@ -73,13 +73,10 @@ export const actions: CreateInnAction<CreateInnFormState, RootState> = {
         commit(CreateInnFormMutation.SET_NAME, data.name)
         commit(CreateInnFormMutation.SET_WATER_PRICE, parseInt(data.water_price))
         commit(CreateInnFormMutation.SET_ELECTRIC_PRICE, parseInt(data.electric_price))
-
-        console.log(state.singleData)
     },
 
     addFeatures({ commit, state }, data) {
         commit(CreateInnFormMutation.SET_FEATURES, data)
-        console.log(state)
     },
 
     addSafetyFeatures({ commit, state }, data) {
@@ -88,8 +85,6 @@ export const actions: CreateInnAction<CreateInnFormState, RootState> = {
         commit(CreateInnFormMutation.SET_CLOSE_HOUR, data.close_hour)
         commit(CreateInnFormMutation.SET_CLOSE_MINUTE, data.close_minute)
         commit(CreateInnFormMutation.SET_SECURITY, data.security)
-        console.log(data)
-        // /console.log(state)
     },
 
     addLocation({ commit, state }, data) {
