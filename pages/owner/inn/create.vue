@@ -35,17 +35,18 @@ import PolicyCard from '@/components/common/PolicyCard.vue'
 import InnUpdateSteppers from '@/components/inn/InnUpdateSteppers.vue'
 import WarningDialog from '@/components/common/WarningDialog.vue'
 
-@Component<InnUpdate>({
-  name: 'InnUpdate',
+@Component<InnCreate>({
+  name: 'InnCreate',
   // eslint-disable-next-line no-undef
   components: {
     PolicyCard,
     InnUpdateSteppers,
     WarningDialog,
   },
+  middleware: ['authenticated', 'isOwner'],
   layout: 'empty',
 })
-export default class InnUpdate extends Vue {
+export default class InnCreate extends Vue {
   private acceptPolicy: boolean = false
   private openWarningDialog: boolean = false
 
