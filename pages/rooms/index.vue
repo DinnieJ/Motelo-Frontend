@@ -34,6 +34,7 @@
         </v-col>
         <!-- List post -->
         <v-col md="6" cols="12">
+          <template v-if='roomCardObjs.length !== 0'>
           <section v-if="loading">
             <h1>Loading</h1>
           </section>
@@ -50,6 +51,8 @@
             circle
             @input="getRoomByFilter"
           ></v-pagination>
+          </template>
+          <template v-else>Không có kết quả để hiển thị</template>
         </v-col>
         <v-col md="6" cols="12">
           <!-- Map -->
