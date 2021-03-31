@@ -262,7 +262,7 @@ export default class RoomUpdateRequest extends Vue {
 
   public acceptWarningDialog() {
     this.openWarningDialog = false
-    this.$router.go(-1)
+    this.$router.push(`/owner/requests/${this.id}`)
   }
 
   public refuseWarningDialog() {
@@ -303,7 +303,7 @@ export default class RoomUpdateRequest extends Vue {
           color: 'success',
         })
         setTimeout(() => {
-          this.$router.go(-1)
+          this.$router.push(`/owner/requests/${this.id}`)
         }, 400)
       })
       .catch((error) => {

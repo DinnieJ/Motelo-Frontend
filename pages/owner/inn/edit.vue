@@ -377,7 +377,7 @@ export default class UpdateInn extends Vue {
 
   public acceptWarningDialog() {
     this.openWarningDialog = false
-    this.$router.go(-1)
+    this.$router.push("owner/home")
   }
 
   public refuseWarningDialog() {
@@ -486,7 +486,7 @@ export default class UpdateInn extends Vue {
           color: 'success',
         })
         setTimeout(() => {
-          this.$router.go(-1)
+          this.$router.push("owner/home")
         }, 400)
       })
       .catch((error) => {
@@ -495,7 +495,7 @@ export default class UpdateInn extends Vue {
           color: 'red',
         })
         setTimeout(() => {
-          this.$router.go(-1)
+          this.$router.push("owner/home")
         }, 400)
       })
   }
