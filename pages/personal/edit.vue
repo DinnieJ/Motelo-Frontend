@@ -49,7 +49,7 @@
                 :rules="rules.phone"
               >
                 <v-text-field
-                  v-model="userInfo.phone"
+                  v-model="userInfo.phone_number"
                   label="Số điện thoại"
                   name="phone"
                   outlined
@@ -85,7 +85,7 @@
                 <v-btn
                   color="primary"
                   :disabled="invalid"
-                  :loading="loading"
+                  :loading="loadingUserInfo"
                   class="mr-1"
                   @click="handleSubmitClick()"
                 >
