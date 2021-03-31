@@ -87,6 +87,8 @@ export const actions: AuthAction<AuthState, RootState> = {
                 case ROLE.OWNER:
                     await AuthRepository.logoutOwner();
                     break;
+                case ROLE.COLLABORATOR:
+                    await AuthRepository.logoutCollaborator();
             }
 
             setToken(false)
