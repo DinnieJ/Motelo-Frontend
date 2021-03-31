@@ -71,8 +71,8 @@
                   }}</v-icon>
                   <span>{{ currentMarker.type.text }}</span>
                 </v-btn>
-                <v-btn x-small color="secondary" text icon @click="closeBottom">
-                  <v-icon small>mdi-close-circle</v-icon>
+                <v-btn color="secondary" text icon @click="closeBottom">
+                  <v-icon>mdi-close-circle</v-icon>
                 </v-btn>
               </v-layout>
 
@@ -81,7 +81,6 @@
                   {{ currentMarker.name }}
                 </h1>
                 <v-btn
-                  small
                   color="primary"
                   text
                   icon
@@ -117,8 +116,8 @@
               <v-icon x-small>{{ `mdi-${currentMarker.type.icon}` }}</v-icon>
               <span>{{ currentMarker.type.text }}</span>
             </v-btn>
-            <v-btn x-small color="secondary" text icon @click="closeBottom">
-              <v-icon small>mdi-close-circle</v-icon>
+            <v-btn color="secondary" text icon @click="closeBottom">
+              <v-icon>mdi-close-circle</v-icon>
             </v-btn>
           </v-layout>
         </v-img>
@@ -129,7 +128,6 @@
             </h1>
 
             <v-btn
-              small
               color="primary"
               text
               icon
