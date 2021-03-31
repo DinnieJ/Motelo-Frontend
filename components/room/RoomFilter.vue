@@ -89,7 +89,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, VModel, Watch, Emit, PropSync } from 'vue-property-decorator'
-import { TextIcon, RoomFilterDTO } from '@/constants/app.interface'
+import { TextIcon } from '@/constants/app.interface'
 import {
   PRICE_FILTER,
   AMEENITIES,

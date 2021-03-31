@@ -1,4 +1,3 @@
-import { RoomFilterDTO } from '@/constants/app.interface'
 import { Endpoint } from '@/constants/app.endpoint'
 import { authenticatedService } from './BaseRepository'
 import { AxiosResponse } from 'axios'

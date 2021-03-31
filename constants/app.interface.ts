@@ -221,69 +221,6 @@ export class MarkerDTO {
   }
 }
 
-export class RoomFilterDTO {
-  public page: number
-  public keyword: string
-  public price: number[]
-  public min_price: number
-  public max_price: number
-  public amenities: any[]
-  public gender: any
-  public room_type: any[]
-
-  constructor() {
-    this.page = 1
-    this.keyword = ''
-    this.min_price = 0
-    this.max_price = 9
-    this.price = [0, 9]
-    this.amenities = []
-    this.gender = null
-    this.room_type = []
-  }
-
-  set update(value: any) {
-    if (value.keyword) this.keyword = value.keyword
-    if (value.page) {
-      try {
-        this.page = parseInt(value.page)
-      } catch (e) {}
-    }
-    if (value.min_price) {
-      try {
-        this.min_price = parseInt(value.min_price)
-        this.price[0] = this.min_price
-      } catch (e) {}
-    }
-    if (value.max_price) {
-      try {
-        this.max_price = parseInt(value.max_price)
-        this.price[1] = this.max_price
-      } catch (e) {}
-    }
-    if (value.gender) {
-      try {
-        this.gender = parseInt(value.gender)
-      } catch (e) {}
-    }
-    if (value.features) this.amenities = [...new Set(value.features.split(','))]
-    if (value.room_type)
-      this.room_type = [...new Set(value.room_type.split(','))]
-  }
-
-  get toObject(): any {
-    return {
-      page: this.page,
-      keyword: this.keyword,
-      min_price: this.price[0],
-      max_price: this.price[1],
-      features: this.amenities.join(','),
-      gender: this.gender,
-      room_type: this.room_type.join(','),
-    }
-  }
-}
-
 const NULL_ICON: TextIcon = {
   id: -1,
   code: '',

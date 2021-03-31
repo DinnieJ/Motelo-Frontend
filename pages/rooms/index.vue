@@ -76,7 +76,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { RoomCardDTO, RoomFilterDTO } from '@/constants/app.interface'
+import { RoomCardDTO } from '@/constants/app.interface'
 import RoomCard from '@/components/room/RoomCard.vue'
 import RoomFilter from '@/components/room/RoomFilter.vue'
 import SearchAddress from '@/components/map/SearchAddress.vue'
