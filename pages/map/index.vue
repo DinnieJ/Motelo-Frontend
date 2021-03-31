@@ -155,13 +155,10 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import {
   LOADING_IMG,
-  FPTLocation,
   DefaultMapZoom,
 } from '@/constants/app.constant'
 import UtilityRepository from '~/repositories/UtilityRepository'
 import { MarkerDTO } from '~/constants/app.interface'
-
-import { gmapApi } from 'vue2-google-maps'
 import { mdiCircle } from '@mdi/js';
 
 
@@ -169,12 +166,9 @@ import { mdiCircle } from '@mdi/js';
   name: 'FullMap',
   // eslint-disable-next-line no-undef
   middleware: ['authenticated', 'isCollaborator'],
-  async created() {
-    await this.getAllMarker()
-  },
 })
 export default class FullMap extends Vue {
-  private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
+  private center: any = { lat: 0, lng: 0 }
   private zoom: number = DefaultMapZoom
   private mapOptions = {
     zoomControl: true,
@@ -194,6 +188,23 @@ export default class FullMap extends Vue {
   private loadingImg = LOADING_IMG
 
   private pinIcon = mdiCircle
+
+  async created() {
+    await this.getAllMarker()
+    this.getCurrentPosition()
+  }
+
+  public getCurrentPosition() {
+    const context = this
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function setMapCenterByGPS(position) {
+        context.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+      })
+    }
+  }
 
   public async getAllMarker() {
     await UtilityRepository.getAllUtilities().then((response) => {
