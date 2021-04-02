@@ -53,6 +53,10 @@ export default class DetailRoom extends Vue {
       this.favorite = this.room.favorite
       this.comments = this.room.comments
       this.verify = this.room.verify
+    }).catch(err => {
+      if(err.response.status == 404) {
+        return this.$nuxt.error({statusCode: 404})
+      }
     })
   }
 
