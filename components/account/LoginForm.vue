@@ -7,15 +7,16 @@
       <v-form
         class="mt-3 d-flex flex-column"
       >
-        <v-autocomplete
+        <v-select
           v-model="loginInfo.role"
           :items="roles"
           item-text="text"
           item-value="role_id"
           outlined
           label="Bạn đăng nhập theo tư cách"
-        ></v-autocomplete>
+        ></v-select>
         <validation-provider
+          mode="eager"
           v-slot="{ errors }"
           name="email"
           :rules="rules.email"
@@ -28,6 +29,7 @@
           ></v-text-field>
         </validation-provider>
         <validation-provider
+          mode="eager"
           v-slot="{ errors }"
           name="password"
           :rules="rules.password"
@@ -45,15 +47,14 @@
         </validation-provider>
         <v-btn
           color="primary"
-          :disabled="invalid || loading"
+          :disabled="invalid"
           :loading="loading"
           @click="submit"
         >
           Đăng nhập
         </v-btn>
-        <nuxt-link to="/register" class="mt-5 text-center"
-          >Đăng kí nếu chưa có tài khoản</nuxt-link
-        >
+        <p class="mt-5 text-center">Chưa có tài khoản? Bấm <span class="text-primary"><nuxt-link to="/register">vào đây</nuxt-link></span> để đăng kí</p>
+        <nuxt-link to="/forgot" class="text-center mt-5">Quên mật khẩu</nuxt-link>
         <v-img :lazy-src="loadingImg" src="/imgs/undraw_city_life_gnpr.svg" />
       </v-form>
     </validation-observer>
@@ -68,8 +69,7 @@ import { required, email, min, max } from 'vee-validate/dist/rules'
 import { LoginRule } from '@/constants/app.interface'
 import { ROLE, LOADING_IMG } from '@/constants/app.constant'
 
-setInteractionMode('eager')
-
+setInteractionMode("eager")
 extend('required', {
   ...required,
   message: 'Bạn không được để trống trường này',
@@ -93,6 +93,9 @@ extend('min', {
     ValidationObserver,
     ValidationProvider,
   },
+
+  created() {
+  }
   // eslint-disable-next-line no-undef
 })
 export default class LoginForm extends Vue {
@@ -130,7 +133,7 @@ export default class LoginForm extends Vue {
    * submitLoginForm
    */
   @Emit()
-  public async submit() {
+  public submit() {
     return this.loginInfo
   }
 }

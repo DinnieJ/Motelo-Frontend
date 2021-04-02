@@ -11,6 +11,7 @@ export enum CreateInnFormMutation {
     SET_NAME = 'setName',
     SET_WATER_PRICE = 'setWaterPrice',
     SET_ELECTRIC_PRICE = 'setElectricPrice',
+    SET_WIFI_PRICE = 'setWifiPrice',
     SET_OPEN_HOUR = 'setOpenHour',
     SET_OPEN_MINUTE = 'setOpenMinute',
     SET_CLOSE_HOUR = 'setCloseHour',
@@ -36,6 +37,7 @@ export const state = (): CreateInnFormState => ({
         name: '',
         water_price: null,
         electric_price: null,
+        wifi_price: null,
         open_hour: null,
         open_minute: null,
         close_hour: null,
@@ -57,6 +59,7 @@ export const mutations: MutationTree<RootState> = {
     [CreateInnFormMutation.SET_NAME]: (state, name: string) => (state.singleData.name = name),
     [CreateInnFormMutation.SET_WATER_PRICE]: (state, water_price: any) => (state.singleData.water_price = water_price),
     [CreateInnFormMutation.SET_ELECTRIC_PRICE]: (state, electric_price: any) => (state.singleData.electric_price = electric_price),
+    [CreateInnFormMutation.SET_WIFI_PRICE]: (state, wifi_price: any) => (state.singleData.wifi_price = wifi_price),
     [CreateInnFormMutation.SET_OPEN_HOUR]: (state, open_hour: any) => (state.singleData.open_hour = open_hour || 12),
     [CreateInnFormMutation.SET_OPEN_MINUTE]: (state, open_minute: any) => (state.singleData.open_minute = open_minute || 0),
     [CreateInnFormMutation.SET_CLOSE_HOUR]: (state, close_hour: any) => (state.singleData.close_hour = close_hour || 12),
@@ -73,6 +76,7 @@ export const actions: CreateInnAction<CreateInnFormState, RootState> = {
         commit(CreateInnFormMutation.SET_NAME, data.name)
         commit(CreateInnFormMutation.SET_WATER_PRICE, parseInt(data.water_price))
         commit(CreateInnFormMutation.SET_ELECTRIC_PRICE, parseInt(data.electric_price))
+        commit(CreateInnFormMutation.SET_WIFI_PRICE, parseInt(data.wifi_price))
     },
 
     addFeatures({ commit, state }, data) {

@@ -1,7 +1,7 @@
 <template>
   <div class="mt-6 pa-3">
     <div>
-      <h1 class="post__title">
+      <h1 class="post__title mb-3">
         <v-icon class="mx-3" size="32" color="info" dark> mdi-comment </v-icon
         ><span>Nhận xét</span>
       </h1>
@@ -11,8 +11,10 @@
       <div v-if="loggedIn">
         <room-comment-input @add-comment="addComment" />
       </div>
-      <div v-for="comment in asyncComments" :key="comment.id" class="mb-10">
+      <div v-if="asyncComments.length > 0"  class="mb-10">
         <room-comment-card
+          v-for="comment in asyncComments" 
+          :key="comment.id"
           :comment="comment"
           :editable="loggedIn && comment.account_id === user.id"
           @edit-comment="editComment"

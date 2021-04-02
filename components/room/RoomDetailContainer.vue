@@ -23,7 +23,7 @@
             :roomId="room.id"
           />
 
-          <p class="small my-3">
+          <p class="small pl-5 my-3">
             Ngày đăng: <i>{{ room.accept_date }}</i>
           </p>
 
@@ -38,7 +38,7 @@
           </template>
           <template v-else>
             <v-card rounded="lg" class="pa-2" v-if="asyncVerify">
-              <v-layout>
+              <v-layout d-flex align-center>
                 <v-icon class="mr-4" size="48" color="primary" dark>
                   mdi-shield-home
                 </v-icon>

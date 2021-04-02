@@ -97,7 +97,7 @@ export const NAV_LINKS: NavLink[] = [
   // Owner links
   {
     code: 'owner_room',
-    text: 'Yêu cầu',
+    text: 'Phòng của bạn',
     to: '/owner/requests',
     icon: 'home',
     roles: [ROLE.OWNER],
@@ -320,28 +320,28 @@ export const Contacts: ContactDTO[] = [
     type: Contact.EMAIL,
     name: 'emails',
     text: 'Email',
-    icon: '/imgs/logo-mail.png',
+    icon: 'email',
     link: true,
   },
   {
     type: Contact.PHONE,
     name: 'phones',
     text: 'Số điện thoại',
-    icon: '/imgs/logo-phone.png',
+    icon: 'phone-classic',
     link: false,
   },
   {
     type: Contact.ZALO,
     name: 'zalos',
     text: 'Zalo',
-    icon: '/imgs/logo-zalo.jpg',
+    icon: 'phone',
     link: true,
   },
   {
     type: Contact.FACEBOOK,
     name: 'facebooks',
     text: 'Facebook',
-    icon: '/imgs/logo-facebook.png',
+    icon: 'facebook',
     link: true,
   },
 ]

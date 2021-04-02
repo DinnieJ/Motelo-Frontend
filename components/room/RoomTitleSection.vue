@@ -1,7 +1,7 @@
 <template>
-  <v-row>
+  <v-row class="pa-5">
     <v-col cols="10">
-      <h1>{{ title }}</h1>
+      <h1 class="text-h5">{{ title }}</h1>
     </v-col>
     <v-col cols="2">
       <v-layout :column="forOwner" justify-end align-end class="pa-1">
@@ -10,6 +10,7 @@
             class="mr-4"
             :clickFavor="clickFavor"
             :favorite.sync="asyncFavorite"
+            roomDetail
           />
         <v-btn
           v-if="forOwner"

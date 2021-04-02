@@ -86,25 +86,19 @@
                   v-on="on"
                   class="d-flex justify-start align-center auth__select"
                 >
-                  <v-img
-                    contain
+                  <v-icon
                     max-width="2rem"
                     max-height="2rem"
-                    :lazy-src="loadingImg"
-                    :src="contactItems.filter(item => item.value == contact.type)[0].img"
-                  />
+                  >{{ contactItems.filter(item => item.value == contact.type)[0].icon }}</v-icon>
                   <v-icon>mdi-menu-down</v-icon>
                 </div>
               </template>
               <v-list>
                 <v-list-item v-for="(item, index) in contactItems" :key="index" @click="contact.type = item.value">
-                  <v-img
-                    contain
+                  <v-icon
                     max-width="2rem"
                     max-height="2rem"
-                    :lazy-src="loadingImg"
-                    :src="item.img"
-                  />
+                  >{{ item.icon  }}</v-icon>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -275,22 +269,22 @@ export default class OwnerRegisterForm extends Vue {
     {
       text: 'Email',
       value: 1,
-      img: '/imgs/logo-mail.png',
+      icon: 'mdi-email',
     },
     {
       text: 'Điện thoại',
       value: 2,
-      img: '/imgs/logo-phone.png',
+      icon:'mdi-phone-classic',
     },
     {
       text: 'Zalo',
       value: 3,
-      img: '/imgs/logo-zalo.jpg',
+      icon: 'mdi-alpha-z-circle',
     },
     {
       text: 'Facebook',
       value: 4,
-      img: '/imgs/logo-facebook.png',
+      icon: 'mdi-facebook',
     },
   ]
   private dateDialog = false

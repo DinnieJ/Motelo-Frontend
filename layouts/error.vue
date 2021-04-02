@@ -1,13 +1,18 @@
 <template>
   <v-app dark>
-    <v-btn color="primary" to="/" class="text-center"> Trang chủ </v-btn>
     <v-layout justify-center>
-      <div v-if="error.statusCode === 404">
-        <v-img lazy-src="/imgs/404-errrrr-page-11.jpg" contain />
+      <div class="d-flex flex-column align-center" v-if="error.statusCode == 404">
+        <h1 class="text-h1">404</h1>
+        <p>Bạn đang truy cập vào một trang không tồn tại, bấm vào đây để quay lại trang chủ</p>
+        <v-btn color="primary" class="mb-5" outlined to="/">Trang chủ</v-btn>
+        <v-img src="/imgs/obiwan.jpg" contain max-height="450"/>
       </div>
-      <h1 v-else>
-        <v-img lazy-src="/imgs/error.png" contain />
-      </h1>
+      <div class="d-flex flex-column align-center" v-else>
+        <h1 class="text-h1">Có lỗi xảy ra</h1>
+        <p>Có vấn đề xảy ra trong hệ thống</p>
+        <v-btn color="primary" class="mb-5" outlined to="/">Trang chủ</v-btn>
+        <v-img src="/imgs/error.jpg" contain max-height="450"/>
+      </div>
     </v-layout>
     
 

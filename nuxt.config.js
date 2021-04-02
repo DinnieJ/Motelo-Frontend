@@ -4,9 +4,9 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s',
-    title: 'Motelo - kênh hỗ trợ tân sinh viên đại học tìm kiếm nhà trọ',
+    title: 'Motelo - Kênh hỗ trợ tân sinh viên đại học tìm kiếm nhà trọ',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'vi',
     },
     meta: [
       { charset: 'utf-8' },
@@ -51,7 +51,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [['cookie-universal-nuxt', { parseJSON: false }], '@nuxtjs/pwa'],
+  modules: ['@nuxtjs/pwa'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -59,7 +59,7 @@ export default {
     theme: {
       themes: {
         light: {
-          primary: colors.lightBlue.accent1,
+          primary: colors.orange.accent4,
           accent: colors.grey.darken3,
           secondary: colors.pink.lighten1,
           info: colors.teal.lighten1,

@@ -1,10 +1,10 @@
 <template>
-  <v-container>
-    <section class="white pa-1 rounded">
+  <v-container pl-15 pr-15>
+    <section class="white pa-1 mb-5 rounded">
       <v-layout class="mb-3" justify-space-between>
-        <h1 class="primary--text text-left home__header">Cá nhân</h1>
+        <h1 class="primary--text home__header pl-5 pt-3">Cá nhân</h1>
 
-        <v-btn small rounded outlined color="primary"> Sửa </v-btn>
+        <v-btn small rounded outlined color="primary" class="mt-2 mr-2" to="/owner/profile/edit"> Sửa </v-btn>
       </v-layout>
 
       <v-row>
@@ -55,9 +55,9 @@
 
     <section class="white pa-1 mt-1 rounded">
       <v-layout class="mb-3" justify-space-between>
-        <h1 class="primary--text text-left home__header">Nhà trọ</h1>
+        <h1 class="primary--text text-left pl-5 pt-3 home__header">Nhà trọ</h1>
 
-        <v-btn small rounded outlined color="primary" to="/owner/inn/edit"> Sửa </v-btn>
+        <v-btn small rounded outlined color="primary" class="mt-2 mr-2" to="/owner/inn/edit"> Sửa </v-btn>
       </v-layout>
 
       <section class="white pa-1 rounded">

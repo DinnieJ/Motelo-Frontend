@@ -1,12 +1,13 @@
 <template>
   <v-container>
-    <section class="white pa-1 rounded">
+    <section class="white pa-1 pb-5 mb-6 mt-5 rounded">
       <v-layout class="mb-3" justify-space-between>
-        <h1 class="primary--text text-left home__header">Cá nhân</h1>
+        <h1 class="primary--text text-left home__header ml-5 mt-3">Cá nhân</h1>
 
-        <v-btn small rounded outlined color="primary" to="/personal/edit">
+        <v-btn small rounded outlined color="primary" class="mr-3 mt-3" to="/personal/edit">
           Sửa
         </v-btn>
+        <v-btn small rounded outlined color="secondary" class="mr-3 mt-3" to="/change-password">Đổi mật khẩu</v-btn>
       </v-layout>
 
       <v-row>
@@ -46,9 +47,9 @@
 
     <section class="white pa-1 mt-1 rounded">
       <v-layout justify-space-between class="mb-4">
-        <h1 class="secondary--text home__header">Yêu thích</h1>
+        <h1 class="secondary--text home__header ml-5 mt-3">Yêu thích</h1>
       </v-layout>
-      <v-row>
+      <v-row class="ma-5">
         <v-col
           cols="12"
           sm="4"
@@ -56,7 +57,11 @@
           v-for="room in roomCardObjs"
           :key="room.id"
         >
-          <room-card :room="room" />
+          <room-card           
+            tenantFavorite
+            @deleteFromList="removeRoomCard" 
+            :room="room" 
+          />
         </v-col>
       </v-row>
     </section>
@@ -96,7 +101,6 @@ export default class Personal extends Vue {
     await RoomRepository.getFavoriteList()
       .then((response) => {
         let rooms: any = response.data.data
-        console.log(rooms)
         this.roomCardObjs = rooms.map(function (item: any) {
           return new RoomCardDTO(item)
         })
@@ -108,5 +112,10 @@ export default class Personal extends Vue {
         this.loading = false
       })
   }
+
+  public removeRoomCard(id) {
+    var index = this.roomCardObjs.map((obj) => obj.id).indexOf(id);
+    this.roomCardObjs.splice(index,1);
+  } 
 }
 </script>

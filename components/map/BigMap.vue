@@ -106,7 +106,7 @@ import { mdiCircle } from '@mdi/js'
 })
 export default class BigMap extends Vue {
   @Prop() readonly inns!: any
-  private center: any = { lat: FPTLocation[0], lng: FPTLocation[1] }
+  @Prop({}) readonly center!: any
   private zoom: number = DefaultMapZoom
   private mapOptions = {
     zoomControl: true,

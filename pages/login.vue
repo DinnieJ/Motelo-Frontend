@@ -13,6 +13,7 @@ import { Getter, DispatchAction } from '@/constants/app.vuex'
 import { LoginDTO } from '@/constants/app.interface'
 import { ROLE } from '@/constants/app.constant'
 import { mapGetters } from 'vuex'
+import { getTokenCookie } from '~/utils/cookies'
 // eslint-disable-next-line no-use-before-define
 @Component<Login>({
   name: 'Login',
@@ -20,9 +21,10 @@ import { mapGetters } from 'vuex'
   components: {
     LoginForm,
   },
+  middleware: ['isLoggedIn'],
   computed: {
     ...mapGetters({
-      token: Getter.TOKEN
+      token: Getter.TOKEN,
     }),
   },
   async created() {
@@ -38,28 +40,31 @@ export default class Login extends Vue {
   private loading: boolean = false
   $notify: any
   public async handleSubmit(loginInfo: LoginDTO) {
-    this.loading = true
-    const login = await this.$store.dispatch(DispatchAction.LOGIN, loginInfo)
-    if (!login) {
-      this.$notify.showMessage({
-        message: 'Sai email hoặc mật khẩu',
-        color: 'red',
-      })
-    } else {
-      const role = this.$store.state.auth.role
-      switch(role) {
-        case ROLE.TENANT:
-          this.$router.push('/')
-          break
-        case ROLE.OWNER:
-          this.$router.push('/owner/home')
-          break
-        case ROLE.COLLABORATOR:
-          this.$router.push('/map')
-          break
+    console.log(loginInfo)
+    if (loginInfo) {
+      this.loading = true
+      const login = await this.$store.dispatch(DispatchAction.LOGIN, loginInfo)
+      if (!login) {
+        this.$notify.showMessage({
+          message: 'Sai email hoặc mật khẩu',
+          color: 'red',
+        })
+      } else {
+        const role = this.$store.state.auth.role
+        switch (role) {
+          case ROLE.TENANT:
+            this.$router.push('/')
+            break
+          case ROLE.OWNER:
+            this.$router.push('/owner/home')
+            break
+          case ROLE.COLLABORATOR:
+            this.$router.push('/map')
+            break
+        }
       }
+      this.loading = false
     }
-    this.loading = false
   }
 }
 </script>

@@ -377,7 +377,7 @@ export default class UpdateInn extends Vue {
 
   public acceptWarningDialog() {
     this.openWarningDialog = false
-    this.$router.push("owner/home")
+    this.$router.push("/owner/home")
   }
 
   public refuseWarningDialog() {

@@ -6,6 +6,7 @@ import {
   UTILITY_TYPE,
 } from './app.constant'
 import { Contact } from '@/constants/app.constant'
+import { getDateFromString } from '@/utils/dateparser'
 
 /* eslint-disable camelcase */
 export interface NavLink {
@@ -297,6 +298,7 @@ export class RoomDetailDTO {
         account_id: comment.tenant_id,
         name: comment.tenant_name,
         context: comment.comment,
+        time_context: comment.time_context
       })
     }
     this.comments = comments
@@ -334,6 +336,7 @@ export interface CommentDTO {
   account_id: number
   name: string
   context: string
+  time_context?: string
 }
 
 export class InnProfileDTO {

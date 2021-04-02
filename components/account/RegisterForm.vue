@@ -7,7 +7,7 @@
       <v-layout
         class="mt-3 d-flex flex-column"
       >
-        <v-autocomplete
+        <v-select
           v-model="form"
           name="type"
           :items="roles"
@@ -15,7 +15,7 @@
           item-value="role_id"
           outlined
           label="Bạn đăng ký theo tư cách"
-        ></v-autocomplete>
+        ></v-select>
         <tenant-register-form
           v-if="form == 'Tenant'"
           @submit="registerTenant"

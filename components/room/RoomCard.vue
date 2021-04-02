@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="8" rounded class="room__card">
+  <v-card elevation="8" rounded class="room__card" @mouseover="changeMapLocation">
     <nuxt-link :to="getLink()">
       <v-img
         :lazy-src="loadingImg"
@@ -7,6 +7,7 @@
         class="rounded"
         contain
         max-width="100%"
+        max-height="250"
       >
         <v-layout column justify-space-between class="room__img">
           <v-card-actions class="justify-space-between align-start">
@@ -53,15 +54,15 @@
             <!-- end verify btn -->
           </v-card-actions>
           <v-card-subtitle class="pa-0 ml-3">
-            <v-btn x-small depressed class="mb-2">
-              <v-icon x-small>{{ `mdi-${room.type.icon}` }}</v-icon>
+            <v-btn x-small depressed class="mb-2" color="primary">
+              <v-icon x-small left>{{ `mdi-${room.type.icon}` }}</v-icon>
               <span>{{ room.type.text }}</span>
             </v-btn>
           </v-card-subtitle>
         </v-layout>
       </v-img>
-      <v-card-title class="pa-2">
-        <p class="ma-0 room__title">
+      <v-card-title class="ml-3 pa-2">
+        <p class="ma-0 subtitle-1 font-weight-bold">
           {{ room.title }}
         </p>
       </v-card-title>
@@ -105,7 +106,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { RoomCardDTO } from '@/constants/app.interface'
 import RoomFavorBtn from './RoomFavorBtn.vue'
 import RoomVerifyIcon from './RoomVerifyIcon.vue'
@@ -135,6 +136,7 @@ import { Getter } from '@/constants/app.vuex'
 })
 export default class RoomCard extends Vue {
   @Prop({ type: Boolean, default: false }) readonly owner!: boolean
+  @Prop({ type: Boolean, default: false }) readonly tenantFavorite!: boolean
   @Prop({ type: Object, required: true }) readonly room!: any
   @Prop({ type: Function }) readonly clickDelete!: Function
   @Prop({ type: Number }) readonly index!: Number
@@ -206,10 +208,18 @@ export default class RoomCard extends Vue {
           message: `Bạn đã bỏ "${this.room.title}" khỏi danh sách yêu thích`,
           color: 'warning',
         })
+        if(this.tenantFavorite) {
+          this.deleteFromList()
+        }
       })
       .finally(() => {
         this.loadingFavorite = false
       })
+  }
+
+  @Emit('deleteFromList')
+  public deleteFromList() {
+    return this.room.id
   }
 
   public async verifyRoom() {
@@ -230,6 +240,11 @@ export default class RoomCard extends Vue {
       .finally(() => {
         this.loadingVerify = false
       })
+  }
+
+  @Emit()
+  public changeMapLocation() {
+    return this.room.location
   }
 }
 

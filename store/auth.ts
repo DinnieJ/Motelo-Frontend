@@ -62,7 +62,6 @@ export const actions: AuthAction<AuthState, RootState> = {
 
             setTokenCookie(data.token);
             setRoleCookie(data.role);
-
             return data
         } catch (error) {
             return false

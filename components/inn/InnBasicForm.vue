@@ -25,7 +25,7 @@
       <span>VNĐ/khối</span>
     </v-layout>
     <v-layout align-center>
-      <v-text-field class="text-h5" label="Wifi" type="number"></v-text-field>
+      <v-text-field class="text-h5" label="Wifi" type="number" v-model="basicInfo.wifi_price"></v-text-field>
       <span>VNĐ/tháng</span>
     </v-layout>
     
@@ -52,6 +52,7 @@ export default class InnBasicForm extends Vue {
     name: '',
     water_price: null,
     electric_price: null,
+    wifi_price: null
   }
 
   @Emit('next')

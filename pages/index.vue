@@ -49,7 +49,7 @@
             dense
             solo
             hide-details
-            placeholder="Search"
+            placeholder="Tìm kiếm"
             rounded
             append-icon="mdi-magnify"
             class="my-3"
@@ -79,8 +79,8 @@
 
     <section class="white pa-3 mt-1 rounded">
       <v-layout justify-space-between class="mb-4">
-        <h1 class="home__header">Bài đăng nhiều ưa thích</h1>
-        <v-btn small rounded outlined color="primary" to="/rooms">Thêm</v-btn>
+        <h1 class="home__header ml-5">Bài đăng nhiều ưa thích</h1>
+        <v-btn width="100" rounded outlined color="primary" to="/rooms">Thêm</v-btn>
       </v-layout>
       <v-row>
         <v-col
@@ -96,8 +96,8 @@
     </section>
     <section class="white pa-3 mt-1 rounded">
       <v-layout justify-space-between class="mb-4">
-        <h1 class="home__header">Bài đăng được xác thực</h1>
-        <v-btn small rounded outlined color="primary" to="/rooms">Thêm</v-btn>
+        <h1 class="home__header ml-5">Bài đăng được xác thực</h1>
+        <v-btn width="100" rounded outlined color="primary" to="/rooms">Thêm</v-btn>
       </v-layout>
       <v-row>
         <v-col
@@ -113,8 +113,8 @@
     </section>
     <section class="white pa-3 mt-1 rounded">
       <v-layout justify-space-between class="mb-4">
-        <h1 class="home__header">Bài đăng mới nhất</h1>
-        <v-btn small rounded outlined color="primary" to="/rooms">Thêm</v-btn>
+        <h1 class="home__header ml-5">Bài đăng mới nhất</h1>
+        <v-btn width="100" rounded outlined color="primary" to="/rooms">Thêm</v-btn>
       </v-layout>
       <v-row>
         <v-col
@@ -145,6 +145,7 @@ import SearchAddress from '@/components/map/SearchAddress.vue'
 
 import RoomRepository from '@/repositories/RoomRepository'
 import { LOADING_IMG } from '@/constants/app.constant'
+import { MutationState } from '~/constants/app.vuex'
 
 // eslint-disable-next-line no-use-before-define
 @Component<TenantHome>({
@@ -189,11 +190,9 @@ export default class TenantHome extends Vue {
   }
 
   public async search() {
+    this.$store.commit(MutationState.SET_KEYWORD, this.keyword)
     this.$router.push({
       path: '/rooms',
-      query: {
-        keyword: this.keyword,
-      },
     })
   }
 }

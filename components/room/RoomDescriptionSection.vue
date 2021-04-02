@@ -3,7 +3,7 @@
     <div>
       <v-layout>
         <h1 >
-          <v-icon class="mx-3" size="32" color="warning" dark>
+          <v-icon class="mb-3" size="32" color="warning" dark left>
             mdi-information
           </v-icon>
           <span>Mô tả thêm</span>

@@ -40,7 +40,7 @@
           </section>
           <v-row v-else>
             <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
-              <room-card :room="room" />
+              <room-card @change-map-location="setMapCenter" :room="room" />
             </v-col>
           </v-row>
 
@@ -50,13 +50,14 @@
             total-visible="7"
             circle
             @input="getRoomByFilter"
+            class="mt-3"
           ></v-pagination>
           </template>
           <template v-else>Không có kết quả để hiển thị</template>
         </v-col>
         <v-col md="6" cols="12">
           <!-- Map -->
-          <big-map :inns="inns"/>
+          <big-map :inns="inns" :center="centerMap"/>
         </v-col>
       </v-row>
     </section>
@@ -83,6 +84,7 @@ import SearchAddress from '@/components/map/SearchAddress.vue'
 import BigMap from '@/components/map/BigMap.vue'
 import { Framework } from 'vuetify'
 import { DispatchAction } from '~/constants/app.vuex'
+import { FPTLocation } from '~/constants/app.constant'
 
 declare module 'vue/types/vue' {
   // this.$vuetify inside Vue components
@@ -115,6 +117,8 @@ export default class List extends Vue {
   private totalPage: number = 1
 
   private inns: any[] = []
+
+  private centerMap: any = { lat: FPTLocation[0], lng:FPTLocation[1] }
 
   public async clickFilter() {
     await this.getRoomByFilter()
@@ -170,6 +174,12 @@ export default class List extends Vue {
    
 
     this.loading = false
+  }
+
+  public setMapCenter(location) {
+    if(JSON.stringify(this.centerMap) != JSON.stringify(location)) {
+      this.centerMap = location
+    }
   }
 }
 </script>

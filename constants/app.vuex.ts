@@ -23,7 +23,8 @@ export enum MutationState {
     SHOW_SNACKBAR = 'snackbar/showMessage',
     SET_TOKEN = "auth/setToken",
     SET_USER = "auth/setUser",
-    SET_ROLE = "auth/setRole"
+    SET_ROLE = "auth/setRole",
+    SET_KEYWORD = "search/setKeyword"
 }
 
 export enum Getter {

@@ -1,31 +1,31 @@
 <template>
   <div class="owner">
     <div>
-        <h1>
-          <v-icon class="mx-3" size="32" color="primary" dark>
-            mdi-book-account
-          </v-icon>
-          <span>Chủ phòng</span>
-        </h1>
+      <h1>
+        <v-icon class="mb-3 ml-3" size="32" color="primary" dark left>
+          mdi-book-account
+        </v-icon>
+        <span>Chủ phòng</span>
+      </h1>
       <v-divider />
     </div>
-    <v-layout class="my-4">
-      <v-img src="/imgs/logo-name.png" max-width="32" max-height="32"></v-img>
-      <p class="ml-6">{{ owner.name }}</p>
+    <v-layout class="pl-3 mt-4" d-flex align-center align-content-center>
+      <v-icon left large> mdi-account-circle </v-icon>
+      <p class="ml-3 mb-0">{{ owner.name }}</p>
     </v-layout>
     <div v-for="contact in contacts" :key="contact.type">
       <div v-if="owner[contact.name].length">
-        <v-layout class="my-4" v-for="item in owner[contact.name]" :key="item">
-          <v-img :src="contact.icon" max-width="32" max-height="32"></v-img>
+        <v-layout class="pl-3 mt-4" d-flex align-center align-content-center v-for="item in owner[contact.name]" :key="item">
+          <v-icon left large> mdi-{{ contact.icon }} </v-icon>
           <a
             v-if="contact.link"
-            class="ml-6"
             :href="preLink(contact.type) + item"
             target="_blank"
             rel="noopener noreferrer"
-            >{{ item }}</a
+            class="ml-3 mb-0"
           >
-          <div v-else class="ml-6">{{ item }}</div>
+            <span v-if="contact.type == 3">Zalo: </span>{{ item }}</a>
+          <div v-else class="ml-3">{{ item }}</div>
         </v-layout>
       </div>
     </div>

@@ -93,8 +93,6 @@
                 </v-btn>
 
                 <v-btn
-                  rounded
-                  outlined
                   color="warning"
                   @click="handleCancelClick()"
                   >Hủy</v-btn

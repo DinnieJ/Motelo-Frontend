@@ -6,7 +6,6 @@ import AuthRepository from '@/repositories/AuthRepository'
 
 export default async ({redirect, store}) => {
   const token = getTokenCookie();
-
   if (token) {
     const role = getRoleCookie()
     store.commit(MutationState.SET_ROLE, role)

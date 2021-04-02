@@ -17,6 +17,7 @@ import { LoginDTO, TenantRegisterDTO } from '@/constants/app.interface'
   components: {
     RegisterForm,
   },
+  middleware: ['isLoggedIn']
 })
 export default class Register extends Vue {
   private loading: boolean = false

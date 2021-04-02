@@ -80,6 +80,7 @@ export default class DetailRoom extends Vue {
           account_id: repos.data.comment.tenant_id,
           name: repos.data.comment.tenant_name,
           context: comment,
+          time_context: repos.data.comment.time_context
         })
         this.$notify.showMessage({
           message: `Bạn đã thêm nhận xét cho "${this.room.title}"`,
@@ -96,6 +97,8 @@ export default class DetailRoom extends Vue {
       .then((repos) => {
         let editedComment = this.comments.findIndex((cmt) => cmt.id === id)
         this.comments[editedComment].context = repos.data.comment.comment
+        this.comments[editedComment].time_context = repos.data.comment.time_context
+        console.log(repos.data);
         this.$notify.showMessage({
           message: 'Bạn đã sửa bình luận thành công',
           color: 'success',
@@ -122,6 +125,7 @@ export default class DetailRoom extends Vue {
   }
 
   public async favorRoom() {
+    this.favorite = false
     await RoomRepository.favorRoom(this.id).then((repos) => {
       this.favorite = true
       this.$notify.showMessage({
@@ -132,6 +136,7 @@ export default class DetailRoom extends Vue {
   }
 
   public async unfavorRoom() {
+    this.favorite = false
     await RoomRepository.unfavorRoom(this.id).then((repos) => {
       this.favorite = false
       this.$notify.showMessage({
@@ -142,7 +147,6 @@ export default class DetailRoom extends Vue {
   }
 
   public async verifyRoom() {
-    console.log('verifyRoom')
     await RoomRepository.verifyRoom(this.room.id)
       .then((repos) => {
         this.verify = true

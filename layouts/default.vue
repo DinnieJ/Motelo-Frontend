@@ -137,6 +137,7 @@
     <v-main class="main">
       <nuxt />
     </v-main>
+    <base-footer/>
   </v-app>
 </template>
 

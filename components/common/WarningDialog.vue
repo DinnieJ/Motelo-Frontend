@@ -5,7 +5,7 @@
         {{ title }}
       </v-card-title>
 
-      <v-card-text v-html="content">
+      <v-card-text class="mt-5 pl-4 pr-4" v-html="content">
       </v-card-text>
 
       <v-divider></v-divider>
