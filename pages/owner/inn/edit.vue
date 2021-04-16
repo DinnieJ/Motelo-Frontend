@@ -486,7 +486,7 @@ export default class UpdateInn extends Vue {
           color: 'success',
         })
         setTimeout(() => {
-          this.$router.push("owner/home")
+          this.$router.push("/owner/home")
         }, 400)
       })
       .catch((error) => {
@@ -495,7 +495,7 @@ export default class UpdateInn extends Vue {
           color: 'red',
         })
         setTimeout(() => {
-          this.$router.push("owner/home")
+          this.$router.push("/owner/home")
         }, 400)
       })
   }

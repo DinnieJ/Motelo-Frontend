@@ -49,21 +49,22 @@
                 ></v-text-field>
                 <v-layout align-center>
                   <v-text-field
-                    class="right-text-field"
                     label="Tiền thuê"
                     type="number"
+                    min="0"
                     name="price"
                     v-model="formData.price"
+                    @keypress="checkNumber($event)"
                   ></v-text-field>
-                  <span class="pb-1">00.000 VNĐ/tháng</span>
+                  <span class="pb-1 ml-2">VNĐ/tháng</span>
                 </v-layout>
                 <v-layout align-center>
                   <v-text-field
-                    class="right-text-field"
                     label="Diện tích"
                     type="number"
                     name="acreage"
                     v-model="formData.acreage"
+                    @keypress="checkNumber($event)"
                   ></v-text-field>
                   <span class="pb-1">m²</span>
                 </v-layout>
@@ -74,18 +75,11 @@
                   item-value="id"
                   v-model="formData.room_type_id"
                 ></v-select>
-                <v-select
-                  label="Giới tính"
-                  :items="genders"
-                  item-text="text"
-                  item-value="id"
-                  v-model="formData.gender_type_id"
-                ></v-select>
                 <v-textarea
                   label="Miêu tả thêm"
                   outlined
                   auto-grow
-                  rows="2"
+                  rows="4"
                   v-model="formData.description"
                 ></v-textarea>
                 <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
@@ -125,12 +119,7 @@
                   >
                     Hoàn thành
                   </v-btn>
-                  <v-btn
-                    class="mr-3"
-                    @click="preTab"
-                  >
-                    Trở lại
-                  </v-btn>
+                  <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
                 </v-layout>
               </v-form>
             </v-tab-item>
@@ -154,6 +143,7 @@ import WarningDialog from '@/components/common/WarningDialog.vue'
 import { TextIcon } from '@/constants/app.interface'
 import { ROOM_TYPES, GENDER, CAPACITY } from '@/constants/app.constant'
 import RoomReponsitory from '@/repositories/RoomRepository'
+import { isNumber } from '@/utils/validation'
 
 @Component<RoomCreateRequest>({
   name: 'RoomCreateRequest',
@@ -183,6 +173,8 @@ export default class RoomCreateRequest extends Vue {
       disabled: true,
     },
   ]
+
+  private checkNumber = isNumber 
   private roomTypes: TextIcon[] = ROOM_TYPES
   private genders: TextIcon[] = GENDER
   private capacityDefault = CAPACITY
@@ -193,12 +185,12 @@ export default class RoomCreateRequest extends Vue {
 
   private formData = {
     title: '',
-    price: 0,
+    price: '',
     room_type_id: '',
-    gender_type_id: '',
+    gender_type_id: 1,
     owner_id: 0,
     description: '',
-    acreage: 0,
+    acreage: '',
     capacity: [CAPACITY.MIN, CAPACITY.MAX],
   }
 
@@ -220,7 +212,7 @@ export default class RoomCreateRequest extends Vue {
 
   public acceptWarningDialog() {
     this.openWarningDialog = false
-    this.$router.push("owner/requests")
+    this.$router.push('/owner/requests')
   }
 
   public refuseWarningDialog() {
@@ -236,12 +228,12 @@ export default class RoomCreateRequest extends Vue {
   }
 
   async submitForm() {
-    const formData = new FormData();
+    const formData = new FormData()
     formData.append('title', this.formData.title)
     formData.append('room_type_id', this.formData.room_type_id)
-    formData.append('price', (this.formData.price * 100000).toString())
+    formData.append('price', this.formData.price.toString())
     formData.append('acreage', this.formData.acreage.toString())
-    formData.append('gender_type_id', this.formData.gender_type_id)
+    formData.append('gender_type_id', this.formData.gender_type_id.toString())
     formData.append('description', this.formData.description)
 
     this.images.forEach((image, i) => {
@@ -249,14 +241,20 @@ export default class RoomCreateRequest extends Vue {
     })
 
     await RoomReponsitory.createRoom(formData)
-      .then(response => {
-        this.$notify.showMessage({ message: "Đăng thành công", color: "success"})
+      .then((response) => {
+        this.$notify.showMessage({
+          message: 'Đăng thành công',
+          color: 'success',
+        })
         setTimeout(() => {
-          this.$router.push("owner/requests")
+          this.$router.push('/owner/requests')
         }, 400)
       })
-      .catch(error => {
-        this.$notify.showMessage({ message: "Tạo không thành công", color: "red"})
+      .catch((error) => {
+        this.$notify.showMessage({
+          message: 'Tạo không thành công',
+          color: 'red',
+        })
       })
   }
 

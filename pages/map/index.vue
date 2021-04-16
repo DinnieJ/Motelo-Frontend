@@ -202,7 +202,9 @@ export default class FullMap extends Vue {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         }
-      })
+      }, error => {
+        console.log(error)
+      }, {maximumAge: 0})
     }
   }
 

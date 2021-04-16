@@ -73,7 +73,9 @@ export default class AddressForm extends Vue {
               console.log('get current address = ', err)
             })
         }
-      )
+      , error => {
+        console.log(error)
+      }, {maximumAge: 0})
     }
   }
 

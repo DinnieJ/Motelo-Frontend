@@ -35,7 +35,7 @@ export const COOKIES = {
 }
 
 export const LOADING_IMG =
-  'https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif'
+  '/imgs/loading.gif'
 
 export const PRICE_FILTER = {
   MAX: 9,
@@ -110,6 +110,13 @@ export const NAV_LINKS: NavLink[] = [
     icon: 'home',
     roles: [ROLE.COLLABORATOR],
   },
+  {
+    code: 'banner',
+    text: 'Quản lí banner',
+    to: '/banner',
+    icon: 'view-carousel',
+    roles: [ ROLE.COLLABORATOR ]
+  }
 ]
 
 export const AMEENITIES: TextIcon[] = [

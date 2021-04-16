@@ -203,7 +203,9 @@ export default class CreateUtility extends Vue {
               console.log('get current address = ', err)
             })
         }
-      )
+      , error => {
+        console.log(error)
+      }, {maximumAge: 0})
     }
   }
   public async getAllMarker() {

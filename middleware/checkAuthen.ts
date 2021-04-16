@@ -36,7 +36,15 @@ export default async ({redirect, store}) => {
             })
           break
         case ROLE.COLLABORATOR:
-          store.commit(MutationState.SET_USER, ROLE.COLLABORATOR)
+          await AuthRepository.getCollaborator()
+            .then((response) => {
+              store.commit(MutationState.SET_USER, response.data)
+            })
+            .catch((error) => {
+              store.dispatch(DispatchAction.CLEAR_AUTH)
+              redirect('/login')
+            })
+          break
       }
     } catch (e) {}
   }

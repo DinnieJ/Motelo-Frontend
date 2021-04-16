@@ -129,7 +129,7 @@
   </v-layout>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit, PropSync } from 'vue-property-decorator'
 import {
   ValidationObserver,
   ValidationProvider,
@@ -178,6 +178,8 @@ extend('regex', {
   },
 })
 export default class TenantRegisterForm extends Vue {
+
+  @PropSync('loading') asyncLoading!: boolean
   $notify: any
   private registerInfo: TenantRegisterDTO = {
     name: '',

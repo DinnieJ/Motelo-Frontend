@@ -1,5 +1,5 @@
 <template>
-  <v-footer dark padless>
+  <v-footer dark padless v-show="isDesktop">
     <v-card flat class="primary lighten-1 white--text text-center" width="100%">
       <v-card-text>
         <v-btn v-for="icon in icons" :key="icon.link" class="mx-4 white--text" :href="icon.link" icon>
@@ -29,5 +29,13 @@ export default class Footer extends Vue {
         { link: 'http://hanoi.fpt.edu.vn/', icon: 'mdi-earth' },
         { link: 'mailto:tuyensinh.hanoi@fpt.edu.vn', icon: 'mdi-email' }
     ]
+
+    public isMobile(): boolean {
+      return this.$vuetify.breakpoint.smAndDown
+    }
+
+    public isDesktop() :boolean {
+      return this.$vuetify.breakpoint.smAndUp
+    }
 }
 </script>
