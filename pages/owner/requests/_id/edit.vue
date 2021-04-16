@@ -51,21 +51,21 @@
                 ></v-text-field>
                 <v-layout align-center>
                   <v-text-field
-                    class="right-text-field"
                     label="Tiền thuê"
                     type="number"
                     name="price"
                     v-model="formData.price"
+                    @keypress="checkNumber($event)"
                   ></v-text-field>
-                  <span class="pb-1">00.000 VNĐ/tháng</span>
+                  <span class="pb-1">VNĐ/tháng</span>
                 </v-layout>
                 <v-layout align-center>
                   <v-text-field
-                    class="right-text-field"
                     label="Diện tích"
                     type="number"
                     name="acreage"
                     v-model="formData.acreage"
+                    @keypress="checkNumber($event)"
                   ></v-text-field>
                   <span class="pb-1">m²</span>
                 </v-layout>
@@ -80,13 +80,6 @@
                   v-model="formData.available"
                   :label="formData.available ? 'Còn phòng' : 'Hết phòng'"
                 ></v-switch>
-                <v-select
-                  label="Giới tính"
-                  :items="genders"
-                  item-text="text"
-                  item-value="id"
-                  v-model="formData.gender_type_id"
-                ></v-select>
                 <v-textarea
                   label="Miêu tả thêm"
                   outlined
@@ -170,6 +163,7 @@ import WarningDialog from '@/components/common/WarningDialog.vue'
 import { RoomDetailDTO, TextIcon } from '@/constants/app.interface'
 import { ROOM_TYPES, GENDER, LOADING_IMG } from '@/constants/app.constant'
 import RoomRepository from '@/repositories/RoomRepository'
+import { isNumber } from '@/utils/validation'
 
 @Component<RoomUpdateRequest>({
   name: 'RoomUpdateRequest',
@@ -188,6 +182,8 @@ export default class RoomUpdateRequest extends Vue {
   private acceptPolicy: boolean = false
   private openWarningDialog: boolean = false
   $notify: any
+
+  private checkNumber = isNumber
 
   // when policy isn't accepted, disable all except policy
   private tabHeaders = [
@@ -214,7 +210,7 @@ export default class RoomUpdateRequest extends Vue {
     title: '',
     price: 0,
     room_type_id: -1,
-    gender_type_id: -1,
+    gender_type_id: 1,
     description: '',
     acreage: 0,
     available: true,
@@ -281,7 +277,7 @@ export default class RoomUpdateRequest extends Vue {
     const formData = new FormData()
     formData.append('room_id', this.id)
     formData.append('title', this.formData.title)
-    formData.append('price', (this.formData.price / 10).toString())
+    formData.append('price', (this.formData.price).toString())
     formData.append('room_type_id', this.formData.room_type_id.toString())
     formData.append('gender_type_id', this.formData.gender_type_id.toString())
     formData.append('description', this.formData.description)

@@ -49,7 +49,7 @@ import AuthRepository from '@/repositories/AuthRepository'
 export default class RegisterForm extends Vue {
   $notify: any
   private form = ROLE.TENANT
-
+  private loading: boolean = false;
   private roles: object[] = [
     {
       role_id: ROLE.TENANT,

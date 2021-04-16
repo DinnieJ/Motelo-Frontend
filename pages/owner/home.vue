@@ -2,9 +2,12 @@
   <v-container pl-15 pr-15>
     <section class="white pa-1 mb-5 rounded">
       <v-layout class="mb-3" justify-space-between>
-        <h1 class="primary--text home__header pl-5 pt-3">Cá nhân</h1>
+        <h1 class="primary--text home__header pl-5 pt-3">Thông tin cá nhân</h1>
 
-        <v-btn small rounded outlined color="primary" class="mt-2 mr-2" to="/owner/profile/edit"> Sửa </v-btn>
+        <v-btn rounded color="primary" class="mt-2 mr-2" to="/owner/profile/edit">
+          <v-icon left>mdi-tools</v-icon>
+          Sửa thông tin 
+        </v-btn>
       </v-layout>
 
       <v-row>
@@ -23,11 +26,11 @@
         >
           <div>
             <v-layout align-center class="mb-3">
-              <v-icon size="24" class="mr-4">mdi-account</v-icon>
+              <v-icon size="24" left>mdi-account</v-icon>
               <span>{{ user.name }}</span>
             </v-layout>
             <v-layout align-center class="mb-3">
-              <v-icon size="24" class="mr-4">mdi-cake</v-icon>
+              <v-icon size="24" left>mdi-cake</v-icon>
               <span>{{ user.date_of_birth }}</span>
             </v-layout>
             <div>
@@ -37,14 +40,11 @@
                 align-center
                 class="mb-3"
               >
-                <v-img
-                  contain
-                  max-width="24px"
+                <v-icon
+                  left
+                  max-width="24"
                   max-height="24"
-                  :lazy-src="loadingImg"
-                  :src="getContactImg(contact.contact_type_id)"
-                  class="mr-4"
-                />
+                >mdi-{{ getContactImg(contact.contact_type_id) }}</v-icon>
                 <span>{{ contact.content }}</span>
               </v-layout>
             </div>
@@ -55,9 +55,12 @@
 
     <section class="white pa-1 mt-1 rounded">
       <v-layout class="mb-3" justify-space-between>
-        <h1 class="primary--text text-left pl-5 pt-3 home__header">Nhà trọ</h1>
+        <h1 class="primary--text text-left pl-5 pt-3 home__header">Nhà trọ của bạn</h1>
 
-        <v-btn small rounded outlined color="primary" class="mt-2 mr-2" to="/owner/inn/edit"> Sửa </v-btn>
+        <v-btn rounded color="primary" class="mt-2 mr-2" to="/owner/inn/edit">
+          <v-icon left>mdi-tools</v-icon>
+          Sửa thông tin 
+        </v-btn>
       </v-layout>
 
       <section class="white pa-1 rounded">
@@ -149,8 +152,7 @@ export default class OwnerHome extends Vue {
     await InnRepository.getInnDetailByOwner().then(
       (response) => {
         const inn = response.data
-        console.log('inn =', response.data)
-        // features
+
         let amenities: number[] = []
         let security: number[] = []
         for (let amenity of inn.features) {

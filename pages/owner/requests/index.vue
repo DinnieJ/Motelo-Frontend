@@ -1,35 +1,63 @@
 <template>
   <v-container>
-    <v-sheet min-height="60vh" rounded="lg" class="pa-3">
+    <v-sheet min-height="80vh" rounded="lg" class="pa-5">
       <v-layout justify-space-between class="my-5">
-        <h1>Bài đăng</h1>
-        <v-btn rounded outlined color="primary" to="/owner/requests/create"
-          >Tạo mới</v-btn
-        >
+        <h1 class="display-1 primary--text">Phòng của bạn</h1>
+        <v-btn rounded color="primary" to="/owner/requests/create">
+          <v-icon left>mdi-plus</v-icon> Tạo mới
+        </v-btn>
       </v-layout>
-      <v-row>
-        <v-col
-          cols="12"
-          sm="4"
-          md="3"
-          v-for="(room, index) in requests"
-          :key="room.id"
-        >
-          <room-card
-            owner
-            :room="room"
-            :index="index"
-            :clickDelete="clickDelete"
-          />
-        </v-col>
-      </v-row>
-      <v-pagination
-        v-model="page"
-        :length="totalPage"
-        total-visible="7"
-        circle
-        @input="getAllOwnRequests"
-      ></v-pagination>
+      <v-layout d-flex justify-center align-center v-if="loading">
+        <v-progress-circular
+          size="200"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+      </v-layout>
+        <div v-else>
+          <div v-if="requests.length > 0">
+            <v-row>
+              <v-col
+                cols="12"
+                sm="4"
+                md="3"
+                v-for="(room, index) in requests"
+                :key="room.id"
+              >
+                <room-card
+                  owner
+                  :room="room"
+                  :index="index"
+                  :clickDelete="clickDelete"
+                />
+              </v-col>
+            </v-row>
+            <v-pagination
+              class="mt-3"
+              v-model="page"
+              :length="totalPage"
+              total-visible="7"
+              circle
+              @input="getAllOwnRequests"
+            ></v-pagination>
+          </div>
+          <v-layout
+            d-flex
+            column
+            justify-center
+            align-center
+            align-content-center
+            v-else
+          >
+            <h1 class="display-2 font-weight-light text-center">
+              Bạn chưa tạo phòng nào
+            </h1>
+            <p class="caption mt-3">Bấm vào tạo mới để thêm phòng</p>
+            <v-btn rounded color="primary" to="/owner/requests/create">
+              <v-icon left>mdi-plus</v-icon> Tạo mới
+            </v-btn>
+          </v-layout>
+        </div>
     </v-sheet>
     <warning-dialog
       title="Xoá yêu cầu"
@@ -64,6 +92,7 @@ import RoomRepository from '@/repositories/RoomRepository'
   },
 })
 export default class OwnerRequests extends Vue {
+  private loading: boolean = false
   private requests: RoomCardDTO[] = []
   private openWarningDialog: boolean = false
   private warningDialogContent: string = ''
@@ -75,6 +104,7 @@ export default class OwnerRequests extends Vue {
   // demo get data from api
 
   public async getAllOwnRequests() {
+    this.loading = true
     await RoomRepository.getOwnerRoom({ page: this.page })
       .then((response) => {
         let rooms: any = response.data.data
@@ -83,9 +113,9 @@ export default class OwnerRequests extends Vue {
         })
         this.totalPage = response.data.total_page
       })
-      .catch((error) => {
-        console.log('getAllOwnRequests', error)
-      })
+      .catch((error) => {})
+
+    this.loading = false
   }
 
   public clickDelete(event: Event, index: number) {
