@@ -31,16 +31,17 @@
           <h1 class="primary--text text-center mb-3 home__title">
             Tìm kiếm chỗ ở
           </h1>
-          <p class="text-center mb-3 home__subtitle">
+          <p class="text-center mb-3 text-h6">
             Chúng tôi luôn tự hào vì giúp đỡ các bạn sinh viên, nhất là các bạn
             sinh viên mới nhập học tìm kiếm chỗ ở bên ngoài khuôn viên của
             trường.
           </p>
           <v-row class="mb-3 mt-2">
-            <v-col cols="6" md="3" class="pa-1">
+            <v-col cols="12" sm="6" md="3" class="pa-1">
               <v-layout
                 class="d-flex justify-center column align-center pa-3"
                 elevation-4
+                fill-height
               >
                 <v-icon x-large color="primary" class="justify-center mt-5"
                   >mdi-emoticon-happy-outline</v-icon
@@ -53,10 +54,11 @@
                 </p>
               </v-layout>
             </v-col>
-            <v-col cols="6" sm="3" class="pa-1">
+            <v-col cols="12" sm="6" md="3" class="pa-1">
               <v-layout
                 class="d-flex justify-center column align-center pa-3"
                 elevation-4
+                fill-height
               >
                 <v-icon x-large color="primary" class="justify-center mt-5"
                   >mdi-home-outline</v-icon
@@ -69,9 +71,10 @@
                 </p>
               </v-layout>
             </v-col>
-            <v-col cols="6" md="3" class="pa-1">
+            <v-col cols="12" sm="6" md="3" class="pa-1">
               <v-layout
                 class="d-flex justify-center column align-center pa-3"
+                fill-height
                 elevation-4
               >
                 <v-icon x-large color="primary" class="justify-center mt-5"
@@ -85,10 +88,11 @@
                 </p>
               </v-layout>
             </v-col>
-            <v-col cols="6" sm="3" class="pa-1">
+            <v-col cols="12" sm="6" md="3" class="pa-1">
               <v-layout
                 class="d-flex justify-center column align-center pa-3"
                 elevation-4
+                fill-height
               >
                 <v-icon x-large color="primary" class="justify-center mt-5"
                   >mdi-message-text-outline</v-icon
@@ -102,11 +106,12 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="8" offset="2">
+            <v-col cols="10" offset="1">
               <v-text-field
                 dense
                 solo
                 hide-details
+                height="50"
                 placeholder="Tìm kiếm"
                 rounded
                 append-icon="mdi-magnify"

@@ -4,9 +4,13 @@
       <v-layout class="mb-3" justify-space-between>
         <h1 class="primary--text home__header pl-5 pt-3">Thông tin cá nhân</h1>
 
-        <v-btn rounded color="primary" class="mt-2 mr-2" to="/owner/profile/edit">
+        <v-btn rounded color="primary" small class="mt-2 mr-2" to="/owner/profile/edit">
           <v-icon left>mdi-tools</v-icon>
           Sửa thông tin 
+        </v-btn>
+        <v-btn rounded color="secondary" small class="mt-2 mr-2" to="/change-password">
+          <v-icon left>mdi-key</v-icon>
+          Đổi mật khẩu
         </v-btn>
       </v-layout>
 
@@ -57,7 +61,7 @@
       <v-layout class="mb-3" justify-space-between>
         <h1 class="primary--text text-left pl-5 pt-3 home__header">Nhà trọ của bạn</h1>
 
-        <v-btn rounded color="primary" class="mt-2 mr-2" to="/owner/inn/edit">
+        <v-btn rounded small color="primary" class="mt-2 mr-2" to="/owner/inn/edit">
           <v-icon left>mdi-tools</v-icon>
           Sửa thông tin 
         </v-btn>

@@ -52,7 +52,7 @@
             <h1 class="display-2 font-weight-light text-center">
               Bạn chưa tạo phòng nào
             </h1>
-            <p class="caption mt-3">Bấm vào tạo mới để thêm phòng</p>
+            <p class="subtitle-1 mt-3">Bấm vào tạo mới để thêm phòng</p>
             <v-btn rounded color="primary" to="/owner/requests/create">
               <v-icon left>mdi-plus</v-icon> Tạo mới
             </v-btn>

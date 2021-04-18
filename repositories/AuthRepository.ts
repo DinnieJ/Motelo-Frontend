@@ -64,4 +64,12 @@ export default class AuthRepository {
   public static getCollaborator(): Promise<AxiosResponse<any>> {
     return authenticatedService.get(`${Endpoint.AuthCollaborator}/user`)
   }
+
+  public static changePassword(old_password: any, new_password: any): Promise<AxiosResponse<any>> {
+    return authenticatedService.post(`${Endpoint.Auth}/change-password`, { old_password, new_password })
+  }
+
+  public static forgotPassword(role: any, email: any) : Promise<AxiosResponse<any>> {
+    return authenticatedService.post(`${ Endpoint.Auth }/forgot-password`, { role, email })
+  }
 }

@@ -2,8 +2,6 @@
   <v-layout d-flex justify-center class="rounded white">
     <div class="auth__section pa-2">
       <h1 class="primary--text text-center auth__title">ĐĂNG KÝ</h1>
-      <p class="text-center auth__subtitle"><i>Trở thành 1 phần của chúng tôi</i></p>
-
       <v-layout
         class="mt-3 d-flex flex-column"
       >

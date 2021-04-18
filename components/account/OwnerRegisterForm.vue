@@ -166,10 +166,21 @@
             :error-messages="errors"
           ></v-text-field>
         </validation-provider>
-        <v-checkbox
-          v-model="confirmPolicy"
-          label="Tôi đã đọc kĩ điểu khoản và đồng ý sử dụng"
-        ></v-checkbox>
+        <v-checkbox v-model="confirmPolicy">
+          <template v-slot:label>
+            <div>
+              Tôi đã đọc kĩ
+                  <a
+                    target="_blank"
+                    href="/policy"
+                    @click.stop
+                  >
+                    điều khoản
+                  </a>
+              và đồng ý sử dụng
+            </div>
+          </template>
+        </v-checkbox>
         <v-btn
           color="primary"
           :disabled="invalid"

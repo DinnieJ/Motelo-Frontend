@@ -81,7 +81,7 @@
           </v-card-title>
           <v-card-text class="mb-2">
             <p class="text-center secondary--text">
-              <span class="font-weight-bold">{{ room.price / 1000000 }}</span>
+              <span class="font-weight-bold text-h6">{{ room.price / 1000000 }}</span>
               <i>tr VND/tháng</i>
             </p>
             <v-row>
@@ -101,11 +101,11 @@
                 <v-layout column align-center>
                   <v-icon>mdi-check-circle-outline</v-icon>
                   <span
-                    class="room__smaller success--text"
+                    class="room__smaller success--text font-weight-bold"
                     v-if="room.available"
                     >Còn phòng</span
                   >
-                  <span class="room__smaller warning--text" v-else
+                  <span class="room__smaller warning--text font-weight-bold" v-else
                     >Hết phòng</span
                   >
                 </v-layout>

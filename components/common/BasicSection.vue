@@ -11,29 +11,29 @@
     </div>
     <v-row class="mt-3 pl-3 pr-3">
       <v-col cols="6" md="3" v-if="!forInn">
-        <p class="caption font-italic">GIÁ PHÒNG</p>
+        <p class="caption">GIÁ PHÒNG</p>
         <h3 class="font-weight-light">
           {{ `${numberFormat.format(price)} đồng` }}
         </h3>
       </v-col>
       <v-col cols="6" md="3" v-if="!forInn">
-        <p class="caption font-italic">DIỆN TÍCH</p>
+        <p class="caption">DIỆN TÍCH</p>
         <h3 class="font-weight-light">{{ `${area} mét vuông` }}</h3>
       </v-col>
       <v-col cols="6" md="3" v-if="!forInn">
-        <p class="caption font-italic">GIỚI TÍNH</p>
+        <p class="caption">GIỚI TÍNH</p>
         <h3 class="font-weight-light">
           {{ gender }}
         </h3>
       </v-col>
       <v-col cols="6" :md="forInn ? 4 : 3" v-if="electric">
-        <p class="caption font-italic">ĐIỆN</p>
+        <p class="caption">ĐIỆN</p>
         <h3 class="font-weight-light">
           {{ `${numberFormat.format(electric)} đồng` }}
         </h3>
       </v-col>
       <v-col cols="6" :md="forInn ? 4 : 3" v-if="water">
-        <p class="caption font-italic">NƯỚC</p>
+        <p class="caption">NƯỚC</p>
         <h3 class="font-weight-light">
           {{ `${numberFormat.format(water)} đồng` }}
         </h3>
@@ -45,17 +45,17 @@
         </h3>
       </v-col>
       <v-col cols="6" md="3" v-if="!forInn">
-        <p class="caption font-italic">TRẠNG THÁI</p>
+        <p class="caption">TRẠNG THÁI</p>
         <h3 class="font-weight-light">
-          <span v-if="available" class="success--text">Còn phòng</span>
-          <span v-else class="warning--text">Hết phòng</span>
+          <span v-if="available" class="font-weight-bold success--text">Còn phòng</span>
+          <span v-else class="font-weight-bold warning--text">Hết phòng</span>
         </h3> </v-col
       ><v-col cols="12">
-        <p class="caption font-weight-thin font-italic">NHÀ TRỌ</p>
+        <p class="caption">NHÀ TRỌ</p>
         <h3 class="font-weight-light">
           {{ inn_name }}
         </h3>
-        <p class="font-weight-light mt-2">ĐỊA CHỈ: <i>{{ address }}</i></p>
+        <p class="font-weight-light mt-2">ĐỊA CHỈ: {{ address }}</p>
       </v-col>
     </v-row>
   </div>

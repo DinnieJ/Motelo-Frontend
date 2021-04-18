@@ -87,13 +87,13 @@ export const NAV_LINKS: NavLink[] = [
     roles: [ROLE.GUEST],
   },
   // Tenant link
-  {
-    code: 'roommate',
-    text: 'Ở ghép',
-    to: '/roommate',
-    icon: 'account-plus',
-    roles: [ROLE.TENANT],
-  },
+  // {
+  //   code: 'roommate',
+  //   text: 'Ở ghép',
+  //   to: '/roommate',
+  //   icon: 'account-plus',
+  //   roles: [ROLE.TENANT],
+  // },
   // Owner links
   {
     code: 'owner_room',
