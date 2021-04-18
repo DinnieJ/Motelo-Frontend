@@ -156,6 +156,8 @@ import axios from 'axios'
   async created() {
     await this.getAllMarker()
   },
+
+  middleware: ['checkAuthen', 'isCollaborator']
 })
 export default class CreateUtility extends Vue {
   private center: any = { lat: 0, lng: 0 }

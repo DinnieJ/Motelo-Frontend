@@ -336,6 +336,7 @@ export default class UpdateInn extends Vue {
     name: '',
     water_price: 0,
     electric_price: 0,
+    wifi_price: 0,
     open_hour: '0',
     open_minute: '0',
     close_hour: '0',

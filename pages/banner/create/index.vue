@@ -210,7 +210,6 @@ export default class CreateBanner extends Vue {
 
   @Watch('formData.start_time')
   public changeTime() {
-    console.log(this.formData.start_time)
     if (new Date(this.formData.start_time) > new Date(this.formData.end_time)) {
       this.formData.end_time = this.formData.start_time
     }

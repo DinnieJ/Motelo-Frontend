@@ -1,6 +1,6 @@
 <template>
 <v-btn 
-  :x-small="!roomDetail" 
+  :small="!roomDetail" 
   @click="clickFavor" 
   :color="btnColor" 
   :outlined="roomDetail && !asyncFavorite" 

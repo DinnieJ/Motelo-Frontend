@@ -1,7 +1,6 @@
 <template>
   <section class="auth__section pa-2">
     <h1 class="primary--text text-center auth__title">ĐĂNG NHẬP</h1>
-    <p class="text-center auth__subtitle"><i>Chào mừng bạn quay trở lại</i></p>
 
     <validation-observer ref="formObserver" v-slot="{ invalid }">
       <v-form
@@ -54,7 +53,7 @@
           Đăng nhập
         </v-btn>
         <p class="mt-5 text-center">Chưa có tài khoản? Bấm <span class="text-primary"><nuxt-link to="/register">vào đây</nuxt-link></span> để đăng kí</p>
-        <nuxt-link to="/forgot" class="text-center mt-5">Quên mật khẩu</nuxt-link>
+        <nuxt-link to="/forgot-password" class="text-center mt-5">Quên mật khẩu</nuxt-link>
         <v-img :lazy-src="loadingImg" src="/imgs/undraw_city_life_gnpr.svg" />
       </v-form>
     </validation-observer>
@@ -69,7 +68,8 @@ import { required, email, min, max } from 'vee-validate/dist/rules'
 import { LoginRule } from '@/constants/app.interface'
 import { ROLE, LOADING_IMG } from '@/constants/app.constant'
 
-setInteractionMode("eager")
+setInteractionMode("aggressive")
+
 extend('required', {
   ...required,
   message: 'Bạn không được để trống trường này',
@@ -95,6 +95,7 @@ extend('min', {
   },
 
   created() {
+    
   }
   // eslint-disable-next-line no-undef
 })
