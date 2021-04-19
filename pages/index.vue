@@ -6,8 +6,7 @@
         delimiter-icon="mdi-minus"
         cycle
         eager
-        min-height="500"
-        max-height="700"
+        height="700"
       >
         <v-carousel-item
           v-for="(item, i) in banners"
@@ -22,7 +21,7 @@
         </v-carousel-item>
       </v-carousel>
     </section>
-    <section class="white pa-3 rounded">
+    <section class="white pa-3 mt-3 rounded search-block">
       <v-row>
         <v-col
           cols="12"
@@ -31,7 +30,7 @@
           <h1 class="primary--text text-center mb-3 home__title">
             Tìm kiếm chỗ ở
           </h1>
-          <p class="text-center mb-3 text-h6">
+          <p class="text-center mb-3 text-h6 white--text">
             Chúng tôi luôn tự hào vì giúp đỡ các bạn sinh viên, nhất là các bạn
             sinh viên mới nhập học tìm kiếm chỗ ở bên ngoài khuôn viên của
             trường.
@@ -39,7 +38,7 @@
           <v-row class="mb-3 mt-2">
             <v-col cols="12" sm="6" md="3" class="pa-1">
               <v-layout
-                class="d-flex justify-center column align-center pa-3"
+                class="d-flex justify-center column align-center pa-3 info-block"
                 elevation-4
                 fill-height
               >
@@ -56,7 +55,7 @@
             </v-col>
             <v-col cols="12" sm="6" md="3" class="pa-1">
               <v-layout
-                class="d-flex justify-center column align-center pa-3"
+                class="d-flex justify-center column align-center pa-3 info-block"
                 elevation-4
                 fill-height
               >
@@ -73,7 +72,7 @@
             </v-col>
             <v-col cols="12" sm="6" md="3" class="pa-1">
               <v-layout
-                class="d-flex justify-center column align-center pa-3"
+                class="d-flex justify-center column align-center pa-3 info-block"
                 fill-height
                 elevation-4
               >
@@ -90,7 +89,7 @@
             </v-col>
             <v-col cols="12" sm="6" md="3" class="pa-1">
               <v-layout
-                class="d-flex justify-center column align-center pa-3"
+                class="d-flex justify-center column align-center pa-3 info-block"
                 elevation-4
                 fill-height
               >
@@ -140,8 +139,8 @@
     </section>
 
     <section class="white pa-3 mt-1 rounded">
-      <v-layout justify-space-between class="mb-4">
-        <h1 class="home__header ml-5">Bài đăng nhiều ưa thích</h1>
+      <v-layout justify-space-between class="d-flex mb-4">
+        <h1 class="home__header ml-5"><v-icon color="secondary" left large>mdi-heart</v-icon>Phòng được ưa thích</h1>
         <v-btn width="100" rounded outlined color="primary" to="/rooms"
           >Thêm</v-btn
         >
@@ -160,7 +159,7 @@
     </section>
     <section class="white pa-3 mt-1 rounded">
       <v-layout justify-space-between class="mb-4">
-        <h1 class="home__header ml-5">Bài đăng được xác thực</h1>
+        <h1 class="home__header ml-5"><v-icon color="blue" large left>mdi-shield</v-icon>Phòng được xác thực</h1>
         <v-btn width="100" rounded outlined color="primary" to="/rooms"
           >Thêm</v-btn
         >
@@ -179,7 +178,7 @@
     </section>
     <section class="white pa-3 mt-1 rounded">
       <v-layout justify-space-between class="mb-4">
-        <h1 class="home__header ml-5">Bài đăng mới nhất</h1>
+        <h1 class="home__header ml-5"><v-icon left large color="success">mdi-new-box</v-icon>Phòng mới nhất</h1>
         <v-btn width="100" rounded outlined color="primary" to="/rooms"
           >Thêm</v-btn
         >
@@ -288,3 +287,15 @@ export default class TenantHome extends Vue {
   }
 }
 </script>
+<style lang="scss">
+.search-block {
+  background-image: url("/imgs/anh_homepage.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-color: #FFFFFF;
+}
+
+.info-block {
+  background-color: #FFFFFF;
+}
+</style>

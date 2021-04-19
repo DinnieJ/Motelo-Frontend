@@ -70,6 +70,7 @@
           <v-date-picker
             v-model="registerInfo.date_of_birth"
             @input="dateDialog = false"
+            :max="new Date().toJSON().slice(0, 10).replace(/-/g, '-')"
           ></v-date-picker>
         </v-menu>
         <p>Liên lạc</p>

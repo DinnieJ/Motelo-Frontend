@@ -85,7 +85,7 @@
     </v-bottom-navigation>
 
     <!-- Navigation ">= sm" -->
-    <v-app-bar v-if="!isMobile()" max-height="60px" class="primary">
+    <v-app-bar v-else max-height="60px" fixed class="primary">
       <v-container
         class="py-0 fill-height d-flex justify-space-between align-center"
       >
@@ -134,7 +134,7 @@
 
     <snackbar />
 
-    <v-main class="main">
+    <v-main class="main" :style="!isMobile() ? 'padding-top: 50px' : ''">
       <nuxt />
     </v-main>
     <base-footer/>
