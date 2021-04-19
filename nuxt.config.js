@@ -77,6 +77,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    filenames: {
+      chunk: ({ isDev }) => isDev ? '[name].js' : '[chunkhash].js'
+    },
     transpile: ['vee-validate', /^vue2-google-maps($|\/)/],
     extractCSS: {
       ignoreOrder: true,
@@ -109,18 +112,5 @@ export default {
       },
     },
     optimizeCSS: true,
-    optimization: {
-      minimize: true,
-      minimizer: [
-        // terser-webpack-plugin
-        // optimize-css-assets-webpack-plugin
-      ],
-      splitChunks: {
-        chunks: 'all',
-        automaticNameDelimiter: '.',
-        name: undefined,
-        cacheGroups: {},
-      },
-    },
   },
 }
