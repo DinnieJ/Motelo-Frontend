@@ -227,4 +227,20 @@
   }
 }
 
+.round-img {
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 50%;
+
+  & img {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;  
+  }
+}
+
+
+
 @import 'reset.scss';

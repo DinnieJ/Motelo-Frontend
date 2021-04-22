@@ -90,7 +90,7 @@ export const actions: AuthAction<AuthState, RootState> = {
                     await AuthRepository.logoutCollaborator();
             }
 
-            setToken(false)
+            setToken(null)
             
             return true
         } catch ( error ) {
@@ -105,7 +105,7 @@ export const actions: AuthAction<AuthState, RootState> = {
 
         removeTokenCookie()
         removeRoleCookie()
-        setToken(false)
+        setToken(null)
     },
 
     setUser({ commit }, userInfo ) {

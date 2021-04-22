@@ -34,8 +34,8 @@ export default class Footer extends Vue {
       return this.$vuetify.breakpoint.smAndDown
     }
 
-    public isDesktop() :boolean {
-      return this.$vuetify.breakpoint.smAndUp
+    public isDesktop() : boolean {
+      return this.$vuetify.breakpoint.lgAndUp
     }
 }
 </script>

@@ -304,7 +304,7 @@ export default class OwnerRegisterForm extends Vue {
   private confirmPolicy: boolean = false
 
   public addContactBox() {
-    this.registerInfo.contact.push({
+  this.registerInfo.contact.push({
       type: 1,
       content: '',
     })

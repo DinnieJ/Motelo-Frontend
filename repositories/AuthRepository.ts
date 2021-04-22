@@ -72,4 +72,12 @@ export default class AuthRepository {
   public static forgotPassword(role: any, email: any) : Promise<AxiosResponse<any>> {
     return authenticatedService.post(`${ Endpoint.Auth }/forgot-password`, { role, email })
   }
+
+  public static updateOwnerInfo(formData: any) : Promise<AxiosResponse<any>> {
+    return authenticatedService.post(`${ Endpoint.AuthOwner }/edit`, formData, {
+      headers: {
+        'Content-Type':'multipart/form-data'
+      }
+    })
+  }
 }

@@ -48,7 +48,7 @@
                   left
                   max-width="24"
                   max-height="24"
-                >mdi-{{ getContactImg(contact.contact_type_id) }}</v-icon>
+                >mdi-{{ getContactIcon(contact.contact_type_id) }}</v-icon>
                 <span>{{ contact.content }}</span>
               </v-layout>
             </div>
@@ -141,7 +141,7 @@ export default class OwnerHome extends Vue {
 
   private loadingImg: string = LOADING_IMG
 
-  public getContactImg(type: any): string {
+  public getContactIcon(type: any): string {
     const contactDTO = Contacts.find((item) => item.type == type)
 
     if (contactDTO) {
