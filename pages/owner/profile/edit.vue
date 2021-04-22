@@ -271,7 +271,7 @@ export default class UpdateOwner extends Vue {
     await AuthRepository.getOwner()
     .then(response => {
       this.ownerInfo = (({ name, address, date_of_birth }) => ({ name, address, date_of_birth }))(response.data);
-      this.avatar = response.data.image || "/imgs/default-profile.jpg"
+      this.avatar = response.data.image.image_url || "/imgs/default-profile.jpg"
       this.contacts = response.data.contacts
     }).catch(err => {
       console.error(err)
@@ -292,7 +292,6 @@ export default class UpdateOwner extends Vue {
 
     this.contacts.forEach((item, i) => {
       formData.append(`contacts[${i}]`, JSON.stringify(item))
-      console.log(JSON.stringify(item))
     })
 
     await AuthRepository.updateOwnerInfo(formData)
