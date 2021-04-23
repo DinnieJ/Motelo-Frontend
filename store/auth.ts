@@ -39,6 +39,7 @@ export const getters: GetterTree<RootState, RootState> = {
     role: state => state.role,
     isTenant: state => state.role == ROLE.TENANT,
     isCollaborator: state => state.role == ROLE.COLLABORATOR,
+    isOwner: state => state.role == ROLE.OWNER
 }
 
 export const mutations: MutationTree<RootState> = {

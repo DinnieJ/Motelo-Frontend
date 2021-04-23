@@ -55,7 +55,7 @@
               :lazy-src="loadingImg"
               :src="currentMarker.img"
               width="100%"
-              height="100%"
+              height="300px"
               class="rounded"
             >
             </v-img>

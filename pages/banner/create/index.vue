@@ -114,7 +114,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-        <v-btn :disabled="invalid" @click="createBanner" class="primary"
+        <v-btn :disabled="invalid || !formData.image" @click="createBanner" class="primary"
           >Tạo mới</v-btn
         >
         <v-btn color="secondary" to="/banner">hủy</v-btn>
@@ -134,7 +134,8 @@ import {
 import { required } from 'vee-validate/dist/rules'
 import BannerRepository from '@/repositories/BannerRepository'
 
-setInteractionMode('eager')
+setInteractionMode('aggressive')
+
 extend('required', {
   ...required,
   message: 'Bạn không được để trống trường này',

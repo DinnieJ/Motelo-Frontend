@@ -20,7 +20,7 @@
             :lazy-src="loadingImg"
             contain
             max-height="200px"
-            src="/imgs/undraw_Mention_re_k5xc.svg"
+            :src="user.image ? user.image.image_url : '/imgs/default-profile.jpg'"
           />
         </v-col>
         <v-col

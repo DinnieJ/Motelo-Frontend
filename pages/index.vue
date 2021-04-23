@@ -5,7 +5,6 @@
         :show-arrows="false"
         delimiter-icon="mdi-minus"
         cycle
-        eager
         height="700"
       >
         <v-carousel-item
@@ -13,10 +12,8 @@
           :key="i"
           :href="item.src"
           target="_blank"
-          reverse-transition="fade-transition"
-          transition="fade-transition"
           :src="item.img"
-          centered
+
         >
         </v-carousel-item>
       </v-carousel>

@@ -5,16 +5,16 @@
     </v-col>
     <v-col cols="2">
       <v-layout :column="forOwner" justify-end align-end class="pa-1">
-          <room-favor-btn
-            v-if="!forOwner && loggedIn"
-            class="mr-4"
-            :clickFavor="clickFavor"
-            :favorite.sync="asyncFavorite"
-            roomDetail
-          />
+        <room-favor-btn
+          v-if="isTenant"
+          class="mr-4"
+          :clickFavor="clickFavor"
+          :favorite.sync="asyncFavorite"
+          roomDetail
+        />
         <v-btn
           v-if="forOwner"
-          fab 
+          fab
           small
           class="mb-2"
           color="info"
@@ -22,13 +22,7 @@
         >
           <v-icon dark> mdi-cog </v-icon>
         </v-btn>
-        <v-btn
-          v-if="forOwner"
-          fab 
-          small
-          color="warning"
-          @click="clickDelete"
-        >
+        <v-btn v-if="forOwner" fab small color="warning" @click="clickDelete">
           <v-icon dark> mdi-trash-can-outline </v-icon>
         </v-btn>
       </v-layout>
@@ -40,12 +34,21 @@
 import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
 import { BreadcrumbLink } from '@/constants/app.interface'
 import RoomFavorBtn from './RoomFavorBtn.vue'
+import { mapGetters } from 'vuex'
+import { Getter } from '@/constants/app.vuex'
 
 @Component<RoomTitleSection>({
   name: 'RoomTitleSection',
   // eslint-disable-next-line no-undef
   components: {
     RoomFavorBtn,
+  },
+
+  computed: {
+    ...mapGetters({
+      role: Getter.ROLE,
+      isTenant: Getter.IS_TENANT,
+    }),
   },
 })
 export default class RoomTitleSection extends Vue {

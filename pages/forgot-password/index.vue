@@ -51,7 +51,7 @@ export default class ForgotPassword extends Vue {
     },
   ]
 
-  private role: string = ''
+  private role: string = ROLE.TENANT
   private email: string = ''
   private loading: boolean = false
 

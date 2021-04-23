@@ -186,6 +186,8 @@ export default class Default extends Vue {
         return '/personal'
       case ROLE.OWNER:
         return '/owner/home'
+      case ROLE.COLLABORATOR:
+        return '/map'
       default:
         return '/'
     }

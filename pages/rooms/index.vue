@@ -53,7 +53,16 @@
             class="mt-3"
           ></v-pagination>
           </template>
-          <template v-else>Không có kết quả để hiển thị</template>
+          <template v-else>
+            <v-layout column align-center>
+              <h1 class="text-h5">
+                <v-icon x-large color="primary">mdi-magnify</v-icon>
+                Không có kết quả để hiển thị
+              </h1>
+              <p>Xin lỗi, hiện tại không có phòng nào theo yêu cầu tìm kiếm của bạn</p>
+              <v-btn color="primary" ><v-icon left>mdi-home</v-icon>Quay lại trang chủ</v-btn>
+            </v-layout>
+          </template>
         </v-col>
         <v-col md="6" cols="12">
           <!-- Map -->
