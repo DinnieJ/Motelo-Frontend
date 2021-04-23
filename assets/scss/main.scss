@@ -241,6 +241,28 @@
   }
 }
 
+.banner {
+  &--img{
+    display: block;
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+
+    & img {
+      display: inline;
+      margin: 0 auto;
+      height: 100%;
+      width: auto;  
+    }
+  }
+
+  &--change-btn {
+    position: absolute !important;
+    top: 50%;
+    left: calc(50% - 90px);
+  }
+}
+
 
 
 @import 'reset.scss';

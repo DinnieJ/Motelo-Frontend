@@ -3,10 +3,7 @@
     <v-layout class="d-flex column align-center pa-3">
       <h1 class="primary--text text-h3 text-center">Cập nhật thông tin</h1>
       <div class="round-img mt-5 mb-5">
-        <img
-          :src="avatar"
-          ref="avatar"
-        />
+        <img :src="avatar" ref="avatar" />
       </div>
       <v-btn class="mb-5" color="primary" @click="uploadImage"
         ><v-icon left dark>mdi-camera</v-icon>Chọn ảnh mới</v-btn
@@ -146,9 +143,26 @@
           >
             Cập nhật
           </v-btn>
+          <v-btn color="secondary" @click="cancelDialog = true">Hủy bỏ</v-btn>
         </v-layout>
       </validation-observer>
     </v-layout>
+    <v-dialog v-model="cancelDialog" max-width="350">
+      <v-card>
+        <v-card-title class="headline"> Xác nhận </v-card-title>
+        <v-card-text
+          >Bạn có muốn chắc chắn quay lại khi chưa xác nhận thay đổi thông tin
+          ?</v-card-text
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="back"> Có </v-btn>
+          <v-btn color="green darken-1" text @click="cancelDialog = false">
+            Không
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script lang="ts">
@@ -190,6 +204,7 @@ extend('regex', {
 })
 export default class UpdateOwner extends Vue {
   $notify: any
+  private cancelDialog: boolean = false
   private rules: any = {
     name: {
       required: true,
@@ -228,8 +243,9 @@ export default class UpdateOwner extends Vue {
     date_of_birth: new Date().toISOString().substr(0, 10),
   }
 
-  private avatar: any = "/imgs/default-profile.jpg"
-  private contacts : any[]= []
+  private avatar: any = '/imgs/default-profile.jpg'
+  private updatedAvatar: boolean = false
+  private contacts: any[] = []
 
   onFileChange(e: any) {
     this.avatar = null
@@ -240,6 +256,7 @@ export default class UpdateOwner extends Vue {
       vm.$refs.avatar.src = reader.result
     }
     reader.readAsDataURL(this.avatar)
+    this.updatedAvatar = true
   }
 
   uploadImage(e: Event) {
@@ -269,13 +286,25 @@ export default class UpdateOwner extends Vue {
 
   public async getOwnerInfo() {
     await AuthRepository.getOwner()
-    .then(response => {
-      this.ownerInfo = (({ name, address, date_of_birth }) => ({ name, address, date_of_birth }))(response.data);
-      this.avatar = response.data.image.image_url || "/imgs/default-profile.jpg"
-      this.contacts = response.data.contacts
-    }).catch(err => {
-      console.error(err)
-    })
+      .then((response) => {
+        this.ownerInfo = (({ name, address, date_of_birth }) => ({
+          name,
+          address,
+          date_of_birth,
+        }))(response.data)
+        this.avatar = response.data.image
+          ? response.data.image.image_url
+          : '/imgs/default-profile.jpg'
+        this.contacts = response.data.contacts
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  public back() {
+    this.$router.push('/owner/home')
   }
 
   async submit() {
@@ -285,9 +314,8 @@ export default class UpdateOwner extends Vue {
       formData.append(item, this.ownerInfo[item])
     })
 
-    if(this.avatar) {
+    if (this.updatedAvatar) {
       formData.append('image', this.avatar)
-      console.log(this.avatar)
     }
 
     this.contacts.forEach((item, i) => {
@@ -295,21 +323,22 @@ export default class UpdateOwner extends Vue {
     })
 
     await AuthRepository.updateOwnerInfo(formData)
-    .then(response => {
-      this.$notify.showMessage({
-        message: response.data.message,
-        color: 'success'
+      .then((response) => {
+        this.$notify.showMessage({
+          message: response.data.message,
+          color: 'success',
+        })
+
+        this.$store.commit('auth/setUser', response.data.user)
+
+        this.$router.push('/owner/home')
       })
-
-      this.$store.commit('auth/setUser', response.data.user)
-
-      this.$router.push('/owner/home')
-    }).catch(err => {
-      console.error(err)
-    }).finally (() => {
-      this.loading = false
-    })
-
+      .catch((err) => {
+        console.error(err)
+      })
+      .finally(() => {
+        this.loading = false
+      })
   }
 }
 </script>

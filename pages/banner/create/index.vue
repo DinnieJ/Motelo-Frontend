@@ -178,7 +178,6 @@ export default class CreateBanner extends Vue {
         this.$router.push('/banner')
       })
       .catch((err) => {
-        console.error(err)
         this.$notify.showMessage({
           message: 'Có lỗi xảy ra trong hệ thống',
           color: 'red',
