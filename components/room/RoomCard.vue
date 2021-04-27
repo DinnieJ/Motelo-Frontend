@@ -271,3 +271,8 @@ export default class RoomCard extends Vue {
   }
 }
 </script>
+<style lang="scss">
+.v-card__title {
+  word-break: normal !important; 
+}
+</style>
