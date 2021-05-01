@@ -1,24 +1,9 @@
 <template>
-  <v-card rounded="lg" class="pa-4">
+  <v-card rounded="lg" class="pa-4" elevation="0">
     <v-card-title>
         Chính sách của <span class="ml-3">Motelo</span>
     </v-card-title>
-    <v-card-text>
-      Contrary to popular belief, Lorem Ipsum is not simply random text. It has
-      roots in a piece of classical Latin literature from 45 BC, making it over
-      2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
-      College in Virginia, looked up one of the more obscure Latin words,
-      consectetur, from a Lorem Ipsum passage, and going through the cites of
-      the word in classical literature, discovered the undoubtable source. Lorem
-      Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et
-      Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This
-      book is a treatise on the theory of ethics, very popular during the
-      Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit
-      amet..", comes from a line in section 1.10.32. The standard chunk of Lorem
-      Ipsum used since the 1500s is reproduced below for those interested.
-      Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by
-      Cicero are also reproduced in their exact original form, accompanied by
-      English versions from the 1914 translation by H. Rackham.
+    <v-card-text v-html="policy">
     </v-card-text>
     <v-card-actions>
       <v-btn color="primary" @click="accept()">đồng ý</v-btn>
@@ -37,5 +22,17 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class PolicyCard extends Vue {
     @Prop({type: Function, required: true}) readonly accept!: Function
     @Prop({type: Function, required: true}) readonly refuse!: Function
+
+    //data
+  private policy: string =
+    `CHỦ NHÀ TRỌ LƯU Ý <br />
+    <b>Yêu cầu về thông tin nhà trọ<b/> <br />
+    Chủ trọ phải đăng thông tin nhà trọ theo format dưới đây, đủ thông tin <br />
+    1. Tên nhà trọ <br />
+    2. Tiền điện, tiền nước, tiền wifi. <br />
+    3. Đánh dầu các tiện nghi của có sẵn. <br />
+    4. Đánh dấu các điều kiện an ninh. <br />
+    5. Chỉ chính xác vị trí trên bản đồ. <br />
+    6. Cung cấp hình ảnh chung về nhà trọ. <br />`
 }
 </script>

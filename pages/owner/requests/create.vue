@@ -26,8 +26,7 @@
             <!-- Policy step -->
             <v-tab-item>
               <v-card rounded="lg" class="pa-4">
-                <v-card-text>
-                  {{ policy }}
+                <v-card-text v-html="policy">
                 </v-card-text>
                 <v-card-actions>
                   <v-btn color="primary" @click="acceptPolicyEvent"
@@ -179,7 +178,16 @@ export default class RoomCreateRequest extends Vue {
   private genders: TextIcon[] = GENDER
   private capacityDefault = CAPACITY
   private policy: string =
-    'Contrary to popular belief, Lorem Ipsum is not simply Random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum etMalorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.'
+    `CHỦ NHÀ TRỌ LƯU Ý <br />
+      <b>Yêu cầu về thông tin phòng trọ<b /> <br />
+      Bài đăng cho thuê sẽ bao gồm thông tin chung của nhà trọ và thông tin riêng của từng phòng <br />
+      Chủ trọ phải đăng thông tin phòng trọ theo format dưới đây, đủ thông tin <br />
+      1. Tiêu đề <br />
+      2. Giá thuê <br />
+      3. Diện tích <br />
+      4. Loại phòng <br />
+      5. Miêu tả thêm (Nếu có) <br />
+      6. Ảnh riêng của phòng trọ <br />`
 
   private tab: number = 0
 
