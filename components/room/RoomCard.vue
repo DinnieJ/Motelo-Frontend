@@ -1,11 +1,11 @@
 <template>
   <v-hover>
-    <template v-slot:default="{ hover }">
+    <template #default="{ hover }">
       <v-card
         :elevation="hover ? '24' : '6'"
-        @mouseover="changeMapLocation"
         rounded
         class="room__card transition-swing"
+        @mouseover="changeMapLocation"
       >
         <nuxt-link :to="getLink()">
           <v-img
@@ -19,13 +19,13 @@
             <v-layout column justify-space-between class="room__img">
               <v-card-actions class="justify-space-between align-start">
                 <room-favor-btn
+                  v-if="isTenant && loggedIn"
                   :favorite.sync="room.favorite"
                   :loading.sync="loadingFavorite"
-                  :clickFavor="clickFavor"
-                  v-if="isTenant && loggedIn"
+                  :click-favor="clickFavor"
                 />
 
-                <v-layout column v-if="owner">
+                <v-layout v-if="owner" column>
                   <v-btn
                     fab
                     x-small
@@ -60,7 +60,7 @@
                   </v-btn>
                 </template>
                 <template v-else>
-                  <v-btn fab x-small color="primary" v-if="verify">
+                  <v-btn v-if="verify" fab x-small color="primary">
                     <v-icon small dark> mdi-shield-home </v-icon>
                   </v-btn>
                 </template>
@@ -101,20 +101,20 @@
                 <v-layout column align-center>
                   <v-icon>mdi-check-circle-outline</v-icon>
                   <span
-                    class="room__smaller success--text font-weight-bold"
                     v-if="room.available"
+                    class="room__smaller success--text font-weight-bold"
                     >Còn phòng</span
                   >
-                  <span class="room__smaller warning--text font-weight-bold" v-else
+                  <span v-else class="room__smaller warning--text font-weight-bold"
                     >Hết phòng</span
                   >
                 </v-layout>
               </v-col>
-              <v-col cols="12" class="pa-1" v-if="!owner">
+              <v-col v-if="!owner" cols="12" class="pa-1">
                 <v-icon>mdi-map-marker</v-icon>
                 <span class="room__small">{{ room.address }}</span>
               </v-col>
-              <v-col cols="12" class="pa-1" v-if="!owner">
+              <v-col v-if="!owner" cols="12" class="pa-1">
                 <v-icon>mdi-home</v-icon>
                 <span class="room__smaller">{{ room.inn_name }}</span>
               </v-col>
@@ -129,12 +129,12 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { RoomCardDTO } from '@/constants/app.interface'
-import RoomFavorBtn from './RoomFavorBtn.vue'
-import RoomVerifyIcon from './RoomVerifyIcon.vue'
 import RoomRepository from '@/repositories/RoomRepository'
 import { LOADING_IMG, ROLE } from '@/constants/app.constant'
 import { mapGetters } from 'vuex'
 import { Getter } from '@/constants/app.vuex'
+import RoomVerifyIcon from './RoomVerifyIcon.vue'
+import RoomFavorBtn from './RoomFavorBtn.vue'
 
 // eslint-disable-next-line no-use-before-define
 @Component<RoomCard>({

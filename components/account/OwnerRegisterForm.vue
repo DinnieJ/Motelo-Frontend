@@ -54,7 +54,7 @@
           offset-y
           min-width="auto"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-text-field
               v-model="registerInfo.date_of_birth"
               label="Ngay sinh"
@@ -69,8 +69,8 @@
           </template>
           <v-date-picker
             v-model="registerInfo.date_of_birth"
-            @input="dateDialog = false"
             :max="new Date().toJSON().slice(0, 10).replace(/-/g, '-')"
+            @input="dateDialog = false"
           ></v-date-picker>
         </v-menu>
         <p>Liên lạc</p>
@@ -81,11 +81,11 @@
         >
           <v-col cols="2" sm="1">
             <v-menu bottom offset-y>
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <div
                   v-bind="attrs"
-                  v-on="on"
                   class="d-flex justify-start align-center auth__select"
+                  v-on="on"
                 >
                   <v-icon
                     max-width="2rem"
@@ -111,9 +111,9 @@
               :rules="rules.date_of_birth"
             >
               <v-text-field
+                v-model="contact.content"
                 outlined
                 full-width
-                v-model="contact.content"
                 :error-messages="errors"
               ></v-text-field>
             </validation-provider>
@@ -126,14 +126,14 @@
         </v-row>
         <v-btn
           small
-          @click="addContactBox"
           :disabled="registerInfo.contact.length >= 5"
           class="mb-3"
+          @click="addContactBox"
           >Thêm liên lạc</v-btn
         >
         <validation-provider
-          vid="password"
           v-slot="{ errors }"
+          vid="password"
           name="password"
           :rules="rules.password"
         >
@@ -141,13 +141,13 @@
             v-model="registerInfo.password"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
             label="Mật khẩu"
             name="password"
             outlined
             color="primary"
             class="required"
             :error-messages="errors"
+            @click:append="showPassword = !showPassword"
           ></v-text-field>
         </validation-provider>
         <validation-provider
@@ -159,16 +159,16 @@
             v-model="registerInfo.repassword"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
             label="Nhập lại Mật khẩu"
             outlined
             color="primary"
             class="required"
             :error-messages="errors"
+            @click:append="showPassword = !showPassword"
           ></v-text-field>
         </validation-provider>
         <v-checkbox v-model="confirmPolicy">
-          <template v-slot:label>
+          <template #label>
             <div>
               Tôi đã đọc kĩ
                   <a
@@ -186,8 +186,8 @@
           color="primary"
           :disabled="invalid"
           :loading="loading"
-          @click="submit"
           class="my-2"
+          @click="submit"
         >
           ĐĂNG KÝ
         </v-btn>
@@ -267,8 +267,7 @@ export default class OwnerRegisterForm extends Vue {
   @Prop() readonly loading!: boolean
   private rules: OwnerRegisterRule = {
     name: {
-      required: true,
-      regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*$/,
+      required: true
     },
     email: { required: true, email: true },
     password: { required: true, min: 8 },
@@ -299,12 +298,13 @@ export default class OwnerRegisterForm extends Vue {
       icon: 'mdi-facebook',
     },
   ]
+
   private dateDialog = false
 
   private confirmPolicy: boolean = false
 
   public addContactBox() {
-  this.registerInfo.contact.push({
+    this.registerInfo.contact.push({
       type: 1,
       content: '',
     })
@@ -320,6 +320,7 @@ export default class OwnerRegisterForm extends Vue {
       this.registerInfo.contact.splice(index, 1)
     }
   }
+
   @Emit()
   public async submit() {
     if (this.confirmPolicy) return this.registerInfo

@@ -10,16 +10,16 @@
         </v-col>
         <v-col sm="10" cols="12">
           <v-text-field
+            v-model="keyword"
             dense
             solo
             hide-details
             placeholder="Tìm kiếm"
             append-icon="mdi-magnify"
             color="primary"
-            v-model="keyword"
             @keyup.enter="getRoomByFilter"
           >
-            <template v-slot:append>
+            <template #append>
               <v-btn
                 depressed
                 icon
@@ -39,8 +39,8 @@
             <h1>Loading</h1>
           </section>
           <v-row v-else>
-            <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
-              <room-card @change-map-location="setMapCenter" :room="room" />
+            <v-col v-for="room in roomCardObjs" :key="room.id" cols="12" sm="6">
+              <room-card :room="room" @change-map-location="setMapCenter" />
             </v-col>
           </v-row>
 
@@ -49,8 +49,8 @@
             :length="totalPage"
             total-visible="7"
             circle
-            @input="getRoomByFilter"
             class="mt-3"
+            @input="getRoomByFilter"
           ></v-pagination>
           </template>
           <template v-else>
@@ -71,8 +71,8 @@
       </v-row>
     </section>
     <v-dialog
-      max-width="1184px"
       v-model="openFilter"
+      max-width="1184px"
       :fullscreen="$vuetify.breakpoint.smAndDown"
     >
       <v-card>

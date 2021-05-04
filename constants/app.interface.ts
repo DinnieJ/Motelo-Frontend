@@ -158,7 +158,6 @@ export interface OwnerRegisterRule {
   }
   name: {
     required: boolean
-    regex: any
   }
   date_of_birth: {
     required: boolean

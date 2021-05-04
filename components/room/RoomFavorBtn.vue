@@ -1,14 +1,14 @@
 <template>
 <v-btn 
   :small="!roomDetail" 
-  @click="clickFavor" 
   :color="btnColor" 
   :outlined="roomDetail && !asyncFavorite" 
   depressed 
   :fab="!roomDetail" 
   :rounded="roomDetail" 
   :loading="asyncLoadingFavorite" 
-  :disabled="asyncLoadingFavorite"
+  :disabled="asyncLoadingFavorite" 
+  @click="clickFavor"
 >
   <v-icon class="room__favor" :color="iconColor" dark :left="roomDetail">
     {{ asyncFavorite ? 'mdi-heart' : 'mdi-heart-plus-outline'}}

@@ -4,7 +4,7 @@
       <h1>Khu vực <span class="warning--text">HOT</span></h1>
     </v-layout>
     <v-row>
-      <v-col cols="6" sm="4" lg="2" v-for="i in 6" :key="i" class="pa-4">
+      <v-col v-for="i in 6" :key="i" cols="6" sm="4" lg="2" class="pa-4">
         <v-layout
           column
           justify-end

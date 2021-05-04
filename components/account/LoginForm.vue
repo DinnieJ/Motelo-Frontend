@@ -15,21 +15,21 @@
           label="Bạn đăng nhập theo tư cách"
         ></v-select>
         <validation-provider
-          mode="eager"
           v-slot="{ errors }"
+          mode="eager"
           name="email"
           :rules="rules.email"
         >
           <v-text-field
-            label="Email"
             v-model="loginInfo.email"
+            label="Email"
             outlined
             :error-messages="errors"
           ></v-text-field>
         </validation-provider>
         <validation-provider
-          mode="eager"
           v-slot="{ errors }"
+          mode="eager"
           name="password"
           :rules="rules.password"
         >
@@ -37,11 +37,11 @@
             v-model="loginInfo.password"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
             label="Password"
             outlined
             color="primary"
             :error-messages="errors"
+            @click:append="showPassword = !showPassword"
           ></v-text-field>
         </validation-provider>
         <v-btn
@@ -63,9 +63,9 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { ValidationObserver, ValidationProvider, extend, setInteractionMode } from 'vee-validate'
-import { LoginDTO } from '@/constants/app.interface'
+import { LoginDTO , LoginRule } from '@/constants/app.interface'
 import { required, email, min, max } from 'vee-validate/dist/rules'
-import { LoginRule } from '@/constants/app.interface'
+
 import { ROLE, LOADING_IMG } from '@/constants/app.constant'
 
 setInteractionMode("aggressive")
@@ -113,6 +113,7 @@ export default class LoginForm extends Vue {
     email: { required: true, email: true },
     password: { required: true, min: 8 },
   }
+
   private roles: object[] = [
     {
       role_id: ROLE.TENANT,

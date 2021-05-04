@@ -27,9 +27,9 @@
             <v-tab-item>
               <v-form class="mt-4">
                 <v-select
+                  v-model="selectIndex"
                   label="Loại tiện ích"
                   :prepend-icon="`mdi-${selectIcon}`"
-                  v-model="selectIndex"
                   :items="utilitysType"
                   item-text="text"
                   item-value="index"
@@ -37,15 +37,15 @@
                 ></v-select>
 
                 <v-text-field
-                  label="Tiêu đề"
                   v-model="formData.title"
+                  label="Tiêu đề"
                 ></v-text-field>
                 <v-textarea
+                  v-model="formData.description"
                   label="Miêu tả thêm"
                   outlined
                   auto-grow
                   rows="2"
-                  v-model="formData.description"
                 ></v-textarea>
                 <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
               </v-form>
@@ -59,9 +59,9 @@
                 @touchend="stopTouchTransition"
               >
                 <v-text-field
+                  v-model="formData.address"
                   required
                   label="Địa chỉ"
-                  v-model="formData.address"
                 >
                 </v-text-field>
                 <gmap-map
@@ -69,20 +69,20 @@
                   :zoom="zoom"
                   :options="mapOptions"
                   class="map__container"
-                  @click="setMapCenter"
                   style="width: auto; height: 100%; min-height: 50vh"
+                  @click="setMapCenter"
                 >
                   <gmap-marker :position="center"></gmap-marker>
                   <gmap-marker
                     v-for="marker in markers"
-                    :position="marker.position"
                     :key="marker.id"
+                    :position="marker.position"
                     :icon="{ path: marker.type.code }"
                     :title="marker.name"
                   ></gmap-marker>
                 </gmap-map>
                 <div class="mt-3">
-                  <v-btn color="primary" @click="nextTab" class="mr-3">
+                  <v-btn color="primary" class="mr-3" @click="nextTab">
                     Tiếp theo
                   </v-btn>
                   <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
@@ -93,15 +93,15 @@
             <v-tab-item>
               <v-form class="mt-8">
                 <input
+                  ref="images"
                   type="file"
                   accept="image/*"
-                  ref="images"
                   class="d-none"
                   @change="onFileChange"
                 />
                 <v-row class="mb-4 justify-center">
                   <v-col cols="12" sm="6">
-                    <img width="100%" height="auto" ref="image" />
+                    <img ref="image" width="100%" height="auto" />
                   </v-col>
                 </v-row>
                 <v-layout justify-center>
@@ -114,8 +114,8 @@
                   <v-btn
                     class="mr-3"
                     color="primary"
-                    @click="submitForm"
                     :disabled="!image"
+                    @click="submitForm"
                   >
                     Hoàn thành
                   </v-btn>
@@ -128,11 +128,11 @@
       </div>
     </v-layout>
     <warning-dialog
+      v-model="openWarningDialog"
       title="THOÁT"
       content="Nếu bạn thoát, những thông tin trên sẽ không được lưu lại.<br>Bạn có muốn thoát không?"
       @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
-      v-model="openWarningDialog"
     />
   </v-container>
 </template>
@@ -143,9 +143,9 @@ import WarningDialog from '@/components/common/WarningDialog.vue'
 import { UTILITY_TYPE, DefaultMapZoom } from '@/constants/app.constant'
 import UtilityRepository from '@/repositories/UtilityRepository'
 import UploadImageForm from '@/components/common/UploadImageForm.vue'
-import { MarkerDTO } from '~/constants/app.interface'
 import { stopEventFromParentElement } from '@/utils/event'
 import axios from 'axios'
+import { MarkerDTO } from '~/constants/app.interface'
 
 @Component<CreateUtility>({
   name: 'CreateUtility',
@@ -172,6 +172,7 @@ export default class CreateUtility extends Vue {
     fullscreenControl: true,
     disableDefaultUi: false,
   }
+
   public setMapCenter({ latLng }: any) {
     this.center = latLng
   }
@@ -205,11 +206,12 @@ export default class CreateUtility extends Vue {
               console.log('get current address = ', err)
             })
         }
-      , error => {
-        console.log(error)
-      }, {maximumAge: 0})
+        , error => {
+          console.log(error)
+        }, {maximumAge: 0})
     }
   }
+
   public async getAllMarker() {
     await UtilityRepository.getAllUtilities().then((response) => {
       const markers = response.data
@@ -218,6 +220,7 @@ export default class CreateUtility extends Vue {
       })
     })
   }
+
   private openWarningDialog: boolean = false
   private tabHeaders = [
     {
@@ -233,6 +236,7 @@ export default class CreateUtility extends Vue {
       disabled: false,
     },
   ]
+
   private utilitysType = UTILITY_TYPE.map((item, index) => ({ ...item, index }))
   private tab: number = 0
   private formData = {
@@ -241,30 +245,37 @@ export default class CreateUtility extends Vue {
     type_id: -1,
     description: '',
   }
+
   private selectIcon: string = 'help'
   private selectIndex = ''
   private image: any = null
   public closeDialog() {
     this.openWarningDialog = true
   }
+
   public acceptWarningDialog() {
     this.openWarningDialog = false
     this.$router.push("/map")
   }
+
   public refuseWarningDialog() {
     this.openWarningDialog = false
   }
+
   public changeSelect(i: number) {
     const utility = this.utilitysType[i]
     this.formData.type_id = utility.id
     this.selectIcon = utility.icon
   }
+
   public nextTab() {
     this.tab++
   }
+
   public preTab() {
     this.tab--
   }
+
   $notify: any
   async submitForm() {
     const formData = new FormData()
@@ -299,16 +310,18 @@ export default class CreateUtility extends Vue {
         })
       })
   }
+
   clickUpload(e: Event) {
     e.preventDefault()
     const input = this.$refs.images as any
     input.click()
   }
+
   onFileChange(e: any) {
-    let vm: any = this
-    var selectedFiles = e.target.files
+    const vm: any = this
+    const selectedFiles = e.target.files
     this.image = selectedFiles[0]
-    let reader = new FileReader()
+    const reader = new FileReader()
     reader.onload = (e) => {
       vm.$refs.image.src = reader.result
     }

@@ -57,9 +57,9 @@
             <v-col offset="1" offset-sm="3">
               <v-btn
                 color="primary"
-                @click="submit"
                 :disabled="invalid"
                 :loading="loading"
+                @click="submit"
                 >Đổi mật khẩu</v-btn
               >
               <v-btn color="secondary" @click="back">Hủy bỏ</v-btn>

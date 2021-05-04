@@ -28,8 +28,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { ROLE } from '~/constants/app.constant'
 import AuthRepository from '@/repositories/AuthRepository'
+import { ROLE } from '~/constants/app.constant'
 
 @Component<ForgotPassword>({
   name: 'ForgotPassword',
@@ -56,21 +56,21 @@ export default class ForgotPassword extends Vue {
   private loading: boolean = false
 
   public async submit() {
-      this.loading = true
-      await AuthRepository.forgotPassword(this.role, this.email)
+    this.loading = true
+    await AuthRepository.forgotPassword(this.role, this.email)
       .then(response => {
-          this.$notify.showMessage({
-              message: 'Vui lòng kiểm tra mail của bạn',
-              color: 'success'
-          })
-          this.$router.push('/login')
+        this.$notify.showMessage({
+          message: 'Vui lòng kiểm tra mail của bạn',
+          color: 'success'
+        })
+        this.$router.push('/login')
       }).catch(error => {
-          this.$notify.showMessage({
-              message: error.response.data.message,
-              color: 'red'
-          })
+        this.$notify.showMessage({
+          message: error.response.data.message,
+          color: 'red'
+        })
       }).finally(() => {
-          this.loading = false
+        this.loading = false
       })
   }
 }

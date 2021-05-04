@@ -11,7 +11,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component<EditUtility>({
-    name: 'EditUtility'
+  name: 'EditUtility'
 })
 export default class EditUtility extends Vue {
 

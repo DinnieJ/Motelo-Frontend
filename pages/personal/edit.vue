@@ -20,9 +20,9 @@
                 :rules="rules.email"
               >
                 <v-text-field
+                  v-model="userInfo.email"
                   label="Email"
                   name="email"
-                  v-model="userInfo.email"
                   outlined
                   :error-messages="errors"
                   readonly
@@ -35,9 +35,9 @@
                 :rules="rules.name"
               >
                 <v-text-field
+                  v-model="userInfo.name"
                   label="Tên"
                   name="name"
-                  v-model="userInfo.name"
                   outlined
                   :error-messages="errors"
                 ></v-text-field>
@@ -64,7 +64,7 @@
                 offset-y
                 min-width="auto"
               >
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                   <v-text-field
                     v-model="userInfo.date_of_birth"
                     label="Ngày sinh"
@@ -105,18 +105,18 @@
     </v-layout>
 
     <warning-dialog
+      v-model="openCancelDialog"
       title="Hủy thay đổi"
       content="Bạn có chắc chắn muốn hủy bỏ thông tin vừa thay đổi"
       @accept="acceptCancelDialog"
       @refuse="refuseCancelDialog"
-      v-model="openCancelDialog"
     />
     <warning-dialog
+      v-model="openConfirmDialog"
       title="Lưu thay đổi"
       content="Bạn có chắc chắn muốn lưu thông tin vừa thay đổi"
       @accept="acceptConfirmDialog"
       @refuse="refuseConfirmDialog"
-      v-model="openConfirmDialog"
     />
   </v-container>
 </template>
@@ -132,9 +132,9 @@ import { Component, Vue } from 'vue-property-decorator'
 import PolicyCard from '@/components/common/PolicyCard.vue'
 import InnUpdateSteppers from '@/components/inn/InnUpdateSteppers.vue'
 import WarningDialog from '@/components/common/WarningDialog.vue'
-import { LoginRule, UserInfoDTO } from '@/constants/app.interface'
+import { LoginRule, UserInfoDTO , TenantRegisterRule } from '@/constants/app.interface'
 import PersonalRepository from '@/repositories/PersonalRepository'
-import { TenantRegisterRule } from '@/constants/app.interface'
+
 import { required, email, regex, numeric } from 'vee-validate/dist/rules'
 import { DispatchAction } from '~/constants/app.vuex'
 
@@ -184,6 +184,7 @@ export default class ProfileUpdate extends Vue {
     date_of_birth: '',
     phone_number: '',
   }
+
   private loadingUserInfo: boolean = false
   private editable: boolean = true
   $notify: any

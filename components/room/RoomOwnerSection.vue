@@ -15,7 +15,7 @@
     </v-layout>
     <div v-for="contact in contacts" :key="contact.type">
       <div v-if="owner[contact.name].length">
-        <v-layout class="pl-3 mt-4" d-flex align-center align-content-center v-for="item in owner[contact.name]" :key="item">
+        <v-layout v-for="item in owner[contact.name]" :key="item" class="pl-3 mt-4" d-flex align-center align-content-center>
           <v-icon left large> mdi-{{ contact.icon }} </v-icon>
           <a
             v-if="contact.link"
@@ -50,12 +50,12 @@ export default class RoomOwnerSection extends Vue {
   private preLink(type: number): string {
     let pre: string = ''
     switch (type) {
-      case Contact.EMAIL:
-        pre = 'mailto:'
-        break
-      case Contact.ZALO:
-        pre = 'https://zalo.me/'
-        break
+    case Contact.EMAIL:
+      pre = 'mailto:'
+      break
+    case Contact.ZALO:
+      pre = 'https://zalo.me/'
+      break
     }
     return pre
   }

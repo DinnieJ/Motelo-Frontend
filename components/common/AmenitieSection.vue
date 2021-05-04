@@ -10,7 +10,7 @@
       <v-divider />
     </div>
     <v-row class="mt-6 pl-5 pr-5">
-      <v-col cols="6" md="3" v-for="amenitie in amenities" :key="amenitie.code">
+      <v-col v-for="amenitie in amenities" :key="amenitie.code" cols="6" md="3">
         <h3 class="font-weight-light">
           <span class="mr-2">
             <v-icon size="32">{{ `mdi-${amenitie.icon}` }}</v-icon>

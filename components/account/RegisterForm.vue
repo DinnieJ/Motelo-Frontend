@@ -31,8 +31,8 @@ import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { ROLE } from '@/constants/app.constant'
 import TenantRegisterForm from '@/components/account/TenantRegisterForm.vue'
 import OwnerRegisterForm from '@/components/account/OwnerRegisterForm.vue'
-import { OwnerRegisterDTO, TenantRegisterDTO } from '~/constants/app.interface'
 import AuthRepository from '@/repositories/AuthRepository'
+import { OwnerRegisterDTO, TenantRegisterDTO } from '~/constants/app.interface'
 
 // eslint-disable-next-line no-use-before-define
 @Component<RegisterForm>({
@@ -71,9 +71,9 @@ export default class RegisterForm extends Vue {
             message = error.response.data
           }
           this.$notify.showMessage({
-              message: message,
-              color: 'red',
-            })
+            message,
+            color: 'red',
+          })
         })
     }
   }

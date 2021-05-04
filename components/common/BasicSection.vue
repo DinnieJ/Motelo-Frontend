@@ -10,41 +10,41 @@
       <v-divider />
     </div>
     <v-row class="mt-3 pl-3 pr-3">
-      <v-col cols="6" md="3" v-if="!forInn">
+      <v-col v-if="!forInn" cols="6" md="3">
         <p class="caption">GIÁ PHÒNG</p>
         <h3 class="font-weight-light">
           {{ `${numberFormat.format(price)} đồng` }}
         </h3>
       </v-col>
-      <v-col cols="6" md="3" v-if="!forInn">
+      <v-col v-if="!forInn" cols="6" md="3">
         <p class="caption">DIỆN TÍCH</p>
         <h3 class="font-weight-light">{{ `${area} mét vuông` }}</h3>
       </v-col>
-      <v-col cols="6" md="3" v-if="!forInn">
+      <v-col v-if="!forInn" cols="6" md="3">
         <p class="caption">GIỚI TÍNH</p>
         <h3 class="font-weight-light">
           {{ gender }}
         </h3>
       </v-col>
-      <v-col cols="6" :md="forInn ? 4 : 3" v-if="electric">
+      <v-col v-if="electric" cols="6" :md="forInn ? 4 : 3">
         <p class="caption">ĐIỆN</p>
         <h3 class="font-weight-light">
           {{ `${numberFormat.format(electric)} đồng` }}
         </h3>
       </v-col>
-      <v-col cols="6" :md="forInn ? 4 : 3" v-if="water">
+      <v-col v-if="water" cols="6" :md="forInn ? 4 : 3">
         <p class="caption">NƯỚC</p>
         <h3 class="font-weight-light">
           {{ `${numberFormat.format(water)} đồng` }}
         </h3>
       </v-col>
-      <v-col cols="6" :md="forInn ? 4 : 3" v-if="wifi">
+      <v-col v-if="wifi" cols="6" :md="forInn ? 4 : 3">
         <p class="caption font-italic">WIFI</p>
         <h3 class="font-weight-light">
           {{ `${numberFormat.format(wifi)} đồng` }}
         </h3>
       </v-col>
-      <v-col cols="6" md="3" v-if="!forInn">
+      <v-col v-if="!forInn" cols="6" md="3">
         <p class="caption">TRẠNG THÁI</p>
         <h3 class="font-weight-light">
           <span v-if="available" class="font-weight-bold success--text">Còn phòng</span>

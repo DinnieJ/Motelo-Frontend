@@ -7,7 +7,7 @@
           <v-icon left>mdi-plus</v-icon> Tạo mới
         </v-btn>
       </v-layout>
-      <v-layout d-flex justify-center align-center v-if="loading">
+      <v-layout v-if="loading" d-flex justify-center align-center>
         <v-progress-circular
           size="200"
           color="primary"
@@ -18,23 +18,23 @@
           <div v-if="requests.length > 0">
             <v-row>
               <v-col
+                v-for="(room, index) in requests"
+                :key="room.id"
                 cols="12"
                 sm="4"
                 md="3"
-                v-for="(room, index) in requests"
-                :key="room.id"
               >
                 <room-card
                   owner
                   :room="room"
                   :index="index"
-                  :clickDelete="clickDelete"
+                  :click-delete="clickDelete"
                 />
               </v-col>
             </v-row>
             <v-pagination
-              class="mt-3"
               v-model="page"
+              class="mt-3"
               :length="totalPage"
               total-visible="7"
               circle
@@ -42,12 +42,12 @@
             ></v-pagination>
           </div>
           <v-layout
+            v-else
             d-flex
             column
             justify-center
             align-center
             align-content-center
-            v-else
           >
             <h1 class="display-2 font-weight-light text-center">
               Bạn chưa tạo phòng nào
@@ -60,11 +60,11 @@
         </div>
     </v-sheet>
     <warning-dialog
+      v-model="openWarningDialog"
       title="Xoá yêu cầu"
       :content="warningDialogContent"
       @accept="deleteRoom"
       @refuse="closeDialog"
-      v-model="openWarningDialog"
     />
   </v-container>
 </template>
@@ -107,7 +107,7 @@ export default class OwnerRequests extends Vue {
     this.loading = true
     await RoomRepository.getOwnerRoom({ page: this.page })
       .then((response) => {
-        let rooms: any = response.data.data
+        const rooms: any = response.data.data
         this.requests = rooms.map(function (item: any) {
           return new RoomCardDTO(item, true)
         })

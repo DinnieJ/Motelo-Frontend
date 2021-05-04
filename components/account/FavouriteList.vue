@@ -4,7 +4,7 @@
       <h1 class="secondary--text">Yêu thích</h1>
     </v-layout>
     <v-row>
-      <v-col cols="12" v-for="room in rooms" :key="room.id">
+      <v-col v-for="room in rooms" :key="room.id" cols="12">
         <room-card :room="room" />
       </v-col>
     </v-row>

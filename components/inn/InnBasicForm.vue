@@ -2,30 +2,30 @@
   <v-form @submit="clickNext">
     <h2 class="text-center">Thông tin cơ bản của nhà trọ</h2>
     <v-text-field
+      v-model="basicInfo.name"
       class="text-h5"
       label="Tên nhà trọ"
-      v-model="basicInfo.name"
     ></v-text-field>
     <v-layout align-center>
       <v-text-field
+        v-model="basicInfo.electric_price"
         class="text-h5"
         label="Tiền điện"
         type="number"
-        v-model="basicInfo.electric_price"
       ></v-text-field>
       <span>VNĐ/số</span>
     </v-layout>
     <v-layout align-center>
       <v-text-field
+        v-model="basicInfo.water_price"
         class="text-h5"
         label="Tiền nước"
         type="number"
-        v-model="basicInfo.water_price"
       ></v-text-field>
       <span>VNĐ/khối</span>
     </v-layout>
     <v-layout align-center>
-      <v-text-field class="text-h5" label="Wifi" type="number" v-model="basicInfo.wifi_price"></v-text-field>
+      <v-text-field v-model="basicInfo.wifi_price" class="text-h5" label="Wifi" type="number"></v-text-field>
       <span>VNĐ/tháng</span>
     </v-layout>
     

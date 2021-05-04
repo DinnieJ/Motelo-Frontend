@@ -26,8 +26,8 @@
           }"
         ></gmap-marker>
         <gmap-marker
-          :position="marker.position"
           :key="`marker-${marker.id}`"
+          :position="marker.position"
           :icon="{
             path: marker.type.code,
             fillColor: '#FFFFFF',
@@ -180,9 +180,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { LOADING_IMG, DefaultMapZoom } from '@/constants/app.constant'
+import { mdiCircle } from '@mdi/js'
 import UtilityRepository from '~/repositories/UtilityRepository'
 import { MarkerDTO } from '~/constants/app.interface'
-import { mdiCircle } from '@mdi/js'
 
 @Component<FullMap>({
   name: 'FullMap',

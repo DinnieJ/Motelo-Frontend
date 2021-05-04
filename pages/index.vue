@@ -5,15 +5,19 @@
         :show-arrows="false"
         delimiter-icon="mdi-minus"
         cycle
-        height="100%"
+        height="700"
       >
         <v-carousel-item
           v-for="(item, i) in banners"
           :key="i"
           :href="item.src"
           target="_blank"
-          :src="item.img"
         >
+          <v-sheet color="black" height="100%" tile>
+            <v-row class="fill-height" align="center" justify="center">
+              <v-img :src="item.img" height="auto" max-height="100%" width="100%" position="center center"/>
+            </v-row>
+          </v-sheet>
         </v-carousel-item>
       </v-carousel>
     </section>
@@ -28,8 +32,8 @@
               Tìm kiếm chỗ ở
             </h1>
             <p class="text-center mb-3 text-h6 white--text">
-              Chúng tôi luôn tự hào vì giúp đỡ các bạn sinh viên, nhất là các bạn
-              sinh viên mới nhập học tìm kiếm chỗ ở bên ngoài khuôn viên của
+              Chúng tôi luôn tự hào vì giúp đỡ các bạn sinh viên, nhất là các
+              bạn sinh viên mới nhập học tìm kiếm chỗ ở bên ngoài khuôn viên của
               trường.
             </p>
             <v-row class="mb-3 mt-2">
@@ -45,8 +49,8 @@
                   <h3>2,734</h3>
                   <p>sinh viên K16</p>
                   <p class="text-center">
-                    Được hỗ trợ tìm kiếm nơi ở xung quanh khu vực đại học FPT Hòa
-                    Lạc
+                    Được hỗ trợ tìm kiếm nơi ở xung quanh khu vực đại học FPT
+                    Hòa Lạc
                   </p>
                 </v-layout>
               </v-col>
@@ -96,7 +100,8 @@
                   <h3>10+</h3>
                   <p>CTV tư vấn</p>
                   <p class="text-center">
-                    Luôn có mặt để hỗ trợ sinh viên mới trong quá trình tìm nhà ở
+                    Luôn có mặt để hỗ trợ sinh viên mới trong quá trình tìm nhà
+                    ở
                   </p>
                 </v-layout>
               </v-col>
@@ -104,6 +109,7 @@
             <v-row>
               <v-col cols="10" offset="1">
                 <v-text-field
+                  v-model="keyword"
                   dense
                   solo
                   hide-details
@@ -114,10 +120,9 @@
                   class="my-3"
                   clearable
                   color="primary"
-                  v-model="keyword"
                   @keyup.enter="search"
                 >
-                  <template v-slot:append>
+                  <template #append>
                     <v-btn
                       depressed
                       icon
@@ -137,18 +142,21 @@
 
       <section class="white pa-3 mt-1 rounded">
         <v-layout justify-space-between class="d-flex mb-4">
-          <h1 class="home__header ml-5"><v-icon color="secondary" left large>mdi-heart</v-icon>Phòng được ưa thích</h1>
+          <h1 class="home__header ml-5">
+            <v-icon color="secondary" left large>mdi-heart</v-icon>Phòng được ưa
+            thích
+          </h1>
           <v-btn width="100" rounded outlined color="primary" to="/rooms"
             >Thêm</v-btn
           >
         </v-layout>
         <v-row>
           <v-col
-            cols="12"
-            sm="4"
-            md="3"
             v-for="room in topFavoriteRooms"
             :key="room.id"
+            cols="12"
+            sm="4"
+            md="3"
           >
             <room-card :room="room" />
           </v-col>
@@ -156,18 +164,21 @@
       </section>
       <section class="white pa-3 mt-1 rounded">
         <v-layout justify-space-between class="mb-4">
-          <h1 class="home__header ml-5"><v-icon color="blue" large left>mdi-shield</v-icon>Phòng được xác thực</h1>
+          <h1 class="home__header ml-5">
+            <v-icon color="blue" large left>mdi-shield</v-icon>Phòng được xác
+            thực
+          </h1>
           <v-btn width="100" rounded outlined color="primary" to="/rooms"
             >Thêm</v-btn
           >
         </v-layout>
         <v-row>
           <v-col
-            cols="12"
-            sm="4"
-            md="3"
             v-for="room in verifiedRooms"
             :key="room.id"
+            cols="12"
+            sm="4"
+            md="3"
           >
             <room-card :room="room" />
           </v-col>
@@ -175,18 +186,21 @@
       </section>
       <section class="white pa-3 mt-1 rounded">
         <v-layout justify-space-between class="mb-4">
-          <h1 class="home__header ml-5"><v-icon left large color="success">mdi-new-box</v-icon>Phòng mới nhất</h1>
+          <h1 class="home__header ml-5">
+            <v-icon left large color="success">mdi-new-box</v-icon>Phòng mới
+            nhất
+          </h1>
           <v-btn width="100" rounded outlined color="primary" to="/rooms"
             >Thêm</v-btn
           >
         </v-layout>
         <v-row>
           <v-col
+            v-for="room in newsestRooms"
+            :key="room.id"
             cols="12"
             sm="4"
             md="3"
-            v-for="room in newsestRooms"
-            :key="room.id"
           >
             <room-card :room="room" />
           </v-col>
@@ -287,13 +301,13 @@ export default class TenantHome extends Vue {
 </script>
 <style lang="scss">
 .search-block {
-  background-image: url("/imgs/anh_homepage.jpg");
+  background-image: url('/imgs/anh_homepage.jpg');
   background-position: center center;
   background-size: cover;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .info-block {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 </style>

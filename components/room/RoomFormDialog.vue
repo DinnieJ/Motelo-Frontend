@@ -1,5 +1,5 @@
 <template>
-  <v-dialog transition="dialog-bottom-transition" v-model="openning" fullscreen>
+  <v-dialog v-model="openning" transition="dialog-bottom-transition" fullscreen>
     <v-card class="grey lighten-3">
       <v-toolbar dark color="primary">
         <v-toolbar-title>Tạo mới phòng trọ</v-toolbar-title>

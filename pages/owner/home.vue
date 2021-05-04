@@ -84,7 +84,7 @@
         :wifi="inn.wifi_price"
         :inn_name="inn.name"
         :address="inn.address"
-        forInn
+        for-inn
       />
 
       <amenitie-section :amenities="inn.amenities" />
@@ -157,9 +157,9 @@ export default class OwnerHome extends Vue {
       (response) => {
         const inn = response.data
 
-        let amenities: number[] = []
-        let security: number[] = []
-        for (let amenity of inn.features) {
+        const amenities: number[] = []
+        const security: number[] = []
+        for (const amenity of inn.features) {
           if (amenity <= 13) amenities.push(amenity)
           else if (amenity <= 16) {
             security.push(amenity)

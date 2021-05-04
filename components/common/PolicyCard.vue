@@ -23,7 +23,7 @@ export default class PolicyCard extends Vue {
     @Prop({type: Function, required: true}) readonly accept!: Function
     @Prop({type: Function, required: true}) readonly refuse!: Function
 
-    //data
+    // data
   private policy: string =
     `CHỦ NHÀ TRỌ LƯU Ý <br />
     <b>Yêu cầu về thông tin nhà trọ<b/> <br />

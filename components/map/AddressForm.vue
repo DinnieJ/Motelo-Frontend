@@ -1,7 +1,7 @@
 <template>
   <v-form @submit="clickNext">
-    <v-text-field label="Địa chỉ nhà trọ" v-model="innAddress">
-      <v-icon slot="append" @click="searchAddress" color="primary">
+    <v-text-field v-model="innAddress" label="Địa chỉ nhà trọ">
+      <v-icon slot="append" color="primary" @click="searchAddress">
         Tìm kiếm
       </v-icon>
     </v-text-field>
@@ -31,8 +31,8 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from 'vue-property-decorator'
-import { DispatchAction } from '~/constants/app.vuex'
 import axios from 'axios'
+import { DispatchAction } from '~/constants/app.vuex'
 import { DefaultMapZoom } from '~/constants/app.constant'
 @Component<AddressForm>({
   name: 'AddressForm',
@@ -73,9 +73,9 @@ export default class AddressForm extends Vue {
               console.log('get current address = ', err)
             })
         }
-      , error => {
-        console.log(error)
-      }, {maximumAge: 0})
+        , error => {
+          console.log(error)
+        }, {maximumAge: 0})
     }
   }
 

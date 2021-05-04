@@ -1,5 +1,5 @@
 <template>
-  <v-footer dark padless v-show="isDesktop">
+  <v-footer v-show="isDesktop" dark padless>
     <v-card flat class="primary lighten-1 white--text text-center" width="100%">
       <v-card-text>
         <v-btn v-for="icon in icons" :key="icon.link" class="mx-4 white--text" :href="icon.link" icon>
@@ -20,14 +20,14 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component<Footer>({
-    name: 'Footer'
+  name: 'Footer'
 })
 
 export default class Footer extends Vue {
     private icons: any = [
-        { link: 'https://www.facebook.com/DaihocFPTHaNoi', icon: 'mdi-facebook' },
-        { link: 'http://hanoi.fpt.edu.vn/', icon: 'mdi-earth' },
-        { link: 'mailto:tuyensinh.hanoi@fpt.edu.vn', icon: 'mdi-email' }
+      { link: 'https://www.facebook.com/DaihocFPTHaNoi', icon: 'mdi-facebook' },
+      { link: 'http://hanoi.fpt.edu.vn/', icon: 'mdi-earth' },
+      { link: 'mailto:tuyensinh.hanoi@fpt.edu.vn', icon: 'mdi-email' }
     ]
 
     public isMobile(): boolean {

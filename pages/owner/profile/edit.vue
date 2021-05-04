@@ -3,15 +3,15 @@
     <v-layout class="d-flex column align-center pa-3">
       <h1 class="primary--text text-h3 text-center">Cập nhật thông tin</h1>
       <div class="round-img mt-5 mb-5">
-        <img :src="avatar" ref="avatar" />
+        <img ref="avatar" :src="avatar" />
       </div>
       <v-btn class="mb-5" color="primary" @click="uploadImage"
         ><v-icon left dark>mdi-camera</v-icon>Chọn ảnh mới</v-btn
       >
       <input
+        ref="imageForm"
         type="file"
         accept="image/*"
-        ref="imageForm"
         class="d-none"
         @change="onFileChange"
       />
@@ -53,7 +53,7 @@
             offset-y
             min-width="auto"
           >
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="ownerInfo.date_of_birth"
                 label="Ngay sinh"
@@ -68,8 +68,8 @@
             </template>
             <v-date-picker
               v-model="ownerInfo.date_of_birth"
-              @input="dateDialog = false"
               :max="new Date().toJSON().slice(0, 10).replace(/-/g, '-')"
+              @input="dateDialog = false"
             ></v-date-picker>
           </v-menu>
           <p>Liên lạc</p>
@@ -80,11 +80,11 @@
           >
             <v-col cols="2" sm="1" class="mr-1">
               <v-menu bottom offset-y>
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                   <div
                     v-bind="attrs"
-                    v-on="on"
                     class="d-flex justify-start align-center auth__select"
+                    v-on="on"
                   >
                     <v-icon max-width="2rem" max-height="2rem">{{
                       contactItems.filter(
@@ -114,9 +114,9 @@
                 :rules="rules.date_of_birth"
               >
                 <v-text-field
+                  v-model="contact.content"
                   outlined
                   full-width
-                  v-model="contact.content"
                   :error-messages="errors"
                 ></v-text-field>
               </validation-provider>
@@ -129,17 +129,17 @@
           </v-row>
           <v-btn
             small
-            @click="addContactBox"
             :disabled="contacts.length >= 5"
             class="mb-3"
+            @click="addContactBox"
             >Thêm liên lạc</v-btn
           >
           <v-btn
             color="primary"
             :disabled="invalid"
             :loading="loading"
-            @click="submit"
             class="my-2"
+            @click="submit"
           >
             Cập nhật
           </v-btn>
@@ -213,6 +213,7 @@ export default class UpdateOwner extends Vue {
     date_of_birth: { required: true },
     address: { required: true },
   }
+
   private contactItems = [
     {
       text: 'Email',
@@ -235,6 +236,7 @@ export default class UpdateOwner extends Vue {
       icon: 'mdi-facebook',
     },
   ]
+
   private dateDialog = false
   private loading: boolean = false
   private ownerInfo: any = {
@@ -249,9 +251,9 @@ export default class UpdateOwner extends Vue {
 
   onFileChange(e: any) {
     this.avatar = null
-    let vm: any = this
+    const vm: any = this
     this.avatar = e.target.files[0]
-    let reader = new FileReader()
+    const reader = new FileReader()
     reader.onload = (e) => {
       vm.$refs.avatar.src = reader.result
     }
@@ -309,7 +311,7 @@ export default class UpdateOwner extends Vue {
 
   async submit() {
     this.loading = true
-    let formData = new FormData()
+    const formData = new FormData()
     Object.keys(this.ownerInfo).forEach((item) => {
       formData.append(item, this.ownerInfo[item])
     })

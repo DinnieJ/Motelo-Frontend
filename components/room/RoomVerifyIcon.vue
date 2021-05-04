@@ -1,6 +1,6 @@
 <template>
   <v-tooltip top>
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <v-icon size="32" color="primary" dark v-bind="attrs" v-on="on">
         mdi-shield-home
       </v-icon>

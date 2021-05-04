@@ -5,7 +5,7 @@
       <v-btn rounded outlined color="primary" to="/rooms">Xem thêm</v-btn>
     </v-layout>
     <v-row>
-      <v-col cols="12" sm="6" v-for="room in rooms" :key="room.id">
+      <v-col v-for="room in rooms" :key="room.id" cols="12" sm="6">
         <room-card :room="room" />
       </v-col>
     </v-row>

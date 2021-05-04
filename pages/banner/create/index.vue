@@ -9,8 +9,8 @@
           :rules="rules.title"
         >
           <v-text-field
-            label="Tiêu đề"
             v-model="formData.title"
+            label="Tiêu đề"
             class="required"
             :error-messages="errors"
           />
@@ -21,8 +21,8 @@
           :rules="rules.url"
         >
           <v-text-field
-            label="Đường dẫn"
             v-model="formData.url"
+            label="Đường dẫn"
             class="required"
             :error-messages="errors"
           ></v-text-field>
@@ -35,7 +35,7 @@
           offset-y
           min-width="auto"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-text-field
               v-model="formData.start_time"
               label="Ngày bắt đầu sự kiện"
@@ -62,7 +62,7 @@
           offset-y
           min-width="auto"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-text-field
               v-model="formData.end_time"
               label="Ngày kết thúc sự kiện"
@@ -82,39 +82,39 @@
           </v-date-picker>
         </v-menu>
         <input
+          ref="imageForm"
           type="file"
           accept="image/*"
-          ref="imageForm"
           class="d-none"
           @change="onFileChange"
         />
         <v-card class="mb-12" color="" elevation="2" min-height="200px">
           <v-card-title
+            v-if="formData.image == null"
             primary-title
             class="justify-center"
-            v-if="formData.image == null"
           >
             <h3 class="headline primary--text justify-center">
               Tải ảnh lên tại đây
             </h3>
           </v-card-title>
-          <v-layout d-flex row wrap justify-center class="mt-2" v-else>
+          <v-layout v-else d-flex row wrap justify-center class="mt-2">
             <div class="d-flex flex-column align-center ml-2 mr-2 pa-2">
-              <img class="image-box" :ref="'image'" />
+              <img :ref="'image'" class="image-box" />
             </div>
           </v-layout>
           <v-card-actions class="justify-center">
-            <v-btn color="primary" @click="clickUpload" v-if="!formData.image">
+            <v-btn v-if="!formData.image" color="primary" @click="clickUpload">
               <v-icon left>mdi-upload</v-icon>
               Tải lên
             </v-btn>
-            <v-btn color="red" @click="removeImages" v-else>
+            <v-btn v-else color="red" @click="removeImages">
               <v-icon left>mdi-delete</v-icon>
               Xóa
             </v-btn>
           </v-card-actions>
         </v-card>
-        <v-btn :disabled="invalid || !formData.image" @click="createBanner" class="primary"
+        <v-btn :disabled="invalid || !formData.image" class="primary" @click="createBanner"
           >Tạo mới</v-btn
         >
         <v-btn color="secondary" to="/banner">hủy</v-btn>
@@ -156,6 +156,7 @@ export default class CreateBanner extends Vue {
     title: { required: true },
     url: { required: true },
   }
+
   private formData: any = {
     title: '',
     url: '',
@@ -185,11 +186,12 @@ export default class CreateBanner extends Vue {
         })
       })
   }
+
   onFileChange(e: any) {
     this.formData.image = null
-    let vm: any = this
+    const vm: any = this
     this.formData.image = e.target.files[0]
-    let reader = new FileReader()
+    const reader = new FileReader()
     reader.onload = (e) => {
       vm.$refs.image.src = reader.result
     }
@@ -203,7 +205,7 @@ export default class CreateBanner extends Vue {
   }
 
   removeImages() {
-    let refs = this.$refs as any
+    const refs = this.$refs as any
     refs.imageForm.value = ''
     this.formData.image = null
   }

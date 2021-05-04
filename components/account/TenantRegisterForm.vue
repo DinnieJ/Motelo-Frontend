@@ -54,7 +54,7 @@
           offset-y
           min-width="auto"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-text-field
               v-model="registerInfo.date_of_birth"
               label="Ngày sinh"
@@ -68,13 +68,13 @@
           </template>
           <v-date-picker
             v-model="registerInfo.date_of_birth"
-            @input="dateDialog = false"
             :max="new Date().toJSON().slice(0, 10).replace(/-/g, '-')"
+            @input="dateDialog = false"
           ></v-date-picker>
         </v-menu>
         <validation-provider
-          vid="password"
           v-slot="{ errors }"
+          vid="password"
           name="password"
           :rules="rules.password"
         >
@@ -82,13 +82,13 @@
             v-model="registerInfo.password"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
             label="Mật khẩu"
             name="password"
             outlined
             color="primary"
             class="required"
             :error-messages="errors"
+            @click:append="showPassword = !showPassword"
           ></v-text-field>
         </validation-provider>
         <validation-provider
@@ -100,16 +100,16 @@
             v-model="registerInfo.repassword"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
             label="Nhập lại Mật khẩu"
             outlined
             color="primary"
             class="required"
             :error-messages="errors"
+            @click:append="showPassword = !showPassword"
           ></v-text-field>
         </validation-provider>
         <v-checkbox v-model="confirmPolicy">
-          <template v-slot:label>
+          <template #label>
             <div>
               Tôi đã đọc kĩ
                   <a
@@ -127,8 +127,8 @@
           color="primary"
           :disabled="invalid"
           :loading="loading"
-          @click="register"
           class="my-2"
+          @click="register"
         >
           ĐĂNG KÝ
         </v-btn>
@@ -150,8 +150,8 @@ import {
 } from 'vee-validate'
 import { required, email, min, confirmed, regex } from 'vee-validate/dist/rules'
 import { ROLE } from '@/constants/app.constant'
-import { TenantRegisterDTO } from '@/constants/app.interface'
-import { TenantRegisterRule } from '@/constants/app.interface'
+import { TenantRegisterDTO , TenantRegisterRule } from '@/constants/app.interface'
+
 
 setInteractionMode('eager')
 
@@ -203,10 +203,9 @@ export default class TenantRegisterForm extends Vue {
 
   private showPassword: boolean = false
   @Prop() readonly loading!: boolean
-  private rules: TenantRegisterRule = {
+  private rules: any = {
     name: {
-      required: true,
-      regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*$/,
+      required: true
     },
     email: { required: true, email: true },
     password: { required: true, min: 8 },
@@ -214,6 +213,7 @@ export default class TenantRegisterForm extends Vue {
     phone: { required: true },
     date_of_birth: { required: true },
   }
+
   private dateDialog = false
 
   private confirmPolicy: boolean = false
@@ -227,6 +227,7 @@ export default class TenantRegisterForm extends Vue {
       })
     }
   }
+
   @Emit()
   public async submit() {
     return this.registerInfo

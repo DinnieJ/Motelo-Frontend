@@ -17,10 +17,10 @@
     <section class="mb-6">
       <v-layout>
         <v-range-slider
+          v-model="price"
           label="Giá:"
           hint="tr VND/tháng"
           persistent-hint
-          v-model="price"
           :max="priceMax"
           :min="priceMin"
           :step="priceStep"
@@ -34,10 +34,10 @@
       <h2>Tiện ích</h2>
       <v-row>
         <v-col
-          cols="12"
-          sm="4"
           v-for="item in amenities"
           :key="item.id"
+          cols="12"
+          sm="4"
           align-center
           class="d-flex filter__content"
         >
@@ -52,10 +52,10 @@
       <h2>Loại phòng</h2>
       <v-row>
         <v-col
-          cols="12"
-          sm="4"
           v-for="item in roomTypes"
           :key="item.id"
+          cols="12"
+          sm="4"
           align-center
           class="d-flex filter__content"
         >
@@ -70,10 +70,10 @@
       <h2>Giới tính</h2>
       <v-row>
         <v-col
-          cols="12"
-          sm="4"
           v-for="item in genders"
           :key="item.id"
+          cols="12"
+          sm="4"
           align-center
           class="d-flex filter__content"
         >
@@ -83,7 +83,7 @@
         </v-col>
       </v-row>
     </section>
-    <v-btn color="warning" rounded outlined @click="filterSearch" block>lọc</v-btn>
+    <v-btn color="warning" rounded outlined block @click="filterSearch">lọc</v-btn>
   </div>
 </template>
 
@@ -135,8 +135,8 @@ export default class RoomFilter extends Vue {
   }
 
   get price() {
-    let min_price = this.$store.state.search.min_price
-    let max_price = this.$store.state.search.max_price
+    const min_price = this.$store.state.search.min_price
+    const max_price = this.$store.state.search.max_price
 
     return [min_price, max_price]
   }

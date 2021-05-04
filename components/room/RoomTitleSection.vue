@@ -8,9 +8,9 @@
         <room-favor-btn
           v-if="isTenant"
           class="mr-4"
-          :clickFavor="clickFavor"
+          :click-favor="clickFavor"
           :favorite.sync="asyncFavorite"
-          roomDetail
+          room-detail
         />
         <v-btn
           v-if="forOwner"
@@ -33,9 +33,9 @@
 <script lang="ts">
 import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
 import { BreadcrumbLink } from '@/constants/app.interface'
-import RoomFavorBtn from './RoomFavorBtn.vue'
 import { mapGetters } from 'vuex'
 import { Getter } from '@/constants/app.vuex'
+import RoomFavorBtn from './RoomFavorBtn.vue'
 
 @Component<RoomTitleSection>({
   name: 'RoomTitleSection',

@@ -42,44 +42,44 @@
             <v-tab-item>
               <v-form>
                 <v-text-field
+                  v-model="formData.title"
                   name="title"
                   label="Tiêu đề"
-                  v-model="formData.title"
                 ></v-text-field>
                 <v-layout align-center>
                   <v-text-field
+                    v-model="formData.price"
                     label="Tiền thuê"
                     type="number"
                     min="0"
                     name="price"
-                    v-model="formData.price"
                     @keypress="checkNumber($event)"
                   ></v-text-field>
                   <span class="pb-1 ml-2">VNĐ/tháng</span>
                 </v-layout>
                 <v-layout align-center>
                   <v-text-field
+                    v-model="formData.acreage"
                     label="Diện tích"
                     type="number"
                     name="acreage"
-                    v-model="formData.acreage"
                     @keypress="checkNumber($event)"
                   ></v-text-field>
                   <span class="pb-1">m²</span>
                 </v-layout>
                 <v-select
+                  v-model="formData.room_type_id"
                   label="Loại phòng"
                   :items="roomTypes"
                   item-text="text"
                   item-value="id"
-                  v-model="formData.room_type_id"
                 ></v-select>
                 <v-textarea
+                  v-model="formData.description"
                   label="Miêu tả thêm"
                   outlined
                   auto-grow
                   rows="4"
-                  v-model="formData.description"
                 ></v-textarea>
                 <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
               </v-form>
@@ -88,19 +88,19 @@
             <v-tab-item>
               <v-form class="mt-8">
                 <input
+                  ref="images"
                   type="file"
                   accept="image/*"
                   multiple="multiple"
-                  ref="images"
                   class="d-none"
                   @change="onFileChange"
                 />
                 <v-row class="mb-4 justify-center">
-                  <v-col cols="12" sm="6" v-for="(image, i) in images" :key="i">
+                  <v-col v-for="(image, i) in images" :key="i" cols="12" sm="6">
                     <v-btn small block color="secondary" @click="clickDelete(i)"
                       >xóa</v-btn
                     >
-                    <img width="100%" height="auto" ref="image" />
+                    <img ref="image" width="100%" height="auto" />
                   </v-col>
                 </v-row>
                 <v-layout justify-center>
@@ -113,8 +113,8 @@
                   <v-btn
                     class="mr-3"
                     color="primary"
-                    @click="submitForm"
                     :disabled="images.length == 0"
+                    @click="submitForm"
                   >
                     Hoàn thành
                   </v-btn>
@@ -127,11 +127,11 @@
       </div>
     </v-layout>
     <warning-dialog
+      v-model="openWarningDialog"
       title="Thoát ra"
       content="Nếu bạn thoát bây giờ, đơn sẽ bị hủy.<br />Bạn có muốn thoát không ?"
       @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
-      v-model="openWarningDialog"
     />
   </v-container>
 </template>
@@ -211,7 +211,7 @@ export default class RoomCreateRequest extends Vue {
   public acceptPolicyEvent(event: Event) {
     this.acceptPolicy = true
 
-    //if policy is accepted, disable policy, enable other
+    // if policy is accepted, disable policy, enable other
     const policyIndex = 0
     this.tabHeaders.forEach((item) => (item.disabled = false))
     this.tabHeaders[policyIndex].disabled = true
@@ -277,14 +277,14 @@ export default class RoomCreateRequest extends Vue {
   }
 
   onFileChange(e: any) {
-    let vm: any = this
-    var selectedFiles = e.target.files
+    const vm: any = this
+    const selectedFiles = e.target.files
     for (let i = 0; i < selectedFiles.length; i++) {
       this.images.push(selectedFiles[i])
     }
 
     for (let i = 0; i < this.images.length; i++) {
-      let reader = new FileReader()
+      const reader = new FileReader()
       reader.onload = (e) => {
         vm.$refs.image[i].src = reader.result
       }

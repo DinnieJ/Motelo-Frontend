@@ -2,10 +2,10 @@
   <v-form @submit="clickNext">
     <h2 class="text-center">An ninh của nhà trọ</h2>
     <v-row>
-      <v-col cols="12" sm="4" v-for="item in CONST_SAFETY" :key="item.id">
+      <v-col v-for="item in CONST_SAFETY" :key="item.id" cols="12" sm="4">
         <v-layout align-center>
           <v-checkbox v-model="safetyInfo.security" :value="item.id">
-            <template v-slot:label>
+            <template #label>
               <v-icon left>mdi-{{ item.icon }}</v-icon>
               {{ item.text }}
             </template>

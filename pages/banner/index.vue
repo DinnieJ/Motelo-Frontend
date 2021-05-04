@@ -5,13 +5,13 @@
       <v-btn class="primary mt-5" to="/banner/create"><v-icon left>mdi-plus</v-icon>Tạo mới</v-btn>
       <v-select v-model="status" :items="bannerStatus" item-text="text" item-value="status" @change="getBanners"></v-select>
       <v-row class="mt-5" justify="center">
-          <v-col cols="12" lg="5" v-for="banner in banners" :key="banner.id">
+          <v-col v-for="banner in banners" :key="banner.id" cols="12" lg="5">
             <banner-card :banner="banner" ></banner-card>
           </v-col>
       </v-row>
       <v-pagination
-        class="mt-5"
         v-model="page"
+        class="mt-5"
         :length="totalPage"
         total-visible="7"
         circle
@@ -28,7 +28,7 @@ import BannerRepository from '@/repositories/BannerRepository'
 @Component<Banner>({
   name: 'Banner',
   components: {
-      BannerCard
+    BannerCard
   },
 
   mounted() {
@@ -43,22 +43,22 @@ export default class Banner extends Vue {
   private totalPage: number = 1
   private banners: any = []
   private bannerStatus = [
-      {
-          status: 0,
-          text: "Tất cả"
-      },
-      {
-          status: 1,
-          text: "Hiện tại",
-      },
-      {
-          status: 2,
-          text: "Hết hạn"
-      }, 
-      {
-          status: 3,
-          text: "Đang chờ"
-      }
+    {
+      status: 0,
+      text: "Tất cả"
+    },
+    {
+      status: 1,
+      text: "Hiện tại",
+    },
+    {
+      status: 2,
+      text: "Hết hạn"
+    }, 
+    {
+      status: 3,
+      text: "Đang chờ"
+    }
   ]
 
   public async getBanners() {

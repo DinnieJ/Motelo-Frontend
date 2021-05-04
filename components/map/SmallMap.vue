@@ -46,6 +46,7 @@ export default class SmallMap extends Vue {
     editable: false,
     clickable: true,
   }
+
   private searchRadius: number = this.circleRadius
   public getCircleByRadius() {
     this.circleRadius = this.searchRadius

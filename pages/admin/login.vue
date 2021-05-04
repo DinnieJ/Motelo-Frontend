@@ -12,19 +12,19 @@
           <v-card-text>
             <v-form>
               <v-text-field
+                v-model="username"
                 outline
                 label="Tên"
                 type="text"
                 name="name"
-                v-model="username"
               ></v-text-field>
               <v-text-field
+                v-model="password"
                 outline
                 hide-details
                 label="Password"
                 type="password"
                 name="password"
-                v-model="password"
               ></v-text-field>
             </v-form>
           </v-card-text>

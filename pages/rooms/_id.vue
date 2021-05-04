@@ -3,14 +3,14 @@
     <room-detail-container
       :room="room"
       :favorite.sync="favorite"
-      :clickFavor="clickFavor"
+      :click-favor="clickFavor"
       :comments.sync="comments"
-      :addComment="addComment"
-      :editComment="editComment"
-      :deleteComment="deleteComment"
+      :add-comment="addComment"
+      :edit-comment="editComment"
+      :delete-comment="deleteComment"
 
       :verify.sync="verify"
-      :clickVerify="clickVerify"
+      :click-verify="clickVerify"
     />
   </v-container>
 </template>
@@ -101,7 +101,7 @@ export default class DetailRoom extends Vue {
   public async editComment({id, comment} : { id: number; comment: string }) {
     await RoomRepository.editComment(id, comment)
       .then((repos) => {
-        let editedComment = this.comments.findIndex((cmt) => cmt.id === id)
+        const editedComment = this.comments.findIndex((cmt) => cmt.id === id)
         this.comments[editedComment].context = repos.data.comment.comment
         this.comments[editedComment].time_context = repos.data.comment.time_context
         console.log(repos.data);
@@ -118,7 +118,7 @@ export default class DetailRoom extends Vue {
   public async deleteComment(id: number) {
     await RoomRepository.deleteComment(id)
       .then(() => {
-        let deletedComment = this.comments.findIndex((cmt) => cmt.id === id)
+        const deletedComment = this.comments.findIndex((cmt) => cmt.id === id)
         this.comments.splice(deletedComment, 1)
         this.$notify.showMessage({
           message: 'Bạn đã xóa bình luận thành công',

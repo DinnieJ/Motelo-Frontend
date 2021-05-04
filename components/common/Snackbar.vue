@@ -6,12 +6,12 @@
   max-height="150"
   top>
     {{ message }}
-          <template v-slot:action="{ attrs }">
+          <template #action="{ attrs }">
         <v-btn
           text
           v-bind="attrs"
-          @click="show = false"
           width="10"
+          @click="show = false"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>

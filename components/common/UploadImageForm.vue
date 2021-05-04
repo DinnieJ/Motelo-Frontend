@@ -1,39 +1,39 @@
 <template>
   <v-form @submit="clickNext">
     <input
+      ref="images"
       type="file"
       accept="image/*"
       multiple="multiple"
-      ref="images"
       class="d-none"
       @change="onFileChange"
     />
     <v-card class="mb-12" color="" elevation="2" min-height="200px">
       <v-card-title
+        v-if="images.length == 0"
         primary-title
         class="justify-center"
-        v-if="images.length == 0"
       >
         <h3 class="headline primary--text justify-center">
           Tải ảnh lên tại đây
         </h3>
       </v-card-title>
-      <v-layout d-flex row wrap justify-center class="mt-2" v-else>
+      <v-layout v-else d-flex row wrap justify-center class="mt-2">
         <div
           v-for="(image, i) in images"
           :key="i"
           class="d-flex flex-column align-center ml-2 mr-2 pa-2"
         >
-          <img class="image-box" width="250" height="200" :ref="'image'" />
+          <img :ref="'image'" class="image-box" width="250" height="200" />
           <p class="mt-2 text-center">{{ getImageName(image.name) }}</p>
         </div>
       </v-layout>
       <v-card-actions class="justify-center">
-        <v-btn color="primary" @click="clickUpload" v-if="images.length == 0">
+        <v-btn v-if="images.length == 0" color="primary" @click="clickUpload">
           <v-icon left>mdi-upload</v-icon>
           Tải lên
         </v-btn>
-        <v-btn color="red" @click="removeImages" v-else>
+        <v-btn v-else color="red" @click="removeImages">
           <v-icon left>mdi-delete</v-icon>
           Xóa
         </v-btn>
@@ -95,20 +95,21 @@ export default class UploadImageForm extends Vue {
   }
 
   removeImages() {
-    let refs = this.$refs as any
+    const refs = this.$refs as any
     refs.images.value = ''
     this.images = []
   }
+
   onFileChange(e: any) {
     this.images.length = 0
-    let vm: any = this
-    var selectedFiles = e.target.files
+    const vm: any = this
+    const selectedFiles = e.target.files
     for (let i = 0; i < selectedFiles.length; i++) {
       this.images.push(selectedFiles[i])
     }
 
     for (let i = 0; i < this.images.length; i++) {
-      let reader = new FileReader()
+      const reader = new FileReader()
       reader.onload = (e) => {
         vm.$refs.image[i].src = reader.result
       }
@@ -117,8 +118,8 @@ export default class UploadImageForm extends Vue {
     }
   }
 
-   getImageName(str: string): string {
-     return str.length > 25 ? str.substr(0, 20) + '...' + str.substr(str.length - 5, str.length) : str
+  getImageName(str: string): string {
+    return str.length > 25 ? str.substr(0, 20) + '...' + str.substr(str.length - 5, str.length) : str
   }
 }
 </script>

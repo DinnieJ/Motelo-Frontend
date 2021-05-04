@@ -1,18 +1,18 @@
 <template>
   <v-container>
     <div class="banner--img text-center mt-5">
-      <img :src="image" ref="bannerImage" />
+      <img ref="bannerImage" :src="image" />
     </div>
     <input
+      ref="imageForm"
       type="file"
       accept="image/*"
-      ref="imageForm"
       class="d-none"
       @change="onFileChange"
     />
     <v-btn
-      color="primary"
       v-show="editing"
+      color="primary"
       fixed
       rounded
       dense
@@ -22,15 +22,15 @@
       ><v-icon left dark>mdi-camera</v-icon>Chọn ảnh mới</v-btn
     >
 
-    <v-row class="mt-5" v-show="!editing">
+    <v-row v-show="!editing" class="mt-5">
       <v-col offset="4" offset-sm="8">
         <v-btn color="primary" class="mr-2" @click="editing = true"
           ><v-icon left>mdi-wrench</v-icon>Sửa</v-btn
         >
         <v-btn
           color="red"
-          @click="confirmDeleteDialog = true"
           class="white--text"
+          @click="confirmDeleteDialog = true"
           ><v-icon left>mdi-trash-can</v-icon>Xóa</v-btn
         >
       </v-col>
@@ -45,8 +45,8 @@
               :rules="rules.title"
             >
               <v-text-field
-                label="Tiêu đề"
                 v-model="banner.title"
+                label="Tiêu đề"
                 class="required"
                 :error-messages="errors"
                 :disabled="!editing"
@@ -59,8 +59,8 @@
               :rules="rules.url"
             >
               <v-text-field
-                label="Đường dẫn"
                 v-model="banner.url"
+                label="Đường dẫn"
                 class="required"
                 :error-messages="errors"
                 :disabled="!editing"
@@ -75,16 +75,16 @@
               offset-y
               min-width="auto"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-text-field
                   v-model="banner.start_time"
                   label="Ngày bắt đầu sự kiện"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
-                  v-on="on"
                   :disabled="!editing"
                   :outlined="!editing"
+                  v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -104,16 +104,16 @@
               offset-y
               min-width="auto"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-text-field
                   v-model="banner.end_time"
                   label="Ngày kết thúc sự kiện"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
-                  v-on="on"
                   :disabled="!editing"
                   :outlined="!editing"
+                  v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -127,17 +127,17 @@
             </v-menu>
           </v-form>
           <v-btn
+            v-show="editing"
             color="primary"
             :disabled="invalid"
-            v-show="editing"
             :loading="loadingUpdate"
             @click="updateBanner"
             ><v-icon left>mdi-check</v-icon>Cập nhật</v-btn
           >
           <v-btn
+            v-show="editing"
             color="red"
             class="white--text"
-            v-show="editing"
             @click="cancelUpdate"
             ><v-icon left>mdi-close</v-icon>Hủy bỏ</v-btn
           >
@@ -207,6 +207,7 @@ export default class BannerDetail extends Vue {
     title: { required: true },
     url: { required: true },
   }
+
   private editing: boolean = false
   private confirmDeleteDialog: boolean = false
   private loadingDelete: boolean = false
@@ -235,7 +236,7 @@ export default class BannerDetail extends Vue {
 
   public async updateBanner() {
     this.loadingUpdate = true
-    let formData = new FormData()
+    const formData = new FormData()
     Object.keys(this.banner).forEach((item) => {
       formData.append(item, this.banner[item])
     })
@@ -290,9 +291,9 @@ export default class BannerDetail extends Vue {
 
   onFileChange(e: any) {
     this.image = null
-    let vm: any = this
+    const vm: any = this
     this.image = e.target.files[0]
-    let reader = new FileReader()
+    const reader = new FileReader()
     reader.onload = (e) => {
       vm.$refs.bannerImage.src = reader.result
     }

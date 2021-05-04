@@ -28,10 +28,10 @@
 <script lang="ts">
 import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
 import { CommentDTO } from '@/constants/app.interface'
-import RoomCommentCard from './RoomCommentCard.vue'
-import RoomCommentInput from './RoomCommentInput.vue'
 import { mapGetters } from 'vuex'
 import { Getter } from '@/constants/app.vuex'
+import RoomCommentCard from './RoomCommentCard.vue'
+import RoomCommentInput from './RoomCommentInput.vue'
 
 @Component<RoomCommentSection>({
   name: 'RoomCommentSection',

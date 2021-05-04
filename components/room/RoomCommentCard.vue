@@ -9,9 +9,9 @@
             <p class="mb-0">{{ comment.name }}</p>
             <p class="mb-0 ml-3 caption font-weight-light">{{ comment.time_context }}</p>
           </v-layout>
-        <v-menu bottom offset-y v-if="editable">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" v-if="isCurrentTenantComment">
+        <v-menu v-if="editable" bottom offset-y>
+          <template #activator="{ on, attrs }">
+            <v-btn v-if="isCurrentTenantComment" icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
@@ -25,8 +25,8 @@
     </v-card-title>
     <v-card-text class="mt-3 pl-7 pr-7">
       <v-textarea
-        :disabled="!isEditing"
         v-model="comment.context"
+        :disabled="!isEditing"
         :outlined="isEditing"
         rows="1"
         auto-grow
@@ -68,7 +68,7 @@ export default class RoomCommentCard extends Vue {
   @Emit()
   editComment() {
     this.isEditing = false
-    let data: { id: number; comment: string } = {
+    const data: { id: number; comment: string } = {
       id: this.comment.id,
       comment: this.comment.context,
     }

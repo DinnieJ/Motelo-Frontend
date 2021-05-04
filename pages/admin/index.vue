@@ -9,7 +9,7 @@
       :sort-desc="sortDesc"
       hide-default-footer
     >
-      <template v-slot:header>
+      <template #header>
         <v-toolbar height="100%" dark color="primary darken-3" class="mb-1">
           <div>
             <v-layout align-center class="mb-1">
@@ -29,8 +29,8 @@
                 Tạo mới
               </v-btn>
               <v-text-field
-                class="mr-2"
                 v-model="search"
+                class="mr-2"
                 clearable
                 flat
                 solo-inverted
@@ -63,7 +63,7 @@
         </v-toolbar>
       </template>
 
-      <template v-slot:default="props">
+      <template #default="props">
         <v-row class="mt-2">
           <v-col
             v-for="item in props.items"
@@ -112,7 +112,7 @@
 
               <v-divider></v-divider>
 
-              <v-list dense v-if="props.isExpanded(item)">
+              <v-list v-if="props.isExpanded(item)" dense>
                 <v-list-item v-for="(key, index) in headers" :key="index">
                   <p :class="{ 'secondary--text': sortBy === key.value }">
                     <i>{{ key.text }}</i>
@@ -125,7 +125,7 @@
         </v-row>
       </template>
 
-      <template v-slot:footer>
+      <template #footer>
         <v-layout class="mt-2" align-center justify-end>
           <span class="mr-4 primary--text">
             Trang {{ page }} trên {{ numberOfPages }}
@@ -154,8 +154,8 @@
       </template>
     </v-data-iterator>
     <v-dialog
-      max-width="1184px"
       v-model="openDialog"
+      max-width="1184px"
       :fullscreen="$vuetify.breakpoint.smAndDown"
     >
       <v-card class="pa-2" width="100%">
@@ -199,7 +199,7 @@
               offset-y
               min-width="auto"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-text-field
                   v-model="formData.date_of_birth"
                   label="Ngày sinh"
@@ -227,13 +227,13 @@
           <!-- Image upload -->
           <v-col cols="12" md="6">
             <input
+              ref="images"
               type="file"
               accept="image/*"
-              ref="images"
               class="d-none"
               @change="onFileChange"
             />
-            <img width="100%" height="auto" ref="image" />
+            <img ref="image" width="100%" height="auto" />
             <v-layout justify-center>
               <v-btn outlined color="primary" @click="clickUpload">
                 <v-icon left>mdi-upload</v-icon>
@@ -302,6 +302,7 @@ export default class AdminHome extends Vue {
       value: 'created_at',
     },
   ]
+
   private openDialog: boolean = false
   private formData: any = {
     id: -1,
@@ -312,6 +313,7 @@ export default class AdminHome extends Vue {
     date_of_birth: '',
     identity_number: '',
   }
+
   private image: any = null
   private dialogTitle: string = ''
   private dateDialog = false
@@ -342,6 +344,7 @@ export default class AdminHome extends Vue {
   nextPage() {
     if (this.page + 1 <= this.numberOfPages) this.page += 1
   }
+
   formerPage() {
     if (this.page - 1 >= 1) this.page -= 1
   }
@@ -361,11 +364,11 @@ export default class AdminHome extends Vue {
   }
 
   onFileChange(e: any) {
-    let vm: any = this
-    var selectedFiles = e.target.files
+    const vm: any = this
+    const selectedFiles = e.target.files
     this.image = selectedFiles[0]
 
-    let reader = new FileReader()
+    const reader = new FileReader()
     reader.onload = (e) => {
       vm.$refs.image.src = reader.result
     }
@@ -374,7 +377,7 @@ export default class AdminHome extends Vue {
   }
 
   public getAllCollaborator() {
-    let items: any[] = []
+    const items: any[] = []
     for (let i = 0; i < 12; i++) {
       items.push({
         id: i,
