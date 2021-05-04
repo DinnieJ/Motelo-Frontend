@@ -60,7 +60,7 @@
             >
               <v-text-field
                 v-model="banner.url"
-                label="Đường dẫn"
+                label="Đường link"
                 class="required"
                 :error-messages="errors"
                 :disabled="!editing"

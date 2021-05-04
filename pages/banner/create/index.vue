@@ -22,7 +22,7 @@
         >
           <v-text-field
             v-model="formData.url"
-            label="Đường dẫn"
+            label="Đường link"
             class="required"
             :error-messages="errors"
           ></v-text-field>
