@@ -6,11 +6,6 @@
     :zoom="zoom"
     :options="mapOptions"
   >
-    <gmap-circle
-      :center="center"
-      :radius="circleRadius"
-      :options="circleOptions"
-    ></gmap-circle>
     <gmap-marker :position="center"></gmap-marker>
   </gmap-map>
 </template>
