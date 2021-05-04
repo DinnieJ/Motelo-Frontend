@@ -192,7 +192,7 @@ import { MarkerDTO } from '~/constants/app.interface'
 export default class FullMap extends Vue {
   $notify: any
   private center: any = { lat: 0, lng: 0 }
-  private zoom: number = DefaultMapZoom
+  private zoom: number = 14
   private mapOptions = {
     zoomControl: true,
     mapTypeControl: false,
