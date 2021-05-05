@@ -148,7 +148,7 @@ import {
   extend,
   setInteractionMode,
 } from 'vee-validate'
-import { required, email, min, confirmed, regex } from 'vee-validate/dist/rules'
+import { required, email, min, confirmed, regex, numeric } from 'vee-validate/dist/rules'
 import { ROLE } from '@/constants/app.constant'
 import { TenantRegisterDTO , TenantRegisterRule } from '@/constants/app.interface'
 
@@ -178,6 +178,11 @@ extend('confirmed', {
 extend('regex', {
   ...regex,
   message: 'Khong duoc chua ki tu dac biet hoac so',
+})
+
+extend('numeric', {
+  ...numeric,
+  message: 'Số điện thoại phải bao gồm các chữ số'
 })
 
 // eslint-disable-next-line no-use-before-define
@@ -210,7 +215,7 @@ export default class TenantRegisterForm extends Vue {
     email: { required: true, email: true },
     password: { required: true, min: 8 },
     repassword: { required: true, confirmed: 'password' },
-    phone: { required: true },
+    phone: { required: true, numeric: true },
     date_of_birth: { required: true },
   }
 

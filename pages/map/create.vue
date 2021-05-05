@@ -25,30 +25,49 @@
           <v-tabs-items v-model="tab">
             <!-- basic utility data step -->
             <v-tab-item>
-              <v-form class="mt-4">
-                <v-select
-                  v-model="selectIndex"
-                  label="Loại tiện ích"
-                  :prepend-icon="`mdi-${selectIcon}`"
-                  :items="utilitysType"
-                  item-text="text"
-                  item-value="index"
-                  @change="changeSelect"
-                ></v-select>
-
-                <v-text-field
-                  v-model="formData.title"
-                  label="Tiêu đề"
-                ></v-text-field>
-                <v-textarea
-                  v-model="formData.description"
-                  label="Miêu tả thêm"
-                  outlined
-                  auto-grow
-                  rows="2"
-                ></v-textarea>
-                <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
-              </v-form>
+              <validation-observer ref="formObserver" v-slot="{ invalid }">
+                <v-form class="mt-4">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="utility_type"
+                    :rules="rules.utility_type"
+                  >
+                    <v-select
+                      v-model="selectIndex"
+                      label="Loại tiện ích"
+                      :prepend-icon="`mdi-${selectIcon}`"
+                      :items="utilitysType"
+                      item-text="text"
+                      item-value="index"
+                      @change="changeSelect"
+                      :error-messages="errors"
+                      class='required'
+                    ></v-select>
+                  </validation-provider>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="title"
+                    :rules="rules.title"
+                  >
+                    <v-text-field
+                      v-model="formData.title"
+                      label="Tiêu đề"
+                      :error-messages="errors"
+                      class='required'
+                    ></v-text-field>
+                  </validation-provider>
+                  <v-textarea
+                    v-model="formData.description"
+                    label="Miêu tả thêm"
+                    outlined
+                    auto-grow
+                    rows="2"
+                  ></v-textarea>
+                  <v-btn color="primary" :disabled="invalid" @click="nextTab">
+                    Tiếp theo
+                  </v-btn>
+                </v-form>
+              </validation-observer>
             </v-tab-item>
             <!-- choose utility's location step -->
             <v-tab-item>
@@ -139,6 +158,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import {
+  ValidationObserver,
+  ValidationProvider,
+  extend,
+  setInteractionMode,
+} from 'vee-validate'
+import { required } from 'vee-validate/dist/rules'
 import WarningDialog from '@/components/common/WarningDialog.vue'
 import { UTILITY_TYPE, DefaultMapZoom } from '@/constants/app.constant'
 import UtilityRepository from '@/repositories/UtilityRepository'
@@ -147,19 +173,32 @@ import { stopEventFromParentElement } from '@/utils/event'
 import axios from 'axios'
 import { MarkerDTO } from '~/constants/app.interface'
 
+setInteractionMode('eager')
+
+extend('required', {
+  ...required,
+  message: 'Bạn không được để trống trường này',
+})
+
 @Component<CreateUtility>({
   name: 'CreateUtility',
   components: {
     WarningDialog,
     UploadImageForm,
+    ValidationObserver,
+    ValidationProvider,
   },
   async created() {
     await this.getAllMarker()
   },
 
-  middleware: ['checkAuthen', 'isCollaborator']
+  middleware: ['checkAuthen', 'isCollaborator'],
 })
 export default class CreateUtility extends Vue {
+  private rules: any = {
+    title: { required: true },
+    utility_type: { required: true },
+  }
   private center: any = { lat: 0, lng: 0 }
   private zoom: number = DefaultMapZoom
   private markers: MarkerDTO[] = []
@@ -205,10 +244,12 @@ export default class CreateUtility extends Vue {
             .catch((err) => {
               console.log('get current address = ', err)
             })
-        }
-        , error => {
+        },
+        (error) => {
           console.log(error)
-        }, {maximumAge: 0})
+        },
+        { maximumAge: 0 }
+      )
     }
   }
 
@@ -255,7 +296,7 @@ export default class CreateUtility extends Vue {
 
   public acceptWarningDialog() {
     this.openWarningDialog = false
-    this.$router.push("/map")
+    this.$router.push('/map')
   }
 
   public refuseWarningDialog() {
@@ -300,7 +341,7 @@ export default class CreateUtility extends Vue {
           color: 'success',
         })
         setTimeout(() => {
-          this.$router.push("/map")
+          this.$router.push('/map')
         }, 400)
       })
       .catch((error) => {
