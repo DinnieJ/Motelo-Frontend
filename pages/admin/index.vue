@@ -373,7 +373,7 @@ export default class AdminHome extends Vue {
   }
 
   public async submitCreate() {
-    const formData = { password: this.formData.email, ...this.formData }
+    const formData = { password: "12345678", ...this.formData }
     await CollaboratorRepository.createNewCollaborator(formData)
       .then(() => {
         const newCollaborator = {
