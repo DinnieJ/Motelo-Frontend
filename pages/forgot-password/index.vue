@@ -61,7 +61,7 @@ extend('required', {
 
 extend('email', {
   ...email,
-  message: 'Vui lòng nhập đúng email của bạn',
+  message: 'Vui lòng nhập đúng định dạng của email',
 })
 @Component<ForgotPassword>({
   name: 'ForgotPassword',

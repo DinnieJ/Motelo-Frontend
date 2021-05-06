@@ -182,7 +182,7 @@ extend('regex', {
 
 extend('numeric', {
   ...numeric,
-  message: 'Số điện thoại phải bao gồm các chữ số'
+  message: 'Số điện thoại phải nhập đúng định dạng'
 })
 
 // eslint-disable-next-line no-use-before-define
