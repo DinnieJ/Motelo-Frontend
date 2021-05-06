@@ -26,8 +26,7 @@
             <!-- Policy step -->
             <v-tab-item>
               <v-card rounded="lg" class="pa-4">
-                <v-card-text v-html="policy">
-                </v-card-text>
+                <v-card-text v-html="policy"> </v-card-text>
                 <v-card-actions>
                   <v-btn color="primary" @click="acceptPolicyEvent"
                     >đồng ý</v-btn
@@ -40,49 +39,89 @@
             </v-tab-item>
             <!-- Room basic info step -->
             <v-tab-item>
-              <v-form>
-                <v-text-field
-                  v-model="formData.title"
-                  name="title"
-                  label="Tiêu đề"
-                ></v-text-field>
-                <v-layout align-center>
-                  <v-text-field
-                    v-model="formData.price"
-                    label="Tiền thuê"
-                    type="number"
-                    min="0"
-                    name="price"
-                    @keypress="checkNumber($event)"
-                  ></v-text-field>
-                  <span class="pb-1 ml-2">VNĐ/tháng</span>
-                </v-layout>
-                <v-layout align-center>
-                  <v-text-field
-                    v-model="formData.acreage"
-                    label="Diện tích"
-                    type="number"
-                    name="acreage"
-                    @keypress="checkNumber($event)"
-                  ></v-text-field>
-                  <span class="pb-1">m²</span>
-                </v-layout>
-                <v-select
-                  v-model="formData.room_type_id"
-                  label="Loại phòng"
-                  :items="roomTypes"
-                  item-text="text"
-                  item-value="id"
-                ></v-select>
-                <v-textarea
-                  v-model="formData.description"
-                  label="Miêu tả thêm"
-                  outlined
-                  auto-grow
-                  rows="4"
-                ></v-textarea>
-                <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
-              </v-form>
+              <validation-observer ref="formObserver" v-slot="{ invalid }">
+                <v-form>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    mode="eager"
+                    name="title"
+                    :rules="rules.required"
+                  >
+                    <v-text-field
+                      v-model="formData.title"
+                      name="title"
+                      label="Tiêu đề"
+                      class="required"
+                      :error-messages="errors"
+                    ></v-text-field>
+                  </validation-provider>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    mode="eager"
+                    name="rent"
+                    :rules="rules.required"
+                  >
+                    <v-layout align-center>
+                      <v-text-field
+                        v-model="formData.price"
+                        label="Tiền thuê"
+                        type="number"
+                        min="0"
+                        name="price"
+                        @keypress="checkNumber($event)"
+                        class="required"
+                        :error-messages="errors"
+                      ></v-text-field>
+                      <span class="pb-1 ml-2">VNĐ/tháng</span>
+                    </v-layout>
+                  </validation-provider>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    mode="eager"
+                    name="area"
+                    :rules="rules.required"
+                  >
+                    <v-layout align-center>
+                      <v-text-field
+                        v-model="formData.acreage"
+                        label="Diện tích"
+                        type="number"
+                        name="acreage"
+                        @keypress="checkNumber($event)"
+                        class="required"
+                        :error-messages="errors"
+                      ></v-text-field>
+                      <span class="pb-1">m²</span>
+                    </v-layout>
+                  </validation-provider>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    mode="eager"
+                    name="room_type"
+                    :rules="rules.required"
+                  >
+                    <v-select
+                      v-model="formData.room_type_id"
+                      label="Loại phòng"
+                      :items="roomTypes"
+                      item-text="text"
+                      item-value="id"
+                      class="required"
+                      :error-messages="errors"
+                    ></v-select>
+                  </validation-provider>
+                  <v-textarea
+                    v-model="formData.description"
+                    label="Miêu tả thêm"
+                    outlined
+                    auto-grow
+                    rows="4"
+                  ></v-textarea>
+                  <v-btn color="primary" @click="nextTab" :disabled="invalid">
+                    Tiếp theo
+                  </v-btn>
+                </v-form>
+              </validation-observer>
             </v-tab-item>
             <!-- Update image step -->
             <v-tab-item>
@@ -138,17 +177,33 @@
 
 <script lang="ts">
 import { Component, Vue, VModel } from 'vue-property-decorator'
+import {
+  ValidationObserver,
+  ValidationProvider,
+  extend,
+  setInteractionMode,
+} from 'vee-validate'
 import WarningDialog from '@/components/common/WarningDialog.vue'
 import { TextIcon } from '@/constants/app.interface'
 import { ROOM_TYPES, GENDER, CAPACITY } from '@/constants/app.constant'
 import RoomReponsitory from '@/repositories/RoomRepository'
 import { isNumber } from '@/utils/validation'
+import { required } from 'vee-validate/dist/rules'
+
+setInteractionMode('aggressive')
+
+extend('required', {
+  ...required,
+  message: 'Bạn không được để trống trường này',
+})
 
 @Component<RoomCreateRequest>({
   name: 'RoomCreateRequest',
   // eslint-disable-next-line no-undef
   components: {
     WarningDialog,
+    ValidationObserver,
+    ValidationProvider,
   },
   middleware: ['authenticated', 'isOwner'],
 })
@@ -173,12 +228,15 @@ export default class RoomCreateRequest extends Vue {
     },
   ]
 
-  private checkNumber = isNumber 
+  private rules: any = {
+    required: { required: true },
+  }
+
+  private checkNumber = isNumber
   private roomTypes: TextIcon[] = ROOM_TYPES
   private genders: TextIcon[] = GENDER
   private capacityDefault = CAPACITY
-  private policy: string =
-    `CHỦ NHÀ TRỌ LƯU Ý <br />
+  private policy: string = `CHỦ NHÀ TRỌ LƯU Ý <br />
       <b>Yêu cầu về thông tin phòng trọ<b /> <br />
       Bài đăng cho thuê sẽ bao gồm thông tin chung của nhà trọ và thông tin riêng của từng phòng <br />
       Chủ trọ phải đăng thông tin phòng trọ theo format dưới đây, đủ thông tin <br />

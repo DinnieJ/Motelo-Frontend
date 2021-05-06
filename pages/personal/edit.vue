@@ -27,6 +27,7 @@
                   :error-messages="errors"
                   readonly
                   disabled
+                  class='required'
                 ></v-text-field>
               </validation-provider>
               <validation-provider
@@ -39,6 +40,7 @@
                   label="Tên"
                   name="name"
                   outlined
+                  class='required'
                   :error-messages="errors"
                 ></v-text-field>
               </validation-provider>
@@ -53,6 +55,7 @@
                   label="Số điện thoại"
                   name="phone"
                   outlined
+                  class="required"
                   :error-messages="errors"
                 ></v-text-field>
               </validation-provider>
@@ -73,6 +76,7 @@
                     readonly
                     v-bind="attrs"
                     v-on="on"
+                    class='required'
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -192,10 +196,9 @@ export default class ProfileUpdate extends Vue {
   private rules: any = {
     name: {
       required: true,
-      regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*$/,
     },
     email: { required: true, email: true },
-    phone_number: { required: true, numeric: true },
+    phone: { required: true, numeric: true },
   }
 
   async created() {
