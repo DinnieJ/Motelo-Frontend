@@ -2,8 +2,6 @@
   <v-container fluid tag="section">
     <v-data-iterator
       :items="items"
-      :items-per-page.sync="itemsPerPage"
-      :page.sync="page"
       :search="search"
       :sort-by="sortBy"
       :sort-desc="sortDesc"
@@ -14,7 +12,7 @@
           <div>
             <v-layout align-center class="mb-1">
               <h1 class="mr-2">Motelo cho Admin</h1>
-              <v-btn small depressed color="secondary">
+              <v-btn small depressed color="secondary" @click="clickLogout">
                 Đăng xuất
               </v-btn>
             </v-layout>
@@ -74,14 +72,6 @@
             lg="3"
           >
             <v-card>
-              <v-img
-                :lazy-src="loadingImg"
-                :src="item.img"
-                width="100%"
-                max-height="100px"
-                contain
-              ></v-img>
-
               <v-card-title class="subheading font-weight-bold mt-2">
                 {{ item.name }}
               </v-card-title>
@@ -104,7 +94,12 @@
                   >
                     <v-icon small> mdi-cog </v-icon>
                   </v-btn>
-                  <v-btn fab x-small color="warning">
+                  <v-btn
+                    fab
+                    x-small
+                    color="warning"
+                    @click="clickDelete(item.id)"
+                  >
                     <v-icon small> mdi-trash-can-outline </v-icon>
                   </v-btn>
                 </div>
@@ -124,34 +119,6 @@
           </v-col>
         </v-row>
       </template>
-
-      <template #footer>
-        <v-layout class="mt-2" align-center justify-end>
-          <span class="mr-4 primary--text">
-            Trang {{ page }} trên {{ numberOfPages }}
-          </span>
-          <v-btn
-            fab
-            dark
-            x-small
-            color="primary"
-            class="mr-1"
-            @click="formerPage"
-          >
-            <v-icon small>mdi-chevron-left</v-icon>
-          </v-btn>
-          <v-btn
-            fab
-            dark
-            x-small
-            color="primary"
-            class="ml-1"
-            @click="nextPage"
-          >
-            <v-icon small>mdi-chevron-right</v-icon>
-          </v-btn>
-        </v-layout>
-      </template>
     </v-data-iterator>
     <v-dialog
       v-model="openDialog"
@@ -159,95 +126,132 @@
       :fullscreen="$vuetify.breakpoint.smAndDown"
     >
       <v-card class="pa-2" width="100%">
-        <v-card-title>{{ dialogTitle }}</v-card-title>
-        <v-row>
-          <!-- Basic infor -->
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="formData.username"
-              label="Tên"
-              name="username"
-              outlined
-              class="required"
-            ></v-text-field>
-            <v-text-field
-              v-model="formData.email"
-              label="Email"
-              name="email"
-              outlined
-              class="required"
-            ></v-text-field>
-            <v-text-field
-              v-model="formData.phone_number"
-              label="Số điện thoại"
-              name="phone"
-              outlined
-              class="required"
-            ></v-text-field>
-            <v-text-field
-              v-model="formData.address"
-              label="Địa chỉ"
-              name="address"
-              outlined
-              class="required"
-            ></v-text-field>
-            <v-menu
-              v-model="dateDialog"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template #activator="{ on, attrs }">
+        <validation-observer ref="formObserver" v-slot="{ invalid }">
+          <v-card-title>{{ dialogTitle }}</v-card-title>
+          <v-row>
+            <!-- Basic infor -->
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="name"
+                :rules="rules.name"
+              >
                 <v-text-field
-                  v-model="formData.date_of_birth"
-                  label="Ngày sinh"
+                  v-model="formData.name"
+                  label="Tên"
+                  name="name"
                   outlined
-                  color="primary"
-                  readonly
                   class="required"
-                  v-bind="attrs"
-                  v-on="on"
+                  :error-messages="errors"
                 ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="formData.date_of_birth"
-                @input="dateDialog = false"
-              ></v-date-picker>
-            </v-menu>
-            <v-text-field
-              v-model="formData.identity_number"
-              label="Số CMTND"
-              name="identity"
-              outlined
-              class="required"
-            ></v-text-field>
-          </v-col>
-          <!-- Image upload -->
-          <v-col cols="12" md="6">
-            <input
-              ref="images"
-              type="file"
-              accept="image/*"
-              class="d-none"
-              @change="onFileChange"
-            />
-            <img ref="image" width="100%" height="auto" />
-            <v-layout justify-center>
-              <v-btn outlined color="primary" @click="clickUpload">
-                <v-icon left>mdi-upload</v-icon>
-                Tải lên ảnh đại diện
-              </v-btn>
-            </v-layout>
-          </v-col>
-        </v-row>
-        <v-layout justify-start class="mt-4">
-          <v-btn class="mr-3" color="primary" @click="clickCancel">
-            Hoàn thành
-          </v-btn>
-          <v-btn @click="clickCancel"> Trở lại </v-btn>
-        </v-layout>
+              </validation-provider>
+              <validation-provider
+                v-slot="{ errors }"
+                name="email"
+                :rules="rules.email"
+              >
+                <v-text-field
+                  v-model="formData.email"
+                  label="Email"
+                  name="email"
+                  outlined
+                  :disabled="editId > -1"
+                  class="required"
+                  :error-messages="errors"
+                ></v-text-field>
+              </validation-provider>
+              <validation-provider
+                v-slot="{ errors }"
+                name="phone_number"
+                :rules="rules.phone_number"
+              >
+                <v-text-field
+                  v-model="formData.phone_number"
+                  label="Số điện thoại"
+                  name="phone"
+                  outlined
+                  class="required"
+                  :error-messages="errors"
+                ></v-text-field>
+              </validation-provider>
+              <validation-provider
+                v-slot="{ errors }"
+                name="address"
+                :rules="rules.address"
+              >
+                <v-text-field
+                  v-model="formData.address"
+                  label="Địa chỉ"
+                  name="address"
+                  outlined
+                  class="required"
+                  :error-messages="errors"
+                ></v-text-field>
+              </validation-provider>
+              <v-menu
+                v-model="dateDialog"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="formData.date_of_birth"
+                    label="Ngày sinh"
+                    outlined
+                    color="primary"
+                    readonly
+                    class="required"
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="formData.date_of_birth"
+                  @input="dateDialog = false"
+                ></v-date-picker>
+              </v-menu>
+              <validation-provider
+                v-slot="{ errors }"
+                name="phone_number"
+                :rules="rules.phone_number"
+              >
+                <v-text-field
+                  v-model="formData.identity_number"
+                  label="Số CMTND"
+                  name="identity"
+                  outlined
+                  class="required"
+                  :error-messages="errors"
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+          </v-row>
+          <v-layout justify-start class="mt-4">
+            <v-btn
+              class="mr-3"
+              color="primary"
+              v-if="editId > -1"
+              @click="submitEdit"
+              :disabled="invalid"
+            >
+              Sửa
+            </v-btn>
+            <v-btn
+              class="mr-3"
+              color="primary"
+              v-else
+              @click="submitCreate"
+              :disabled="invalid"
+            >
+              Tạo mới
+            </v-btn>
+
+            <v-btn @click="clickCancel"> Trở lại </v-btn>
+          </v-layout>
+        </validation-observer>
       </v-card>
     </v-dialog>
   </v-container>
@@ -257,25 +261,43 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Snackbar from '@/components/common/Snackbar.vue'
 import { LOADING_IMG } from '@/constants/app.constant'
+import CollaboratorRepository from '@/repositories/CollaboratorRepository'
+import { DispatchAction } from '@/constants/app.vuex'
+import { ValidationObserver, ValidationProvider, extend } from 'vee-validate'
+import { required, email } from 'vee-validate/dist/rules'
+
+extend('required', {
+  ...required,
+  message: 'Bạn không được để trống trường này',
+})
+
+extend('email', {
+  ...email,
+  message: 'Vui lòng nhập đúng email của bạn',
+})
 
 // eslint-disable-next-line no-use-before-define
 @Component<AdminHome>({
   name: 'AdminHome',
   layout: 'empty',
+  middleware: ['checkAuthen', 'isAdmin'],
   components: {
     Snackbar,
+    ValidationObserver,
+    ValidationProvider,
   },
-  fetch() {
+  created() {
     this.getAllCollaborator()
   },
 })
 export default class AdminHome extends Vue {
   private loadingImg = LOADING_IMG
   private search = ''
-  private sortDesc = false
+  private sortDesc = true
   private page = 1
   private itemsPerPage = 8
-  private sortBy = 'email'
+  private sortBy = 'created_at'
+  private editId = -1
   private headers = [
     {
       text: 'Email',
@@ -305,13 +327,21 @@ export default class AdminHome extends Vue {
 
   private openDialog: boolean = false
   private formData: any = {
-    id: -1,
-    username: '',
+    name: '',
     email: '',
     phone_number: '',
     address: '',
     date_of_birth: '',
     identity_number: '',
+  }
+
+  private rules: any = {
+    name: { required: true },
+    email: { required: true, email: true },
+    phone_number: { required: true },
+    address: { required: true },
+    date_of_birth: { required: true },
+    identity_number: { required: true },
   }
 
   private image: any = null
@@ -326,19 +356,52 @@ export default class AdminHome extends Vue {
   clickCreate() {
     this.dialogTitle = 'Tạo mới Cộng tác viên'
     this.formData = {
-      id: -1,
       name: '',
       email: '',
       phone_number: '',
       address: '',
-      date_of_birth: '',
+      date_of_birth: new Date().toISOString().substr(0, 10),
       identity_number: '',
     }
+    this.editId = -1
     this.openDialog = true
   }
 
   clickCancel() {
+    this.editId = -1
     this.openDialog = false
+  }
+
+  public async submitCreate() {
+    const formData = { password: this.formData.email, ...this.formData }
+    await CollaboratorRepository.createNewCollaborator(formData)
+      .then(() => {
+        const newCollaborator = {
+          ...formData,
+          created_at: new Date().toLocaleString(),
+        }
+        this.items.unshift(newCollaborator)
+        this.clickCancel()
+      })
+      .catch((err) => {})
+  }
+
+  public async submitEdit() {
+    await CollaboratorRepository.editCollaborator(this.formData, this.editId)
+      .then(() => {
+        this.clickCancel()
+      })
+      .catch((err) => {})
+  }
+
+  public async clickDelete(id: any) {
+    await CollaboratorRepository.deleteCollaborator(id)
+      .then(() => {
+        this.items = this.items.filter((item) => item.id != id)
+      })
+      .catch((err) => {
+        console.log('err', err)
+      })
   }
 
   nextPage() {
@@ -351,9 +414,10 @@ export default class AdminHome extends Vue {
 
   clickEdit(item: any) {
     this.dialogTitle = 'Sửa đổi Cộng tác viên'
-    Object.keys(this.formData).forEach(key => {
+    Object.keys(this.formData).forEach((key) => {
       this.formData[key] = item[key]
-    });
+    })
+    this.editId = item.id
     this.openDialog = true
   }
 
@@ -376,24 +440,19 @@ export default class AdminHome extends Vue {
     reader.readAsDataURL(this.image)
   }
 
-  public getAllCollaborator() {
-    const items: any[] = []
-    for (let i = 0; i < 12; i++) {
-      items.push({
-        id: i,
-        name: `Nguyen Tran Quoc X${i}`,
-        email: `nguyentranquocx${i}@fpt.edu.vn`,
-        phone_number: '12345678',
-        address: `Sô ${i}, đường A, phường B, quận C, thành phố D`,
-        date_of_birth: `${i}/2/2000`,
-        identity_number: '1234567',
-        enabled: 1,
-        created_at: `${i}/3/2021`,
-        updated_at: `${i}/3/2021`,
-        img: '/imgs/error.png',
-      })
-    }
-    this.items = items
+  public async clickLogout(e: Event) {
+    const logout = await this.$store.dispatch(DispatchAction.CLEAR_AUTH)
+    this.$router.push('/admin/login')
+  }
+
+  public async getAllCollaborator() {
+    await CollaboratorRepository.getAllCollaborator().then((response) => {
+      const dataResponse = response.data[0]
+      this.items = dataResponse.data.map((item) => ({
+        ...item,
+        created_at: new Date(item.created_at).toLocaleString(),
+      }))
+    })
   }
 }
 </script>
