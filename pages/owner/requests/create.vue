@@ -63,9 +63,8 @@
                   >
                     <v-layout align-center>
                       <v-text-field
-                        v-model="formData.price"
+                        v-model="price"
                         label="Tiền thuê"
-                        type="number"
                         min="0"
                         name="price"
                         @keypress="checkNumber($event)"
@@ -153,6 +152,7 @@
                     class="mr-3"
                     color="primary"
                     :disabled="images.length == 0"
+                    :loading="loading"
                     @click="submitForm"
                   >
                     Hoàn thành
@@ -248,6 +248,18 @@ export default class RoomCreateRequest extends Vue {
       6. Ảnh riêng của phòng trọ <br />`
 
   private tab: number = 0
+  private loading: boolean = false;
+
+  set price(modifiedValue) {
+    this.formData.price = modifiedValue.replace(/[^\d]/g, '')
+  }
+
+  get price() {
+    if (this.formData.price) {
+      return new Intl.NumberFormat().format(parseFloat(this.formData.price))
+    }
+    return ''
+  }
 
   private formData = {
     title: '',
@@ -294,6 +306,7 @@ export default class RoomCreateRequest extends Vue {
   }
 
   async submitForm() {
+    this.loading = true
     const formData = new FormData()
     formData.append('title', this.formData.title)
     formData.append('room_type_id', this.formData.room_type_id)
@@ -322,6 +335,8 @@ export default class RoomCreateRequest extends Vue {
           color: 'red',
         })
       })
+
+      this.loading = false
   }
 
   clickUpload(e: Event) {
