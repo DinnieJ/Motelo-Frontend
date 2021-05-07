@@ -54,6 +54,7 @@ export const ROLE = {
   TENANT: 'Tenant',
   OWNER: 'Owner',
   COLLABORATOR: 'Collaborator',
+  ADMIN: 'Admin',
 }
 
 export const NAV_LINKS: NavLink[] = [

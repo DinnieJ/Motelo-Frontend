@@ -31,7 +31,7 @@
           <v-divider></v-divider>
           <v-card-actions :class="{ 'pa-3': $vuetify.breakpoint.smAndUp }">
             <v-spacer></v-spacer>
-            <v-btn color="primary" :large="$vuetify.breakpoint.smAndUp">
+            <v-btn color="primary" :large="$vuetify.breakpoint.smAndUp" @click="handleSubmit">
               <v-icon left>mdi-lock</v-icon>
               Đăng nhập
             </v-btn>
@@ -44,7 +44,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-
+import { setTokenCookie, setRoleCookie, removeTokenCookie, removeRoleCookie } from '@/utils/cookies'
+import { AuthMutation } from '@/store/auth'
+import { loginAdmin } from '@/utils/admin'
 
 // eslint-disable-next-line no-use-before-define
 @Component<AdminLogin>({
@@ -54,5 +56,24 @@ import { Component, Vue } from 'vue-property-decorator'
 export default class AdminLogin extends Vue {
     public username: string = ''
     public password: string = ''
+
+    private handleSubmit() {
+
+      const loginInfo = {
+        username: this.username,
+        password: this.password
+      }
+
+      const data = loginAdmin(loginInfo)
+
+      this.$store.commit(`auth/${AuthMutation.SET_TOKEN}`, data.token)
+      this.$store.commit(`auth/${AuthMutation.SET_USER}`, data.user)
+      this.$store.commit(`auth/${AuthMutation.SET_ROLE}`, data.role)
+
+      setTokenCookie(data.token);
+      setRoleCookie(data.role);
+
+      this.$router.push('/admin')
+    } 
 }
 </script>
