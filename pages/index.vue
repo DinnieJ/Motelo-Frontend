@@ -287,6 +287,11 @@ export default class TenantHome extends Vue {
           img: item.image,
         }))
         this.banners = this.banners.concat(this.carouselDefault)
+      } else {
+        this.banners = response[3].data.map((item: any) => ({
+          src: item.url,
+          img: item.image
+        }))
       }
     })
   }
