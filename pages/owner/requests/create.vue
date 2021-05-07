@@ -63,7 +63,7 @@
                   >
                     <v-layout align-center>
                       <v-text-field
-                        v-model="price"
+                        v-model="formData.price"
                         label="Tiền thuê"
                         min="0"
                         name="price"
@@ -249,17 +249,6 @@ export default class RoomCreateRequest extends Vue {
 
   private tab: number = 0
   private loading: boolean = false;
-
-  set price(modifiedValue) {
-    this.formData.price = modifiedValue.replace(/[^\d]/g, '')
-  }
-
-  get price() {
-    if (this.formData.price) {
-      return new Intl.NumberFormat().format(parseFloat(this.formData.price))
-    }
-    return ''
-  }
 
   private formData = {
     title: '',
