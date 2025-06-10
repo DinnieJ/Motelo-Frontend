@@ -113,6 +113,7 @@ export default class AccountProfile extends Vue {
   public handleEditClick() {
     this.editable = true
   }
+
   public handleCancelClick() {
     this.editable = false
   }

@@ -51,16 +51,16 @@
       </v-layout>
       <v-row class="ma-5">
         <v-col
+          v-for="room in roomCardObjs"
+          :key="room.id"
           cols="12"
           sm="4"
           md="3"
-          v-for="room in roomCardObjs"
-          :key="room.id"
         >
           <room-card           
-            tenantFavorite
-            @deleteFromList="removeRoomCard" 
+            tenant-favorite
             :room="room" 
+            @deleteFromList="removeRoomCard" 
           />
         </v-col>
       </v-row>
@@ -100,7 +100,7 @@ export default class Personal extends Vue {
     this.loading = true
     await RoomRepository.getFavoriteList()
       .then((response) => {
-        let rooms: any = response.data.data
+        const rooms: any = response.data.data
         this.roomCardObjs = rooms.map(function (item: any) {
           return new RoomCardDTO(item)
         })
@@ -114,7 +114,7 @@ export default class Personal extends Vue {
   }
 
   public removeRoomCard(id) {
-    var index = this.roomCardObjs.map((obj) => obj.id).indexOf(id);
+    const index = this.roomCardObjs.map((obj) => obj.id).indexOf(id);
     this.roomCardObjs.splice(index,1);
   } 
 }

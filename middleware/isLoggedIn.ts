@@ -13,6 +13,9 @@ export default ({ redirect, store }) => {
             case ROLE.COLLABORATOR:
                 redirect('/map')
                 break
+            case ROLE.ADMIN:
+                redirect('/admin')
+                break
         }
     }
 }

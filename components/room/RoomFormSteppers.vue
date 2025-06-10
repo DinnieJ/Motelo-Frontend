@@ -1,5 +1,5 @@
 <template>
-  <v-stepper alt-labels v-model="current">
+  <v-stepper v-model="current" alt-labels>
     <v-stepper-header>
       <v-stepper-step :complete="current > 1" step="1" editable>
         Thông tin cơ bản
@@ -30,10 +30,10 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from 'vue-property-decorator'
+import UploadImageForm from '@/components/common/UploadImageForm.vue'
 import RoomBasicForm from './RoomBasicForm.vue'
 import RoomDescriptionForm from './RoomDescriptionForm.vue'
 
-import UploadImageForm from '@/components/common/UploadImageForm.vue'
 
 @Component<RoomFormSteppers>({
   name: 'RoomFormSteppers',

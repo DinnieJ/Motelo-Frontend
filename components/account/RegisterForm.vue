@@ -2,8 +2,6 @@
   <v-layout d-flex justify-center class="rounded white">
     <div class="auth__section pa-2">
       <h1 class="primary--text text-center auth__title">ĐĂNG KÝ</h1>
-      <p class="text-center auth__subtitle"><i>Trở thành 1 phần của chúng tôi</i></p>
-
       <v-layout
         class="mt-3 d-flex flex-column"
       >
@@ -33,8 +31,8 @@ import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { ROLE } from '@/constants/app.constant'
 import TenantRegisterForm from '@/components/account/TenantRegisterForm.vue'
 import OwnerRegisterForm from '@/components/account/OwnerRegisterForm.vue'
-import { OwnerRegisterDTO, TenantRegisterDTO } from '~/constants/app.interface'
 import AuthRepository from '@/repositories/AuthRepository'
+import { OwnerRegisterDTO, TenantRegisterDTO } from '~/constants/app.interface'
 
 // eslint-disable-next-line no-use-before-define
 @Component<RegisterForm>({
@@ -49,7 +47,7 @@ import AuthRepository from '@/repositories/AuthRepository'
 export default class RegisterForm extends Vue {
   $notify: any
   private form = ROLE.TENANT
-
+  private loading: boolean = false;
   private roles: object[] = [
     {
       role_id: ROLE.TENANT,
@@ -73,9 +71,9 @@ export default class RegisterForm extends Vue {
             message = error.response.data
           }
           this.$notify.showMessage({
-              message: message,
-              color: 'red',
-            })
+            message,
+            color: 'red',
+          })
         })
     }
   }

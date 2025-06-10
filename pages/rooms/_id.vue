@@ -3,14 +3,14 @@
     <room-detail-container
       :room="room"
       :favorite.sync="favorite"
-      :clickFavor="clickFavor"
+      :click-favor="clickFavor"
       :comments.sync="comments"
-      :addComment="addComment"
-      :editComment="editComment"
-      :deleteComment="deleteComment"
+      :add-comment="addComment"
+      :edit-comment="editComment"
+      :delete-comment="deleteComment"
 
       :verify.sync="verify"
-      :clickVerify="clickVerify"
+      :click-verify="clickVerify"
     />
   </v-container>
 </template>
@@ -54,8 +54,10 @@ export default class DetailRoom extends Vue {
       this.comments = this.room.comments
       this.verify = this.room.verify
     }).catch(err => {
-      if(err.response.status == 404) {
-        return this.$nuxt.error({statusCode: 404})
+      if(err.response.status == 403 || err.response.status == 401) {
+        this.$router.push('/login')
+      } else if(err.response.status == 404) {
+        this.$nuxt.error({ statusCode: 404 })
       }
     })
   }
@@ -99,7 +101,7 @@ export default class DetailRoom extends Vue {
   public async editComment({id, comment} : { id: number; comment: string }) {
     await RoomRepository.editComment(id, comment)
       .then((repos) => {
-        let editedComment = this.comments.findIndex((cmt) => cmt.id === id)
+        const editedComment = this.comments.findIndex((cmt) => cmt.id === id)
         this.comments[editedComment].context = repos.data.comment.comment
         this.comments[editedComment].time_context = repos.data.comment.time_context
         console.log(repos.data);
@@ -116,7 +118,7 @@ export default class DetailRoom extends Vue {
   public async deleteComment(id: number) {
     await RoomRepository.deleteComment(id)
       .then(() => {
-        let deletedComment = this.comments.findIndex((cmt) => cmt.id === id)
+        const deletedComment = this.comments.findIndex((cmt) => cmt.id === id)
         this.comments.splice(deletedComment, 1)
         this.$notify.showMessage({
           message: 'Bạn đã xóa bình luận thành công',

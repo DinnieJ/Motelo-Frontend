@@ -20,11 +20,11 @@
       </v-row>
     </v-card>
     <warning-dialog
+      v-model="openWarningDialog"
       title="THOÁT"
       content="Nếu bạn thoát, những thông tin trên sẽ không được lưu lại.<br>Bạn có muốn thoát không?"
       @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
-      v-model="openWarningDialog"
     />
   </v-container>
 </template>
@@ -61,6 +61,7 @@ export default class InnCreate extends Vue {
   public refuseWarningDialog() {
     this.openWarningDialog = false
   }
+
   public acceptWarningDialog() {
     this.openWarningDialog = false
     this.$router.push("/owner/inn/create")

@@ -8,7 +8,7 @@
             <v-icon>mdi-close-circle</v-icon>
           </v-btn>
         </v-layout>
-        <v-tabs v-model="tab" grow centered center-active color="secondary" v-if="acceptPolicy">
+        <v-tabs v-if="acceptPolicy" v-model="tab" grow centered center-active color="secondary">
           <v-tabs-slider color="secondary"> </v-tabs-slider>
 
           <v-tab
@@ -25,35 +25,35 @@
             <!-- basic inn data step -->
             <v-tab-item class="pt-4">
               <v-text-field
+                v-model="formData.name"
                 outlined
                 label="Tên nhà trọ"
-                v-model="formData.name"
               ></v-text-field>
               <v-text-field
+                v-model="formData.electric_price"
                 outlined
                 label="Tiền điện"
                 type="number"
                 suffix="VNĐ/số"
                 hint="Điền 0 nếu miễn phí hoặc không có"
-                v-model="formData.electric_price"
               ></v-text-field>
               <v-text-field
+                v-model="formData.water_price"
                 outlined
                 label="Tiền nước"
                 type="number"
                 suffix="VNĐ/khối"
                 hint="Điền 0 nếu miễn phí hoặc không có"
-                v-model="formData.water_price"
               ></v-text-field>
               <v-text-field
+                v-model="formData.wifi_price"
                 outlined
                 label="Wifi"
                 type="number"
                 suffix="VNĐ/tháng"
                 hint="Điền 0 nếu miễn phí hoặc không có"
-                v-model="formData.wifi_price"
               ></v-text-field>
-              <v-btn color="primary" @click="nextTab" class="mr-3">
+              <v-btn color="primary" class="mr-3" @click="nextTab">
                 Tiếp theo
               </v-btn>
             </v-tab-item>
@@ -61,10 +61,10 @@
             <v-tab-item>
               <v-row>
                 <v-col
-                  cols="12"
-                  sm="4"
                   v-for="item in amenities"
                   :key="item.id"
+                  cols="12"
+                  sm="4"
                   class="py-0"
                 >
                   <v-layout align-center>
@@ -82,7 +82,7 @@
                 </v-col>
               </v-row>
               <div class="mt-3">
-                <v-btn color="primary" @click="nextTab" class="mr-3">
+                <v-btn color="primary" class="mr-3" @click="nextTab">
                   Tiếp theo
                 </v-btn>
                 <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
@@ -92,10 +92,10 @@
             <v-tab-item>
               <v-row>
                 <v-col
-                  cols="12"
-                  sm="4"
                   v-for="item in securities"
                   :key="item.id"
+                  cols="12"
+                  sm="4"
                   class="py-0"
                 >
                   <v-layout align-center>
@@ -115,21 +115,21 @@
 
               <template>
                 <v-text-field
+                  v-model="open_time"
                   outlined
                   label="Mở cửa"
                   type="time"
-                  v-model="open_time"
                 ></v-text-field>
                 <v-text-field
+                  v-model="close_time"
                   outlined
                   label="Đóng cửa"
                   type="time"
-                  v-model="close_time"
                 ></v-text-field>
               </template>
 
               <div class="mt-3">
-                <v-btn color="primary" @click="nextTab" class="mr-3">
+                <v-btn color="primary" class="mr-3" @click="nextTab">
                   Tiếp theo
                 </v-btn>
                 <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
@@ -144,10 +144,10 @@
                 @touchend="stopTouchTransition"
               >
                 <v-text-field
+                  v-model="formData.address"
                   required
                   outlined
                   label="Địa chỉ"
-                  v-model="formData.address"
                 >
                 </v-text-field>
                 <gmap-map
@@ -155,20 +155,20 @@
                   :zoom="zoom"
                   :options="mapOptions"
                   class="map__container"
-                  @click="setMapCenter"
                   style="width: auto; height: 100%; min-height: 50vh"
+                  @click="setMapCenter"
                 >
                   <gmap-marker :position="center"></gmap-marker>
                   <gmap-marker
                     v-for="marker in markers"
-                    :position="marker.position"
                     :key="marker.id"
+                    :position="marker.position"
                     :icon="{ path: marker.type.code }"
                     :title="marker.name"
                   ></gmap-marker>
                 </gmap-map>
                 <div class="mt-3">
-                  <v-btn color="primary" @click="nextTab" class="mr-3">
+                  <v-btn color="primary" class="mr-3" @click="nextTab">
                     Tiếp theo
                   </v-btn>
                   <v-btn class="mr-3" @click="preTab"> Trở lại </v-btn>
@@ -179,18 +179,18 @@
             <v-tab-item>
               <v-form class="mt-8">
                 <input
+                  ref="images"
                   type="file"
                   accept="image/*"
-                  ref="images"
                   class="d-none"
                   @change="onFileChange"
                 />
                 <v-row class="mb-4 justify-center">
                   <v-col
-                    cols="12"
-                    sm="6"
                     v-for="(image, i) in old_images"
                     :key="`old-${i}`"
+                    cols="12"
+                    sm="6"
                   >
                     <v-btn
                       small
@@ -203,15 +203,15 @@
                     <img width="100%" height="auto" :src="image.image_url" />
                   </v-col>
                   <v-col
-                    cols="12"
-                    sm="6"
                     v-for="(image, i) in formData.new_images"
                     :key="`new-${i}`"
+                    cols="12"
+                    sm="6"
                   >
                     <v-btn small block color="secondary" @click="clickDelete(i)"
                       >xóa</v-btn
                     >
-                    <img width="100%" height="auto" ref="image" />
+                    <img ref="image" width="100%" height="auto" />
                   </v-col>
                 </v-row>
                 <v-layout justify-center>
@@ -231,7 +231,7 @@
           </v-tabs-items>
         </v-tabs>
         <!-- Policy step -->
-        <v-card elevation="0" class="pa-4" v-else>
+        <v-card v-else elevation="0" class="pa-4">
           <v-card-text v-html="policy"></v-card-text>
           <v-card-actions>
             <v-btn color="primary" @click="acceptPolicyEvent">đồng ý</v-btn>
@@ -241,11 +241,11 @@
       </div>
     </v-layout>
     <warning-dialog
+      v-model="openWarningDialog"
       title="THOÁT"
       content="Nếu bạn thoát, những thông tin trên sẽ không được lưu lại.<br>Bạn có muốn thoát không?"
       @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
-      v-model="openWarningDialog"
     />
   </v-container>
 </template>
@@ -253,7 +253,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { SECURITY, AMEENITIES, DefaultMapZoom } from '@/constants/app.constant'
-import { TextIcon, MarkerDTO } from '~/constants/app.interface'
 import { stopEventFromParentElement } from '@/utils/event'
 import UtilityRepository from '@/repositories/UtilityRepository'
 import InnRepository from '@/repositories/InnRepository'
@@ -262,6 +261,7 @@ import WarningDialog from '@/components/common/WarningDialog.vue'
 import InnBasicForm from '@/components/inn/InnBasicForm.vue'
 import InnAmeenitiesForm from '@/components/inn/InnAmeenitiesForm.vue'
 import InnSafetyForm from '@/components/inn/InnSafetyForm.vue'
+import { TextIcon, MarkerDTO } from '~/constants/app.interface'
 
 @Component<UpdateInn>({
   name: 'UpdateInn',
@@ -278,9 +278,17 @@ import InnSafetyForm from '@/components/inn/InnSafetyForm.vue'
   },
 })
 export default class UpdateInn extends Vue {
-  //data
+  // data
   private policy: string =
-    'Contrary to popular belief, Lorem Ipsum is not simply Random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum etMalorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.'
+    `CHỦ NHÀ TRỌ LƯU Ý <br />
+    <b>Yêu cầu về thông tin nhà trọ<b/> <br />
+    Chủ trọ phải đăng thông tin nhà trọ theo format dưới đây, đủ thông tin <br />
+    1. Tên nhà trọ <br />
+    2. Tiền điện, tiền nước, tiền wifi. <br />
+    3. Đánh dầu các tiện nghi của có sẵn. <br />
+    4. Đánh dấu các điều kiện an ninh. <br />
+    5. Chỉ chính xác vị trí trên bản đồ. <br />
+    6. Cung cấp hình ảnh chung về nhà trọ. <br />`
 
   private acceptPolicy: boolean = false;
 
@@ -329,6 +337,7 @@ export default class UpdateInn extends Vue {
       disabled: false,
     },
   ]
+
   private tab: number = 0
 
   private formData: any = {
@@ -336,6 +345,7 @@ export default class UpdateInn extends Vue {
     name: '',
     water_price: 0,
     electric_price: 0,
+    wifi_price: 0,
     open_hour: '0',
     open_minute: '0',
     close_hour: '0',
@@ -346,6 +356,7 @@ export default class UpdateInn extends Vue {
     new_images: [],
     delete_images: [],
   }
+
   private old_images: any[] = []
   private images: any[] = []
 
@@ -430,14 +441,14 @@ export default class UpdateInn extends Vue {
   }
 
   onFileChange(e: any) {
-    let vm: any = this
-    var selectedFiles = e.target.files
+    const vm: any = this
+    const selectedFiles = e.target.files
     for (let i = 0; i < selectedFiles.length; i++) {
       this.formData.new_images.push(selectedFiles[i])
     }
 
     for (let i = 0; i < this.formData.new_images.length; i++) {
-      let reader = new FileReader()
+      const reader = new FileReader()
       reader.onload = (e) => {
         vm.$refs.image[i].src = reader.result
       }

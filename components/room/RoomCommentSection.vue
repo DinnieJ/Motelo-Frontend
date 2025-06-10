@@ -8,7 +8,7 @@
       <v-divider />
     </div>
     <div class="pa-4">
-      <div v-if="loggedIn">
+      <div v-if="loggedIn && isTenant">
         <room-comment-input @add-comment="addComment" />
       </div>
       <div v-if="asyncComments.length > 0"  class="mb-10">
@@ -28,10 +28,10 @@
 <script lang="ts">
 import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
 import { CommentDTO } from '@/constants/app.interface'
-import RoomCommentCard from './RoomCommentCard.vue'
-import RoomCommentInput from './RoomCommentInput.vue'
 import { mapGetters } from 'vuex'
 import { Getter } from '@/constants/app.vuex'
+import RoomCommentCard from './RoomCommentCard.vue'
+import RoomCommentInput from './RoomCommentInput.vue'
 
 @Component<RoomCommentSection>({
   name: 'RoomCommentSection',
@@ -43,6 +43,7 @@ import { Getter } from '@/constants/app.vuex'
   computed: {
     ...mapGetters({
       user: Getter.USER,
+      isTenant: Getter.IS_TENANT
     }),
   },
 })

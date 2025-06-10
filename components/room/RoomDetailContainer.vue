@@ -5,7 +5,7 @@
         <v-col cols="12" :sm="forOwner ? 12 : 6">
           <images-slide :imgs="roomImages" />
         </v-col>
-        <v-col cols="12" sm="6" v-if="!forOwner">
+        <v-col v-if="!forOwner" cols="12" sm="6">
           <small-map :center="room.inn.position" />
         </v-col>
       </v-row>
@@ -16,11 +16,11 @@
         <section class="white pa-1 rounded">
           <room-title-section
             :favorite.sync="asyncFavorite"
-            :clickFavor="clickFavor"
+            :click-favor="clickFavor"
             :title="room.title"
-            :forOwner="forOwner"
-            :clickDelete="clickDelete"
-            :roomId="room.id"
+            :for-owner="forOwner"
+            :click-delete="clickDelete"
+            :room-id="room.id"
           />
 
           <p class="small pl-5 my-3">
@@ -37,7 +37,7 @@
             </v-btn>
           </template>
           <template v-else>
-            <v-card rounded="lg" class="pa-2" v-if="asyncVerify">
+            <v-card v-if="asyncVerify" rounded="lg" class="pa-2">
               <v-layout d-flex align-center>
                 <v-icon class="mr-4" size="48" color="primary" dark>
                   mdi-shield-home
@@ -76,15 +76,15 @@
           <room-description-section :description="room.description" />
         </section>
       </v-col>
-      <v-col cols="12" lg="5" class="pt-0" v-if="!forOwner">
+      <v-col v-if="!forOwner" cols="12" lg="5" class="pt-0">
         <section class="white pa-1 rounded">
           <room-owner-section class="pa-2" :owner="room.inn.owner" />
 
           <room-comment-section
             :comments.sync="asyncComments"
-            :addComment="addComment"
-            :editComment="editComment"
-            :deleteComment="deleteComment"
+            :add-comment="addComment"
+            :edit-comment="editComment"
+            :delete-comment="deleteComment"
           />
         </section>
       </v-col>

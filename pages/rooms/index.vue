@@ -10,16 +10,16 @@
         </v-col>
         <v-col sm="10" cols="12">
           <v-text-field
+            v-model="keyword"
             dense
             solo
             hide-details
             placeholder="Tìm kiếm"
             append-icon="mdi-magnify"
             color="primary"
-            v-model="keyword"
             @keyup.enter="getRoomByFilter"
           >
-            <template v-slot:append>
+            <template #append>
               <v-btn
                 depressed
                 icon
@@ -39,8 +39,8 @@
             <h1>Loading</h1>
           </section>
           <v-row v-else>
-            <v-col cols="12" sm="6" v-for="room in roomCardObjs" :key="room.id">
-              <room-card @change-map-location="setMapCenter" :room="room" />
+            <v-col v-for="room in roomCardObjs" :key="room.id" cols="12" sm="6">
+              <room-card :room="room" @change-map-location="setMapCenter" />
             </v-col>
           </v-row>
 
@@ -49,11 +49,20 @@
             :length="totalPage"
             total-visible="7"
             circle
-            @input="getRoomByFilter"
             class="mt-3"
+            @input="getRoomByFilter"
           ></v-pagination>
           </template>
-          <template v-else>Không có kết quả để hiển thị</template>
+          <template v-else>
+            <v-layout column align-center>
+              <h1 class="text-h5">
+                <v-icon x-large color="primary">mdi-magnify</v-icon>
+                Không có kết quả để hiển thị
+              </h1>
+              <p>Xin lỗi, hiện tại không có phòng nào theo yêu cầu tìm kiếm của bạn</p>
+              <v-btn color="primary" ><v-icon left>mdi-home</v-icon>Quay lại trang chủ</v-btn>
+            </v-layout>
+          </template>
         </v-col>
         <v-col md="6" cols="12">
           <!-- Map -->
@@ -62,8 +71,8 @@
       </v-row>
     </section>
     <v-dialog
-      max-width="1184px"
       v-model="openFilter"
+      max-width="1184px"
       :fullscreen="$vuetify.breakpoint.smAndDown"
     >
       <v-card>

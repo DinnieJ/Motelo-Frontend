@@ -1,12 +1,12 @@
 <template>
   <v-container>
-    <room-detail-container forOwner :room="room" :clickDelete="clickDelete" />
+    <room-detail-container for-owner :room="room" :click-delete="clickDelete" />
     <warning-dialog
+      v-model="openWarningDialog"
       title="Xoá yêu cầu"
       :content="warningDialogContent"
       @accept="deleteRoom"
       @refuse="closeDialog"
-      v-model="openWarningDialog"
     />
   </v-container>
 </template>

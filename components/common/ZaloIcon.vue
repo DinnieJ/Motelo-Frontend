@@ -5,7 +5,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component<ZaloIcon>({
-    name: 'ZaloIcon'
+  name: 'ZaloIcon'
 })
 
 export default class ZaloIcon extends Vue {}

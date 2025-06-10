@@ -18,7 +18,7 @@ import {
   mdiPill,
   mdiPoliceBadge,
   mdiSilverwareVariant,
-  mdiSim,
+  mdiSwim,
   mdiSoccer,
   mdiStore,
   mdiStorefrontOutline,
@@ -35,7 +35,7 @@ export const COOKIES = {
 }
 
 export const LOADING_IMG =
-  'https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif'
+  '/imgs/loading.gif'
 
 export const PRICE_FILTER = {
   MAX: 9,
@@ -54,6 +54,7 @@ export const ROLE = {
   TENANT: 'Tenant',
   OWNER: 'Owner',
   COLLABORATOR: 'Collaborator',
+  ADMIN: 'Admin',
 }
 
 export const NAV_LINKS: NavLink[] = [
@@ -87,13 +88,13 @@ export const NAV_LINKS: NavLink[] = [
     roles: [ROLE.GUEST],
   },
   // Tenant link
-  {
-    code: 'roommate',
-    text: 'Ở ghép',
-    to: '/roommate',
-    icon: 'account-plus',
-    roles: [ROLE.TENANT],
-  },
+  // {
+  //   code: 'roommate',
+  //   text: 'Ở ghép',
+  //   to: '/roommate',
+  //   icon: 'account-plus',
+  //   roles: [ROLE.TENANT],
+  // },
   // Owner links
   {
     code: 'owner_room',
@@ -110,6 +111,13 @@ export const NAV_LINKS: NavLink[] = [
     icon: 'home',
     roles: [ROLE.COLLABORATOR],
   },
+  {
+    code: 'banner',
+    text: 'Quản lí banner',
+    to: '/banner',
+    icon: 'view-carousel',
+    roles: [ ROLE.COLLABORATOR ]
+  }
 ]
 
 export const AMEENITIES: TextIcon[] = [
@@ -280,7 +288,7 @@ export const UTILITY_TYPE: TextIcon[] = [
     icon: 'controller-classic',
   },
   { id: 19, code: mdiLaptop, text: 'Sửa máy tính', icon: 'laptop' },
-  { id: 20, code: mdiSim, text: 'Bể bơi', icon: 'swim' },
+  { id: 20, code: mdiSwim, text: 'Bể bơi', icon: 'swim' },
   { id: 21, code: mdiWeightLifter, text: 'Gym', icon: 'weight-lifter' },
   { id: 22, code: mdiCoffee, text: 'Quán nước', icon: 'coffee' },
   { id: 23, code: mdiBed, text: 'Nhà nghỉ', icon: 'bed' },

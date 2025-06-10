@@ -3,10 +3,10 @@
     <h2 class="text-center">Các tiện ích của nhà trọ</h2>
     <v-row>
       <v-col
-        cols="6"
-        sm="4"
         v-for="amenitie in amenities"
         :key="amenitie.id"
+        cols="6"
+        sm="4"
       >
         <v-layout align-center>
           <v-checkbox

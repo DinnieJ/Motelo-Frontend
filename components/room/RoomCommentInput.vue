@@ -1,12 +1,12 @@
 <template>
   <v-textarea
+    v-model="value"
     outlined
     name="comment"
     label="Thêm nhận xét"
-    v-model="value"
     rows="3"
     no-resize
-    ><v-icon slot="append-outer" :disabled="!value" @click="addComment" :color="value ? 'primary': ''">mdi-send</v-icon>
+    ><v-icon slot="append-outer" :disabled="!value" :color="value ? 'primary': ''" @click="addComment">mdi-send</v-icon>
   </v-textarea>
 </template>
 
@@ -23,7 +23,7 @@ export default class RoomCommentInput extends Vue {
   @Emit()
   public addComment(e: Event) {
     e.preventDefault()
-    let comment: string = this.value
+    const comment: string = this.value
     this.value = ''
     return comment
   }

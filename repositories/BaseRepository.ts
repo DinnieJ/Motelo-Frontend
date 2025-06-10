@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { getTokenCookie } from '@/utils/cookies'
-import { COOKIES } from '@/constants/app.constant'
 
 const createAxiosInstance = () => {
     return axios.create({
@@ -30,3 +28,11 @@ export const setToken = (token: any) => {
 
     // not token => clear token
 }
+
+// authenticatedService.interceptors.response.use(function(response) {
+//     return response
+// }, function (error) {
+//     if(error.response.status == 401 && error.response.status == 403) {
+        
+//     }
+// })

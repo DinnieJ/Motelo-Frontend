@@ -16,7 +16,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
 @Component<RegisterComplete>({
-    name: 'RegisterComplete',
+  name: 'RegisterComplete',
 })
 export default class RegisterComplete extends Vue{
     

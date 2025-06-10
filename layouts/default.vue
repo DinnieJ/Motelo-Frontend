@@ -12,11 +12,11 @@
         <v-row class="ma-0">
           <template v-for="link in links">
             <v-col
+              v-if="link.roles.includes(role)"
+              :key="link.code"
               cols="6"
               sm="4"
-              :key="link.code"
               class="pa-1"
-              v-if="link.roles.includes(role)"
             >
               <v-btn
                 x-small
@@ -85,7 +85,7 @@
     </v-bottom-navigation>
 
     <!-- Navigation ">= sm" -->
-    <v-app-bar v-if="!isMobile()" max-height="60px" class="primary">
+    <v-app-bar v-else max-height="60px" fixed class="primary">
       <v-container
         class="py-0 fill-height d-flex justify-space-between align-center"
       >
@@ -134,7 +134,7 @@
 
     <snackbar />
 
-    <v-main class="main">
+    <v-main class="main" :style="!isMobile() ? 'padding-top: 60px' : ''">
       <nuxt />
     </v-main>
     <base-footer/>
@@ -182,24 +182,28 @@ export default class Default extends Vue {
   public getPersonalLink(): string {
     const context: any = this
     switch (context.role) {
-      case ROLE.TENANT:
-        return '/personal'
-      case ROLE.OWNER:
-        return '/owner/home'
-      default:
-        return '/'
+    case ROLE.TENANT:
+      return '/personal'
+    case ROLE.OWNER:
+      return '/owner/home'
+    case ROLE.COLLABORATOR:
+      return '/map'
+    default:
+      return '/'
     }
   }
 
   public getHomeLink(): string {
     const context: any = this
     switch (context.role) {
-      case ROLE.TENANT:
-        return '/'
-      case ROLE.OWNER:
-        return '/owner/home'
-      default:
-        return '/'
+    case ROLE.TENANT:
+      return '/'
+    case ROLE.OWNER:
+      return '/owner/home'
+    case ROLE.COLLABORATOR:
+      return '/map'
+    default:
+      return '/'
     }
   }
 

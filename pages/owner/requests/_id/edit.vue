@@ -28,8 +28,7 @@
             <!-- Policy step -->
             <v-tab-item>
               <v-card rounded="lg" class="pa-4">
-                <v-card-text>
-                  {{ policy }}
+                <v-card-text v-html="policy">
                 </v-card-text>
                 <v-card-actions>
                   <v-btn color="primary" @click="acceptPolicyEvent"
@@ -45,54 +44,47 @@
             <v-tab-item>
               <v-form>
                 <v-text-field
+                  v-model="formData.title"
                   name="title"
                   label="Tiêu đề"
-                  v-model="formData.title"
                 ></v-text-field>
                 <v-layout align-center>
                   <v-text-field
-                    class="right-text-field"
+                    v-model="formData.price"
                     label="Tiền thuê"
                     type="number"
                     name="price"
-                    v-model="formData.price"
+                    @keypress="checkNumber($event)"
                   ></v-text-field>
-                  <span class="pb-1">00.000 VNĐ/tháng</span>
+                  <span class="pb-1">VNĐ/tháng</span>
                 </v-layout>
                 <v-layout align-center>
                   <v-text-field
-                    class="right-text-field"
+                    v-model="formData.acreage"
                     label="Diện tích"
                     type="number"
                     name="acreage"
-                    v-model="formData.acreage"
+                    @keypress="checkNumber($event)"
                   ></v-text-field>
                   <span class="pb-1">m²</span>
                 </v-layout>
                 <v-select
+                  v-model="formData.room_type_id"
                   label="Loại phòng"
                   :items="roomTypes"
                   item-text="text"
                   item-value="id"
-                  v-model="formData.room_type_id"
                 ></v-select>
                 <v-switch
                   v-model="formData.available"
                   :label="formData.available ? 'Còn phòng' : 'Hết phòng'"
                 ></v-switch>
-                <v-select
-                  label="Giới tính"
-                  :items="genders"
-                  item-text="text"
-                  item-value="id"
-                  v-model="formData.gender_type_id"
-                ></v-select>
                 <v-textarea
+                  v-model="formData.description"
                   label="Miêu tả thêm"
                   outlined
                   auto-grow
                   rows="2"
-                  v-model="formData.description"
                 ></v-textarea>
                 <v-btn color="primary" @click="nextTab"> Tiếp theo </v-btn>
               </v-form>
@@ -101,19 +93,19 @@
             <v-tab-item>
               <v-form class="mt-8">
                 <input
+                  ref="images"
                   type="file"
                   accept="image/*"
                   multiple="multiple"
-                  ref="images"
                   class="d-none"
                   @change="onFileChange"
                 />
                 <v-row class="mb-4 justify-center">
                   <v-col
-                    cols="12"
-                    sm="6"
                     v-for="(image, i) in oldImages"
                     :key="image.id"
+                    cols="12"
+                    sm="6"
                   >
                     <v-btn
                       small
@@ -129,11 +121,11 @@
                       :src="image.image_url"
                     />
                   </v-col>
-                  <v-col cols="12" sm="6" v-for="(image, i) in images" :key="i">
+                  <v-col v-for="(image, i) in images" :key="i" cols="12" sm="6">
                     <v-btn small block color="secondary" @click="clickDelete(i)"
                       >xóa</v-btn
                     >
-                    <img width="100%" height="auto" ref="image" />
+                    <img ref="image" width="100%" height="auto" />
                   </v-col>
                 </v-row>
                 <v-layout justify-center>
@@ -155,11 +147,11 @@
       </div>
     </v-layout>
     <warning-dialog
+      v-model="openWarningDialog"
       title="Thoát ra"
       content="Nếu bạn thoát bây giờ, đơn sẽ bị hủy.<br />Bạn có muốn thoát không ?"
       @accept="acceptWarningDialog"
       @refuse="refuseWarningDialog"
-      v-model="openWarningDialog"
     />
   </v-container>
 </template>
@@ -170,6 +162,7 @@ import WarningDialog from '@/components/common/WarningDialog.vue'
 import { RoomDetailDTO, TextIcon } from '@/constants/app.interface'
 import { ROOM_TYPES, GENDER, LOADING_IMG } from '@/constants/app.constant'
 import RoomRepository from '@/repositories/RoomRepository'
+import { isNumber } from '@/utils/validation'
 
 @Component<RoomUpdateRequest>({
   name: 'RoomUpdateRequest',
@@ -189,6 +182,8 @@ export default class RoomUpdateRequest extends Vue {
   private openWarningDialog: boolean = false
   $notify: any
 
+  private checkNumber = isNumber
+
   // when policy isn't accepted, disable all except policy
   private tabHeaders = [
     {
@@ -204,17 +199,27 @@ export default class RoomUpdateRequest extends Vue {
       disabled: true,
     },
   ]
+
   private roomTypes: TextIcon[] = ROOM_TYPES
   private genders: TextIcon[] = GENDER
   private policy: string =
-    'Contrary to popular belief, Lorem Ipsum is not simply Random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum etMalorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.'
+  `CHỦ NHÀ TRỌ LƯU Ý <br />
+    <b>Yêu cầu về thông tin phòng trọ<b/> <br />
+    Bài đăng cho thuê sẽ bao gồm thông tin chung của nhà trọ và thông tin riêng của từng phòng <br />
+    Chủ trọ phải đăng thông tin phòng trọ theo format dưới đây, đủ thông tin <br />
+    1. Tiêu đề <br />
+    2. Giá thuê <br />
+    3. Diện tích <br />
+    4. Loại phòng <br />
+    5. Miêu tả thêm (Nếu có) <br />
+    6. Ảnh riêng của phòng trọ <br />`
 
   private tab: number = 0
   private formData = {
     title: '',
     price: 0,
     room_type_id: -1,
-    gender_type_id: -1,
+    gender_type_id: 1,
     description: '',
     acreage: 0,
     available: true,
@@ -228,6 +233,7 @@ export default class RoomUpdateRequest extends Vue {
         'https://tgrh.org/wp-content/uploads/2020/02/avt-demo-la-gi.png',
     },
   ]
+
   private deleteImages: number[] = []
   private loadingImg: string = LOADING_IMG
 
@@ -253,7 +259,7 @@ export default class RoomUpdateRequest extends Vue {
   public acceptPolicyEvent(event: Event) {
     this.acceptPolicy = true
 
-    //if policy is accepted, disable policy, enable other
+    // if policy is accepted, disable policy, enable other
     const policyIndex = 0
     this.tabHeaders.forEach((item) => (item.disabled = false))
     this.tabHeaders[policyIndex].disabled = true
@@ -281,7 +287,7 @@ export default class RoomUpdateRequest extends Vue {
     const formData = new FormData()
     formData.append('room_id', this.id)
     formData.append('title', this.formData.title)
-    formData.append('price', (this.formData.price / 10).toString())
+    formData.append('price', (this.formData.price).toString())
     formData.append('room_type_id', this.formData.room_type_id.toString())
     formData.append('gender_type_id', this.formData.gender_type_id.toString())
     formData.append('description', this.formData.description)
@@ -330,14 +336,14 @@ export default class RoomUpdateRequest extends Vue {
   }
 
   onFileChange(e: any) {
-    let vm: any = this
-    var selectedFiles = e.target.files
+    const vm: any = this
+    const selectedFiles = e.target.files
     for (let i = 0; i < selectedFiles.length; i++) {
       this.images.push(selectedFiles[i])
     }
 
     for (let i = 0; i < this.images.length; i++) {
-      let reader = new FileReader()
+      const reader = new FileReader()
       reader.onload = (e) => {
         vm.$refs.image[i].src = reader.result
       }

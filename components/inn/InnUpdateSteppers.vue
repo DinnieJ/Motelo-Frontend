@@ -1,5 +1,5 @@
 <template>
-  <v-stepper alt-labels v-model="current">
+  <v-stepper v-model="current" alt-labels>
     <v-stepper-header>
       <v-stepper-step
         :complete="current > 1"
@@ -56,12 +56,12 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from 'vue-property-decorator'
+import UploadImageForm from '@/components/common/UploadImageForm.vue'
+import AddressForm from '@/components/map/AddressForm.vue'
 import InnBasicForm from './InnBasicForm.vue'
 import InnAmeenitiesForm from './InnAmeenitiesForm.vue'
 
 import InnSafetyForm from './InnSafetyForm.vue'
-import UploadImageForm from '@/components/common/UploadImageForm.vue'
-import AddressForm from '@/components/map/AddressForm.vue'
 
 @Component<InnUpdateSteppers>({
   name: 'InnUpdateSteppers',

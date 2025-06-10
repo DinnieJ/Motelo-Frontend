@@ -52,15 +52,15 @@ export default class Login extends Vue {
       } else {
         const role = this.$store.state.auth.role
         switch (role) {
-          case ROLE.TENANT:
-            this.$router.push('/')
-            break
-          case ROLE.OWNER:
-            this.$router.push('/owner/home')
-            break
-          case ROLE.COLLABORATOR:
-            this.$router.push('/map')
-            break
+        case ROLE.TENANT:
+          this.$router.push('/')
+          break
+        case ROLE.OWNER:
+          this.$router.push('/owner/home')
+          break
+        case ROLE.COLLABORATOR:
+          this.$router.push('/map')
+          break
         }
       }
       this.loading = false
