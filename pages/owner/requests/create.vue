@@ -279,7 +279,7 @@ export default class RoomCreateRequest extends Vue {
 
   public acceptWarningDialog() {
     this.openWarningDialog = false
-    this.$router.push('/owner/requests')
+    this.$router.push("/owner/requests")
   }
 
   public refuseWarningDialog() {
@@ -315,7 +315,7 @@ export default class RoomCreateRequest extends Vue {
           color: 'success',
         })
         setTimeout(() => {
-          this.$router.push('/owner/requests')
+          this.$router.push("/owner/requests")
         }, 400)
       })
       .catch((error) => {
